@@ -8,6 +8,29 @@
 
 ---
 
+<br />
+
+## ⚙️ Dependency
+
+- axios
+- react-hook-form
+- react-router-dom
+- @chakra-ui/react
+
+<br/>
+
+- styled-components
+- @fortawesome/free-brands-svg-icons
+- @fortawesome/free-regular-svg-icons
+- @fortawesome/free-solid-svg-icons
+- @fortawesome/react-fontawesome
+
+<br />
+
+---
+
+<br />
+
 ## 📄 기능목록
 
 > [ Front ]
@@ -23,9 +46,10 @@
     - [ ] 채팅목록
     - [ ] 마이 페이지
 
-      <br />
+    <br />
 
   - [ ] Mobile
+
     - [ ] 뒤로가기
     - [ ] 주소 검색
     - [ ] 햄버거
@@ -42,6 +66,7 @@
     - [ ] 등록한 순으로 Order
     - [ ] 없으면 비어있다는 hint 표시
   - [ ] Latest Visited List
+
     - [ ] 최근 방문한 순으로 Order
     - [ ] 없으면 비어있다는 hint 표시
 
@@ -56,7 +81,7 @@
     - [ ] User model 유효성 검사
   - [ ] ( option ) 구글, 카카오, 네이버 가입
 
-    <br/>
+  <br/>
 
 - [ ] 로그인 페이지
 
@@ -65,13 +90,14 @@
     - [ ] ID/PW 유효성 검사
   - [ ] ( option ) ID / 비번찾기
 
-    <br/>
+  <br/>
 
 - [ ] 지역 목록 페이지
 
   - [ ] 키워드/카테고리 (DropDown-MENU)
     - [ ] CheckList 형식
   - [ ] 방 목록
+
     - [ ] 대표 이미지
     - [ ] House Category 표시
     - [ ] 전세/월세/매매 표시
@@ -97,6 +123,7 @@
 
   - [ ] 설명
   - [ ] Footer
+
     - [ ] position : fixed
     - [ ] Talk
       - [ ] 집 주인 Talk
@@ -112,6 +139,7 @@
   - [ ] 목록페이지에 있는 리스트 Item
   - [ ] 채팅하기
   - [ ] ( option ) 매크로 Bot
+
     - [ ] on/off 스위치
     - [ ] 매크로 가능한 List 채팅창 입장때 보냄
     - [ ] 매크로 입력시 답변하기
@@ -127,6 +155,7 @@
     - [ ] App 문의
     - [ ] ( option ) etc...
   - [ ] 채팅 리스트
+
     - [ ] 채팅 썸네일
       - [ ] 방 이미지
       - [ ] 주소
@@ -142,7 +171,7 @@
   - [ ] on/off 표시
   - [ ] 거래정보
 
-    <br />
+  <br />
 
 - [ ] 로딩 페이지
 
@@ -157,22 +186,3 @@
 ![diagram](https://velog.velcdn.com/images/hugh0223/post/e6abb1ec-5b59-4b1c-9028-35ae68a412c7/image.png)
 
 <br />
-
----
-
-<br />
-
-## ⚙️ Dependency
-
-- axios
-- react-hook-form
-- react-router-dom
-- @chakra-ui/react
-
-<br/>
-
-- styled-components
-- @fortawesome/free-brands-svg-icons
-- @fortawesome/free-regular-svg-icons
-- @fortawesome/free-solid-svg-icons
-- @fortawesome/react-fontawesome
