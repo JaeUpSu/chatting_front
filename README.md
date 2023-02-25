@@ -1,70 +1,178 @@
-# Getting Started with Create React App
+#
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+## ✏️ 요약
 
-In the project directory, you can run:
+    기존의 부동산 WEB 형식에 Custom 하게 채팅 기능을 추가
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📄 기능목록
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+> [ Front ]
 
-### `npm test`
+- [ ] 헤더
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  - [ ] WEB
 
-### `npm run build`
+    - [ ] 홈
+    - [ ] 검색
+      - [ ] 주소 검색
+        - [ ] 도 / 시 + 구 + 동
+    - [ ] 채팅목록
+    - [ ] 마이 페이지
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+      <br />
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  - [ ] Mobile
+    - [ ] 뒤로가기
+    - [ ] 주소 검색
+    - [ ] 햄버거
+      - [ ] 채팅목록
+      - [ ] 마이 페이지
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    <br/>
 
-### `npm run eject`
+- [ ] 홈 페이지
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  - [ ] Top 10
+    - [ ] Review 등으로 점수 Order
+  - [ ] Like List
+    - [ ] 등록한 순으로 Order
+    - [ ] 없으면 비어있다는 hint 표시
+  - [ ] Latest Visited List
+    - [ ] 최근 방문한 순으로 Order
+    - [ ] 없으면 비어있다는 hint 표시
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    <br/>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- [ ] 회원가입 페이지
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+  - [ ] isHost, isCustom, isRealtor 선택 페이지
+  - [ ] User model 기입
+    - [ ] User 유효성 hint 표시
+  - [ ] 가입하기
+    - [ ] User model 유효성 검사
+  - [ ] ( option ) 구글, 카카오, 네이버 가입
 
-## Learn More
+    <br/>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- [ ] 로그인 페이지
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  - [ ] ID / PW 기입
+  - [ ] 로그인하기
+    - [ ] ID/PW 유효성 검사
+  - [ ] ( option ) ID / 비번찾기
 
-### Code Splitting
+    <br/>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- [ ] 지역 목록 페이지
 
-### Analyzing the Bundle Size
+  - [ ] 키워드/카테고리 (DropDown-MENU)
+    - [ ] CheckList 형식
+  - [ ] 방 목록
+    - [ ] 대표 이미지
+    - [ ] House Category 표시
+    - [ ] 전세/월세/매매 표시
+    - [ ] 평수, 층수
+    - [ ] 주소
+    - [ ] 앞부분 내용
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    <br/>
 
-### Making a Progressive Web App
+- [ ] 지역 상세 페이지
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+  - [ ] 이미지 슬라이더
+  - [ ] 요약 정보 창
 
-### Advanced Configuration
+    - [ ] 찜 버튼
+    - [ ] 등록시간
+    - [ ] 주소
+    - [ ] 월세/전세/매매 표시 (가격)
+    - [ ] 평수
+    - [ ] 집 종류
+    - [ ] 주차
+    - [ ] 층수
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+  - [ ] 설명
+  - [ ] Footer
+    - [ ] position : fixed
+    - [ ] Talk
+      - [ ] 집 주인 Talk
+        - [ ] 온/오프 표시
+      - [ ] 중개인 Talk
+        - [ ] 온/오프 표시
+      - [ ] ( option ) 매크로 Bot hint 표시
 
-### Deployment
+    <br/>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- [ ] 채팅 페이지
 
-### `npm run build` fails to minify
+  - [ ] 목록페이지에 있는 리스트 Item
+  - [ ] 채팅하기
+  - [ ] ( option ) 매크로 Bot
+    - [ ] on/off 스위치
+    - [ ] 매크로 가능한 List 채팅창 입장때 보냄
+    - [ ] 매크로 입력시 답변하기
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    <br />
+
+- [ ] 채팅 목록 페이지
+
+  - [ ] 집주인 / 중개인 Tab 메뉴
+  - [ ] 고객센터 채팅창
+    - [ ] position : fixed
+    - [ ] 신고하기
+    - [ ] App 문의
+    - [ ] ( option ) etc...
+  - [ ] 채팅 리스트
+    - [ ] 채팅 썸네일
+      - [ ] 방 이미지
+      - [ ] 주소
+      - [ ] 매매/전세/월세 표시
+      - [ ] 가격 표시
+      - [ ] 읽지 않은 채팅 개수 표시
+
+    <br />
+
+- [ ] 마이 페이지
+
+  - [ ] 프로필 정보
+  - [ ] on/off 표시
+  - [ ] 거래정보
+
+    <br />
+
+- [ ] 로딩 페이지
+
+<br />
+
+---
+
+<br />
+
+## 📋 DB Model Diagram
+
+![diagram](https://velog.velcdn.com/images/hugh0223/post/e6abb1ec-5b59-4b1c-9028-35ae68a412c7/image.png)
+
+<br />
+
+---
+
+<br />
+
+## ⚙️ Dependency
+
+- axios
+- react-hook-form
+- react-router-dom
+- @chakra-ui/react
+
+<br/>
+
+- styled-components
+- @fortawesome/free-brands-svg-icons
+- @fortawesome/free-regular-svg-icons
+- @fortawesome/free-solid-svg-icons
+- @fortawesome/react-fontawesome
