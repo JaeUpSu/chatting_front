@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { Text } from "@chakra-ui/react";
 
 // 없어질 예정
-import { faComment } from "@fortawesome/free-regular-svg-icons";
+import { faComment, faComments } from "@fortawesome/free-regular-svg-icons";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faHouseFloodWater } from "@fortawesome/free-solid-svg-icons";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
@@ -118,7 +118,7 @@ function Header() {
           <Icon>
             <FontAwesomeIcon
               size={"lg"}
-              icon={faPaperPlane}
+              icon={faComments}
               onClick={onChatList}
             />
           </Icon>
