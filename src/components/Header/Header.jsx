@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import routes from "../../routes";
 import styled from "styled-components";
-import { Text } from "@chakra-ui/react";
+import { Text, Input } from "@chakra-ui/react";
 
 // 없어질 예정
 import { faComment, faComments } from "@fortawesome/free-regular-svg-icons";
@@ -88,10 +88,12 @@ function Header() {
     <HeaderContainer>
       <Wrapper>
         <Column>
-          <FontAwesomeIcon size={"2x"} icon={faHome} onClick={onHome} />
+          <Icon>
+            <FontAwesomeIcon size={"2x"} icon={faHome} onClick={onHome} />
+          </Icon>
         </Column>
         <Column>
-          <Text color="#555">강남구 잠원동</Text>
+          <Input color="#555" placeholder="주소 입력.." border="0px" />
           <Icon>
             <FontAwesomeIcon size={"lg"} icon={faSearch} />
           </Icon>
