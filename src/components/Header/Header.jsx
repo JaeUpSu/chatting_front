@@ -1,20 +1,21 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane, faUser } from "@fortawesome/free-regular-svg-icons";
-import { faHome, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 
 import routes from "../../routes";
 import styled from "styled-components";
-import { Text, Input } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 
 // 없어질 예정
 import { faComment, faComments } from "@fortawesome/free-regular-svg-icons";
-import { faHouse } from "@fortawesome/free-solid-svg-icons";
-import { faHouseFloodWater } from "@fortawesome/free-solid-svg-icons";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import OptionDropdown from "../Menu/OptionDropdown";
+import AddressMenu from "../Menu/AddressMenu";
 
 const HeaderContainer = styled.header`
   width: 100%;
+  max-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,7 +43,7 @@ const Column = styled.div`
     transform: translateX(20px);
     border: 2px solid black;
     border-radius: 10px;
-    padding: 10px;
+    padding: 3px;
   }
 `;
 
@@ -70,7 +71,7 @@ function Header() {
 
   // 없어질 예정
   const onChat = () => {
-    navigate(`/chat/chatId`);
+    navigate(`/chatList/isOwner/chat/chatId`);
   };
   const onLogin = () => {
     navigate(`/loginDev`);
@@ -84,27 +85,28 @@ function Header() {
   const onHouseList = () => {
     navigate(`/houseList/address`);
   };
+
   return (
     <HeaderContainer>
       <Wrapper>
         <Column>
           <Icon>
-            <FontAwesomeIcon size={"2x"} icon={faHome} onClick={onHome} />
+            <Text onClick={onHome} fontFamily="fantasy" fontSize="25px">
+              BangSam
+            </Text>
           </Icon>
         </Column>
-        <Column>
-          <Input color="#555" placeholder="주소 입력.." border="0px" />
-          <Icon>
-            <FontAwesomeIcon size={"lg"} icon={faSearch} />
-          </Icon>
+        <Column padding="0px">
+          <AddressMenu />
         </Column>
         {/* 없어질 컬럼 (routing 편하게 할려고 만듬) */}
         <Column>
+          <OptionDropdown />
           <Icon>
-            <FontAwesomeIcon size={"lg"} icon={faComment} onClick={onChat} />
+            <FontAwesomeIcon size={"2x"} icon={faComment} onClick={onChat} />
           </Icon>
           <Icon>
-            <FontAwesomeIcon size={"lg"} icon={faUserPlus} onClick={onSignUp} />
+            <FontAwesomeIcon size={"2x"} icon={faUserPlus} onClick={onSignUp} />
           </Icon>
           <Icon>
             <Text onClick={onHouse}>집</Text>
@@ -119,13 +121,13 @@ function Header() {
         <Column>
           <Icon>
             <FontAwesomeIcon
-              size={"lg"}
+              size={"2x"}
               icon={faComments}
               onClick={onChatList}
             />
           </Icon>
           <Icon>
-            <FontAwesomeIcon size={"lg"} icon={faUser} onClick={onProfile} />
+            <FontAwesomeIcon size={"2x"} icon={faUser} onClick={onProfile} />
           </Icon>
         </Column>
       </Wrapper>
