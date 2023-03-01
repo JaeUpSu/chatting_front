@@ -4,9 +4,9 @@ const routes = {
   signUp: "signup",
   profile: "profile/:userId",
   chatList: "chatList/:isOwner",
-  chat: "chat/:chatId",
+  chat: "chatList/:isOwner/chat/:chatId",
   houseList: "houseList/:address",
-  house: "house/:houseId",
+  house: "houseList/:address/house/:houseId",
 };
 
 export default routes;
