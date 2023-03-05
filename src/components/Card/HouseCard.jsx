@@ -5,15 +5,19 @@ import {
   Image,
   Text,
   Heading,
-  Stack,
+  VStack,
   Divider,
   CardFooter,
-  ButtonGroup,
   Button,
   Flex,
+  HStack,
 } from "@chakra-ui/react";
 
-import { faUserTie, faHomeUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUserTie,
+  faHomeUser,
+  faHeart,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 
@@ -27,47 +31,53 @@ function HouseCard({ id, img, address, info, contents, seller }) {
     navigation(`house/${id}`);
   };
   return (
-    <Card maxW="container.md">
-      <CardBody>
-        <Image src={img} alt="house" borderRadius="lg" />
-        <Stack mt="6" spacing="3">
-          <Heading size="md">{address}</Heading>
-          <Text>{info}</Text>
-          <Text color="blue.600" fontSize="2xl">
-            {contents}
-          </Text>
-        </Stack>
+    <Card
+      maxW="container.md"
+      ml="20px"
+      mb="15px"
+      _hover={{ backgroundColor: "rgb(110,110,110,0.1)" }}
+      w="800px"
+    >
+      <CardBody
+        onClick={onHouseDetail}
+        cursor="pointer"
+        w="55%"
+        position="relative"
+      >
+        <HStack w="100%">
+          <Image src={img} alt="house" borderRadius="lg" />
+          <Box left="40px" top="-10px" spacing="3" position="relative" h="100%">
+            <Flex position="absolute" bottom="-35px" right="10px">
+              <Flex
+                direction="column"
+                mx="20px"
+                position="relative"
+                translateY="20%"
+              >
+                {seller.brokerActive ? <ActiveBadge /> : <PassiveBadge />}
+                <FontAwesomeIcon size="2x" icon={faUserTie} />
+                <Text>중개사</Text>
+              </Flex>
+              <Flex direction="column" position="relative">
+                {seller.ownerActive ? <ActiveBadge /> : <PassiveBadge />}
+                <FontAwesomeIcon size="2x" icon={faHomeUser} />
+                <Text>집주인</Text>
+              </Flex>
+            </Flex>
+            <Box>
+              <Heading size="md" mb="30px" fontSize="26px">
+                {address}
+              </Heading>
+              <Text h="25px" w="280px" fontSize="17px">
+                {info.length > 17 ? info.substring(0, 17) + "..." : info}
+              </Text>
+              <Text mt="35px" color="blue.600" fontSize="28px">
+                {contents}
+              </Text>
+            </Box>
+          </Box>
+        </HStack>
       </CardBody>
-      <Divider />
-      <CardFooter w="380px">
-        <Flex justifyContent="spaca-between" alignItems="center" w="100%">
-          <ButtonGroup spacing="2">
-            <Button variant="solid" colorScheme="blue" onClick={onHouseDetail}>
-              Detail
-            </Button>
-            <Button variant="ghost" colorScheme="blue">
-              Add to cart
-            </Button>
-          </ButtonGroup>
-
-          <Flex
-            direction="column"
-            mx="20px"
-            position="relative"
-            translateY="20%"
-          >
-            {seller.brokerActive ? <ActiveBadge /> : <PassiveBadge />}
-            <FontAwesomeIcon size="2x" icon={faUserTie} />
-            <Text>중개사</Text>
-          </Flex>
-          <Flex direction="column" position="relative">
-            {seller.ownerActive ? <ActiveBadge /> : <PassiveBadge />}
-
-            <FontAwesomeIcon size="2x" icon={faHomeUser} />
-            <Text>집주인</Text>
-          </Flex>
-        </Flex>
-      </CardFooter>
     </Card>
   );
 }

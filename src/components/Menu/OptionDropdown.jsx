@@ -6,64 +6,43 @@ import {
   DrawerBody,
   DrawerHeader,
   useDisclosure,
-  RangeSlider,
-  RangeSliderTrack,
-  RangeSliderFilledTrack,
-  RangeSliderThumb,
-  RangeSliderMark,
-  Box,
   Heading,
   Highlight,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { options } from "../../services/data";
+import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
-import DataRadio from "../Radio/Radio";
+
+import { options, optionsMenu } from "../../services/data";
+import { getOptions } from "../../services/local";
+import { getOptionsUrl } from "../../utils/getOptionsUrl";
+import { getAddressByUrl } from "../../utils/getAddressByUrl";
 import DataRadioCard from "../Radio/RadioCard";
-import DataCheckBox from "../CheckBox/CheckBox";
-import DataCheckBoxCard from "../CheckBox/CheckBoxCard";
 
 function OptionDropdown() {
+  const navigate = useNavigate();
+  const params = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [address, setAddress] = useState("");
 
-  const [leftValue, setLeftValue] = useState(0);
-  const [rightValue, setRightValue] = useState(50);
-  const navigate = useNavigate();
-  const refreshPage = () => {
-    navigate(0);
+  const onOptions = () => {
+    navigate(`/houselist/${params.address}/${getOptionsUrl(getOptions())}`);
   };
-
-  useEffect(() => {
-    const city = localStorage.getItem("시/도");
-    if (city !== undefined && city !== "undefined") {
-      setAddress(city);
-    }
-    const gugunsi = localStorage.getItem("구/군/시");
-    if (gugunsi !== undefined && gugunsi !== "undefined") {
-      setAddress((item) => item + " " + gugunsi);
-    }
-    const ebmyeondong = localStorage.getItem("읍/면/동");
-    if (ebmyeondong !== undefined && ebmyeondong !== "undefined") {
-      setAddress((item) => item + " " + ebmyeondong);
-    }
-
-    const cellKind = localStorage.getItem("cellKind");
-    if (cellKind !== undefined && cellKind !== "undefined") {
-      localStorage.setItem("cellKind", options.cellKind[0]);
-      localStorage.setItem("room_counts", options.room_counts[0]);
-      localStorage.setItem("toilet_counts", options.toilet_counts[0]);
-      localStorage.setItem("isStationArea", options.isStationArea[0]);
-    }
-  }, []);
 
   const onMenuClose = () => {
     localStorage.setItem("isOption", true);
+    onOptions();
     onClose();
   };
+
+  useEffect(() => {
+    setAddress(getAddressByUrl(params.address));
+  }, []);
 
   return (
     <>
@@ -76,7 +55,7 @@ function OptionDropdown() {
       />
       <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent h="560px">
           <DrawerHeader borderBottomWidth="1px">
             <Heading lineHeight="tall" w="600px">
               <Highlight
@@ -96,88 +75,28 @@ function OptionDropdown() {
           </DrawerHeader>
 
           <DrawerBody>
-            <br />
-            <DataCheckBoxCard
-              name={`매매 종류 (복수 선택 가능)`}
-              valueName="cellKind"
-              data={options.cellKind}
-            />
-            <br />
-            <DataRadioCard
-              name="방"
-              valueName="room_counts"
-              data={options.room_counts}
-            />
-            <br />
-            <DataRadioCard
-              name="화장실"
-              valueName="toilet_counts"
-              data={options.toilet_counts}
-            />
-            <br />
-            <DataRadioCard
-              name="역세권"
-              valueName="isStationArea"
-              data={options.isStationArea}
-            />
-            <br />
-            <br />
-            <br />
-            <RangeSlider
-              defaultValue={[0, 50]}
-              min={0}
-              max={350}
-              step={10}
-              w="500px"
-              onChange={(val) => {
-                setLeftValue(val[0]);
-                setRightValue(val[1]);
-              }}
-            >
-              {options.priceArr.map((item, idx) => {
-                return (
-                  <RangeSliderMark
-                    key={idx}
-                    value={item === "300+" ? 350 : item}
-                  >
-                    {item}
-                  </RangeSliderMark>
-                );
+            <Grid gap="10px">
+              {optionsMenu.map((op, idx) => {
+                if (idx < 5 && idx > 0) {
+                  return (
+                    <GridItem key={idx}>
+                      <br />
+                      <DataRadioCard
+                        name={op.kor}
+                        valueName={op.eng}
+                        data={options[op.eng]}
+                      />
+                    </GridItem>
+                  );
+                } else {
+                  return "";
+                }
               })}
-              <RangeSliderMark
-                value={leftValue}
-                textAlign="center"
-                bg="gray.500"
-                color="white"
-                mt="-12"
-                ml="-7"
-                width="55px"
-              >
-                {leftValue > 300 ? "300 만" : leftValue + " 만"}
-              </RangeSliderMark>
-              <RangeSliderMark
-                value={rightValue}
-                textAlign="center"
-                bg="gray.500"
-                color="white"
-                mt="-12"
-                ml="-7"
-                width="55px"
-              >
-                {rightValue > 300 ? "~" : rightValue + " 만"}
-              </RangeSliderMark>
-              <RangeSliderTrack bg="red.100">
-                <RangeSliderFilledTrack bg="tomato" />
-              </RangeSliderTrack>
-              <RangeSliderThumb boxSize={8} index={0} boxShadow="0 0 1px 1px">
-                <Box color="tomato">min</Box>
-              </RangeSliderThumb>
-              <RangeSliderThumb boxSize={8} index={1} boxShadow="0 0 1px 1px">
-                <Box color="tomato">max</Box>
-              </RangeSliderThumb>
-            </RangeSlider>
+              <br />
+            </Grid>
           </DrawerBody>
           <br />
+
           <Button fontWeight="700" onClick={onMenuClose}>
             S e a r c h
           </Button>

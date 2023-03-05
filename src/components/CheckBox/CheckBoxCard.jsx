@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useEffect } from "react";
+
 function CheckBoxCard(props) {
   const { getCheckboxProps, getInputProps } = useCheckbox(props);
 
@@ -40,15 +41,20 @@ function CheckBoxCard(props) {
   );
 }
 function DataCheckBoxCard({ name, valueName, data }) {
-  const _data = localStorage.getItem(valueName);
+  // const _data = localStorage.getItem(valueName);
 
   const { value, getCheckboxProps } = useCheckboxGroup({
-    defaultValue: `${_data}`.split(","),
+    defaultValue: `${data[0]}`.split(","),
   });
 
-  useEffect(() => {
+  const onCheck = (e) => {
+    const _value =
+      e.currentTarget.children[0].children[0].getAttribute("value");
+    console.log(_value);
+    console.log(value);
+    console.log(getCheckboxProps());
     localStorage.setItem(valueName, value);
-  }, [value]);
+  };
 
   return (
     <Box>
@@ -59,9 +65,12 @@ function DataCheckBoxCard({ name, valueName, data }) {
         {data.map((item) => {
           const checkbox = getCheckboxProps({ value: item });
           return (
-            <CheckBoxCard key={item} name={name} {...checkbox}>
-              {item}
-            </CheckBoxCard>
+            <div key={item} onClick={onCheck}>
+              {" "}
+              <CheckBoxCard name={name} {...checkbox}>
+                {item}
+              </CheckBoxCard>
+            </div>
           );
         })}
       </HStack>

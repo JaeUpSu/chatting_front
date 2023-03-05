@@ -18,6 +18,67 @@ export const cities = [
   "제주",
 ];
 
+export const Address = {
+  metropolitan: [
+    "서울",
+    "부산",
+    "대구",
+    "인천",
+    "광주",
+    "대전",
+    "울산",
+    "세종",
+    "경기도",
+    "강원도",
+    "충청북도",
+    "충청남도",
+    "전라북도",
+    "전라남도",
+    "경상북도",
+    "경상남도",
+    "제주",
+  ],
+  gugunsi: [
+    "서울",
+    "부산",
+    "대구",
+    "인천",
+    "광주",
+    "대전",
+    "울산",
+    "세종",
+    "경기도",
+    "강원도",
+    "충청북도",
+    "충청남도",
+    "전라북도",
+    "전라남도",
+    "경상북도",
+    "경상남도",
+    "제주",
+  ],
+  ebmyeondong: [
+    "서울",
+    "부산",
+    "대구",
+    "인천",
+    "광주",
+    "대전",
+    "울산",
+    "세종",
+    "경기도",
+    "강원도",
+    "충청북도",
+    "충청남도",
+    "전라북도",
+    "전라남도",
+    "경상북도",
+    "경상남도",
+    "제주",
+  ],
+};
+export const addressNameArr = ["시/도", "구/군/시", "읍/면/동"];
+
 export const rooms = [
   {
     id: "1",
@@ -164,10 +225,52 @@ export const rooms = [
 ];
 
 export const options = {
-  cellKind: ["매매", "전세", "월세"],
-  isStationArea: ["불필요", "필요"],
-  room_counts: ["1개", "2개", "3개", "4개 이상"],
-  toilet_counts: ["1개", "2개", "3개", "4개 이상"],
-  py: ["10", "20", "30", "40", "50", "50+"],
-  priceArr: ["0", "50", "100", "150", "200", "250", "300", "300+"],
+  cellKind: ["전체", "매매", "전세", "월세"],
+  isStationArea: ["전체", "필요"],
+  room_counts: ["전체", "1개", "2개", "3개", "4개 이상"],
+  toilet_counts: ["전체", "1개", "2개", "3개", "4개 이상"],
+  py: [
+    "전체",
+    "10평 이하",
+    "10평대",
+    "20평대",
+    "30평대",
+    "40평대",
+    "50평 이상",
+  ],
+
+  maintenanceFeeRange: {
+    values: [0, 50],
+    labels: ["0", "20만", "50만", "무제한"],
+    steps: [1],
+  },
+  priceRange: {
+    values: [0, 300],
+    labels: ["0", "5천만", "2.5억", "무제한"],
+    steps: [100, 500, 1000, 2000],
+  },
+  depositRange: {
+    values: [0, 2000000000],
+    labels: ["0", "5천만", "2.5억", "무제한"],
+    steps: [100, 200, 500, 1000],
+  },
+  monthlyRentRange: {
+    values: [0, 200],
+    labels: ["0", "50만", "150만", "무제한"],
+    steps: [10, 20, 50, 100],
+  },
 };
+
+export const optionsMenu = [
+  { eng: "cellKind", kor: "매매 종류" },
+  { eng: "isStationArea", kor: "역세권" },
+  { eng: "room_counts", kor: "방" },
+  { eng: "toilet_counts", kor: "화장실" },
+  { eng: "py", kor: "평수" },
+  { eng: "maintenanceFeeRange", kor: "관리비" },
+  { eng: "priceRange", kor: "매매가" },
+  { eng: "depositRange", kor: "보증금" },
+  { eng: "monthlyRentRange", kor: "월세" },
+];
+
+export const addressKinds = ["metropolitan", "gugunsi", "ebmyeondong"];

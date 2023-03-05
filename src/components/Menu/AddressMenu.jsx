@@ -8,100 +8,133 @@ import {
   useDisclosure,
   FormControl,
   Highlight,
-  Input,
   HStack,
   Text,
+  Box,
+  Flex,
 } from "@chakra-ui/react";
-import { cities } from "../../services/data";
+import { Address, addressKinds, addressNameArr } from "../../services/data";
 import SelectModal from "../Modal/SelectModal";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { getAddressUrl } from "../../utils/getAddressUrl";
+import { getAddress } from "../../services/local";
+import { isPrevChecking } from "../../utils/isPrevChecking";
 
 function AddressMenu() {
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [address, setAddress] = useState("Loading...");
-  const navigate = useNavigate();
-  const refreshPage = () => {
-    navigate(0);
+  const [btnIdx, setBtnIdx] = useState(0);
+  const [address, setAddress] = useState("");
+  const [activeBtns, setActiveBtn] = useState([true, false, false]);
+
+  const onHouseList = (_address) => {
+    navigate(`/houseList/${_address}/options=null`);
   };
 
-  useEffect(() => {
-    const city = localStorage.getItem("시/도");
-    if (city !== undefined && city !== "undefined") {
-      setAddress(city);
-    }
-    const gugunsi = localStorage.getItem("구/군/시");
-    if (gugunsi !== undefined && gugunsi !== "undefined") {
-      setAddress((item) => item + " " + gugunsi);
-    }
-    const ebmyeondong = localStorage.getItem("읍/면/동");
-    if (ebmyeondong !== undefined && ebmyeondong !== "undefined") {
-      setAddress((item) => item + " " + ebmyeondong);
-    }
-  }, []);
-
   const onSearchAddress = () => {
-    const city = localStorage.getItem("시/도");
-    const gugunsi = localStorage.getItem("구/군/시");
-    const ebmyeondong = localStorage.getItem("읍/면/동");
-    setAddress(city + " " + gugunsi + " " + ebmyeondong);
-    refreshPage();
+    setAddress(getAddress());
+    setBtnIdx(0);
     onClose();
   };
 
+  const onNextActive = () => {
+    setBtnIdx((i) => i + 1);
+  };
+
+  useEffect(() => {
+    onHouseList(getAddressUrl(address));
+  }, [address]);
+
+  useEffect(() => {
+    const new_ActiveBtn = activeBtns.map((data, idx) => {
+      if (idx <= btnIdx) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    setActiveBtn(new_ActiveBtn);
+  }, [btnIdx]);
+
   return (
-    <>
-      <HStack onClick={onOpen} p="5px 20px">
-        <Text color="#555" border="0px" mr="20px">
-          {address}
+    <div
+      style={{
+        width: "90%",
+        cursor: "pointer",
+        transform: "translateX(20px)",
+        border: "2px solid black",
+        borderRadius: "10px",
+        padding: "5px",
+        marginTop: "10px",
+        marginRight: "50px",
+      }}
+    >
+      <Flex
+        onClick={onOpen}
+        p="5px 20px"
+        w="100%"
+        justifyContent="space-around"
+      >
+        <Text
+          color="#555"
+          fontWeight="700"
+          border="0px"
+          w="80%"
+          textAlign="center"
+        >
+          {address.length > 1 ? address : "Address Search ..."}
         </Text>
         <FontAwesomeIcon size={"lg"} icon={faSearch} />
-      </HStack>
+      </Flex>
       <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px">
-            <Highlight
-              query={address}
-              styles={{
-                px: "2",
-                py: "1",
-                rounded: "full",
-                bg: "red.100",
-              }}
-            >
-              {address}
-            </Highlight>
+            <Text fontWeight="700">Address Search</Text>
           </DrawerHeader>
 
-          <DrawerBody>
+          <DrawerBody my="10px">
             <FormControl
               display="grid"
               w="100%"
               gridTemplateColumns="repeat(5, 1fr)"
               gap="0px 10px"
             >
-              <SelectModal list={cities} valName="시/도" />
-              <SelectModal list={cities} valName="구/군/시" />
-              <SelectModal list={cities} valName="읍/면/동" />
-              <Button
-                _hover={{ bg: "red.500" }}
-                backgroundColor="red.300"
-                color="white"
-                w="60px"
-                onClick={onSearchAddress}
-              >
-                찾기
-              </Button>
+              <HStack>
+                {addressNameArr.map((item, idx) => {
+                  return (
+                    <Box key={idx}>
+                      <SelectModal
+                        list={Address[addressKinds[idx]]}
+                        name={addressKinds[idx]}
+                        valName={item}
+                        active={activeBtns[idx]}
+                        onNextActive={onNextActive}
+                      />
+                    </Box>
+                  );
+                })}
+
+                <Button
+                  _hover={{ bg: "red.500" }}
+                  backgroundColor="red.300"
+                  color="white"
+                  w="60px"
+                  onClick={onSearchAddress}
+                >
+                  찾기
+                </Button>
+              </HStack>
             </FormControl>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-    </>
+    </div>
   );
 }
 
