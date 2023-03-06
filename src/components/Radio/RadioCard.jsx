@@ -1,22 +1,38 @@
-import { HStack, Box, useRadio, useRadioGroup, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  HStack,
+  Box,
+  useRadio,
+  useRadioGroup,
+  Text,
+} from "@chakra-ui/react";
 
-import { useEffect } from "react";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import { isLocal } from "../../services/local";
+
 function RadioCard({ name, radio }) {
   const { getInputProps, getCheckboxProps } = useRadio(radio);
+  const [checked, setChecked] = useState(false);
 
   const input = getInputProps();
   const checkbox = getCheckboxProps();
 
   const onRadio = () => {
-    console.log(name + " => " + input.value);
+    const value = localStorage.getItem(name);
     localStorage.setItem(name, input.value);
+    if (input.value != value) {
+      setChecked(!checked);
+    }
   };
 
   return (
-    <Box as="label">
+    <Box as="label" m="5px">
       <input {...input} />
-      <Box
+      <Flex
         {...checkbox}
+        backgroundColor="white"
         cursor="pointer"
         borderWidth="1px"
         borderRadius="md"
@@ -29,43 +45,58 @@ function RadioCard({ name, radio }) {
         _focus={{
           boxShadow: "outline",
         }}
-        px={4}
+        px={3}
         py={2}
+        w="120px"
         onClick={onRadio}
+        justifyContent="center"
+        position="relative"
       >
+        <Box
+          {...checkbox}
+          opacity="0"
+          position="absolute"
+          left="10px"
+          _checked={{
+            opacity: "1",
+          }}
+          _focus={{ opacity: "1" }}
+        >
+          <FontAwesomeIcon
+            size="lg"
+            icon={faCheck}
+            style={{ marginRight: "10px" }}
+          />{" "}
+        </Box>
         {radio.value}
-      </Box>
+      </Flex>
     </Box>
   );
 }
-function DataRadioCard({ name, valueName, data }) {
-  const _data = localStorage.getItem(valueName);
-
+function DataRadioCard({ name, valueName, data, defaultData }) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: `${name}`,
-    defaultValue: `${_data}`,
+    defaultValue: `${defaultData}`,
   });
 
   const group = getRootProps();
-
-  // useEffect(() => {
-  // }, [value]);
 
   return (
     <Box>
       <Text fontWeight="bold" mb="10px">
         {name}
       </Text>
-      <HStack {...group}>
-        {data.map((value) => {
+      <Flex {...group} flexWrap="wrap">
+        {data.map((value, idx) => {
           const radio = getRadioProps({ value });
+
           return (
             <RadioCard key={value} name={valueName} radio={radio}>
               {value}
             </RadioCard>
           );
         })}
-      </HStack>
+      </Flex>
     </Box>
   );
 }

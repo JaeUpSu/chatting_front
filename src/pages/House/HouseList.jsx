@@ -1,63 +1,156 @@
-import { Grid, GridItem, Flex, Box, Text } from "@chakra-ui/react";
+import { Grid, GridItem, Flex, Box, Text, Divider } from "@chakra-ui/react";
+import { useState } from "react";
 
-import OptionBadge from "../../components/Badge/OptionBadge";
+import { rooms, options, optionsMenu } from "../../services/data";
+import { isLocal } from "../../services/local";
+
 import HouseCard from "../../components/Card/HouseCard";
-import { rooms } from "../../services/data";
-import { useState, useEffect } from "react";
+import AddressMenu from "../../components/Menu/AddressMenu";
+import DataRadioCard from "../../components/Radio/RadioCard";
+import OptionRangeSlider from "../../components/Slider/RangeSlider";
 
 function HouseList() {
-  const [options, setOptions] = useState([
-    "월세",
-    "화장실 1개",
-    "평수",
-    "역세권",
-  ]);
-
-  // const [isOption, setIsOption] = useState(false);
-
-  // useEffect(() => {
-  //   if (isOption) {
-  //     const newOptions = [];
-  //     const cellKinds = localStorage.getItem("cellKinds");
-  //     for (let i = 0; i < cellKinds.length; i++) {
-  //       newOptions.push(cellKinds[i]);
-  //     }
-  //     const toilet_counts = localStorage.getItem("toilet_counts");
-  //     newOptions.push(toilet_counts);
-  //     const room_counts = localStorage.getItem("room_counts");
-  //     newOptions.push(room_counts);
-
-  //     const isStationArea = localStorage.getItem("isStationArea");
-  //     newOptions.push(isStationArea);
-  //     setOptions(options);
-  //   }
-  // }, [options]);
+  const [btnActives, setBtnActives] = useState([true, true, true]);
+  // const [cellKinds, setCellKinds]
 
   return (
-    <Flex justifyContent="center" direction="column">
-      <Flex
-        w="800px"
-        h="50px"
-        backgroundColor="blackAlpha.200"
-        borderRadius="10px"
-        py="10px"
-        px="20px"
-        margin="18px 30px"
+    <Grid
+      templateAreas={`"nav main"`}
+      gridTemplateRows={"20px 1fr"}
+      gridTemplateColumns={"580px 1fr"}
+      gap="2"
+      mx="10px"
+      w="100%"
+    >
+      <GridItem
+        area={"nav"}
+        overflow="auto"
+        h="837px"
+        w="100%"
+        p="20px"
+        minW="400px"
+        css={{
+          "&::-webkit-scrollbar": {
+            width: "10px",
+          },
+          "&::-webkit-scrollbar-track": {
+            width: "12px",
+            background: "rgb(55,55,55,0.1)",
+            zIndex: 1,
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "rgb(55,55,55,0.5)",
+            borderRadius: "20px",
+            zIndex: 2,
+          },
+        }}
       >
-        {options.map((item, idx) => {
-          return <OptionBadge key={idx} option={item} mx="20px" />;
-        })}
-      </Flex>
-      <Grid templateColumns="repeat(4,1fr)" gap="5" p="20px" m="0px auto">
-        {rooms.map((item, idx) => {
-          return (
-            <GridItem key={idx}>
-              <HouseCard {...item} />
-            </GridItem>
-          );
-        })}
-      </Grid>
-    </Flex>
+        <Flex direction="column" fontWeight="600" alignItems="center">
+          <AddressMenu />
+          <Divider my="30px" borderColor="black.200" />
+          <DataRadioCard
+            name={optionsMenu[0].kor}
+            valueName={optionsMenu[0].eng}
+            data={options[optionsMenu[0].eng]}
+            defaultData={
+              isLocal(localStorage.getItem(optionsMenu[0].eng))
+                ? localStorage.getItem(optionsMenu[0].eng)
+                : options[optionsMenu[0].eng][0]
+            }
+          />
+          <Divider mt="30px" borderColor="black.200" />
+
+          <OptionRangeSlider
+            name={optionsMenu[5].eng}
+            label={optionsMenu[5].kor}
+          />
+          <Divider mt="30px" borderColor="black.200" />
+
+          <OptionRangeSlider
+            name={optionsMenu[6].eng}
+            label={optionsMenu[6].kor}
+          />
+          <Divider mt="30px" borderColor="black.200" />
+
+          <OptionRangeSlider
+            name={optionsMenu[7].eng}
+            label={optionsMenu[7].kor}
+          />
+          <Divider mt="30px" borderColor="black.200" />
+
+          <OptionRangeSlider
+            name={optionsMenu[8].eng}
+            label={optionsMenu[8].kor}
+          />
+          <Divider mt="30px" borderColor="black.200" />
+
+          <Grid gap="10px">
+            {optionsMenu.map((op, idx) => {
+              if (idx < 5 && idx > 0) {
+                return (
+                  <GridItem key={idx}>
+                    <br />
+                    <DataRadioCard
+                      name={op.kor}
+                      valueName={op.eng}
+                      data={options[op.eng]}
+                      defaultData={
+                        isLocal(localStorage.getItem(op.eng))
+                          ? localStorage.getItem(op.eng)
+                          : options[op.eng][0]
+                      }
+                    />
+                    <Divider mt="30px" borderColor="black.200" />
+                  </GridItem>
+                );
+              } else {
+                return "";
+              }
+            })}
+            <br />
+          </Grid>
+        </Flex>
+      </GridItem>{" "}
+      <GridItem area={"main"} my="35px" mr="35px">
+        <Flex direction="column" justifyContent="center" alignItems="center">
+          <Box
+            boxShadow="0px 0px 1px 2px black"
+            h="100%"
+            w="95%"
+            py="10px"
+            px="30px"
+          >
+            <Text fontWeight="600" color="blackAlpha.700">
+              부동산 목록 {rooms.length} 개
+            </Text>
+          </Box>
+        </Flex>
+
+        <Flex
+          direction="column"
+          h="750px"
+          my="20px"
+          overflow="auto"
+          css={{
+            "&::-webkit-scrollbar": {
+              width: "10px",
+            },
+            "&::-webkit-scrollbar-track": {
+              width: "12px",
+              background: "rgb(55,55,55,0.1)",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "rgb(55,55,55,0.5)",
+              borderRadius: "20px",
+            },
+          }}
+        >
+          {rooms.map((item, idx) => {
+            return <HouseCard key={idx} {...item} />;
+          })}
+        </Flex>
+      </GridItem>
+    </Grid>
   );
 }
 

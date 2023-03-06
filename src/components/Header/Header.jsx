@@ -10,8 +10,8 @@ import { Text } from "@chakra-ui/react";
 // 없어질 예정
 import { faComment, faComments } from "@fortawesome/free-regular-svg-icons";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import OptionDropdown from "../Menu/OptionDropdown";
 import AddressMenu from "../Menu/AddressMenu";
+import OptionDropdown from "../Menu/OptionDropdown";
 
 const HeaderContainer = styled.header`
   width: 100%;
@@ -39,12 +39,12 @@ const Column = styled.div`
   &:nth-child(1) {
     transform: translateX(20px);
   }
-  &:nth-child(2) {
-    transform: translateX(20px);
-    border: 2px solid black;
-    border-radius: 10px;
-    padding: 3px;
-  }
+  // &:nth-child(2) {
+  //   transform: translateX(20px);
+  //   border: 2px solid black;
+  //   border-radius: 10px;
+  //   padding: 3px;
+  // }
 `;
 
 const Icon = styled.span`
@@ -80,10 +80,10 @@ function Header() {
     navigate(`/signupDev`);
   };
   const onHouse = () => {
-    navigate(`/house/houseId`);
+    navigate(`/houseList/address=null/options=null/house/houseId`);
   };
   const onHouseList = () => {
-    navigate(`/houseList/address`);
+    navigate(`/houseList/address=null/options=null`);
   };
 
   return (
@@ -96,12 +96,11 @@ function Header() {
             </Text>
           </Icon>
         </Column>
-        <Column padding="0px">
-          <AddressMenu />
-        </Column>
+        <Column padding="0px">{/* <AddressMenu /> */}</Column>
         {/* 없어질 컬럼 (routing 편하게 할려고 만듬) */}
         <Column>
-          <OptionDropdown />
+          {/* <OptionDropdown /> */}
+
           <Icon>
             <FontAwesomeIcon size={"2x"} icon={faComment} onClick={onChat} />
           </Icon>
