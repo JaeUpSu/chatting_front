@@ -13,8 +13,20 @@ const getPriceByStep = (steps, value) => {
 };
 
 export const getPriceRange = (values, steps) => {
-  const min = values[0] == 0 ? "0" : getPriceByStep(steps, values[0]) + "만";
+  const minValue = getPriceByStep(steps, values[0]);
+  const maxValue = getPriceByStep(steps, values[1]);
+
+  const min =
+    values[0] == 0
+      ? "0"
+      : minValue >= 10000
+      ? minValue / 10000 + "억"
+      : minValue + "만";
   const max =
-    values[1] == 30 ? "무제한" : getPriceByStep(steps, values[1]) + "만원";
+    values[1] == 30
+      ? "무제한"
+      : maxValue >= 10000
+      ? maxValue / 10000 + "억원"
+      : maxValue + "만원";
   return `${min}원 ~ ${max}`;
 };

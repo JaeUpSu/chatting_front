@@ -60,7 +60,7 @@ function RadioCard({ name, radio, onSelect }) {
         }}
         px={3}
         py={2}
-        w="120px"
+        w="32"
         onClick={onRadio}
         justifyContent="center"
         position="relative"
