@@ -51,7 +51,6 @@ export default function Home() {
 
   return (
     <HomeContainer>
-      <Header />
       <Flex m="70px" justify={"space-around"}>
         <Button onClick={viewList}>아파트</Button>
         <Button onClick={viewList}>빌라</Button>
