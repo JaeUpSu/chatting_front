@@ -1,4 +1,4 @@
-import { options, cities, Address, addressKinds } from "./data";
+import { options, Address, addressKinds } from "./data";
 
 export const isLocal = (valName) => {
   if (

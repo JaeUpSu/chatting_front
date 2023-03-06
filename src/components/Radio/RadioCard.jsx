@@ -10,9 +10,9 @@ import {
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { isLocal } from "../../services/local";
+import { optionsMenu } from "../../services/data";
 
-function RadioCard({ name, radio }) {
+function RadioCard({ name, radio, onSelect }) {
   const { getInputProps, getCheckboxProps } = useRadio(radio);
   const [checked, setChecked] = useState(false);
 
@@ -21,10 +21,23 @@ function RadioCard({ name, radio }) {
 
   const onRadio = () => {
     const value = localStorage.getItem(name);
+    const idx = optionsMenu.findIndex((val) => val.eng === name);
+
     localStorage.setItem(name, input.value);
     if (input.value != value) {
       setChecked(!checked);
     }
+
+    onSelect((opts) => {
+      const newOpts = opts.map((item, i) => {
+        if (idx != i) {
+          return item;
+        } else {
+          return input.value;
+        }
+      });
+      return newOpts;
+    });
   };
 
   return (
@@ -47,7 +60,7 @@ function RadioCard({ name, radio }) {
         }}
         px={3}
         py={2}
-        w="120px"
+        w="32"
         onClick={onRadio}
         justifyContent="center"
         position="relative"
@@ -73,7 +86,7 @@ function RadioCard({ name, radio }) {
     </Box>
   );
 }
-function DataRadioCard({ name, valueName, data, defaultData }) {
+function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: `${name}`,
     defaultValue: `${defaultData}`,
@@ -91,7 +104,12 @@ function DataRadioCard({ name, valueName, data, defaultData }) {
           const radio = getRadioProps({ value });
 
           return (
-            <RadioCard key={value} name={valueName} radio={radio}>
+            <RadioCard
+              key={value}
+              name={valueName}
+              radio={radio}
+              onSelect={onUpdate}
+            >
               {value}
             </RadioCard>
           );
