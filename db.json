@@ -1,0 +1,124 @@
+{
+  "list": [
+    {
+      "id": 1,
+      "img": "https://www.hyundai.co.kr/image/upload/asset_library/MDA00000000000003879/80488efb1d234e68b7d0dd77fe506c00.jpg",
+      "type": "아파트",
+      "totalPrice": 8000,
+      "rent": "",
+      "room": 3,
+      "isRecent": false,
+      "isLike": false
+    },
+    {
+      "id": 2,
+      "img": "https://www.hyundai.co.kr/image/upload/asset_library/MDA00000000000003879/80488efb1d234e68b7d0dd77fe506c00.jpg",
+      "type": "빌라",
+      "totalPrice": 500,
+      "rent": 30,
+      "room": 2,
+      "isRecent": true,
+      "isLike": true
+    },
+    {
+      "id": 3,
+      "img": "https://www.hyundai.co.kr/image/upload/asset_library/MDA00000000000003879/80488efb1d234e68b7d0dd77fe506c00.jpg",
+      "type": "오피스텔",
+      "totalPrice": 1000,
+      "rent": 45,
+      "room": 2,
+      "isRecent": false,
+      "isLike": false
+    },
+    {
+      "id": 4,
+      "img": "https://www.hyundai.co.kr/image/upload/asset_library/MDA00000000000003879/80488efb1d234e68b7d0dd77fe506c00.jpg",
+      "type": "원룸",
+      "totalPrice": 500,
+      "rent": 30,
+      "room": 1,
+      "isRecent": false,
+      "isLike": false
+    },
+    {
+      "id": 5,
+      "img": "https://www.hyundai.co.kr/image/upload/asset_library/MDA00000000000003879/80488efb1d234e68b7d0dd77fe506c00.jpg",
+      "type": "아파트",
+      "totalPrice": 5000,
+      "rent": 40,
+      "room": 2,
+      "isRecent": true,
+      "isLike": false
+    },
+    {
+      "id": 6,
+      "img": "https://www.hyundai.co.kr/image/upload/asset_library/MDA00000000000003879/80488efb1d234e68b7d0dd77fe506c00.jpg",
+      "type": "빌라",
+      "totalPrice": 700,
+      "rent": 40,
+      "room": 3,
+      "isRecent": false,
+      "isLike": false
+    },
+    {
+      "id": 7,
+      "img": "https://www.hyundai.co.kr/image/upload/asset_library/MDA00000000000003879/80488efb1d234e68b7d0dd77fe506c00.jpg",
+      "type": "오피스텔",
+      "totalPrice": 500,
+      "rent": 50,
+      "room": 1,
+      "isRecent": false,
+      "isLike": true
+    },
+    {
+      "id": 8,
+      "img": "https://www.hyundai.co.kr/image/upload/asset_library/MDA00000000000003879/80488efb1d234e68b7d0dd77fe506c00.jpg",
+      "type": "원룸",
+      "totalPrice": 500,
+      "rent": 30,
+      "room": 1,
+      "isRecent": true,
+      "isLike": true
+    },
+    {
+      "id": 9,
+      "img": "https://www.hyundai.co.kr/image/upload/asset_library/MDA00000000000003879/80488efb1d234e68b7d0dd77fe506c00.jpg",
+      "type": "아파트",
+      "totalPrice": 500,
+      "rent": 70,
+      "room": 2,
+      "isRecent": false,
+      "isLike": false
+    },
+    {
+      "id": 10,
+      "img": "https://www.hyundai.co.kr/image/upload/asset_library/MDA00000000000003879/80488efb1d234e68b7d0dd77fe506c00.jpg",
+      "type": "빌라",
+      "totalPrice": 500,
+      "rent": 30,
+      "room": 2,
+      "isRecent": true,
+      "isLike": true
+    },
+    {
+      "id": 11,
+      "img": "https://www.hyundai.co.kr/image/upload/asset_library/MDA00000000000003879/80488efb1d234e68b7d0dd77fe506c00.jpg",
+      "type": "오피스텔",
+      "totalPrice": 10000,
+      "rent": "",
+      "room": 1,
+      "isRecent": false,
+      "isLike": false
+    },
+    {
+      "id": 12,
+      "img": "https://www.hyundai.co.kr/image/upload/asset_library/MDA00000000000003879/80488efb1d234e68b7d0dd77fe506c00.jpg",
+      "type": "원룸",
+      "totalPrice": 200,
+      "rent": 50,
+      "room": 1,
+      "isRecent": true,
+      "isLike": true
+    }
+  ]
+}
