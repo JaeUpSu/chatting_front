@@ -6,11 +6,6 @@ import {
   Text,
   Heading,
   VStack,
-  Divider,
-  CardFooter,
-  Button,
-  Flex,
-  HStack,
 } from "@chakra-ui/react";
 
 import {
@@ -21,9 +16,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 
-import ActiveBadge from "../Badge/ActiveBadge";
-import PassiveBadge from "../Badge/PassiveBadge";
-
 function HouseCard({ id, img, address, info, contents, seller }) {
   const navigation = useNavigate();
 
@@ -33,30 +25,38 @@ function HouseCard({ id, img, address, info, contents, seller }) {
   return (
     <Card
       maxW="container.md"
-      _hover={{ backgroundColor: "rgb(110,110,110,0.1)" }}
+      m="15px"
+      w="22%"
+      boxShadow="0px"
+      _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}
     >
       <CardBody
         onClick={onHouseDetail}
         cursor="pointer"
-        w="55%"
+        h="auto"
         // position="relative"
       >
-        <HStack>
-          <Image src={img} alt="house" borderRadius="lg" />
-          <Box left="40px" top="-10px" spacing="3" position="relative" h="100%">
-            <Box>
-              <Heading size="md" mb="30px" fontSize="26px">
+        <VStack>
+          <Image
+            src={img}
+            alt="house"
+            borderRadius="lg"
+            boxShadow="0px 0px 1px 1px gray"
+          />
+          <Box left="8%" top="10px" spacing="3" position="relative">
+            <Box w="22vw">
+              <Heading w="100%" size="md" mb="5px" fontSize="26px">
                 {address}
               </Heading>
-              <Text h="25px" w="280px" fontSize="17px">
+              <Text h="auto" w="100%" fontSize="17px">
                 {info.length > 17 ? info.substring(0, 17) + "..." : info}
               </Text>
-              <Text mt="35px" color="blue.600" fontSize="28px">
+              <Text mt="5px" color="blue.600" fontSize="28px">
                 {contents}
               </Text>
             </Box>
           </Box>
-        </HStack>
+        </VStack>
       </CardBody>
     </Card>
   );

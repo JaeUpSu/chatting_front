@@ -1,10 +1,10 @@
-import { optionsMenu } from "../services/data";
+import { filter } from "../services/data";
 
 export const getOptionsUrl = (options) => {
   let optionsUrl = "";
   const currentOpts = options;
 
-  optionsMenu.forEach((op) => {
+  filter.forEach((op) => {
     if (
       typeof currentOpts[op.eng] == "object" &&
       currentOpts[op.eng].length < 1
