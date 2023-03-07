@@ -17,11 +17,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
 
-import { options, optionsMenu } from "../../services/data";
+import { options, optionsMenu, filter } from "../../services/data";
 import { getOptions } from "../../services/local";
 import { getOptionsUrl } from "../../utils/getOptionsUrl";
 import { getAddressByUrl } from "../../utils/getAddressByUrl";
 import DataRadioCard from "../Radio/RadioCard";
+import { IoIosArrowDown } from "react-icons/io";
 
 function OptionDropdown() {
   const navigate = useNavigate();
@@ -47,12 +48,14 @@ function OptionDropdown() {
   return (
     <>
       {" "}
-      <FontAwesomeIcon
-        size={"2x"}
-        icon={faSliders}
+      <Button
+        colorScheme="facebook"
+        p="15px"
+        rightIcon={<IoIosArrowDown />}
         onClick={onOpen}
-        cursor="pointer"
-      />
+      >
+        추가필터
+      </Button>
       <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent h="560px">
@@ -76,21 +79,17 @@ function OptionDropdown() {
 
           <DrawerBody>
             <Grid gap="10px">
-              {optionsMenu.map((op, idx) => {
-                if (idx < 5 && idx > 0) {
-                  return (
-                    <GridItem key={idx}>
-                      <br />
-                      <DataRadioCard
-                        name={op.kor}
-                        valueName={op.eng}
-                        data={options[op.eng]}
-                      />
-                    </GridItem>
-                  );
-                } else {
-                  return "";
-                }
+              {filter.map((op, idx) => {
+                return (
+                  <GridItem key={idx}>
+                    <br />
+                    <DataRadioCard
+                      name={op.kor}
+                      valueName={op.eng}
+                      data={options[op.eng]}
+                    />
+                  </GridItem>
+                );
               })}
               <br />
             </Grid>

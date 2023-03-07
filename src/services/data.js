@@ -207,6 +207,7 @@ export const rooms = [
 ];
 
 export const options = {
+  roomKind: ["원룸", "주택", "아파트", "빌라", "오피스텔", "쉐어하우스"],
   cellKind: ["전체", "매매", "전세", "월세"],
   room_counts: ["전체", "1개", "2개", "3개", "4개 이상"],
   toilet_counts: ["전체", "1개", "2개", "3개", "4개 이상"],
@@ -245,13 +246,38 @@ export const options = {
 };
 
 export const optionsMenu = [
+  { eng: "roomKind", kor: "방 종류" },
   { eng: "cellKind", kor: "매매 종류" },
-  { eng: "room_counts", kor: "방" },
-  { eng: "toilet_counts", kor: "화장실" },
-  { eng: "py", kor: "평수" },
-  { eng: "isStationArea", kor: "역세권" },
   { eng: "maintenanceFeeRange", kor: "관리비" },
+  { eng: "py", kor: "평수" },
   { eng: "priceRange", kor: "매매가" },
   { eng: "depositRange", kor: "보증금" },
   { eng: "monthlyRentRange", kor: "월세" },
 ];
+
+export const filter = [
+  { eng: "toilet_counts", kor: "화장실" },
+  { eng: "room_counts", kor: "방" },
+  { eng: "isStationArea", kor: "역세권" },
+];
+
+export const filterValueNames = {
+  toilet_counts: true,
+  room_counts: true,
+  isStationArea: true,
+  roomKind: false,
+  cellKind: false,
+  maintenanceFeeRange: false,
+  py: false,
+  priceRange: false,
+  depositRange: false,
+  monthlyRentRange: false,
+};
+
+// export const optionsHeaderMenu = [
+//   "원룸, 주택, 아파트, 빌라, 오피스텔, 쉐어하우스",
+//   "월세, 전세, 매매",
+//   "관리비",
+//   "평수",
+//   "추가필터",
+// ];

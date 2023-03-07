@@ -15,20 +15,20 @@ import {
 } from "@chakra-ui/react";
 import { getPrices } from "../../utils/getPrices";
 
-function OptionRangeSlider({ idx, name, label, onUpdate }) {
+function OptionRangeSlider({ idx, names, onUpdate }) {
   //   const [values, setValues] = useState(moneyDefaults[name]);
   const [values, setValues] = useState([0, 10]);
   const [range, setRange] = useState("");
 
-  const moneyRange = options[name].values;
-  const labels = options[name].labels;
+  const moneyRange = options[names.eng].values;
+  const labels = options[names.eng].labels;
 
   const handleChange = (newValues) => {
     setValues(newValues);
   };
 
   useEffect(() => {
-    setRange(getPriceRange(values, options[name].steps));
+    setRange(getPriceRange(values, options[names.eng].steps));
   }, [values]);
 
   useEffect(() => {
@@ -45,27 +45,29 @@ function OptionRangeSlider({ idx, name, label, onUpdate }) {
   }, [range]);
 
   return (
-    <Box mt="20px">
-      <Text fontWeight="bold" mb="10px" ml="-10px" fontSize="16px">
-        {label}
+    <Box my="20px">
+      <Text fontWeight="bold" mb="10px" ml="-10px" fontSize="17px">
+        {names.kor}
         <Highlight
           query={range}
           styles={
-            label.length < 3
+            names.kor.length < 3
               ? {
                   ml: "36px",
-                  px: "2",
-                  py: "1",
+                  px: "3",
+                  py: "2",
                   rounded: "full",
-                  bg: "red.100",
+                  bg: "blue.700",
+                  color: "white",
                   fontSize: "15px",
                 }
               : {
                   ml: "20px",
-                  px: "2",
-                  py: "1",
+                  px: "3",
+                  py: "2",
                   rounded: "full",
-                  bg: "red.100",
+                  bg: "blue.700",
+                  color: "white",
                   fontSize: "15px",
                 }
           }
@@ -92,16 +94,17 @@ function OptionRangeSlider({ idx, name, label, onUpdate }) {
             </RangeSliderMark>
           );
         })}
-        <RangeSliderTrack bg="red.100">
-          <RangeSliderFilledTrack bg="tomato" />
+        <RangeSliderTrack bg="blue.100">
+          <RangeSliderFilledTrack bg="blue.700" ml="10px" />
         </RangeSliderTrack>
         <RangeSliderThumb
           max={values[0] - 10}
           boxSize={8}
           index={0}
-          boxShadow="0 0 1px 1px"
+          border="2px solid black"
+          ml={`11px`}
         >
-          <Box color="tomato" position="absolute" left={0}>
+          <Box color="blue.700" position="absolute" left={0} fontWeight="600">
             min
           </Box>
         </RangeSliderThumb>
@@ -109,10 +112,10 @@ function OptionRangeSlider({ idx, name, label, onUpdate }) {
           min={values[1] + 10}
           boxSize={8}
           index={1}
-          boxShadow="0 0 1px 1px"
-          ml={`12px`}
+          border="2px solid black"
+          ml={`20px`}
         >
-          <Box color="tomato" position="absolute" left={0}>
+          <Box color="blue.700" position="absolute" left={0} fontWeight="600">
             max
           </Box>
         </RangeSliderThumb>
