@@ -6,8 +6,8 @@ import RecentList from "./RecentList";
 import LikedList from "./LikedList";
 
 const HomeWrapper = styled.div`
-  margin-left: 3rem;
-  margin-right: 3rem;
+  margin-left: 4rem;
+  margin-right: 7rem;
   height: 100%;
   overflow-y: scroll;
 `;
