@@ -1,12 +1,21 @@
 import React from "react";
-import { Box, Input, Button, Center, Heading } from "@chakra-ui/react";
+import {
+  Box,
+  Input,
+  Button,
+  Center,
+  Heading,
+  Checkbox,
+} from "@chakra-ui/react";
 
 function Login() {
+  const [show, setShow] = React.useState(false);
+
   return (
     <Center>
       <Box color="#F7FAFC" bg="#FFD2B2" pt="100px" pb="300px" w="600px">
         <Center>
-          <Heading fontWeight="700" fontSize="48px" color="black">
+          <Heading fontWeight="700" fontSize="48px" color="black" pb="40px">
             로그인
           </Heading>
         </Center>
@@ -18,22 +27,25 @@ function Login() {
               placeholder="아이디"
               w="350px"
               h="40px"
-              mb="5px"
+              mb="10px"
+              bg="white"
+              color="black"
             />
           </Center>
           <Center>
             <Input
-              type="password "
+              type={show ? "text" : "password"}
               placeholder="비밀번호"
               w="350px"
               h="40px"
-              mb="5px"
+              mb="10px"
+              color="black"
+              bg="white"
             />
           </Center>
           <Center>
-            <Box w="350px" h="20px" mb="20px" color="black" fontSize="13px">
-              <Input type="checkbox" color="block" />
-              아이디저장
+            <Box w="350px" h="20px" mb="25px" color="black" fontSize="10px">
+              <Checkbox size="md">아이디 저장</Checkbox>
             </Box>
           </Center>
           <Center>
@@ -43,6 +55,7 @@ function Login() {
               bg="#FFA15D"
               type="submit"
               value="로그인"
+              color="black"
             >
               로그인
             </Button>
@@ -50,15 +63,33 @@ function Login() {
         </Box>
         <Center>
           <Box mt="5px">
-            <Button border="none" type="submit" bg="#FFD2B2" value="id">
+            <Button
+              border="none"
+              type="submit"
+              bg="#FFD2B2"
+              value="id"
+              color="black"
+            >
               아이디 찾기
             </Button>
             ｜
-            <Button border="none" type="submit" bg="#FFD2B2" value="password">
+            <Button
+              border="none"
+              type="submit"
+              bg="#FFD2B2"
+              value="password"
+              color="black"
+            >
               비밀번호 찾기
             </Button>
             ｜
-            <Button border="none" type="submit" bg="#FFD2B2" value="join">
+            <Button
+              border="none"
+              type="submit"
+              bg="#FFD2B2"
+              value="join"
+              color="black"
+            >
               회원가입
             </Button>
           </Box>
