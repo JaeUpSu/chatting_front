@@ -20,13 +20,22 @@ export const getPriceRange = (values, steps) => {
     values[0] == 0
       ? "0"
       : minValue >= 10000
-      ? minValue / 10000 + "억"
-      : minValue + "만";
+      ? minValue / 10000 + "억원"
+      : minValue + "만원";
   const max =
     values[1] == 30
       ? "무제한"
       : maxValue >= 10000
       ? maxValue / 10000 + "억원"
       : maxValue + "만원";
-  return `${min}원 ~ ${max}`;
+
+  if (min == max) {
+    return max;
+  }
+
+  if (min == 0 && max == "무제한") {
+    return "전체";
+  }
+
+  return `${min} ~ ${max}`;
 };
