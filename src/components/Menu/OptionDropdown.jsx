@@ -17,7 +17,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
 
-import { options, optionsMenu, filter } from "../../services/data";
+import { options, optionsMenu, filterMenu } from "../../services/data";
 import { getOptions } from "../../services/local";
 import { getOptionsUrl } from "../../utils/getOptionsUrl";
 import { getAddressByUrl } from "../../utils/getAddressByUrl";
@@ -79,7 +79,7 @@ function OptionDropdown() {
 
           <DrawerBody>
             <Grid gap="10px">
-              {filter.map((op, idx) => {
+              {filterMenu.map((op, idx) => {
                 return (
                   <GridItem key={idx}>
                     <br />
