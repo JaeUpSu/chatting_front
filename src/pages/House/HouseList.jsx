@@ -2,13 +2,13 @@ import {
   Grid,
   GridItem,
   Flex,
-  Box,
   Text,
-  Divider,
-  VStack,
   HStack,
   Button,
-  ButtonGroup,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -21,7 +21,7 @@ import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
 import OptionBadge from "../../components/Badge/OptionBadge";
-import { isVal } from "../../services/local";
+import { HiChevronDown } from "react-icons/hi";
 
 function HouseList() {
   const params = useParams();
@@ -34,6 +34,12 @@ function HouseList() {
     isStationArea: "",
   });
   const [isOption, setIsOption] = useState(false);
+  const [orderBy, setOrderBy] = useState([
+    "최근순",
+    "좋아요순",
+    "조회순",
+    "낮은가격순",
+  ]);
 
   const onDelete = (e) => {
     const name = e.currentTarget.children[0].getAttribute("name");
@@ -43,6 +49,19 @@ function HouseList() {
         name
       )}`
     );
+  };
+
+  const onOrderBy = (e) => {
+    const value = e.currentTarget.getAttribute("value");
+    setOrderBy((_orderBy) => {
+      const newOrderBy = [value];
+      _orderBy.forEach((item) => {
+        if (item != value) {
+          newOrderBy.push(item);
+        }
+      });
+      return newOrderBy;
+    });
   };
 
   useEffect(() => {
@@ -73,11 +92,11 @@ function HouseList() {
       </GridItem>{" "}
       <GridItem area={"searchResult"} ml="30px" w="100%">
         <HStack>
-          <Text fontWeight="600" color="blackAlpha.800" fontSize="25px" w="15%">
+          <Text fontWeight="600" color="blackAlpha.800" fontSize="25px">
             부동산 목록 {rooms.length} 개
           </Text>
           <Flex
-            w="100%"
+            w="76.5%"
             borderRadius="10px"
             mx="10px"
             alignItems="center"
@@ -108,6 +127,23 @@ function HouseList() {
                 })
               : "비어있습니다."}
           </Flex>
+
+          <Menu pos="absolute" right="280%">
+            <MenuButton as={Button} rightIcon={<HiChevronDown />}>
+              {orderBy[0]}
+            </MenuButton>
+            <MenuList>
+              {orderBy.map((item, idx) => {
+                if (idx > 0) {
+                  return (
+                    <MenuItem key={idx} onClick={onOrderBy} value={item}>
+                      {item}
+                    </MenuItem>
+                  );
+                }
+              })}
+            </MenuList>
+          </Menu>
         </HStack>
       </GridItem>
       <GridItem area={"main"} mt="20px">

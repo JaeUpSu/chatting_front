@@ -96,8 +96,8 @@ function HouseOptMenu() {
             }
           }
         })}
+        <OptionDropdown />
       </HStack>
-      <OptionDropdown />
     </Flex>
   );
 }

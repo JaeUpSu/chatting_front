@@ -10,6 +10,8 @@ import {
   Highlight,
   Grid,
   GridItem,
+  IconButton,
+  ButtonGroup,
 } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
@@ -22,7 +24,7 @@ import { getOptions } from "../../services/local";
 import { getOptionsUrl } from "../../utils/getOptionsUrl";
 import { getAddressByUrl } from "../../utils/getAddressByUrl";
 import DataRadioCard from "../Radio/RadioCard";
-import { IoIosArrowDown } from "react-icons/io";
+import { HiOutlineAdjustments } from "react-icons/hi";
 
 function OptionDropdown() {
   const navigate = useNavigate();
@@ -47,15 +49,14 @@ function OptionDropdown() {
 
   return (
     <>
-      {" "}
-      <Button
-        colorScheme="facebook"
-        p="15px"
-        rightIcon={<IoIosArrowDown />}
+      <IconButton
+        aria-label="Filter"
+        variant="outline"
+        colorScheme="white"
+        borderWidth="2px"
         onClick={onOpen}
-      >
-        추가필터
-      </Button>
+        icon={<HiOutlineAdjustments size="sm" color="black" />}
+      />
       <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent h="560px">
