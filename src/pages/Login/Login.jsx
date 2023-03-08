@@ -1,55 +1,120 @@
-import { Flex } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import styled from "styled-components";
+import React from "react";
+import {
+  Box,
+  Input,
+  Button,
+  Center,
+  Heading,
+  Checkbox,
+  git,
+} from "@chakra-ui/react";
 
-const HouseImg = styled.img`
-  max-width: 200px;
-  margin-right: 40px;
-  cursor: pointer;
-`;
-
-const FontFam = styled.p`
-  font-weight: 600;
-  margin-right: 10px;
-`;
-
-const HandleCarousel = styled.div`
-  overflow: hidden;
-  transition: transform 0.3s ease-in-out;
-  transform: translateX(0%);
-`;
-
-const RecentList = () => {
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["list"],
-    queryFn: () =>
-      fetch(`http://localhost:5000/list`).then((res) => res.json()),
-  });
-  const recentList = data && data.filter((item) => item.isRecent);
-  const handleRoomDetail = () => {};
+function Login() {
+  const [show, setShow] = React.useState(false);
 
   return (
-    <HandleCarousel>
-      <Flex justify="center">
-        {recentList &&
-          recentList.map((item) => (
-            <div key={item.id}>
-              <HouseImg src={item.img} onClick={handleRoomDetail} />
-              <Flex>
-                <FontFam>{item.type}</FontFam>
-                <p>Room: {item.room}</p>
-              </Flex>
-              <Flex>
-                <FontFam> {item.totalPrice}</FontFam>
-                <p> {item?.rent}</p>
-              </Flex>
-            </div>
-          ))}
-      </Flex>
-    </HandleCarousel>
+    <Center>
+      <Box color="#F7FAFC" bg="#FFD2B2" pt="100px" pb="300px" w="600px">
+        <Center>
+          <Heading
+            fontWeight="600"
+            fontSize="35px"
+            color="black"
+            pb="110px"
+            mt="50px"
+            w="350px"
+            h="70px"
+          >
+            로그인
+          </Heading>
+        </Center>
+
+        <Box>
+          <Center>
+            <Input
+              type="email"
+              placeholder="아이디"
+              w="350px"
+              h="40px"
+              mb="10px"
+              bg="white"
+              color="black"
+            />
+          </Center>
+          <Center>
+            <Input
+              type={show ? "text" : "password"}
+              placeholder="비밀번호"
+              w="350px"
+              h="40px"
+              mb="10px"
+              color="black"
+              bg="white"
+            />
+          </Center>
+          <Center>
+            <Box w="350px" h="20px" mb="30px" color="black" fontSize="10px">
+              <Checkbox size="md">아이디 저장</Checkbox>
+            </Box>
+          </Center>
+          <Center>
+            <Button
+              w="355px"
+              h="40px"
+              bg="#FFA15D"
+              type="submit"
+              value="로그인"
+              color="black"
+            >
+              로그인
+            </Button>
+          </Center>
+        </Box>
+        <Center>
+          <Box mt="5px">
+            <Button
+              border="none"
+              type="submit"
+              bg="#FFD2B2"
+              value="id"
+              color="black"
+              _hover={{
+                backgroundColor: "transparent",
+              }}
+            >
+              아이디 찾기
+            </Button>
+            ｜
+            <Button
+              border="none"
+              type="submit"
+              bg="#FFD2B2"
+              value="password"
+              color="black"
+              _hover={{
+                backgroundColor: "transparent",
+              }}
+            >
+              비밀번호 찾기
+            </Button>
+            ｜
+            <Button
+              border="none"
+              type="submit"
+              bg="#FFD2B2"
+              value="join"
+              color="black"
+              _hover={{
+                backgroundColor: "transparent",
+              }}
+            >
+              회원가입
+            </Button>
+          </Box>
+        </Center>
+      </Box>
+    </Center>
   );
-};
+}
 
-export default RecentList;
-
+export default Login;
