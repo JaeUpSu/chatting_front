@@ -1,24 +1,28 @@
-import { Flex, Button } from "@chakra-ui/react";
-import React from "react";
+import { Flex } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Header from "./../../components/Header/Header";
-import { useQuery } from "@tanstack/react-query";
+import IconBtns from "./IconBtns";
+import RecentList from "./RecentList";
+import LikedList from "./LikedList";
 
+const HomeWrapper = styled.div`
+  margin-left: 3rem;
+  margin-right: 3rem;
+  height: 100%;
+  overflow-y: scroll;
+`;
 const HomeContainer = styled.div`
+:not(:HeadFont)
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const HeadFont = styled.h3`
   font-weight: 600;
-  font-style: normal;
-  margin-left: 50px;
-`;
-
-const HouseImg = styled.img`
-  max-width: 200px;
-  margin-right: 40px;
-  overflow: hidden;
+  margin-left: 20px;
+  margin-bottom: 5px;
+  font-size: 20px;
 `;
 
 const DivideLine = styled.div`
@@ -28,76 +32,55 @@ const DivideLine = styled.div`
   width: 600px;
 `;
 
-const FontFam = styled.p`
-  font-weight: 600;
-  margin-right: 10px;
-`;
-
 export default function Home() {
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["list"],
-    queryFn: () =>
-      fetch(`http://localhost:5000/list`).then((res) => res.json()),
-  });
-  console.log(data);
+  const [containerHeight, setContainerHeight] = useState("100vh");
+  useEffect(() => {
+    const updateContainerHeight = () => {
+      const headerHeight = document.querySelector("header").offsetHeight;
+      const windowHeight = window.innerHeight;
+      const newContainerHeight = windowHeight - headerHeight - 60;
+      setContainerHeight(`${newContainerHeight}px`);
+    };
 
-  const recentList = data && data.filter((item) => item.isRecent);
-
-  const likedList = data && data.filter((item) => item.isLike);
-
-  const viewList = () => {};
-
-  const handleRoomDetail = () => {};
+    updateContainerHeight();
+    window.addEventListener("resize", updateContainerHeight);
+    return () => window.removeEventListener("resize", updateContainerHeight);
+  }, []);
 
   return (
-    <HomeContainer>
-      <Header />
-      <Flex m="70px" justify={"space-around"}>
-        <Button onClick={viewList}>아파트</Button>
-        <Button onClick={viewList}>빌라</Button>
-        <Button onClick={viewList}>오피스텔</Button>
-        <Button onClick={viewList}>원룸</Button>
-        <Button onClick={viewList}>고시원</Button>
-        <Button onClick={viewList}>공유주택</Button>
-      </Flex>
-      <DivideLine />
-      <HeadFont>최근 본 방</HeadFont>
-      <Flex m="10px 0px 50px 50px" onClick={handleRoomDetail} cursor="pointer">
-        {recentList &&
-          recentList.map((item) => (
-            <div key={item.id}>
-              <HouseImg src={item.img} />
-              <Flex>
-                <FontFam>{item.type}</FontFam>
-                <p>Room: {item.room}</p>
-              </Flex>
-              <Flex>
-                <FontFam> {item.totalPrice}</FontFam>
-                <p> {item?.rent}</p>
-              </Flex>
-            </div>
-          ))}
+    <HomeWrapper style={{ height: containerHeight }}>
+      <Flex justify={"space-around"} mt="3rem" flexWrap={"wrap"}>
+        <IconBtns src="https://cdn-icons-png.flaticon.com/128/2417/2417733.png">
+          아파트
+        </IconBtns>
+        <IconBtns src="https://cdn-icons-png.flaticon.com/512/984/984123.png">
+          빌라
+        </IconBtns>
+        <IconBtns src="https://cdn-icons-png.flaticon.com/512/994/994294.png">
+          오피스텔
+        </IconBtns>
+        <IconBtns src="https://cdn-icons-png.flaticon.com/512/489/489405.png">
+          원룸
+        </IconBtns>
+        <IconBtns src="https://cdn-icons-png.flaticon.com/512/9567/9567116.png">
+          고시원
+        </IconBtns>
+        <IconBtns src="https://cdn-icons-png.flaticon.com/512/602/602175.png">
+          그 외
+        </IconBtns>
       </Flex>
 
       <DivideLine />
 
-      <HeadFont>찜한 방 </HeadFont>
-      <Flex m="10px 50px 50px 50px" onClick={handleRoomDetail} cursor="pointer">
-        {likedList &&
-          likedList.map((item) => (
-            <div key={item.id}>
-              <HouseImg src={item.img}></HouseImg>
-              <Flex>
-                <FontFam>{item.type}</FontFam>
-                <p>Room: {item.room}</p>
-              </Flex>
-              <Flex>
-                <FontFam> {item.totalPrice}</FontFam>
-                <p> {item?.rent}</p>
-              </Flex>
-            </div>
-          ))}
-      </Flex>
-    </HomeContainer>
+      <HomeContainer>
+        <HeadFont>최근 본 방</HeadFont>
+        <RecentList />
+
+        <DivideLine />
+
+        <HeadFont>찜한 방</HeadFont>
+        <LikedList />
+      </HomeContainer>
+    </HomeWrapper>
   );
 }

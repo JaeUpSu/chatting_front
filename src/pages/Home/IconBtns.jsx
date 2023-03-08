@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const Img = styled.img`
   max-width: 3rem;
-  overflow: hidden;
   cursor: pointer;
   margin-bottom: 5px;
 `;
