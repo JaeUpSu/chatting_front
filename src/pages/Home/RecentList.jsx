@@ -39,6 +39,8 @@ const RecentList = () => {
   });
   const recentList = data && data.filter((item) => item.isRecent).slice(0, 11);
 
+  const handleRoomDetail = () => {};
+
   //캐러셀 슬라이드 로직
   const [count, setCount] = useState(0);
   const handlePrev = () => {
@@ -47,8 +49,6 @@ const RecentList = () => {
   const handleNext = () => {
     setCount((count) => (count + 1) % (recentList.length - 3));
   };
-
-  const handleRoomDetail = () => {};
 
   useEffect(() => {
     const timer = setTimeout(() => {

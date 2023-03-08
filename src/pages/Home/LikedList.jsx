@@ -30,7 +30,7 @@ const LikedWrapper = styled.div`
   height: 100%;
 `;
 
-//api 호출
+//api 호출 //
 const LikedList = () => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["list"],

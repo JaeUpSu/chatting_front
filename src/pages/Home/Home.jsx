@@ -33,8 +33,7 @@ const DivideLine = styled.div`
 `;
 
 export default function Home() {
-  const [containerHeight, setContainerHeight] = useState("100vh");
- 
+  const [containerHeight, setContainerHeight] = useState("150vh");
 
   useEffect(() => {
     const updateContainerHeight = () => {
@@ -86,4 +85,3 @@ export default function Home() {
     </HomeWrapper>
   );
 }
-
