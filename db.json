@@ -37,8 +37,8 @@
       "totalPrice": 500,
       "rent": 30,
       "room": 1,
-      "isRecent": false,
-      "isLike": false
+      "isRecent": true,
+      "isLike": true
     },
     {
       "id": 5,
@@ -58,7 +58,7 @@
       "rent": 40,
       "room": 3,
       "isRecent": false,
-      "isLike": false
+      "isLike": true
     },
     {
       "id": 7,
