@@ -36,7 +36,7 @@ function AddressMenu() {
 
   const onHouseList = (_address) => {
     console.log(params);
-    navigate(`/houseList/${_address}/options=null`);
+    navigate(`/houseList/${_address}/options=`);
   };
 
   const onSearchAddress = () => {
@@ -113,7 +113,7 @@ function AddressMenu() {
                   return (
                     <Box key={idx}>
                       <SelectModal
-                        list={Address[addressKinds[idx]]}
+                        list={idx == 0 ? ["서울"] : Address[addressKinds[idx]]}
                         name={addressKinds[idx]}
                         valName={item}
                         active={activeBtns[idx]}
