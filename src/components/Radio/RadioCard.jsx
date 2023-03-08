@@ -5,14 +5,17 @@ import {
   useRadio,
   useRadioGroup,
   Text,
+  Center,
 } from "@chakra-ui/react";
 
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-import { isLocal } from "../../services/local";
 
-function RadioCard({ name, radio }) {
+import { filterValueNames, optionsMenu } from "../../services/data";
+import { isVal } from "../../services/local";
+
+function RadioCard({ name, radio, onSelect }) {
   const { getInputProps, getCheckboxProps } = useRadio(radio);
   const [checked, setChecked] = useState(false);
 
@@ -21,9 +24,24 @@ function RadioCard({ name, radio }) {
 
   const onRadio = () => {
     const value = localStorage.getItem(name);
+    const idx = optionsMenu.findIndex((val) => val.eng === name);
+
     localStorage.setItem(name, input.value);
     if (input.value != value) {
       setChecked(!checked);
+    }
+
+    if (!filterValueNames[name]) {
+      onSelect((opts) => {
+        const newOpts = opts.map((item, i) => {
+          if (idx != i) {
+            return item;
+          } else {
+            return input.value;
+          }
+        });
+        return newOpts;
+      });
     }
   };
 
@@ -34,20 +52,22 @@ function RadioCard({ name, radio }) {
         {...checkbox}
         backgroundColor="white"
         cursor="pointer"
-        borderWidth="1px"
+        borderWidth="3px"
+        borderColor="blue.600"
+        fontWeight="600"
         borderRadius="md"
         boxShadow="md"
         _checked={{
-          bg: "red.300",
+          bg: "blue.600",
           color: "white",
-          borderColor: "red.300",
+          borderWidth: "3px",
         }}
         _focus={{
           boxShadow: "outline",
         }}
         px={3}
         py={2}
-        w="120px"
+        w="32"
         onClick={onRadio}
         justifyContent="center"
         position="relative"
@@ -73,16 +93,16 @@ function RadioCard({ name, radio }) {
     </Box>
   );
 }
-function DataRadioCard({ name, valueName, data, defaultData }) {
+function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: `${name}`,
-    defaultValue: `${defaultData}`,
+    defaultValue: `${data[0]}`,
   });
 
   const group = getRootProps();
 
   return (
-    <Box>
+    <Flex direction="column">
       <Text fontWeight="bold" mb="10px">
         {name}
       </Text>
@@ -91,13 +111,18 @@ function DataRadioCard({ name, valueName, data, defaultData }) {
           const radio = getRadioProps({ value });
 
           return (
-            <RadioCard key={value} name={valueName} radio={radio}>
+            <RadioCard
+              key={value}
+              name={valueName}
+              radio={radio}
+              onSelect={onUpdate}
+            >
               {value}
             </RadioCard>
           );
         })}
       </Flex>
-    </Box>
+    </Flex>
   );
 }
 

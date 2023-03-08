@@ -26,6 +26,8 @@ import { isPrevChecking } from "../../utils/isPrevChecking";
 
 function AddressMenu() {
   const navigate = useNavigate();
+  const params = useParams();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [btnIdx, setBtnIdx] = useState(0);
@@ -33,7 +35,8 @@ function AddressMenu() {
   const [activeBtns, setActiveBtn] = useState([true, false, false]);
 
   const onHouseList = (_address) => {
-    navigate(`/houseList/${_address}/options=null`);
+    console.log(params);
+    navigate(`/houseList/${_address}/options=`);
   };
 
   const onSearchAddress = () => {
@@ -65,12 +68,12 @@ function AddressMenu() {
     <div
       style={{
         width: "90%",
+        minWidth: "250px",
         cursor: "pointer",
         transform: "translateX(20px)",
         border: "2px solid black",
         borderRadius: "10px",
         padding: "5px",
-        marginTop: "10px",
         marginRight: "50px",
       }}
     >
@@ -110,7 +113,7 @@ function AddressMenu() {
                   return (
                     <Box key={idx}>
                       <SelectModal
-                        list={Address[addressKinds[idx]]}
+                        list={idx == 0 ? ["서울"] : Address[addressKinds[idx]]}
                         name={addressKinds[idx]}
                         valName={item}
                         active={activeBtns[idx]}

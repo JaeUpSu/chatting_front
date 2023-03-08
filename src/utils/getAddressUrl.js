@@ -1,5 +1,5 @@
 import { addressKinds } from "../services/data";
-import { isLocal } from "../services/local";
+import { isVal } from "../services/local";
 import { Address } from "../services/data";
 
 export const getAddressUrl = (_address) => {
@@ -8,7 +8,7 @@ export const getAddressUrl = (_address) => {
   const addressArr = _address.split(" ");
   addressKinds.forEach((item, idx) => {
     url += item + "=";
-    if (isLocal(addressArr[idx])) {
+    if (isVal(addressArr[idx])) {
       url += Address[item].findIndex((val) => val === addressArr[idx]);
     }
     if (idx < 2) {

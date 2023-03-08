@@ -34,6 +34,8 @@ const DivideLine = styled.div`
 
 export default function Home() {
   const [containerHeight, setContainerHeight] = useState("100vh");
+ 
+
   useEffect(() => {
     const updateContainerHeight = () => {
       const headerHeight = document.querySelector("header").offsetHeight;
@@ -84,3 +86,4 @@ export default function Home() {
     </HomeWrapper>
   );
 }
+

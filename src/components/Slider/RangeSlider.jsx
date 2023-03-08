@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { options } from "../../services/data";
-import { moneyStepRange } from "../../services/data";
+import { getPriceRange } from "../../utils/getPriceRange";
 
 import {
   RangeSlider,
@@ -11,72 +11,100 @@ import {
   Text,
   Box,
   Highlight,
+  Flex,
 } from "@chakra-ui/react";
+import { getPrices } from "../../utils/getPrices";
 
-function OptionRangeSlider({ name, label, able }) {
+function OptionRangeSlider({ idx, names, onUpdate }) {
   //   const [values, setValues] = useState(moneyDefaults[name]);
-  const [values, setValues] = useState([0, 50]);
-  const [steps, setSteps] = useState(options[name].steps);
-  const [moneyRange, setMoneyRange] = useState(options[name].values);
-  const [labels, setLabels] = useState(options[name].labels);
+  const [values, setValues] = useState([0, 30]);
+  const [range, setRange] = useState("");
 
-  const step = 10;
+  const moneyRange = options[names.eng].values;
+  const labels = options[names.eng].labels;
 
   const handleChange = (newValues) => {
     setValues(newValues);
   };
 
+  useEffect(() => {
+    setRange(getPriceRange(values, options[names.eng].steps));
+  }, [values]);
+
+  useEffect(() => {
+    onUpdate((prices) => {
+      const newPrices = prices.map((price, _idx) => {
+        if (_idx == idx) {
+          return getPrices(range);
+        } else {
+          return price;
+        }
+      });
+      return newPrices;
+    });
+  }, [range]);
+
   return (
-    <Box mt="20px">
-      <Text fontWeight="bold" mb="10px" ml="-10px">
-        {label}{" "}
+    <Box my="20px">
+      <Text fontWeight="bold" mb="10px" ml="-10px" fontSize="17px">
+        {names.kor}
         <Highlight
-          query={`${values[0]} 만 ~ ${values[1]} 만`}
-          styles={{
-            ml: "20px",
-            px: "2",
-            py: "1",
-            rounded: "full",
-            bg: "red.100",
-            fontSize: "15px",
-          }}
-        >{`${values[0]} 만 ~ ${values[1]} 만`}</Highlight>
+          query={range}
+          styles={
+            names.kor.length < 3
+              ? {
+                  ml: "36px",
+                  px: "3",
+                  py: "2",
+                  rounded: "full",
+                  bg: "blue.700",
+                  color: "white",
+                  fontSize: "15px",
+                }
+              : {
+                  ml: "20px",
+                  px: "3",
+                  py: "2",
+                  rounded: "full",
+                  bg: "blue.700",
+                  color: "white",
+                  fontSize: "15px",
+                }
+          }
+        >
+          {range}
+        </Highlight>
       </Text>
       <RangeSlider
         mt="10px"
         mx="10px"
         defaultValue={values}
-        min={moneyRange[0]}
-        max={moneyRange[1]}
-        step={steps[0]}
+        min={0}
+        max={30}
+        step={1}
         w="480px"
         onChange={handleChange}
         position="relative"
-        isDisabled={able}
       >
+        {" "}
         {labels.map((item, idx) => {
           return (
-            <RangeSliderMark
-              key={idx}
-              value={idx * 16.2 * steps[1]}
-              mt="16px"
-              w="100%"
-              pos="absolute"
-            >
+            <RangeSliderMark key={idx} value={idx * 10} mt="16px" w="100%">
               {item}
             </RangeSliderMark>
           );
         })}
-        <RangeSliderTrack bg="red.100">
-          <RangeSliderFilledTrack bg="tomato" />
+        <RangeSliderTrack bg="blue.100">
+          <RangeSliderFilledTrack bg="blue.700" ml="10px" />
         </RangeSliderTrack>
         <RangeSliderThumb
           max={values[0] - 10}
           boxSize={8}
           index={0}
-          boxShadow="0 0 1px 1px"
+          border="2px solid black"
+          ml={`11px`}
         >
-          <Box color="tomato" position="absolute" left={0}>
+          <Box color="blue.700" position="absolute" left={0} fontWeight="600">
             min
           </Box>
         </RangeSliderThumb>
@@ -84,10 +112,10 @@ function OptionRangeSlider({ name, label, able }) {
           min={values[1] + 10}
           boxSize={8}
           index={1}
-          boxShadow="0 0 1px 1px"
-          ml={`12px`}
+          border="2px solid black"
+          ml={`20px`}
         >
-          <Box color="tomato" position="absolute" left={0}>
+          <Box color="blue.700" position="absolute" left={0} fontWeight="600">
             max
           </Box>
         </RangeSliderThumb>
