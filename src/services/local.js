@@ -1,6 +1,6 @@
 import { options, Address, addressKinds } from "./data";
 
-export const isLocal = (valName) => {
+export const isVal = (valName) => {
   if (
     valName == "null" ||
     valName == null ||
@@ -20,7 +20,7 @@ const isNoMatter = (val) => {
 const getCellKind = () => {
   const cell = localStorage.getItem("cellKind");
 
-  if (isLocal(cell) && !isNoMatter(cell)) {
+  if (isVal(cell) && !isNoMatter(cell)) {
     return cell;
   }
 
@@ -29,7 +29,7 @@ const getCellKind = () => {
 const getRoomCounts = () => {
   const roomCounts = localStorage.getItem("room_counts");
 
-  if (isLocal(roomCounts) && !isNoMatter(roomCounts)) {
+  if (isVal(roomCounts) && !isNoMatter(roomCounts)) {
     return "방" + roomCounts;
   }
 
@@ -38,7 +38,7 @@ const getRoomCounts = () => {
 
 const getToiletCounts = () => {
   const toiletCounts = localStorage.getItem("toilet_counts");
-  if (isLocal(toiletCounts) && !isNoMatter(toiletCounts)) {
+  if (isVal(toiletCounts) && !isNoMatter(toiletCounts)) {
     return "화장실" + toiletCounts;
   }
   return "";
@@ -47,7 +47,7 @@ const getToiletCounts = () => {
 const getIsStationArea = () => {
   const isStationArea = localStorage.getItem("isStationArea");
 
-  if (isLocal(isStationArea) && !isNoMatter(isStationArea)) {
+  if (isVal(isStationArea) && !isNoMatter(isStationArea)) {
     return "역세권";
   }
   return "";
@@ -56,7 +56,7 @@ const getIsStationArea = () => {
 const getPy = (options) => {
   const py = localStorage.getItem("py");
 
-  if (isLocal(py) && !isNoMatter(py)) {
+  if (isVal(py) && !isNoMatter(py)) {
     const pyList = py.split(",");
     pyList.forEach((val) => options.py.push(val));
   }
@@ -65,7 +65,7 @@ const getPy = (options) => {
 const getPriceArr = (options) => {
   const priceArr = localStorage.getItem("priceArr");
 
-  if (isLocal(priceArr) && !isNoMatter(priceArr)) {
+  if (isVal(priceArr) && !isNoMatter(priceArr)) {
     const priceList = priceArr.split(",");
     priceList.forEach((val) => options.priceArr.push(val));
   }
@@ -75,7 +75,7 @@ const getPriceArr = (options) => {
 
 export const initLocal = () => {
   const cellKind = localStorage.getItem("cellKind");
-  if (!isLocal(cellKind)) {
+  if (!isVal(cellKind)) {
     localStorage.removeItem("cellKind");
     localStorage.setItem("cellKind", options.cellKind[0]);
     localStorage.setItem("room_counts", options.room_counts[0]);
@@ -89,7 +89,7 @@ export const getAddress = () => {
 
   addressKinds.forEach((item, idx) => {
     const placeNum = localStorage.getItem(item);
-    if (isLocal(placeNum)) {
+    if (isVal(placeNum)) {
       _address += Address[item][placeNum];
       if (idx < 2) {
         _address += " ";

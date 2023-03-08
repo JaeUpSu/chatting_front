@@ -17,7 +17,7 @@ import { getPrices } from "../../utils/getPrices";
 
 function OptionRangeSlider({ idx, names, onUpdate }) {
   //   const [values, setValues] = useState(moneyDefaults[name]);
-  const [values, setValues] = useState([0, 10]);
+  const [values, setValues] = useState([0, 30]);
   const [range, setRange] = useState("");
 
   const moneyRange = options[names.eng].values;

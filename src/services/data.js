@@ -255,7 +255,7 @@ export const optionsMenu = [
   { eng: "monthlyRentRange", kor: "월세" },
 ];
 
-export const filter = [
+export const filterMenu = [
   { eng: "toilet_counts", kor: "화장실" },
   { eng: "room_counts", kor: "방" },
   { eng: "isStationArea", kor: "역세권" },

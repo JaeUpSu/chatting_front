@@ -14,6 +14,7 @@ import { IoIosArrowDown } from "react-icons/io";
 
 import { options, optionsMenu } from "../../services/data";
 import { getActivePrices } from "../../utils/getActivePrices";
+import { getPriceDisplay } from "../../utils/getPriceDisplay";
 
 import OptionRangeSlider from "../Slider/RangeSlider";
 import DataRadioCard from "../Radio/RadioCard";
@@ -49,7 +50,7 @@ function HouseOptMenu() {
                     p="15px"
                     rightIcon={<IoIosArrowDown />}
                   >
-                    {item.kor}
+                    {item.kor + ` ${getPriceDisplay(prices[0])}`}
                   </MenuButton>
                   <MenuList py="20px" px="50px">
                     <OptionRangeSlider
@@ -69,7 +70,7 @@ function HouseOptMenu() {
                     p="15px"
                     rightIcon={<IoIosArrowDown />}
                   >
-                    {item.kor}
+                    {selectedOpts[idx] == "전체" ? item.kor : selectedOpts[idx]}
                   </MenuButton>
                   <MenuList p="20px" maxW={idx == 1 ? "" : "460px"}>
                     <Flex justifyContent="center">
