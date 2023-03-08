@@ -6,11 +6,20 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { addressKinds } from "../../services/data";
 
 function SelectModal({ valName, list, name, active, onNextActive }) {
   const [btnName, setBtnName] = useState(valName);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    if (name == addressKinds[0]) {
+      setBtnName("서울");
+      localStorage.setItem(name, list.indexOf("서울"));
+    }
+    console.log(active);
+  }, []);
 
   const onSelect = (e) => {
     const selectedVal = e.currentTarget.getAttribute("value");
@@ -38,7 +47,7 @@ function SelectModal({ valName, list, name, active, onNextActive }) {
           color="#656565"
           isDisabled
         >
-          {btnName}
+          {name == addressKinds[0] ? "서울" : btnName}
         </Button>
       )}
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>

@@ -30,13 +30,19 @@ function AddressMenu() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [btnIdx, setBtnIdx] = useState(0);
+  const [btnIdx, setBtnIdx] = useState(1);
   const [address, setAddress] = useState("");
-  const [activeBtns, setActiveBtn] = useState([true, false, false]);
+  const [activeBtns, setActiveBtn] = useState([false, true, false]);
 
   const onHouseList = (_address) => {
     console.log(params);
     navigate(`/houseList/${_address}/options=`);
+  };
+
+  const onMenuOpen = () => {
+    setBtnIdx(1);
+
+    onOpen();
   };
 
   const onSearchAddress = () => {
@@ -55,7 +61,7 @@ function AddressMenu() {
 
   useEffect(() => {
     const new_ActiveBtn = activeBtns.map((data, idx) => {
-      if (idx <= btnIdx) {
+      if (idx <= btnIdx && idx > 0) {
         return true;
       } else {
         return false;
@@ -78,7 +84,7 @@ function AddressMenu() {
       }}
     >
       <Flex
-        onClick={onOpen}
+        onClick={onMenuOpen}
         p="5px 20px"
         w="100%"
         justifyContent="space-around"
@@ -113,7 +119,7 @@ function AddressMenu() {
                   return (
                     <Box key={idx}>
                       <SelectModal
-                        list={idx == 0 ? ["서울"] : Address[addressKinds[idx]]}
+                        list={Address[addressKinds[idx]]}
                         name={addressKinds[idx]}
                         valName={item}
                         active={activeBtns[idx]}
