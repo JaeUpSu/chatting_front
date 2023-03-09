@@ -14,7 +14,7 @@ const instance = axios.create({
 export const getUserInfo = () =>
   instance.get("users/myinfo").then((response) => response.data);
 
-// 로그인
+// 로그인.
 export const login = ({ username, password }) => {
   return instance.post(
     "users/login",
