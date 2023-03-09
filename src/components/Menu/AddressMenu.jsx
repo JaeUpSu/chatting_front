@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import {
   Button,
   Drawer,
@@ -13,25 +16,26 @@ import {
   Box,
   Flex,
 } from "@chakra-ui/react";
-import { Address, addressKinds, addressNameArr } from "../../services/data";
-import SelectModal from "../Modal/SelectModal";
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { getGuList } from "../../services/api";
 import { getAddressUrl } from "../../utils/getAddressUrl";
 import { getAddress } from "../../services/local";
-import { isPrevChecking } from "../../utils/isPrevChecking";
+import { Address, addressKinds, addressNameArr } from "../../services/data";
 
-function AddressMenu() {
+import SelectModal from "../Modal/SelectModal";
+
+function AddressMenu({ onUpdate }) {
   const navigate = useNavigate();
   const params = useParams();
 
+  const { data, isLoading } = useQuery(["gulist"], getGuList);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [btnIdx, setBtnIdx] = useState(1);
   const [address, setAddress] = useState("");
+  const [addressUrl, setAddressUrl] = useState("address");
   const [activeBtns, setActiveBtn] = useState([false, true, false]);
 
   const onHouseList = (_address) => {
@@ -46,7 +50,27 @@ function AddressMenu() {
   };
 
   const onSearchAddress = () => {
-    setAddress(getAddress());
+    let _address = "서울 ";
+    let _url = "metropolitan=0&";
+
+    _address += `${localStorage.getItem("gugunsi")} `;
+    _address += `${localStorage.getItem("ebmyeondong")}`;
+
+    const addressArr = _address.split(" ");
+    data?.map((item, idx) => {
+      if (item.pk == addressArr[1]) {
+        _url += `gugunsi=${item.pk}&`;
+      }
+    });
+    data?.map((item, idx) => {
+      if (item.pk == addressArr[2]) {
+        _url += `ebmyeondong=${item.pk}`;
+      }
+    });
+
+    setAddressUrl(_url);
+    setAddress(_address);
+    onUpdate(address);
     setBtnIdx(0);
     onClose();
   };
@@ -56,7 +80,7 @@ function AddressMenu() {
   };
 
   useEffect(() => {
-    onHouseList(getAddressUrl(address));
+    onHouseList(addressUrl);
   }, [address]);
 
   useEffect(() => {
@@ -69,7 +93,6 @@ function AddressMenu() {
     });
     setActiveBtn(new_ActiveBtn);
   }, [btnIdx]);
-
   return (
     <div
       style={{
@@ -119,7 +142,7 @@ function AddressMenu() {
                   return (
                     <Box key={idx}>
                       <SelectModal
-                        list={Address[addressKinds[idx]]}
+                        list={isLoading ? [] : data}
                         name={addressKinds[idx]}
                         valName={item}
                         active={activeBtns[idx]}

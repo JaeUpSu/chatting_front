@@ -8,6 +8,7 @@ import {
 
 import { useEffect, useState } from "react";
 import { addressKinds } from "../../services/data";
+import { getObjListIndexByName } from "../../utils/getIndex";
 
 function SelectModal({ valName, list, name, active, onNextActive }) {
   const [btnName, setBtnName] = useState(valName);
@@ -16,7 +17,7 @@ function SelectModal({ valName, list, name, active, onNextActive }) {
   useEffect(() => {
     if (name == addressKinds[0]) {
       setBtnName("서울");
-      localStorage.setItem(name, list.indexOf("서울"));
+      localStorage.setItem(name, 0);
     }
     console.log(active);
   }, []);
@@ -25,7 +26,7 @@ function SelectModal({ valName, list, name, active, onNextActive }) {
     const selectedVal = e.currentTarget.getAttribute("value");
     setBtnName(selectedVal);
     onNextActive();
-    localStorage.setItem(name, list.indexOf(selectedVal));
+    localStorage.setItem(name, selectedVal);
     onClose();
   };
 
@@ -52,11 +53,35 @@ function SelectModal({ valName, list, name, active, onNextActive }) {
       )}
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent
+          height="50%"
+          overflowY="auto"
+          css={{
+            "&::-webkit-scrollbar": {
+              width: "10px",
+            },
+            "&::-webkit-scrollbar-track": {
+              width: "12px",
+              background: "rgb(55,55,55,0.1)",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "rgb(55,55,55,0.5)",
+              borderRadius: "20px",
+            },
+          }}
+        >
           {list.map((item, idx) => {
             return (
-              <Button key={idx} variant="ghost" value={item} onClick={onSelect}>
-                {item}
+              <Button
+                key={idx}
+                variant="ghost"
+                value={item.name}
+                idx={item.pk}
+                onClick={onSelect}
+                fontSize="20px"
+                p="10px"
+              >
+                {item.name}
               </Button>
             );
           })}
