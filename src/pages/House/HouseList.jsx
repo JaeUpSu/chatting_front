@@ -10,8 +10,11 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
+import { HiChevronDown } from "react-icons/hi";
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
 import { filterMenu, optionsMenu, rooms } from "../../services/data";
 import { getOptionsSize } from "../../utils/getOptionsSize";
 import { getOptionsByUrl } from "../../utils/getOptionsByUrl";
@@ -21,12 +24,12 @@ import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
 import OptionBadge from "../../components/Badge/OptionBadge";
-import { HiChevronDown } from "react-icons/hi";
 
 function HouseList() {
   const params = useParams();
   const navigate = useNavigate();
 
+  const [address, setAddress] = useState("");
   // optionsMenu 순서
   const [filter, setFilter] = useState({
     room_counts: "",
@@ -83,10 +86,10 @@ function HouseList() {
       <GridItem area={"header"}>
         <Flex w="100%" alignItems="center" p="20px" borderY="2px solid black">
           <Flex w="30%" alignItems="center">
-            <AddressMenu />
+            <AddressMenu onUpdate={setAddress} />
           </Flex>
           <Flex w="80%" ml="20px">
-            <HouseOptMenu />
+            <HouseOptMenu address={address} />
           </Flex>
         </Flex>
       </GridItem>{" "}
