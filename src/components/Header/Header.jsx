@@ -74,10 +74,10 @@ function Header() {
     navigate(`/chatList/isOwner/chat/chatId`);
   };
   const onLogin = () => {
-    navigate(`/loginDev`);
+    navigate(`/login`);
   };
   const onSignUp = () => {
-    navigate(`/signupDev`);
+    navigate(`/signup`);
   };
   const onHouse = () => {
     navigate(`/houseList/address=null/options=null/house/houseId`);
@@ -91,12 +91,14 @@ function Header() {
       <Wrapper>
         <Column>
           <Icon>
-            <Text onClick={onHome} fontFamily="fantasy" fontSize="25px">
+            <Text onClick={onHome} fontSize="2xl">
               BangSam
             </Text>
           </Icon>
         </Column>
-        <Column padding="0px">{/* <AddressMenu /> */}</Column>
+        <Column padding="0px">
+          <AddressMenu />
+        </Column>
         {/* 없어질 컬럼 (routing 편하게 할려고 만듬) */}
         <Column>
           {/* <OptionDropdown /> */}

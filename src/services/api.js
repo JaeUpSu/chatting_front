@@ -1,12 +1,13 @@
 import axios from "axios";
 import Cookie from "js-cookie";
+import Login from "../pages/Login/Login";
 
 // https://izuna.pythonanywhere.com/redoc
 
 // 객체 만들기
-export const instance = axios.create({
-  baseURL: "https://izuna.pythonanywhere.com/api/v1/",
-  withCredentials: true, // 서로 다른 도메인 요청일 때도 credential 데이터를 담아보내겠다 + 쿠키 데이터 담아서 보내겠다.
+const instance = axios.create({
+  baseURL: "http://127.0.0.1:8000/api/v1/",
+  withCredentials: true,
 });
 
 // myinfo 에서 data 가져오기
@@ -15,17 +16,15 @@ export const getUserInfo = () =>
 
 // 로그인
 export const login = ({ username, password }) => {
-  return instance
-    .post(
-      "users/login",
-      { username, password },
-      {
-        headers: {
-          "X-CSRFToken": Cookie.get("csrftoken") || "",
-        },
-      }
-    )
-    .then((res) => res.data);
+  return instance.post(
+    "users/login",
+    { username, password },
+    {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    }
+  );
 };
 
 // 로그아웃

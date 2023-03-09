@@ -33,8 +33,6 @@ function App() {
             )
           }
         />
-
-        <Route path={routes.signUp} element={isLoggedIn ? null : <SignUp />} />
         <Route
           path={routes.profile}
           element={
@@ -85,17 +83,9 @@ function App() {
             ) : null
           }
         />
-        {/* 없어질 예정 */}
+        <Route path="/login" element={<Login />} />
         <Route
-          path="/loginDev"
-          element={
-            <Layout>
-              <Login />
-            </Layout>
-          }
-        />
-        <Route
-          path="/signupDev"
+          path="/signup"
           element={
             <Layout>
               <SignUp />
