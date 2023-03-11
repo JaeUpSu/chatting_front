@@ -56,7 +56,7 @@ function HouseList({ room_kind }) {
 
   // const { data, isLoading } = useQuery(["houses"], getAllHouses);
 
-  const { data, hasNextPage, executeFetch } = useInfiniteScroll(
+  const { data, totalCounts, hasNextPage, executeFetch } = useInfiniteScroll(
     getOptionHouses,
     {
       size: 24,
@@ -136,8 +136,13 @@ function HouseList({ room_kind }) {
       </GridItem>{" "}
       <GridItem area={"searchResult"} ml="30px" w="100%">
         <HStack>
-          <Text fontWeight="600" color="blackAlpha.800" fontSize="25px">
-            부동산 목록 {data?.length} 개
+          <Text
+            fontWeight="600"
+            color="blackAlpha.800"
+            fontSize="25px"
+            w="17vw"
+          >
+            부동산 목록 {totalCounts ? totalCounts : ""} 개
           </Text>
           <Flex
             w="76.5%"

@@ -73,12 +73,14 @@ export const getOptionHouses = (params) => {
       params,
     })
     .then((response) => {
-      const { results, current_page, num_pages } = response.data;
+      console.log(response.data);
+      const { count, results, current_page, num_pages } = response.data;
       return {
         contents: results,
         pageNumber: current_page,
         pageSize: params.size,
         num_pages,
+        totalCounts: count,
         isLastPage: current_page === num_pages,
         isFirstPage: current_page === 1,
       };
