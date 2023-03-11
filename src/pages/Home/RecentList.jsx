@@ -52,4 +52,3 @@ const RecentList = () => {
 };
 
 export default RecentList;
-

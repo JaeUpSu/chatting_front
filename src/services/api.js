@@ -6,7 +6,7 @@ import Login from "../pages/Login/Login";
 
 // 객체 만들기
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/v1/",
+  baseURL: "https://izuna.pythonanywhere.com/api/v1/",
   withCredentials: true,
 });
 
@@ -55,28 +55,53 @@ export const signup = ({ username, password, email }) => {
 
 // 채팅리스트 가져오기
 export const getChatList = () =>
-  instance.get("/chat/list").then((response) => response.data);
+  instance.get("chat/list").then((response) => response.data);
 
 // 채팅리스트 가져오기
 export const getChat = ({ id }) =>
-  instance.get(`/chat/${id}/chatlist`).then((response) => response.data);
+  instance.get(`chat/${id}/chatlist`).then((response) => response.data);
 
 // 모든 집 가져오기
-export const getAllHouses = () =>
-  instance.get(`/houses/`).then((response) => response.data);
+export const getAllHouses = async () =>
+  await instance.get(`houses/`).then((response) => response.data);
 
+// 모든 집 가져오기
+export const getOptionHouses = (params) => {
+  console.log(params);
+  return instance
+    .get("/houses", {
+      params,
+    })
+    .then((response) => {
+      const { results, current_page, num_pages } = response.data;
+      return {
+        contents: results,
+        pageNumber: current_page,
+        pageSize: params.size,
+        num_pages,
+        isLastPage: current_page === num_pages,
+        isFirstPage: current_page === 1,
+      };
+    });
+};
+
+//izuna.pythonanywhere.com/api/v1/
 // 해당 집 가져오기
 export const getHouse = ({ id }) =>
-  instance.get(`/houses/${id}`).then((response) => response.data);
+  instance.get(`houses/${id}`).then((response) => response.data);
 
 // 모든 구 가져오기
 export const getGuList = () =>
-  instance.get(`/houses/gulist`).then((response) => response.data);
+  instance.get(`houses/gulist`).then((response) => response.data);
 
-// 해당 구 가져오기
-export const getGu = ({ id }) =>
-  instance.get(`/houses/gulist/${id}`).then((response) => response.data);
+// 모든 동 가져오기
+export const getDongList = async ({ queryKey }) => {
+  const [_, id] = queryKey;
+  return await instance
+    .get(`houses/gulist/${id}`)
+    .then((response) => response.data);
+};
 
 // 해당 구 가져오기
 export const getWishLists = () =>
-  instance.get(`/wishlists/`).then((response) => response.data);
+  instance.get(`wishlists/`).then((response) => response.data);

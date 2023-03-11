@@ -12,12 +12,12 @@ import {
   HStack,
   useToast,
 } from "@chakra-ui/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
 import { FaComment, FaLock, FaNapster, FaUserAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import SocialLogin from "../../components/Button/SocialLogin";
-import { logIn } from "../../services/api";
+import { login } from "../../services/api";
 
 function Login() {
   const {
@@ -28,7 +28,7 @@ function Login() {
     watch,
   } = useForm();
   const toast = useToast();
-  const mutation = useMutation(logIn, {
+  const mutation = useMutation(login, {
     onMutate: (data) => {
       toast({
         title: "로그인중...",

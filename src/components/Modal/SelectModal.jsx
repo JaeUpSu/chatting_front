@@ -10,14 +10,23 @@ import { useEffect, useState } from "react";
 import { addressKinds } from "../../services/data";
 import { getObjListIndexByName } from "../../utils/getIndex";
 
-function SelectModal({ valName, list, name, active, onNextActive }) {
+function SelectModal({
+  valName,
+  list,
+  name,
+  active,
+  onNextActive,
+  onSetAddress,
+}) {
   const [btnName, setBtnName] = useState(valName);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [dongList, setDongList] = useState({});
 
   useEffect(() => {
     if (name == addressKinds[0]) {
       setBtnName("서울");
       localStorage.setItem(name, 0);
+    } else if (name === addressKinds[2]) {
     }
     console.log(active);
   }, []);
@@ -27,6 +36,18 @@ function SelectModal({ valName, list, name, active, onNextActive }) {
     setBtnName(selectedVal);
     onNextActive();
     localStorage.setItem(name, selectedVal);
+
+    onSetAddress((items) => {
+      let nextAddress = [0, 0, 0];
+      items.forEach((item, idx) => {
+        if (name == addressKinds[idx]) {
+          nextAddress[idx] = selectedVal;
+        } else {
+          nextAddress[idx] = item;
+        }
+      });
+      return nextAddress;
+    });
     onClose();
   };
 

@@ -20,7 +20,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { options, optionsMenu, filterMenu } from "../../services/data";
-import { getGuList } from "../../services/api";
 import { getOptions } from "../../services/local";
 import { getOptionsUrl } from "../../utils/getOptionsUrl";
 
