@@ -19,7 +19,7 @@ import {
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { getGuList } from "../../services/api";
+import { getGuList, getDongList } from "../../services/api";
 import { getAddressUrl } from "../../utils/getAddressUrl";
 import { getAddress } from "../../services/local";
 import { Address, addressKinds, addressNameArr } from "../../services/data";
@@ -30,13 +30,18 @@ function AddressMenu({ onUpdate }) {
   const navigate = useNavigate();
   const params = useParams();
 
-  const { data, isLoading } = useQuery(["gulist"], getGuList);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [guIdx, setGuIdx] = useState(0);
 
   const [btnIdx, setBtnIdx] = useState(1);
   const [address, setAddress] = useState("");
   const [addressUrl, setAddressUrl] = useState("address");
   const [activeBtns, setActiveBtn] = useState([false, true, false]);
+  const [addressList, setAddressList] = useState(["서울", "", ""]);
+
+  const guList = useQuery(["gulist"], getGuList);
+  const dongList = useQuery(["donglist", guIdx], getDongList);
 
   const onHouseList = (_address) => {
     console.log(params);
@@ -45,7 +50,6 @@ function AddressMenu({ onUpdate }) {
 
   const onMenuOpen = () => {
     setBtnIdx(1);
-
     onOpen();
   };
 
@@ -57,12 +61,12 @@ function AddressMenu({ onUpdate }) {
     _address += `${localStorage.getItem("ebmyeondong")}`;
 
     const addressArr = _address.split(" ");
-    data?.map((item, idx) => {
+    guList.data?.map((item, idx) => {
       if (item.pk == addressArr[1]) {
         _url += `gugunsi=${item.pk}&`;
       }
     });
-    data?.map((item, idx) => {
+    dongList.data?.map((item, idx) => {
       if (item.pk == addressArr[2]) {
         _url += `ebmyeondong=${item.pk}`;
       }
@@ -80,6 +84,17 @@ function AddressMenu({ onUpdate }) {
   };
 
   useEffect(() => {
+    let index = 0;
+    const gugunsi = localStorage.getItem("gugunsi");
+    guList?.data?.forEach((item) => {
+      if (item.name == gugunsi) {
+        index = item.pk;
+      }
+    });
+    setGuIdx(index);
+  }, [addressList]);
+
+  useEffect(() => {
     onHouseList(addressUrl);
   }, [address]);
 
@@ -93,6 +108,7 @@ function AddressMenu({ onUpdate }) {
     });
     setActiveBtn(new_ActiveBtn);
   }, [btnIdx]);
+
   return (
     <div
       style={{
@@ -142,11 +158,20 @@ function AddressMenu({ onUpdate }) {
                   return (
                     <Box key={idx}>
                       <SelectModal
-                        list={isLoading ? [] : data}
+                        list={
+                          idx == 1
+                            ? guList?.isLoading
+                              ? []
+                              : guList?.data
+                            : dongList?.isLoading
+                            ? []
+                            : dongList?.data
+                        }
                         name={addressKinds[idx]}
                         valName={item}
                         active={activeBtns[idx]}
                         onNextActive={onNextActive}
+                        onSetAddress={setAddressList}
                       />
                     </Box>
                   );

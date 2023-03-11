@@ -1,27 +1,24 @@
-import {
-  Card,
-  Box,
-  CardBody,
-  Image,
-  Text,
-  Heading,
-  VStack,
-} from "@chakra-ui/react";
+import { Card, Box, CardBody, Text, Heading, VStack } from "@chakra-ui/react";
 
-import {
-  faUserTie,
-  faHomeUser,
-  faHeart,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-
-function HouseCard({ id, img, address, info, contents, seller }) {
+import { useEffect } from "react";
+function HouseCard({
+  Image,
+  address,
+  cell_kind,
+  description,
+  gu,
+  dong,
+  room_kind,
+  price,
+  id,
+}) {
   const navigation = useNavigate();
 
   const onHouseDetail = () => {
     navigation(`house/${id}`);
   };
+
   return (
     <Card
       maxW="container.md"
@@ -37,11 +34,18 @@ function HouseCard({ id, img, address, info, contents, seller }) {
         // position="relative"
       >
         <VStack>
-          <Image
-            src={img}
+          <Box
+            backgroundImage={Image[0].url}
+            backgroundSize="cover"
+            backgroundRepeat="no-repeat"
+            backgroundPosition="center"
+            width="100%"
             alt="house"
             borderRadius="lg"
             boxShadow="0px 0px 1px 1px gray"
+            css={{
+              aspectRatio: "2 / 1",
+            }}
           />
           <Box left="8%" top="10px" spacing="3" position="relative">
             <Box w="22vw">
@@ -49,10 +53,12 @@ function HouseCard({ id, img, address, info, contents, seller }) {
                 {address}
               </Heading>
               <Text h="auto" w="100%" fontSize="17px">
-                {info.length > 17 ? info.substring(0, 17) + "..." : info}
+                {description.length > 17
+                  ? description.substring(0, 17) + "..."
+                  : description}
               </Text>
               <Text mt="5px" color="blue.600" fontSize="28px">
-                {contents}
+                {`${room_kind} ${cell_kind} ${price}`}
               </Text>
             </Box>
           </Box>

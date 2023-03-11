@@ -11,11 +11,14 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { HiChevronDown } from "react-icons/hi";
+import styled from "styled-components";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { filterMenu, optionsMenu, rooms } from "../../services/data";
+// import { useQuery } from "@tanstack/react-query";
+import { infiniteQuery, useQuery } from "react-query";
+import { filterMenu, rooms } from "../../services/data";
 import { getOptionsSize } from "../../utils/getOptionsSize";
 import { getOptionsByUrl } from "../../utils/getOptionsByUrl";
 import { getDelOptionsUrl } from "../../utils/getDelOptionsUrl";
@@ -24,10 +27,17 @@ import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
 import OptionBadge from "../../components/Badge/OptionBadge";
+import { getAllHouses, getOptionHouses } from "../../services/api";
+import useInfiniteScroll from "../../utils/useInfiniteScroll";
+import { throttle } from "../../utils/throttle";
+const Target = styled.div`
+  height: 1px;
+`;
 
-function HouseList() {
+function HouseList({ room_kind }) {
   const params = useParams();
   const navigate = useNavigate();
+  const scrollRef = useRef(null);
 
   const [address, setAddress] = useState("");
   // optionsMenu 순서
@@ -43,6 +53,15 @@ function HouseList() {
     "조회순",
     "낮은가격순",
   ]);
+
+  // const { data, isLoading } = useQuery(["houses"], getAllHouses);
+
+  const { data, hasNextPage, executeFetch } = useInfiniteScroll(
+    getOptionHouses,
+    {
+      size: 24,
+    }
+  );
 
   const onDelete = (e) => {
     const name = e.currentTarget.children[0].getAttribute("name");
@@ -68,6 +87,21 @@ function HouseList() {
   };
 
   useEffect(() => {
+    const handleScroll = throttle(() => {
+      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+
+      if (scrollTop + clientHeight >= scrollHeight - 1) {
+        if (hasNextPage) {
+          executeFetch();
+        }
+      }
+    });
+
+    scrollRef.current.addEventListener("scroll", handleScroll);
+    return () => scrollRef.current.removeEventListener("scroll", handleScroll);
+  }, [executeFetch]);
+
+  useEffect(() => {
     if (params.options != "options=null") {
       setFilter(getOptionsByUrl(params.options));
       setIsOption(true);
@@ -75,13 +109,20 @@ function HouseList() {
   }, [params]);
 
   useEffect(() => {
-    console.log("filter", filter);
+    // console.log("filter", filter);
   }, [filter]);
+
+  useEffect(() => {
+    console.log("data", {
+      data,
+      hasNextPage,
+    });
+  }, [data]);
 
   return (
     <Grid
       templateAreas={`"header" "searchResult" "main"`}
-      gridTemplateRows={"1fr 20px 8.5fr"}
+      gridTemplateRows={"0.3fr 0.005fr 8.5fr"}
     >
       <GridItem area={"header"}>
         <Flex w="100%" alignItems="center" p="20px" borderY="2px solid black">
@@ -96,7 +137,7 @@ function HouseList() {
       <GridItem area={"searchResult"} ml="30px" w="100%">
         <HStack>
           <Text fontWeight="600" color="blackAlpha.800" fontSize="25px">
-            부동산 목록 {rooms.length} 개
+            부동산 목록 {data?.length} 개
           </Text>
           <Flex
             w="76.5%"
@@ -149,30 +190,34 @@ function HouseList() {
           </Menu>
         </HStack>
       </GridItem>
-      <GridItem area={"main"} mt="20px">
-        <Flex
-          flexWrap="wrap"
-          overflow={"scroll"}
-          height={"100vh"}
-          css={{
-            "&::-webkit-scrollbar": {
-              width: "10px",
-            },
-            "&::-webkit-scrollbar-track": {
-              width: "12px",
-              background: "rgb(55,55,55,0.1)",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              background: "rgb(55,55,55,0.5)",
-              borderRadius: "20px",
-            },
-          }}
-        >
-          {rooms.map((item, idx) => {
+      <GridItem
+        ref={scrollRef}
+        area={"main"}
+        mt="20px"
+        overflow={"scroll"}
+        maxH="70vh"
+        mr="10px"
+        css={{
+          "&::-webkit-scrollbar": {
+            width: "15px",
+          },
+          "&::-webkit-scrollbar-track": {
+            width: "12px",
+            background: "rgb(55,55,55,0.1)",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "rgb(55,55,55,0.5)",
+            borderRadius: "20px",
+          },
+        }}
+      >
+        <Flex flexWrap="wrap" maxH="100vh">
+          {data?.map((item, idx) => {
             return <HouseCard key={idx} {...item} />;
           })}
         </Flex>
       </GridItem>
+      {/* <Target ref={ref} /> */}
     </Grid>
   );
 }
