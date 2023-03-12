@@ -12,7 +12,7 @@ import {
   HStack,
   useToast,
 } from "@chakra-ui/react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { FaComment, FaLock, FaNapster, FaUserAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";

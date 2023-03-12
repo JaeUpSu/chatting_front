@@ -27,12 +27,9 @@ import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
 import OptionBadge from "../../components/Badge/OptionBadge";
-import { getAllHouses, getOptionHouses } from "../../services/api";
+import { getOptionHouses } from "../../services/api";
 import useInfiniteScroll from "../../utils/useInfiniteScroll";
 import { throttle } from "../../utils/throttle";
-const Target = styled.div`
-  height: 1px;
-`;
 
 function HouseList({ room_kind }) {
   const params = useParams();
@@ -53,8 +50,6 @@ function HouseList({ room_kind }) {
     "조회순",
     "낮은가격순",
   ]);
-
-  // const { data, isLoading } = useQuery(["houses"], getAllHouses);
 
   const { data, totalCounts, hasNextPage, executeFetch } = useInfiniteScroll(
     getOptionHouses,
@@ -98,7 +93,11 @@ function HouseList({ room_kind }) {
     });
 
     scrollRef.current.addEventListener("scroll", handleScroll);
-    return () => scrollRef.current.removeEventListener("scroll", handleScroll);
+
+    scrollRef.current.addEventListener("beforeunload", () => {
+      return () =>
+        scrollRef.current.removeEventListener("scroll", handleScroll);
+    });
   }, [executeFetch]);
 
   useEffect(() => {
@@ -108,9 +107,9 @@ function HouseList({ room_kind }) {
     }
   }, [params]);
 
-  useEffect(() => {
-    // console.log("filter", filter);
-  }, [filter]);
+  // useEffect(() => {
+  //   console.log("filter", filter);
+  // }, [filter]);
 
   useEffect(() => {
     console.log("data", {
@@ -196,12 +195,12 @@ function HouseList({ room_kind }) {
         </HStack>
       </GridItem>
       <GridItem
-        ref={scrollRef}
         area={"main"}
         mt="20px"
-        overflow={"scroll"}
-        maxH="70vh"
-        mr="10px"
+        mr="0.3%"
+        maxH="85vh"
+        ref={scrollRef}
+        overflowY={"scroll"}
         css={{
           "&::-webkit-scrollbar": {
             width: "15px",
@@ -222,7 +221,6 @@ function HouseList({ room_kind }) {
           })}
         </Flex>
       </GridItem>
-      {/* <Target ref={ref} /> */}
     </Grid>
   );
 }

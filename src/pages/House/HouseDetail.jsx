@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import {
   Box,
   Heading,
@@ -8,7 +11,22 @@ import {
   Button,
 } from "@chakra-ui/react";
 
+import { getHouse } from "../../services/api";
+import { getSaleContents } from "../../utils/getSaleContents";
+
 function House() {
+  const params = useParams();
+  const id = params.houseId;
+  const { data, isLoading } = useQuery(["houses", id], getHouse);
+
+  useEffect(() => {
+    console.log("Detail", id);
+  }, [id]);
+
+  useEffect(() => {
+    console.log("Detail", data);
+  }, [data]);
+
   return (
     <Box>
       <Heading as="h1" fontSize="3xl" mb="4">

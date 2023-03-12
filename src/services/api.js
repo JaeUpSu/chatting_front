@@ -62,9 +62,9 @@ export const getChat = ({ id }) =>
   instance.get(`chat/${id}/chatlist`).then((response) => response.data);
 
 // 모든 집 가져오기
-export const getAllHouses = async () =>
-  await instance.get(`houses/`).then((response) => response.data);
-
+export const getAllHouses = () => {
+  return instance.get(`/houses`).then((response) => response.data);
+};
 // 모든 집 가져오기
 export const getOptionHouses = (params) => {
   console.log(params);
@@ -73,7 +73,6 @@ export const getOptionHouses = (params) => {
       params,
     })
     .then((response) => {
-      console.log(response.data);
       const { count, results, current_page, num_pages } = response.data;
       return {
         contents: results,
@@ -89,9 +88,15 @@ export const getOptionHouses = (params) => {
 
 //izuna.pythonanywhere.com/api/v1/
 // 해당 집 가져오기
-export const getHouse = ({ id }) =>
-  instance.get(`houses/${id}`).then((response) => response.data);
+export const getHouse = ({ queryKey }) => {
+  console.log("checking house", queryKey);
+  const [_, id] = queryKey;
 
+  return instance
+    .get(`houses/${id}`)
+    .then((response) => response.data)
+    .then((response) => console.log("detail !!", response.data));
+};
 // 모든 구 가져오기
 export const getGuList = () =>
   instance.get(`houses/gulist`).then((response) => response.data);

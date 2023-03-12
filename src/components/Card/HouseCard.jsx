@@ -2,6 +2,8 @@ import { Card, Box, CardBody, Text, Heading, VStack } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { RoomKinds, CellKinds } from "../../services/data";
+import { getSaleContents } from "../../utils/getSaleContents";
 function HouseCard({
   Image,
   address,
@@ -10,8 +12,10 @@ function HouseCard({
   gu,
   dong,
   room_kind,
-  price,
   id,
+  deposit,
+  monthly_rent,
+  sale,
 }) {
   const navigation = useNavigate();
 
@@ -58,7 +62,10 @@ function HouseCard({
                   : description}
               </Text>
               <Text mt="5px" color="blue.600" fontSize="28px">
-                {`${room_kind} ${cell_kind} ${price}`}
+                {`${RoomKinds[room_kind]} ${CellKinds[cell_kind]}`}
+              </Text>
+              <Text mt="5px" color="blue.600" fontSize="28px">
+                {`${getSaleContents(cell_kind, deposit, monthly_rent, sale)}`}
               </Text>
             </Box>
           </Box>
