@@ -5,7 +5,6 @@ import { isLoggedInVar } from "./apollo";
 import routes from "./routes";
 
 import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import Profile from "./pages/Profile/Profile";
 import Chat from "./pages/Chat/Chat";

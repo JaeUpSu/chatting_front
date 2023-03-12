@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookie from "js-cookie";
-import Login from "../pages/Login/Login";
 
 // https://izuna.pythonanywhere.com/redoc
 

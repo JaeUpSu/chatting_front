@@ -8,7 +8,7 @@
 //            하나의 이벤트만 발생하도록 하는 기술
 // Throttle=> 일정 주기마다 이벤트를 모아서
 //            이벤트가 발생하도록 하는 기술
-export const throttle = (handler, timeout = 300) => {
+export const throttle = (handler, timeout = 500) => {
   let invokedTime;
   let timer;
   return function (...args) {
@@ -26,10 +26,6 @@ export const throttle = (handler, timeout = 300) => {
     }
   };
 };
-
-
-
-
 
 // setTimeout 보다 실행시간 보장(Animbation Frames 에서 처리되어서)
 // const throttleByAnimtaionFrame = (handler) => {
