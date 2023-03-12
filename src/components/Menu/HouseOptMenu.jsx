@@ -29,11 +29,11 @@ function HouseOptMenu({ address }) {
   useEffect(() => {
     const cellKind = selectedOpts[1];
     setActivePrices(getActivePrices(cellKind));
-    console.log(selectedOpts);
+    // console.log(selectedOpts);
   }, [selectedOpts]);
 
   useEffect(() => {
-    console.log(prices);
+    // console.log(prices);
   }, [prices]);
 
   return (
