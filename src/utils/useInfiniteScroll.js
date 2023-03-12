@@ -12,7 +12,6 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   const executeFetch = useCallback(async () => {
     try {
       const data = await fetcher({ page, size });
-      console.log("execute", data);
 
       setData((prev) => prev.concat(data.contents));
       setTotalCounts(data.totalCounts);
@@ -29,8 +28,6 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   useEffect(() => {
     const handleScroll = throttle(() => {
       const { scrollTop, offsetHeight } = document.documentElement;
-      console.log(window.innerHeight + scrollTop, offsetHeight);
-
       if (window.innerHeight + scrollTop + 1 >= offsetHeight) {
         setFetching(true);
       }

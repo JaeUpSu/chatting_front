@@ -31,6 +31,28 @@ import { getOptionHouses } from "../../services/api";
 import useInfiniteScroll from "../../utils/useInfiniteScroll";
 import { throttle } from "../../utils/throttle";
 
+const TopBtn = styled.div`
+  position: fixed;
+  top: 95%;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  transform: translateY(-50%);
+  background-color: navy;
+  border-radius: 50%;
+  font-size: 17px;
+  font-weight: bold;
+  letter-spacing: -0.28px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.16);
+  cursor: pointer;
+  z-index: 99999;
+`;
+
 function HouseList({ room_kind }) {
   const params = useParams();
   const navigate = useNavigate();
@@ -81,6 +103,16 @@ function HouseList({ room_kind }) {
     });
   };
 
+  const onTop = () => {
+    if (scrollRef.current.scrollTop == 0) return;
+    // 현재 위치가 이미 최상단일 경우 return
+
+    scrollRef.current.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
@@ -121,115 +153,119 @@ function HouseList({ room_kind }) {
   }, [data]);
 
   return (
-    <Grid
-      templateAreas={`"header" "searchResult" "main"`}
-      gridTemplateRows={"0.3fr 0.005fr 8.5fr"}
-    >
-      <GridItem area={"header"}>
-        <Flex w="100%" alignItems="center" p="20px" borderY="2px solid black">
-          <Flex w="30%" alignItems="center">
-            <AddressMenu onUpdate={setAddress} />
-          </Flex>
-          <Flex w="80%" ml="20px">
-            <HouseOptMenu address={address} />
-          </Flex>
-        </Flex>
-      </GridItem>{" "}
-      <GridItem
-        area={"searchResult"}
-        pl="3%"
-        py="1%"
-        w="100%"
-        boxShadow="0 4px 4px -3px black"
+    <>
+      <Grid
+        templateAreas={`"header" "searchResult" "main"`}
+        gridTemplateRows={"0.3fr 0.005fr 8.5fr"}
       >
-        <HStack>
-          <Text
-            fontWeight="600"
-            color="blackAlpha.800"
-            fontSize="25px"
-            w="25vw"
-          >
-            부동산 목록 {totalCounts ? totalCounts : ""} 개
-          </Text>
-          <Flex
-            w="76.5%"
-            borderRadius="10px"
-            px="10px"
-            alignItems="center"
-            fontWeight="600"
-            flexWrap="wrap"
-          >
-            {isOption && getOptionsSize(filter) > 0
-              ? filterMenu.map((item, idx) => {
-                  if (
-                    filter[item.eng] === "" ||
-                    filter[item.eng] === "[]" ||
-                    filter[item.eng] === "undefined" ||
-                    filter[item.eng] === undefined
-                  ) {
-                    return "";
-                  } else {
-                    console.log("checking", filter[item.eng]);
+        <GridItem area={"header"}>
+          <Flex w="100%" alignItems="center" p="20px" borderY="2px solid black">
+            <Flex w="30%" alignItems="center">
+              <AddressMenu onUpdate={setAddress} />
+            </Flex>
+            <Flex w="80%" ml="20px">
+              <HouseOptMenu address={address} />
+            </Flex>
+          </Flex>
+        </GridItem>{" "}
+        <GridItem
+          area={"searchResult"}
+          pl="3%"
+          py="1%"
+          w="100%"
+          boxShadow="0 4px 4px -3px black"
+        >
+          <HStack>
+            <Text
+              fontWeight="600"
+              color="blackAlpha.800"
+              fontSize="25px"
+              w="30vw"
+            >
+              부동산 목록 {totalCounts ? totalCounts : ""} 개
+            </Text>
+            <Flex
+              w="76.5%"
+              borderRadius="10px"
+              px="10px"
+              alignItems="center"
+              fontWeight="600"
+              flexWrap="wrap"
+            >
+              {isOption && getOptionsSize(filter) > 0
+                ? filterMenu.map((item, idx) => {
+                    if (
+                      filter[item.eng] === "" ||
+                      filter[item.eng] === "[]" ||
+                      filter[item.eng] === "undefined" ||
+                      filter[item.eng] === undefined
+                    ) {
+                      return "";
+                    } else {
+                      console.log("checking", filter[item.eng]);
+                      return (
+                        <Flex key={idx} onClick={onDelete} cursor="pointer">
+                          <OptionBadge
+                            key={idx}
+                            name={item.eng}
+                            option={filter[item.eng]}
+                          />
+                        </Flex>
+                      );
+                    }
+                  })
+                : "비어있습니다."}
+            </Flex>
+
+            <Menu pos="absolute" right="280%">
+              <MenuButton as={Button} rightIcon={<HiChevronDown />}>
+                {orderBy[0]}
+              </MenuButton>
+              <MenuList>
+                {orderBy.map((item, idx) => {
+                  if (idx > 0) {
                     return (
-                      <Flex key={idx} onClick={onDelete} cursor="pointer">
-                        <OptionBadge
-                          key={idx}
-                          name={item.eng}
-                          option={filter[item.eng]}
-                        />
-                      </Flex>
+                      <MenuItem key={idx} onClick={onOrderBy} value={item}>
+                        {item}
+                      </MenuItem>
                     );
                   }
-                })
-              : "비어있습니다."}
+                })}
+              </MenuList>
+            </Menu>
+          </HStack>
+        </GridItem>
+        <GridItem
+          area={"main"}
+          mt="0.2%"
+          mr="0.3%"
+          maxH="74.5vh"
+          ref={scrollRef}
+          overflowY={"scroll"}
+          overflowX="hidden"
+          css={{
+            "&::-webkit-scrollbar": {
+              width: "15px",
+            },
+            "&::-webkit-scrollbar-track": {
+              width: "12px",
+              background: "rgb(55,55,55,0.1)",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "rgb(55,55,55,0.5)",
+              borderRadius: "20px",
+            },
+          }}
+        >
+          <Flex flexWrap="wrap" maxH="100vh">
+            {data?.map((item, idx) => {
+              return <HouseCard key={idx} {...item} />;
+            })}
           </Flex>
-
-          <Menu pos="absolute" right="280%">
-            <MenuButton as={Button} rightIcon={<HiChevronDown />}>
-              {orderBy[0]}
-            </MenuButton>
-            <MenuList>
-              {orderBy.map((item, idx) => {
-                if (idx > 0) {
-                  return (
-                    <MenuItem key={idx} onClick={onOrderBy} value={item}>
-                      {item}
-                    </MenuItem>
-                  );
-                }
-              })}
-            </MenuList>
-          </Menu>
-        </HStack>
-      </GridItem>
-      <GridItem
-        area={"main"}
-        mt="0.2%"
-        mr="0.3%"
-        maxH="74.5vh"
-        ref={scrollRef}
-        overflowY={"scroll"}
-        css={{
-          "&::-webkit-scrollbar": {
-            width: "15px",
-          },
-          "&::-webkit-scrollbar-track": {
-            width: "12px",
-            background: "rgb(55,55,55,0.1)",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            background: "rgb(55,55,55,0.5)",
-            borderRadius: "20px",
-          },
-        }}
-      >
-        <Flex flexWrap="wrap" maxH="100vh">
-          {data?.map((item, idx) => {
-            return <HouseCard key={idx} {...item} />;
-          })}
-        </Flex>
-      </GridItem>
-    </Grid>
+        </GridItem>
+      </Grid>
+      <TopBtn onClick={onTop}>Top</TopBtn>
+    </>
   );
 }
 
