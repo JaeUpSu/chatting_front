@@ -32,6 +32,7 @@ export default function KakaoConfirm() {
           position: "top",
         });
       }
+      queryClient.refetchQueries(["me"]);
       navigate("/");
     },
     onError: (error) => {

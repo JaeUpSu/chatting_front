@@ -25,8 +25,10 @@ import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import AddressMenu from "../Menu/AddressMenu";
 import OptionDropdown from "../Menu/OptionDropdown";
 import LoginModal from "../Modal/LoginModal";
+import useUser from "../../hooks/useUser";
 
 function Header() {
+  const { user, isLoggedIn, userLoading } = useUser();
   const navigate = useNavigate();
 
   const onHome = () => {
@@ -60,6 +62,7 @@ function Header() {
     onClose: onLoginClose,
     onOpen: onLoginOpen,
   } = useDisclosure();
+  console.log(user);
   return (
     <HStack
       justifyContent={"space-between"}
@@ -80,7 +83,11 @@ function Header() {
       </HStack>
       <HStack>
         <FontAwesomeIcon size={"2x"} icon={faComments} onClick={onChatList} />
-        {true ? <Avatar onClick={() => onLoginOpen()} /> : <Avatar />}
+        {!isLoggedIn && !userLoading ? (
+          <Avatar onClick={() => onLoginOpen()} />
+        ) : (
+          <Avatar name="Kim" />
+        )}
       </HStack>
       {/* <FontAwesomeIcon size={"2x"} icon={faUser} onClick={onProfile} /> */}
       <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />

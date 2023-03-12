@@ -17,7 +17,6 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // import { useQuery } from "@tanstack/react-query";
-import { infiniteQuery, useQuery } from "react-query";
 import { filterMenu, rooms } from "../../services/data";
 import { getOptionsSize } from "../../utils/getOptionsSize";
 import { getOptionsByUrl } from "../../utils/getOptionsByUrl";
