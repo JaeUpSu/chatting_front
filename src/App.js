@@ -83,7 +83,7 @@ function App() {
             ) : null
           }
         />
-        <Route path="/login" element={<Login />} />
+        {/* <Route path="/login" element={<Login />} /> */}
         <Route
           path="/signup"
           element={
