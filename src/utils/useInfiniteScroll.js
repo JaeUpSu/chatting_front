@@ -12,11 +12,10 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   const executeFetch = useCallback(async () => {
     try {
       const data = await fetcher({ page, size });
-      console.log("execute", data);
 
       setData((prev) => prev.concat(data.contents));
-      setPage(data.pageNumber + 1);
       setTotalCounts(data.totalCounts);
+      setPage(data.pageNumber + 1);
       setNextPage(!data.isLastPage);
       setFetching(false);
       onSuccess?.();
@@ -27,7 +26,16 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   }, [page]);
 
   useEffect(() => {
+    const handleScroll = throttle(() => {
+      const { scrollTop, offsetHeight } = document.documentElement;
+      if (window.innerHeight + scrollTop + 1 >= offsetHeight) {
+        setFetching(true);
+      }
+    });
+
     setFetching(true);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -36,7 +44,7 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
     } else if (!hasNextPage) setFetching(false);
   }, [isFetching]);
 
-  return { page, data, totalCounts, hasNextPage, executeFetch };
+  return { page, data, totalCounts, setFetching, hasNextPage };
 };
 
 export default useInfiniteScroll;
