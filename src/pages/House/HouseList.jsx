@@ -51,7 +51,7 @@ function HouseList({ room_kind }) {
     "낮은가격순",
   ]);
 
-  const { data, totalCounts, hasNextPage, executeFetch } = useInfiniteScroll(
+  const { data, totalCounts, hasNextPage, setFetching } = useInfiniteScroll(
     getOptionHouses,
     {
       size: 24,
@@ -82,23 +82,25 @@ function HouseList({ room_kind }) {
   };
 
   useEffect(() => {
-    const handleScroll = throttle(() => {
+    const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
 
       if (scrollTop + clientHeight >= scrollHeight - 1) {
         if (hasNextPage) {
-          executeFetch();
+          setFetching(true);
         }
       }
-    });
+    };
 
-    scrollRef.current.addEventListener("scroll", handleScroll);
+    const throttleScrollHandler = throttle(handleScroll);
+
+    scrollRef.current.addEventListener("scroll", throttleScrollHandler);
 
     scrollRef.current.addEventListener("beforeunload", () => {
       return () =>
-        scrollRef.current.removeEventListener("scroll", handleScroll);
+        scrollRef.current.removeEventListener("scroll", throttleScrollHandler);
     });
-  }, [executeFetch]);
+  }, [data]);
 
   useEffect(() => {
     if (params.options != "options=null") {
@@ -133,20 +135,26 @@ function HouseList({ room_kind }) {
           </Flex>
         </Flex>
       </GridItem>{" "}
-      <GridItem area={"searchResult"} ml="30px" w="100%">
+      <GridItem
+        area={"searchResult"}
+        pl="3%"
+        py="1%"
+        w="100%"
+        boxShadow="0 4px 4px -3px black"
+      >
         <HStack>
           <Text
             fontWeight="600"
             color="blackAlpha.800"
             fontSize="25px"
-            w="17vw"
+            w="25vw"
           >
             부동산 목록 {totalCounts ? totalCounts : ""} 개
           </Text>
           <Flex
             w="76.5%"
             borderRadius="10px"
-            mx="10px"
+            px="10px"
             alignItems="center"
             fontWeight="600"
             flexWrap="wrap"
@@ -196,9 +204,9 @@ function HouseList({ room_kind }) {
       </GridItem>
       <GridItem
         area={"main"}
-        mt="20px"
+        mt="0.2%"
         mr="0.3%"
-        maxH="85vh"
+        maxH="74.5vh"
         ref={scrollRef}
         overflowY={"scroll"}
         css={{
