@@ -61,7 +61,12 @@ function Header() {
     onOpen: onLoginOpen,
   } = useDisclosure();
   return (
-    <HStack justifyContent={"space-between"} px={"10"} py={"3"}>
+    <HStack
+      justifyContent={"space-between"}
+      px={"10"}
+      py={"3"}
+      boxShadow="0 3px 3px -3px black"
+    >
       <Text onClick={onHome} fontSize="2xl" color={"#ff404c"}>
         BangSam
       </Text>
