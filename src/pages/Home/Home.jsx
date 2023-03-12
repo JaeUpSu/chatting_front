@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Flex, Button } from "@chakra-ui/react";
-import { useQuery } from "react-query";
 import styled from "styled-components";
 
 import Header from "./../../components/Header/Header";

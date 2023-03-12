@@ -1,25 +1,25 @@
 import axios from "axios";
 import Cookie from "js-cookie";
-import Login from "../pages/Login/Login";
 
 // https://izuna.pythonanywhere.com/redoc
 
 // 객체 만들기
 const instance = axios.create({
-  baseURL: "https://izuna.pythonanywhere.com/api/v1/",
+  baseURL: "/api/v1",
+  // baseURL: "https://izuna.pythonanywhere.com/api/v1/",
+  // baseURL: "http://127.0.0.1:8000/api/v1/",
   withCredentials: true,
 });
 
 // myinfo 에서 data 가져오기
 export const getUserInfo = () =>
-  instance.get("users/myinfo").then((response) => response.data);
+  instance.get("users/me/").then((response) => response.data);
 
 // 로그인.
-export const kakaoLogin = (code) => {
-  console.log(code);
-  return instance
+export const kakaoLogin = (code) =>
+  instance
     .post(
-      "users/kakao",
+      "users/kakao/",
       { code },
       {
         headers: {
@@ -27,14 +27,21 @@ export const kakaoLogin = (code) => {
         },
       }
     )
-    .then((response) => response.status);
-};
+    .then((response) => {
+      const csftToken = response.request;
+      console.log(csftToken);
+      // const sessionid = response.config.headers.get("sessionid");
+      // console.log(Cookie.get("csrftoken"));
+      // Cookie.set("csrftoken", csftToken);
+      // console.log(Cookie.get("csrftoken"));
 
-export const naverLogin = ({ code, state }) => {
-  console.log("code,state", code, state);
-  return instance
+      // Cookie.set("sessionid", sessionid);
+      return response.status;
+    });
+export const naverLogin = ({ code, state }) =>
+  instance
     .post(
-      "users/naver",
+      "users/naver/",
       { code, state },
       {
         headers: {
@@ -43,11 +50,9 @@ export const naverLogin = ({ code, state }) => {
       }
     )
     .then((response) => response.status);
-};
-
 export const login = ({ username, password }) => {
   return instance.post(
-    "users/login",
+    "users/login/",
     { username, password },
     {
       headers: {
@@ -60,7 +65,7 @@ export const login = ({ username, password }) => {
 // 로그아웃
 export const logout = () => {
   instance
-    .post("users/logout", "", {
+    .post("users/logout/", "", {
       headers: {
         "X-CSRFToken": Cookie.get("csrftoken") || "",
       },

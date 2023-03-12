@@ -33,6 +33,7 @@ export default function NaverConfirm() {
           position: "top",
         });
       }
+      queryClient.refetchQueries(["me"]);
       navigate("/");
     },
     onError: (error) => {
