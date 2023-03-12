@@ -13,6 +13,10 @@ import ChatList from "./pages/Chat/ChatList";
 import House from "./pages/House/HouseDetail";
 import HouseList from "./pages/House/HouseList";
 import Layout from "./components/Layout";
+import SignUpSuceess from "./pages/SignUp/SignUpSuccess";
+import GitgubConfirm from "./pages/SignUp/NaverConfirm";
+import KakaoConfirm from "./pages/SignUp/KakakoConfirm";
+import NaverConfirm from "./pages/SignUp/NaverConfirm";
 
 function App() {
   // 전역
@@ -24,13 +28,9 @@ function App() {
         <Route
           path={routes.home}
           element={
-            isLoggedIn ? (
-              <Layout>
-                <Home />
-              </Layout>
-            ) : (
-              <Login />
-            )
+            <Layout>
+              <Home />
+            </Layout>
           }
         />
         <Route
@@ -84,14 +84,34 @@ function App() {
           }
         />
         {/* <Route path="/login" element={<Login />} /> */}
+        <Route path="/signup" element={<SignUp />} />
         <Route
-          path="/signup"
+          path="/signUpSuccess"
           element={
             <Layout>
-              <SignUp />
+              <SignUpSuceess />
             </Layout>
           }
         />
+        <Route path="/social">
+          {/* /<Route path="/github" component={GitgubConfirm} /> */}
+          <Route
+            path="kakao"
+            element={
+              <Layout>
+                <KakaoConfirm />
+              </Layout>
+            }
+          />
+          <Route
+            path="naver"
+            element={
+              <Layout>
+                <NaverConfirm />
+              </Layout>
+            }
+          />
+        </Route>
       </Routes>
     </Router>
   );
