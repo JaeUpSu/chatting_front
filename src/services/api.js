@@ -15,6 +15,36 @@ export const getUserInfo = () =>
   instance.get("users/myinfo").then((response) => response.data);
 
 // 로그인.
+export const kakaoLogin = (code) => {
+  console.log(code);
+  return instance
+    .post(
+      "users/kakao",
+      { code },
+      {
+        headers: {
+          "X-CSRFToken": Cookie.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((response) => response.status);
+};
+
+export const naverLogin = ({ code, state }) => {
+  console.log("code,state", code, state);
+  return instance
+    .post(
+      "users/naver",
+      { code, state },
+      {
+        headers: {
+          "X-CSRFToken": Cookie.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((response) => response.status);
+};
+
 export const login = ({ username, password }) => {
   return instance.post(
     "users/login",
@@ -38,12 +68,80 @@ export const logout = () => {
     .then((response) => response.data);
 };
 
-// 가입
-export const signup = ({ username, password, email }) => {
+export const getUploadURL = () =>
+  instance
+    .post(`images/geturl`, null, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
+
+export const uploadImage = ({ file, uploadURL }) => {
+  const form = new FormData();
+  form.append("file", file[0]);
+  console.log(form);
+  return axios
+    .post(uploadURL, form, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => res.data);
+};
+export const signUpUser = ({
+  username,
+  password,
+  email,
+  name,
+  gender,
+  is_host,
+  is_realtor,
+  avatar,
+  phone_number,
+}) =>
   instance
     .post(
-      "users/signup",
-      { username, password, email },
+      `users/signup/`,
+      // { username, password, email, name, currency, gender, language },
+      {
+        username,
+        password,
+        email,
+        name,
+        gender,
+        is_host,
+        is_realtor,
+        avatar,
+        phone_number,
+      },
+      {
+        headers: {
+          "X-CSRFToken": Cookie.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((response) => response.data);
+
+export const validateCheck = (
+  { username, password, email, name, gender, is_host, is_realtor, phone_number } // currency,
+) => {
+  // gender,
+  // language,
+  return instance
+    .post(
+      `users/check-validate/`,
+      // { username, password, email, name, currency, gender, language },
+      {
+        username,
+        password,
+        email,
+        name,
+        gender,
+        is_host,
+        is_realtor,
+        phone_number,
+      },
       {
         headers: {
           "X-CSRFToken": Cookie.get("csrftoken") || "",
@@ -52,7 +150,6 @@ export const signup = ({ username, password, email }) => {
     )
     .then((response) => response.data);
 };
-
 // 채팅리스트 가져오기
 export const getChatList = () =>
   instance.get("chat/list").then((response) => response.data);
