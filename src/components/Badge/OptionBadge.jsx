@@ -1,6 +1,7 @@
 import { Badge, Center, Text } from "@chakra-ui/react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 function OptionBadge({ name, option }) {
   return (
     <>
@@ -10,7 +11,7 @@ function OptionBadge({ name, option }) {
         backgroundColor="blue.300"
         color="white"
         borderRadius="10px"
-        p="8px 20px"
+        p="5px 15px"
         mr="3px"
         ml="10px"
         position="relative"
