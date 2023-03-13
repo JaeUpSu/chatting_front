@@ -61,10 +61,10 @@ function HouseCard({
                   ? description.substring(0, 17) + "..."
                   : description}
               </Text>
-              <Text mt="5px" color="blue.600" fontSize="28px">
+              <Text mt="5px" color="blue.600" fontSize="25px">
                 {`${RoomKinds[room_kind]} ${CellKinds[cell_kind]}`}
               </Text>
-              <Text mt="5px" color="blue.600" fontSize="28px">
+              <Text mt="5px" color="blue.600" fontSize="22px">
                 {`${getSaleContents(cell_kind, deposit, monthly_rent, sale)}`}
               </Text>
             </Box>
