@@ -18,7 +18,7 @@ const isNoMatter = (val) => {
   return false;
 };
 const getCellKind = () => {
-  const cell = localStorage.getItem("cellKind");
+  const cell = sessionStorage.getItem("cellKind");
 
   if (isVal(cell) && !isNoMatter(cell)) {
     return cell;
@@ -27,7 +27,7 @@ const getCellKind = () => {
   return "";
 };
 const getRoomCounts = () => {
-  const roomCounts = localStorage.getItem("room_counts");
+  const roomCounts = sessionStorage.getItem("room_counts");
 
   if (isVal(roomCounts) && !isNoMatter(roomCounts)) {
     return "방" + roomCounts;
@@ -37,7 +37,7 @@ const getRoomCounts = () => {
 };
 
 const getToiletCounts = () => {
-  const toiletCounts = localStorage.getItem("toilet_counts");
+  const toiletCounts = sessionStorage.getItem("toilet_counts");
   if (isVal(toiletCounts) && !isNoMatter(toiletCounts)) {
     return "화장실" + toiletCounts;
   }
@@ -45,7 +45,7 @@ const getToiletCounts = () => {
 };
 
 const getIsStationArea = () => {
-  const isStationArea = localStorage.getItem("isStationArea");
+  const isStationArea = sessionStorage.getItem("isStationArea");
 
   if (isVal(isStationArea) && !isNoMatter(isStationArea)) {
     return "역세권";
@@ -54,7 +54,7 @@ const getIsStationArea = () => {
 };
 
 const getPy = (options) => {
-  const py = localStorage.getItem("py");
+  const py = sessionStorage.getItem("py");
 
   if (isVal(py) && !isNoMatter(py)) {
     const pyList = py.split(",");
@@ -63,7 +63,7 @@ const getPy = (options) => {
   return options;
 };
 const getPriceArr = (options) => {
-  const priceArr = localStorage.getItem("priceArr");
+  const priceArr = sessionStorage.getItem("priceArr");
 
   if (isVal(priceArr) && !isNoMatter(priceArr)) {
     const priceList = priceArr.split(",");
@@ -74,13 +74,13 @@ const getPriceArr = (options) => {
 };
 
 export const initLocal = () => {
-  const cellKind = localStorage.getItem("cellKind");
+  const cellKind = sessionStorage.getItem("cellKind");
   if (!isVal(cellKind)) {
-    localStorage.removeItem("cellKind");
-    localStorage.setItem("cellKind", options.cellKind[0]);
-    localStorage.setItem("room_counts", options.room_counts[0]);
-    localStorage.setItem("toilet_counts", options.toilet_counts[0]);
-    localStorage.setItem("isStationArea", options.isStationArea[0]);
+    sessionStorage.removeItem("cellKind");
+    sessionStorage.setItem("cellKind", options.cellKind[0]);
+    sessionStorage.setItem("room_counts", options.room_counts[0]);
+    sessionStorage.setItem("toilet_counts", options.toilet_counts[0]);
+    sessionStorage.setItem("isStationArea", options.isStationArea[0]);
   }
 };
 
@@ -88,14 +88,14 @@ export const getAddress = () => {
   let _address = "";
 
   addressKinds.forEach((item, idx) => {
-    const placeNum = localStorage.getItem(item);
+    const placeNum = sessionStorage.getItem(item);
     if (isVal(placeNum)) {
       _address += Address[item][placeNum];
       if (idx < 2) {
         _address += " ";
       }
     }
-    localStorage.removeItem(item);
+    sessionStorage.removeItem(item);
   });
   return _address;
 };

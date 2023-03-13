@@ -22,10 +22,10 @@ function RadioCard({ name, radio, onSelect }) {
   const checkbox = getCheckboxProps();
 
   const onRadio = () => {
-    const value = localStorage.getItem(name);
+    const value = sessionStorage.getItem(name);
     const idx = optionsMenu.findIndex((val) => val.eng === name);
 
-    localStorage.setItem(name, input.value);
+    sessionStorage.setItem(name, input.value);
     if (input.value != value) {
       setChecked(!checked);
     }
