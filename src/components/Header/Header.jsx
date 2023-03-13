@@ -64,12 +64,7 @@ function Header() {
   } = useDisclosure();
   console.log(user);
   return (
-    <HStack
-      justifyContent={"space-between"}
-      px={"10"}
-      py={"3"}
-      boxShadow="0 3px 3px -3px black"
-    >
+    <HStack justifyContent={"space-between"} px={"10"} py={"3"}>
       <Text onClick={onHome} fontSize="2xl" color={"#ff404c"}>
         BangSam
       </Text>
@@ -86,7 +81,7 @@ function Header() {
         {!isLoggedIn && !userLoading ? (
           <Avatar onClick={() => onLoginOpen()} />
         ) : (
-          <Avatar name="Kim" />
+          <Avatar onClick={() => onLoginOpen()} />
         )}
       </HStack>
       {/* <FontAwesomeIcon size={"2x"} icon={faUser} onClick={onProfile} /> */}
