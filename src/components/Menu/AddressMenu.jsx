@@ -57,8 +57,8 @@ function AddressMenu({ onUpdate }) {
     let _address = "서울 ";
     let _url = "metropolitan=0&";
 
-    _address += `${localStorage.getItem("gugunsi")} `;
-    _address += `${localStorage.getItem("ebmyeondong")}`;
+    _address += `${sessionStorage.getItem("gugunsi")} `;
+    _address += `${sessionStorage.getItem("ebmyeondong")}`;
 
     const addressArr = _address.split(" ");
     guList.data?.map((item, idx) => {
@@ -85,7 +85,7 @@ function AddressMenu({ onUpdate }) {
 
   useEffect(() => {
     let index = 0;
-    const gugunsi = localStorage.getItem("gugunsi");
+    const gugunsi = sessionStorage.getItem("gugunsi");
     guList?.data?.forEach((item) => {
       if (item.name == gugunsi) {
         index = item.pk;

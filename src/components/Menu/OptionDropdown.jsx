@@ -37,14 +37,14 @@ function OptionDropdown() {
   };
 
   const onMenuClose = () => {
-    localStorage.setItem("isOption", true);
+    sessionStorage.setItem("isOption", true);
     onOptions();
     onClose();
   };
 
   useEffect(() => {
-    const gugunsi = localStorage.getItem("gugunsi");
-    const ebmyeondong = localStorage.getItem("ebmyeondong");
+    const gugunsi = sessionStorage.getItem("gugunsi");
+    const ebmyeondong = sessionStorage.getItem("ebmyeondong");
 
     setAddress(`서울 ${gugunsi} ${ebmyeondong}`);
   }, [params]);

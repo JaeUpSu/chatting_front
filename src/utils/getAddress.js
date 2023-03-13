@@ -6,7 +6,7 @@ export const getAddress = () => {
   let address = "";
 
   addressKinds.forEach((item, idx) => {
-    const placeNum = localStorage.getItem(item);
+    const placeNum = sessionStorage.getItem(item);
     if (isLocal(placeNum)) {
       address += address[item][placeNum];
     }

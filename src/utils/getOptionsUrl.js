@@ -16,7 +16,7 @@ export const getOptionsUrl = (options) => {
     } else {
       optionsUrl += op.eng + "=" + currentOpts[op.eng] + "&";
     }
-    localStorage.removeItem(op.eng);
+    sessionStorage.removeItem(op.eng);
   });
 
   return optionsUrl;

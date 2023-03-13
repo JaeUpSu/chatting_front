@@ -25,7 +25,7 @@ function SelectModal({
   useEffect(() => {
     if (name == addressKinds[0]) {
       setBtnName("서울");
-      localStorage.setItem(name, 0);
+      sessionStorage.setItem(name, 0);
     } else if (name === addressKinds[2]) {
     }
     console.log(active);
@@ -35,7 +35,7 @@ function SelectModal({
     const selectedVal = e.currentTarget.getAttribute("value");
     setBtnName(selectedVal);
     onNextActive();
-    localStorage.setItem(name, selectedVal);
+    sessionStorage.setItem(name, selectedVal);
 
     onSetAddress((items) => {
       let nextAddress = [0, 0, 0];

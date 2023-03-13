@@ -13,8 +13,8 @@ function OptionsMenu({ setSelectedOpts }) {
         valueName={optionsMenu[0].eng}
         data={options[optionsMenu[0].eng]}
         defaultData={
-          isLocal(localStorage.getItem(optionsMenu[0].eng))
-            ? localStorage.getItem(optionsMenu[0].eng)
+          isLocal(sessionStorage.getItem(optionsMenu[0].eng))
+            ? sessionStorage.getItem(optionsMenu[0].eng)
             : options[optionsMenu[0].eng][0]
         }
         onUpdate={setSelectedOpts}
@@ -30,8 +30,8 @@ function OptionsMenu({ setSelectedOpts }) {
                   valueName={op.eng}
                   data={options[op.eng]}
                   defaultData={
-                    isLocal(localStorage.getItem(op.eng))
-                      ? localStorage.getItem(op.eng)
+                    isLocal(sessionStorage.getItem(op.eng))
+                      ? sessionStorage.getItem(op.eng)
                       : options[op.eng][0]
                   }
                   onUpdate={setSelectedOpts}

@@ -41,7 +41,7 @@ function CheckBoxCard(props) {
   );
 }
 function DataCheckBoxCard({ name, valueName, data }) {
-  // const _data = localStorage.getItem(valueName);
+  // const _data = sessionStorage.getItem(valueName);
 
   const { value, getCheckboxProps } = useCheckboxGroup({
     defaultValue: `${data[0]}`.split(","),
@@ -53,7 +53,7 @@ function DataCheckBoxCard({ name, valueName, data }) {
     console.log(_value);
     console.log(value);
     console.log(getCheckboxProps());
-    localStorage.setItem(valueName, value);
+    sessionStorage.setItem(valueName, value);
   };
 
   return (
