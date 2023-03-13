@@ -67,6 +67,13 @@ export default function SignUp() {
       });
     },
   });
+  const uploadImageMutation = useMutation(uploadImage, {
+    onSuccess: ({ result }) => {
+      setValue("avatar", result.variants[0]);
+      signUpMutation.mutate(watch());
+      // watch("avatar") = result.variants;
+    },
+  });
   const uploadURLMutation = useMutation(getUploadURL, {
     onSuccess: (data) => {
       uploadImageMutation.mutate({
@@ -75,22 +82,12 @@ export default function SignUp() {
       });
     },
   });
-  const uploadImageMutation = useMutation(uploadImage, {
-    onSuccess: ({ result }) => {
-      console.log(result);
-      setValue("avatar", result.variants[0]);
-      signUpMutation.mutate(watch());
-      // watch("avatar") = result.variants;
-    },
-  });
   const validateCheckMutation = useMutation(validateCheck, {
     onSuccess: ({ result }) => {
       uploadURLMutation.mutate();
     },
     onError: (error) => {
-      console.log(error);
       const detail_error = Object.values(error.response.data);
-      console.log(detail_error);
       toast({
         title: "회원가입 실패",
         description: `${detail_error[0]}`,
@@ -102,8 +99,7 @@ export default function SignUp() {
     },
   });
   const onSubmit = (data) => {
-    if (watch("avatar").length === 1) {
-      console.log("On submit");
+    if (avatar) {
       validateCheckMutation.mutate(data);
     } else {
       signUpMutation.mutate(data);
@@ -117,7 +113,6 @@ export default function SignUp() {
     };
     reader.readAsDataURL(file);
   };
-
   return (
     <Container display={"flex"} justifyContent={"center"}>
       <VStack

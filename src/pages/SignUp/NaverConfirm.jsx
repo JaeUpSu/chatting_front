@@ -53,7 +53,6 @@ export default function NaverConfirm() {
     const state = params.get("state");
     const data = { code: params.get("code"), state: params.get("state") };
 
-    console.log(data);
     if (code) {
       if (state === "OzCoding") {
         mutation.mutate(data);
