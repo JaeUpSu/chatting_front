@@ -2,11 +2,17 @@ import { Flex } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 const HouseImg = styled.img`
   max-width: 200px;
-  margin-right: 40px;
+  margin-right: 60px;
   cursor: pointer;
+  transition: transform 0.5s ease-in-out;
 `;
 
 const FontFam = styled.p`
@@ -14,25 +20,40 @@ const FontFam = styled.p`
   margin-right: 10px;
 `;
 
-const HandleCarousel = styled.div`
+const HandleCarousel = styled.div``;
+
+const LikedWrapper = styled.div`
+  max-width: 1000px;
   overflow: hidden;
-  transition: transform 0.3s ease-in-out;
-  transform: translateX(0%);
+  margin: 0 auto;
 `;
 
+//api 호출 //
 const LikedList = () => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["list"],
     queryFn: () =>
       fetch(`http://localhost:5000/list`).then((res) => res.json()),
   });
-  const likedList = data && data.filter((item) => item.isLike);
+  const likedList = data && data.filter((item) => item.isLike).slice(0, 11);
+
+  //캐러셀 슬라이드 로직
+  const [count, setCount] = useState(0);
+  const handlePrev = () => {
+    setCount((count) => (count === 0 ? likedList.length - 5 : count - 1));
+  };
+  const handleNext = () => {
+    setCount((count) => (count + 1) % (likedList.length - 3));
+  };
 
   const handleRoomDetail = () => {};
 
   return (
-    <HandleCarousel>
-      <Flex justify="center">
+    <LikedWrapper>
+      <Flex
+        transform={`translateX(-${count * 240}px)`}
+        transition="transform 0.5s ease-in-out"
+      >
         {likedList &&
           likedList.map((item) => (
             <div key={item.id}>
@@ -48,7 +69,11 @@ const LikedList = () => {
             </div>
           ))}
       </Flex>
-    </HandleCarousel>
+      <Flex justify={"space-between"} mt="10px" cursor={"pointer"}>
+        <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrev} />
+        <FontAwesomeIcon icon={faChevronRight} onClick={handleNext} />
+      </Flex>
+    </LikedWrapper>
   );
 };
 

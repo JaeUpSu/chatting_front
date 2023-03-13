@@ -71,12 +71,12 @@ function Header() {
       {/* 없어질 컬럼 (routing 편하게 할려고 만듬) */}
       {/* <OptionDropdown /> */}
       <HStack>
-        <FontAwesomeIcon size={"2x"} icon={faComment} onClick={onChat} />
         <FontAwesomeIcon size={"2x"} icon={faUserPlus} onClick={onSignUp} />
         <Text onClick={onHouse}>집</Text>
         <Text onClick={onHouseList}>집리스트</Text>
       </HStack>
       <HStack>
+        <FontAwesomeIcon size={"2x"} icon={faComment} onClick={onChat} />
         <FontAwesomeIcon size={"2x"} icon={faComments} onClick={onChatList} />
         {!isLoggedIn && !userLoading ? (
           <Avatar onClick={() => onLoginOpen()} />
