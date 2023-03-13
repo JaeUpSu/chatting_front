@@ -12,6 +12,7 @@ root.render(
   <ChakraProvider>
     <QueryClientProvider client={queryClient}>
       <App />
+      <ReactQueryDevtools />
     </QueryClientProvider>
   </ChakraProvider>
   // </React.StrictMode>

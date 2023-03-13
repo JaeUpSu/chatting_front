@@ -35,21 +35,21 @@ const DivideLine = styled.div`
 export default function Home() {
   const [containerHeight, setContainerHeight] = useState("150vh");
 
-  useEffect(() => {
-    const updateContainerHeight = () => {
-      const headerHeight = document.querySelector("header").offsetHeight;
-      const windowHeight = window.innerHeight;
-      const newContainerHeight = windowHeight - headerHeight - 60;
-      setContainerHeight(`${newContainerHeight}px`);
-    };
+  // useEffect(() => {
+  //   const updateContainerHeight = () => {
+  //     const headerHeight = document.querySelector("header").offsetHeight;
+  //     const windowHeight = window.innerHeight;
+  //     const newContainerHeight = windowHeight - headerHeight - 60;
+  //     setContainerHeight(`${newContainerHeight}px`);
+  //   };
 
-    updateContainerHeight();
-    window.addEventListener("resize", updateContainerHeight);
-    return () => window.removeEventListener("resize", updateContainerHeight);
-  }, []);
+  //   updateContainerHeight();
+  //   window.addEventListener("resize", updateContainerHeight);
+  //   return () => window.removeEventListener("resize", updateContainerHeight);
+  // }, []);
 
   return (
-    <HomeWrapper style={{ height: containerHeight }}>
+    <HomeWrapper style={{ height: "100%" }}>
       <Flex justify={"space-around"} mt="3rem" flexWrap={"wrap"}>
         <IconBtns src="https://cdn-icons-png.flaticon.com/128/2417/2417733.png">
           아파트

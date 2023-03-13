@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import {
   Button,
   Drawer,
@@ -13,34 +16,65 @@ import {
   Box,
   Flex,
 } from "@chakra-ui/react";
-import { Address, addressKinds, addressNameArr } from "../../services/data";
-import SelectModal from "../Modal/SelectModal";
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { getGuList, getDongList } from "../../services/api";
 import { getAddressUrl } from "../../utils/getAddressUrl";
 import { getAddress } from "../../services/local";
-import { isPrevChecking } from "../../utils/isPrevChecking";
+import { Address, addressKinds, addressNameArr } from "../../services/data";
 
-function AddressMenu() {
+import SelectModal from "../Modal/SelectModal";
+
+function AddressMenu({ onUpdate }) {
   const navigate = useNavigate();
   const params = useParams();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [btnIdx, setBtnIdx] = useState(0);
+  const [guIdx, setGuIdx] = useState(0);
+
+  const [btnIdx, setBtnIdx] = useState(1);
   const [address, setAddress] = useState("");
-  const [activeBtns, setActiveBtn] = useState([true, false, false]);
+  const [addressUrl, setAddressUrl] = useState("address");
+  const [activeBtns, setActiveBtn] = useState([false, true, false]);
+  const [addressList, setAddressList] = useState(["서울", "", ""]);
+
+  const guList = useQuery(["gulist"], getGuList);
+  const dongList = useQuery(["donglist", guIdx], getDongList);
 
   const onHouseList = (_address) => {
     console.log(params);
     navigate(`/houseList/${_address}/options=`);
   };
 
+  const onMenuOpen = () => {
+    setBtnIdx(1);
+    onOpen();
+  };
+
   const onSearchAddress = () => {
-    setAddress(getAddress());
+    let _address = "서울 ";
+    let _url = "metropolitan=0&";
+
+    _address += `${localStorage.getItem("gugunsi")} `;
+    _address += `${localStorage.getItem("ebmyeondong")}`;
+
+    const addressArr = _address.split(" ");
+    guList.data?.map((item, idx) => {
+      if (item.pk == addressArr[1]) {
+        _url += `gugunsi=${item.pk}&`;
+      }
+    });
+    dongList.data?.map((item, idx) => {
+      if (item.pk == addressArr[2]) {
+        _url += `ebmyeondong=${item.pk}`;
+      }
+    });
+
+    setAddressUrl(_url);
+    setAddress(_address);
+    onUpdate(address);
     setBtnIdx(0);
     onClose();
   };
@@ -50,12 +84,23 @@ function AddressMenu() {
   };
 
   useEffect(() => {
-    onHouseList(getAddressUrl(address));
+    let index = 0;
+    const gugunsi = localStorage.getItem("gugunsi");
+    guList?.data?.forEach((item) => {
+      if (item.name == gugunsi) {
+        index = item.pk;
+      }
+    });
+    setGuIdx(index);
+  }, [addressList]);
+
+  useEffect(() => {
+    onHouseList(addressUrl);
   }, [address]);
 
   useEffect(() => {
     const new_ActiveBtn = activeBtns.map((data, idx) => {
-      if (idx <= btnIdx) {
+      if (idx <= btnIdx && idx > 0) {
         return true;
       } else {
         return false;
@@ -78,7 +123,7 @@ function AddressMenu() {
       }}
     >
       <Flex
-        onClick={onOpen}
+        onClick={onMenuOpen}
         p="5px 20px"
         w="100%"
         justifyContent="space-around"
@@ -113,11 +158,20 @@ function AddressMenu() {
                   return (
                     <Box key={idx}>
                       <SelectModal
-                        list={idx == 0 ? ["서울"] : Address[addressKinds[idx]]}
+                        list={
+                          idx == 1
+                            ? guList?.isLoading
+                              ? []
+                              : guList?.data
+                            : dongList?.isLoading
+                            ? []
+                            : dongList?.data
+                        }
                         name={addressKinds[idx]}
                         valName={item}
                         active={activeBtns[idx]}
                         onNextActive={onNextActive}
+                        onSetAddress={setAddressList}
                       />
                     </Box>
                   );

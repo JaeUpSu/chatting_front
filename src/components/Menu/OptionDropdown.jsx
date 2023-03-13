@@ -10,26 +10,27 @@ import {
   Highlight,
   Grid,
   GridItem,
+  IconButton,
+  ButtonGroup,
 } from "@chakra-ui/react";
+import { HiOutlineAdjustments } from "react-icons/hi";
 
+import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSliders } from "@fortawesome/free-solid-svg-icons";
 
 import { options, optionsMenu, filterMenu } from "../../services/data";
 import { getOptions } from "../../services/local";
 import { getOptionsUrl } from "../../utils/getOptionsUrl";
-import { getAddressByUrl } from "../../utils/getAddressByUrl";
+
 import DataRadioCard from "../Radio/RadioCard";
-import { IoIosArrowDown } from "react-icons/io";
 
 function OptionDropdown() {
   const navigate = useNavigate();
   const params = useParams();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState("서울");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onOptions = () => {
     navigate(`/houselist/${params.address}/${getOptionsUrl(getOptions())}`);
@@ -42,27 +43,29 @@ function OptionDropdown() {
   };
 
   useEffect(() => {
-    setAddress(getAddressByUrl(params.address));
-  }, []);
+    const gugunsi = localStorage.getItem("gugunsi");
+    const ebmyeondong = localStorage.getItem("ebmyeondong");
+
+    setAddress(`서울 ${gugunsi} ${ebmyeondong}`);
+  }, [params]);
 
   return (
     <>
-      {" "}
-      <Button
-        colorScheme="facebook"
-        p="15px"
-        rightIcon={<IoIosArrowDown />}
+      <IconButton
+        aria-label="Filter"
+        variant="outline"
+        colorScheme="white"
+        borderWidth="2px"
         onClick={onOpen}
-      >
-        추가필터
-      </Button>
+        icon={<HiOutlineAdjustments size="sm" color="black" />}
+      />
       <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent h="560px">
           <DrawerHeader borderBottomWidth="1px">
             <Heading lineHeight="tall" w="600px">
               <Highlight
-                query={address}
+                query={address ? address : ""}
                 styles={{
                   mx: "10",
                   px: "2",
@@ -72,7 +75,7 @@ function OptionDropdown() {
                   fontSize: "23px",
                 }}
               >
-                {`House Option ${address}`}
+                {`House Option ${address ? address : ""}`}
               </Highlight>
             </Heading>
           </DrawerHeader>

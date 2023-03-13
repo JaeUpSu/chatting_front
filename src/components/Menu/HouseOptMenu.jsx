@@ -21,7 +21,7 @@ import DataRadioCard from "../Radio/RadioCard";
 import OptionDropdown from "./OptionDropdown";
 import PricesMenu from "./PricesMenu";
 
-function HouseOptMenu() {
+function HouseOptMenu({ address }) {
   const [selectedOpts, setSelectedOpts] = useState(new Array(4).fill("전체"));
   const [activePrices, setActivePrices] = useState([true, true, true]);
   const [prices, setPrices] = useState([[], [], [], []]);
@@ -29,11 +29,11 @@ function HouseOptMenu() {
   useEffect(() => {
     const cellKind = selectedOpts[1];
     setActivePrices(getActivePrices(cellKind));
-    console.log(selectedOpts);
+    // console.log(selectedOpts);
   }, [selectedOpts]);
 
   useEffect(() => {
-    console.log(prices);
+    // console.log(prices);
   }, [prices]);
 
   return (
@@ -96,8 +96,8 @@ function HouseOptMenu() {
             }
           }
         })}
+        <OptionDropdown address={address} />
       </HStack>
-      <OptionDropdown />
     </Flex>
   );
 }

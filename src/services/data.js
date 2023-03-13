@@ -273,11 +273,16 @@ export const filterValueNames = {
   depositRange: false,
   monthlyRentRange: false,
 };
-
-// export const optionsHeaderMenu = [
-//   "원룸, 주택, 아파트, 빌라, 오피스텔, 쉐어하우스",
-//   "월세, 전세, 매매",
-//   "관리비",
-//   "평수",
-//   "추가필터",
-// ];
+export const CellKinds = {
+  SALE: "매매",
+  MONTHLY_RENT: "월세",
+  CHARTER: "전세",
+};
+export const RoomKinds = {
+  APART: "아파트",
+  SHARE_HOUSE: "쉐어하우스",
+  OFFICETEL: "오피스텔",
+  VILLA: "빌라",
+  ONE_ROOM: "원룸",
+  HOME: "주택",
+};
