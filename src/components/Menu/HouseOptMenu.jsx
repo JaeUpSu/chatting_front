@@ -22,9 +22,37 @@ import OptionDropdown from "./OptionDropdown";
 import PricesMenu from "./PricesMenu";
 
 function HouseOptMenu({ onUpdate, address }) {
-  const [selectedOpts, setSelectedOpts] = useState(new Array(4).fill("전체"));
+  const [selectedOpts, setSelectedOpts] = useState(new Array(3).fill("전체"));
   const [activePrices, setActivePrices] = useState([true, true, true]);
   const [prices, setPrices] = useState([[], [], [], []]);
+
+  // state init
+  // { eng: "roomKind", kor: "방 종류" },
+  // { eng: "cellKind", kor: "매매 종류" },
+  // { eng: "maintenanceFeeRange", kor: "관리비" },
+  // { eng: "py", kor: "평수" },
+  // { eng: "priceRange", kor: "매매가" },
+  // { eng: "depositRange", kor: "보증금" },
+  // { eng: "monthlyRentRange", kor: "월세" },
+  useEffect(() => {
+    let newParams = [];
+    let newPrices = [];
+    optionsMenu.forEach((item, idx) => {
+      if (idx < 4 && idx != 2) {
+        newParams[idx] = sessionStorage.getItem(item.eng);
+      }
+    });
+    prices.forEach((item, idx) => {
+      if (idx == 0) {
+        newPrices[idx] = sessionStorage.getItem(optionsMenu[2].eng);
+      } else {
+        newPrices[idx] = sessionStorage.getItem(optionsMenu[idx + 3].eng);
+      }
+    });
+    console.log("newPrices", newPrices);
+    setPrices(newPrices);
+    setSelectedOpts(newParams);
+  }, []);
 
   useEffect(() => {
     const cellKind = selectedOpts[1];
@@ -51,8 +79,10 @@ function HouseOptMenu({ onUpdate, address }) {
     prices.forEach((item, idx) => {
       if (idx == 0) {
         newPriceOpts[optionsMenu[idx + 2].eng] = item;
+        sessionStorage.setItem(optionsMenu[idx + 2].eng, item);
       } else {
         newPriceOpts[optionsMenu[idx + 3].eng] = item;
+        sessionStorage.setItem(optionsMenu[idx + 3].eng, item);
       }
     });
     onUpdate((opts) => {
@@ -103,7 +133,11 @@ function HouseOptMenu({ onUpdate, address }) {
                         name={item.kor}
                         valueName={item.eng}
                         data={options[item.eng]}
-                        defaultData={options[item.eng][0]}
+                        defaultData={
+                          selectedOpts[idx] != "전체"
+                            ? selectedOpts[idx]
+                            : options[item.eng][0]
+                        }
                         onUpdate={setSelectedOpts}
                       />
                     </Flex>

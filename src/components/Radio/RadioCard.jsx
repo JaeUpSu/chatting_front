@@ -95,8 +95,12 @@ function RadioCard({ name, radio, onSelect }) {
 function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: `${name}`,
-    defaultValue: `${data[0]}`,
+    defaultValue: `${defaultData}`,
   });
+
+  useEffect(() => {
+    console.log(name, defaultData);
+  }, []);
 
   const group = getRootProps();
 
