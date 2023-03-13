@@ -91,10 +91,7 @@ function HouseList({ room_kind }) {
   const onDelete = (e) => {
     const name = e.currentTarget.children[0].getAttribute("name");
     navigate(
-      `/houselist/${params.address}/${getDelOptionsUrl(
-        getOptionsByUrl(params.options),
-        name
-      )}`
+      `/houselist/${getDelOptionsUrl(getOptionsByUrl(params.options), name)}`
     );
   };
 
@@ -154,7 +151,13 @@ function HouseList({ room_kind }) {
   }, [filter]);
 
   useEffect(() => {
+    const paramsUrl = new URLSearchParams({
+      ...filter,
+      size: 24,
+      ...APIParams,
+    });
     console.log("APIParams", { ...filter, size: 24, ...APIParams });
+    console.log("APIParams", paramsUrl.toString());
   }, [APIParams]);
 
   return (
@@ -244,7 +247,7 @@ function HouseList({ room_kind }) {
           area={"main"}
           mt="0.2%"
           mr="0.3%"
-          maxH="74.5vh"
+          maxH="81vh"
           ref={scrollRef}
           overflowY={"scroll"}
           overflowX="hidden"
