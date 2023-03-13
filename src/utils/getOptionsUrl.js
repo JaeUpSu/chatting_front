@@ -1,5 +1,8 @@
 import { filterMenu } from "../services/data";
 
+// room_counts: "",
+// toilet_counts: "",
+// isStationArea: "",
 export const getOptionsUrl = (options) => {
   let optionsUrl = "";
   const currentOpts = options;

@@ -102,18 +102,12 @@ export const getAddress = () => {
 
 export const getOptions = () => {
   let options = {
-    cellKind: "",
     room_counts: "",
     toilet_counts: "",
     isStationArea: "",
-    py: [],
-    priceArr: [],
   };
-  options.cellKind = getCellKind();
   options.room_counts = getRoomCounts();
   options.toilet_counts = getToiletCounts();
   options.isStationArea = getIsStationArea();
-  options = getPy(options);
-  options = getPriceArr(options);
   return options;
 };

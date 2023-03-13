@@ -21,7 +21,7 @@ import DataRadioCard from "../Radio/RadioCard";
 import OptionDropdown from "./OptionDropdown";
 import PricesMenu from "./PricesMenu";
 
-function HouseOptMenu({ address }) {
+function HouseOptMenu({ onUpdate, address }) {
   const [selectedOpts, setSelectedOpts] = useState(new Array(4).fill("전체"));
   const [activePrices, setActivePrices] = useState([true, true, true]);
   const [prices, setPrices] = useState([[], [], [], []]);
@@ -29,11 +29,36 @@ function HouseOptMenu({ address }) {
   useEffect(() => {
     const cellKind = selectedOpts[1];
     setActivePrices(getActivePrices(cellKind));
-    // console.log(selectedOpts);
+
+    onUpdate((opts) => {
+      let newParams = {};
+      optionsMenu.forEach((item, idx) => {
+        if (idx < 4 && idx != 2) {
+          newParams[item.eng] = selectedOpts[idx];
+        } else {
+          newParams[item.eng] = opts[item.eng];
+        }
+      });
+      console.log("opts", opts);
+
+      return { ...opts, ...newParams };
+    });
   }, [selectedOpts]);
 
+  // prcie
   useEffect(() => {
-    // console.log(prices);
+    let newPriceOpts = {};
+    prices.forEach((item, idx) => {
+      if (idx == 0) {
+        newPriceOpts[optionsMenu[idx + 2].eng] = item;
+      } else {
+        newPriceOpts[optionsMenu[idx + 3].eng] = item;
+      }
+    });
+    onUpdate((opts) => {
+      console.log("prices", opts);
+      return { ...opts, ...newPriceOpts };
+    });
   }, [prices]);
 
   return (

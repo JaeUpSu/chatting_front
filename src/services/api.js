@@ -5,8 +5,8 @@ import Cookie from "js-cookie";
 
 // 객체 만들기
 const instance = axios.create({
-  baseURL: "/api/v1",
-  // baseURL: "https://izuna.pythonanywhere.com/api/v1/",
+  // baseURL: "/api/v1",
+  baseURL: "https://izuna.pythonanywhere.com/api/v1/",
   // baseURL: "http://127.0.0.1:8000/api/v1/",
   withCredentials: true,
 });
@@ -167,6 +167,7 @@ export const getChat = ({ id }) =>
 export const getAllHouses = () => {
   return instance.get(`/houses`).then((response) => response.data);
 };
+
 // 모든 집 가져오기
 export const getOptionHouses = (params) => {
   console.log(params);

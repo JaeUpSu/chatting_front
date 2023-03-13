@@ -17,7 +17,7 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // import { useQuery } from "@tanstack/react-query";
-import { filterMenu, rooms } from "../../services/data";
+import { filterMenu, optionsMenu, rooms } from "../../services/data";
 import { getOptionsSize } from "../../utils/getOptionsSize";
 import { getOptionsByUrl } from "../../utils/getOptionsByUrl";
 import { getDelOptionsUrl } from "../../utils/getDelOptionsUrl";
@@ -58,6 +58,15 @@ function HouseList({ room_kind }) {
   const scrollRef = useRef(null);
 
   const [address, setAddress] = useState("");
+  const [APIParams, setAPIParams] = useState({
+    roomKind: "전체",
+    cellKind: "전체",
+    maintenanceFeeRange: ["전체"],
+    py: "전체",
+    depositRange: ["전체"],
+    monthlyRentRange: ["전체"],
+    priceRange: ["전체"],
+  });
   // optionsMenu 순서
   const [filter, setFilter] = useState({
     room_counts: "",
@@ -104,7 +113,6 @@ function HouseList({ room_kind }) {
 
   const onTop = () => {
     if (scrollRef.current.scrollTop == 0) return;
-    // 현재 위치가 이미 최상단일 경우 return
 
     scrollRef.current.scrollTo({
       top: 0,
@@ -112,6 +120,7 @@ function HouseList({ room_kind }) {
     });
   };
 
+  // scroll reload event
   useEffect(() => {
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
@@ -140,16 +149,13 @@ function HouseList({ room_kind }) {
     }
   }, [params]);
 
-  // useEffect(() => {
-  //   console.log("filter", filter);
-  // }, [filter]);
+  useEffect(() => {
+    console.log("filter", { ...filter, size: 24, ...APIParams });
+  }, [filter]);
 
   useEffect(() => {
-    console.log("data", {
-      data,
-      hasNextPage,
-    });
-  }, [data]);
+    console.log("APIParams", { ...filter, size: 24, ...APIParams });
+  }, [APIParams]);
 
   return (
     <>
@@ -163,7 +169,7 @@ function HouseList({ room_kind }) {
               <AddressMenu onUpdate={setAddress} />
             </Flex>
             <Flex w="80%" ml="20px">
-              <HouseOptMenu address={address} />
+              <HouseOptMenu onUpdate={setAPIParams} address={address} />
             </Flex>
           </Flex>
         </GridItem>{" "}

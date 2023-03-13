@@ -17,7 +17,7 @@ import { getSaleContents } from "../../utils/getSaleContents";
 function House() {
   const params = useParams();
   const id = params.houseId;
-  const { data, isLoading } = useQuery(["houses", id], getHouse);
+  const { data, isLoading } = useQuery(["house", id], getHouse);
 
   useEffect(() => {
     console.log("Detail", id);
