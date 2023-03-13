@@ -192,13 +192,8 @@ export const getOptionHouses = (params) => {
 //izuna.pythonanywhere.com/api/v1/
 // 해당 집 가져오기
 export const getHouse = ({ queryKey }) => {
-  console.log("checking house", queryKey);
   const [_, id] = queryKey;
-
-  return instance
-    .get(`houses/${id}`)
-    .then((response) => response.data)
-    .then((response) => console.log("detail !!", response.data));
+  return instance.get(`houses/${id}`).then((response) => response.data);
 };
 // 모든 구 가져오기
 export const getGuList = () =>

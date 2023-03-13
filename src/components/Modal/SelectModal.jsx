@@ -25,7 +25,7 @@ function SelectModal({
   useEffect(() => {
     if (name == addressKinds[0]) {
       setBtnName("서울");
-      sessionStorage.setItem(name, 0);
+      sessionStorage.setItem(name, "서울");
     } else if (name === addressKinds[2]) {
     }
     console.log(active);
