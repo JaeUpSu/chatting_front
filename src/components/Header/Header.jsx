@@ -45,17 +45,14 @@ function Header() {
   const onChat = () => {
     navigate(`/chatList/isOwner/chat/chatId`);
   };
-  const onLogin = () => {
-    navigate(`/login`);
-  };
   const onSignUp = () => {
     navigate(`/signup`);
   };
   const onHouse = () => {
-    navigate(`/houseList/address=null/options=null/house/houseId`);
+    navigate(`/houseList/options=null/house/houseId`);
   };
   const onHouseList = () => {
-    navigate(`/houseList/address=null/options=null`);
+    navigate(`/houseList/options=null`);
   };
   const {
     isOpen: isLoginOpen,

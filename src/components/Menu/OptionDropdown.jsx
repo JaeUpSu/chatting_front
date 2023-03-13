@@ -33,7 +33,7 @@ function OptionDropdown() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onOptions = () => {
-    navigate(`/houselist/${params.address}/${getOptionsUrl(getOptions())}`);
+    navigate(`/houselist/${getOptionsUrl(getOptions())}`);
   };
 
   const onMenuClose = () => {

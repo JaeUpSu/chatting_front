@@ -43,9 +43,9 @@ function AddressMenu({ onUpdate }) {
   const guList = useQuery(["gulist"], getGuList);
   const dongList = useQuery(["donglist", guIdx], getDongList);
 
-  const onHouseList = (_address) => {
+  const onHouseList = () => {
     console.log(params);
-    navigate(`/houseList/${_address}/options=`);
+    navigate(`/houseList/${params.options}`);
   };
 
   const onMenuOpen = () => {
@@ -95,7 +95,7 @@ function AddressMenu({ onUpdate }) {
   }, [addressList]);
 
   useEffect(() => {
-    onHouseList(addressUrl);
+    onHouseList();
   }, [address]);
 
   useEffect(() => {

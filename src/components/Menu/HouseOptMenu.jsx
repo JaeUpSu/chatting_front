@@ -39,14 +39,20 @@ function HouseOptMenu({ onUpdate, address }) {
     let newPrices = [];
     optionsMenu.forEach((item, idx) => {
       if (idx < 4 && idx != 2) {
-        newParams[idx] = sessionStorage.getItem(item.eng);
+        newParams[idx] = sessionStorage.getItem(item.eng)
+          ? sessionStorage.getItem(item.eng)
+          : "전체";
       }
     });
     prices.forEach((item, idx) => {
       if (idx == 0) {
-        newPrices[idx] = sessionStorage.getItem(optionsMenu[2].eng);
+        newPrices[idx] = sessionStorage.getItem(optionsMenu[2].eng)
+          ? sessionStorage.getItem(optionsMenu[2].eng)
+          : [];
       } else {
-        newPrices[idx] = sessionStorage.getItem(optionsMenu[idx + 3].eng);
+        newPrices[idx] = sessionStorage.getItem(optionsMenu[idx + 3].eng)
+          ? sessionStorage.getItem(optionsMenu[idx + 3].eng)
+          : [];
       }
     });
     console.log("newPrices", newPrices);
@@ -71,9 +77,11 @@ function HouseOptMenu({ onUpdate, address }) {
 
       return { ...opts, ...newParams };
     });
+
+    console.log("select", selectedOpts);
   }, [selectedOpts]);
 
-  // prcie
+  // price
   useEffect(() => {
     let newPriceOpts = {};
     prices.forEach((item, idx) => {
