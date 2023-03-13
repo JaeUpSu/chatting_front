@@ -13,10 +13,9 @@ const IconName = styled.p`
 `;
 
 const IconBtns = ({ src, children }) => {
-  const handleClickDetail = () => {};
   return (
     <div>
-      <Img src={src} onClick={handleClickDetail} />
+      <Img src={src} />
       <IconName>{children}</IconName>
     </div>
   );

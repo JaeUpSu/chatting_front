@@ -20,14 +20,12 @@ const FontFam = styled.p`
   margin-right: 10px;
 `;
 
-const HandleCarousel = styled.div`
-  overflow: hidden;
-`;
+const HandleCarousel = styled.div``;
 
 const LikedWrapper = styled.div`
-  margin-left: 2rem;
-  margin-right: 4rem;
-  height: 100%;
+  max-width: 1000px;
+  overflow: hidden;
+  margin: 0 auto;
 `;
 
 //api 호출 //
@@ -50,38 +48,28 @@ const LikedList = () => {
 
   const handleRoomDetail = () => {};
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      handleNext();
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [count]);
-
   return (
     <LikedWrapper>
-      <HandleCarousel>
-        <Flex
-          transform={`translateX(-${count * 240}px)`}
-          transition="transform 0.5s ease-in-out"
-        >
-          {likedList &&
-            likedList.map((item) => (
-              <div key={item.id}>
-                <HouseImg src={item.img} onClick={handleRoomDetail} />
-                <Flex>
-                  <FontFam>{item.type}</FontFam>
-                  <p>Room: {item.room}</p>
-                </Flex>
-                <Flex>
-                  <FontFam> {item.totalPrice}</FontFam>
-                  <p> {item?.rent}</p>
-                </Flex>
-              </div>
-            ))}
-        </Flex>
-      </HandleCarousel>
-      <Flex justify={"space-between"} mt="10px">
+      <Flex
+        transform={`translateX(-${count * 240}px)`}
+        transition="transform 0.5s ease-in-out"
+      >
+        {likedList &&
+          likedList.map((item) => (
+            <div key={item.id}>
+              <HouseImg src={item.img} onClick={handleRoomDetail} />
+              <Flex>
+                <FontFam>{item.type}</FontFam>
+                <p>Room: {item.room}</p>
+              </Flex>
+              <Flex>
+                <FontFam> {item.totalPrice}</FontFam>
+                <p> {item?.rent}</p>
+              </Flex>
+            </div>
+          ))}
+      </Flex>
+      <Flex justify={"space-between"} mt="10px" cursor={"pointer"}>
         <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrev} />
         <FontAwesomeIcon icon={faChevronRight} onClick={handleNext} />
       </Flex>

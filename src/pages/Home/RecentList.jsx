@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,6 +7,9 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 const HouseImg = styled.img`
   max-width: 200px;
@@ -20,51 +23,36 @@ const FontFam = styled.p`
   margin-right: 10px;
 `;
 
-const HandleCarousel = styled.div`
-  overflow: hidden;
-`;
-
 const RecentWrapper = styled.div`
-  margin-left: 2rem;
-  margin-right: 4rem;
-  height: 100%;
+  max-width: 1000px;
+  overflow: hidden;
+  margin: 0 auto;
 `;
 
-//api 호출 로직
 const RecentList = () => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["list"],
     queryFn: () =>
       fetch(`http://localhost:5000/list`).then((res) => res.json()),
   });
-  const recentList = data && data.filter((item) => item.isRecent).slice(0, 11);
+  const recentList = data && data.filter((item) => item.isRecent).slice(0, 10);
 
   const handleRoomDetail = () => {};
-
-  //캐러셀 슬라이드 로직
   const [count, setCount] = useState(0);
   const handlePrev = () => {
-    setCount((count) => (count === 0 ? recentList.length - 5 : count - 1));
+    setCount((count) => (count === 0 ? recentList.length - 4 : count - 1));
   };
   const handleNext = () => {
     setCount((count) => (count + 1) % (recentList.length - 3));
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      handleNext();
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [count]);
-
   return (
     <RecentWrapper>
-      <HandleCarousel>
-        <Flex
-          transform={`translateX(-${count * 240}px)`}
-          transition="transform 0.5s ease-in-out"
-        >
+      <Flex
+        transform={`translateX(-${count * 240}px)`}
+        transition="transform 0.5s ease-in-out"
+      >
+        <Flex>
           {recentList &&
             recentList.map((item) => (
               <div key={item.id}>
@@ -80,9 +68,8 @@ const RecentList = () => {
               </div>
             ))}
         </Flex>
-      </HandleCarousel>
-
-      <Flex justify={"space-between"} mt="10px">
+      </Flex>
+      <Flex justify={"space-between"} mt="10px" cursor={"pointer"}>
         <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrev} />
         <FontAwesomeIcon icon={faChevronRight} onClick={handleNext} />
       </Flex>
