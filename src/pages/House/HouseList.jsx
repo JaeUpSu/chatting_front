@@ -71,7 +71,6 @@ function HouseList({ room_kind }) {
     depositRange: [0, 30],
     monthlyRentRange: [0, 30],
   });
-  const [isOption, setIsOption] = useState(false);
   const [orderBy, setOrderBy] = useState([
     "최근순",
     "좋아요순",
@@ -85,11 +84,6 @@ function HouseList({ room_kind }) {
       size: 24,
     }
   );
-
-  // const onDelete = (e) => {
-  //   const name = e.currentTarget.children[0].getAttribute("name");
-  //   navigate(`/houselist`);
-  // };
 
   const onOrderBy = (e) => {
     const value = e.currentTarget.getAttribute("value");
@@ -153,16 +147,7 @@ function HouseList({ room_kind }) {
   }, [data]);
 
   useEffect(() => {
-    // const allOptions = {
-    //   ...getBackOptions({
-    //     ...APIParams,
-    //     address: address,
-    //   }),
-    //   size: 24,
-    // };
-    // const paramsUrl = new URLSearchParams();
-    // console.log("APIParams", { size: 24, ...APIParams });
-    // console.log("APIParams", paramsUrl.toString());
+    console.log("APIParams", APIParams);
   }, [APIParams]);
 
   return (
