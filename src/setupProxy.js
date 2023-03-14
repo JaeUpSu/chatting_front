@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.use(
     "/api/v1/",
     createProxyMiddleware({
-      target: "https://izuna.pythonanywhere.com",
+      target: "https://bangsam.onrender.com",
       changeOrigin: true,
       secure: false,
     })

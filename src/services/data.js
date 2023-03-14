@@ -209,8 +209,6 @@ export const rooms = [
 export const options = {
   roomKind: ["원룸", "주택", "아파트", "빌라", "오피스텔", "쉐어하우스"],
   cellKind: ["전체", "매매", "전세", "월세"],
-  room_counts: ["전체", "1개", "2개", "3개", "4개 이상"],
-  toilet_counts: ["전체", "1개", "2개", "3개", "4개 이상"],
   py: [
     "전체",
     "10평 이하",
@@ -220,8 +218,8 @@ export const options = {
     "40평대",
     "50평 이상",
   ],
-
-  isStationArea: ["전체", "필요"],
+  toilet_counts: ["전체", "1개", "2개", "3개", "4개 이상"],
+  room_counts: ["전체", "1개", "2개", "3개", "4개 이상"],
 
   maintenanceFeeRange: {
     values: [0, 20, 50, 100],
@@ -248,41 +246,37 @@ export const options = {
 export const optionsMenu = [
   { eng: "roomKind", kor: "방 종류" },
   { eng: "cellKind", kor: "매매 종류" },
-  { eng: "maintenanceFeeRange", kor: "관리비" },
   { eng: "py", kor: "평수" },
+  { eng: "toilet_counts", kor: "화장실" },
+  { eng: "room_counts", kor: "방" },
+  { eng: "maintenanceFeeRange", kor: "관리비" },
   { eng: "priceRange", kor: "매매가" },
   { eng: "depositRange", kor: "보증금" },
   { eng: "monthlyRentRange", kor: "월세" },
 ];
 
 export const filterMenu = [
-  { eng: "toilet_counts", kor: "화장실" },
-  { eng: "room_counts", kor: "방" },
-  { eng: "isStationArea", kor: "역세권" },
+  // { eng: "toilet_counts", kor: "화장실" },
+  // { eng: "room_counts", kor: "방" },
+  // { eng: "isStationArea", kor: "역세권" },
 ];
 
-export const filterValueNames = {
-  toilet_counts: true,
-  room_counts: true,
-  isStationArea: true,
-  roomKind: false,
-  cellKind: false,
-  maintenanceFeeRange: false,
-  py: false,
-  priceRange: false,
-  depositRange: false,
-  monthlyRentRange: false,
-};
+export const Prices = [
+  { name: "전체", list: [] },
+  { name: "매매", list: ["priceRange"] },
+  { name: "전세", list: ["depositRange"] },
+  { name: "월세", list: ["depositRange", "monthlyRentRange"] },
+];
 export const CellKinds = {
-  SALE: "매매",
-  MONTHLY_RENT: "월세",
-  CHARTER: "전세",
+  매매: "SALE",
+  월세: "MONTHLY_RENT",
+  전세: "CHARTER",
 };
 export const RoomKinds = {
-  APART: "아파트",
-  SHARE_HOUSE: "쉐어하우스",
-  OFFICETEL: "오피스텔",
-  VILLA: "빌라",
-  ONE_ROOM: "원룸",
-  HOME: "주택",
+  아파트: "APART",
+  쉐어하우스: "SHARE_HOUSE",
+  오피스텔: "OFFICETEL",
+  빌라: "VILLA",
+  원룸: "ONE_ROOM",
+  주택: "HOME",
 };

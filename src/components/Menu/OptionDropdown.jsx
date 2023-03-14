@@ -33,7 +33,7 @@ function OptionDropdown() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onOptions = () => {
-    navigate(`/houselist/${getOptionsUrl(getOptions())}`);
+    navigate(`/houselist`);
   };
 
   const onMenuClose = () => {
@@ -61,7 +61,7 @@ function OptionDropdown() {
       />
       <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
-        <DrawerContent h="560px">
+        <DrawerContent h="33vh">
           <DrawerHeader borderBottomWidth="1px">
             <Heading lineHeight="tall" w="600px">
               <Highlight
@@ -80,7 +80,7 @@ function OptionDropdown() {
             </Heading>
           </DrawerHeader>
 
-          <DrawerBody>
+          <DrawerBody overflow="hidden">
             <Grid gap="10px">
               {filterMenu.map((op, idx) => {
                 return (
@@ -90,6 +90,7 @@ function OptionDropdown() {
                       name={op.kor}
                       valueName={op.eng}
                       data={options[op.eng]}
+                      // defaultData={}
                     />
                   </GridItem>
                 );

@@ -13,6 +13,10 @@ const getPriceByStep = (steps, value) => {
 };
 
 export const getPriceRange = (values, steps) => {
+  if (values[0] == "전체") {
+    return "전체";
+  }
+
   const minValue = getPriceByStep(steps, values[0]);
   const maxValue = getPriceByStep(steps, values[1]);
 
