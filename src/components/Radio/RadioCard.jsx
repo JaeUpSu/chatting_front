@@ -12,7 +12,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { filterValueNames, optionsMenu } from "../../services/data";
+import {  optionsMenu } from "../../services/data";
 
 function RadioCard({ name, radio, onSelect }) {
   const { getInputProps, getCheckboxProps } = useRadio(radio);
@@ -102,17 +102,6 @@ function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
 
   const group = getRootProps();
   const radio = getRadioProps();
-  useEffect(() => {
-    console.log(name, defaultData);
-    console.log(
-      name,
-      sessionStorage.getItem(valueName)
-        ? sessionStorage.getItem(valueName)
-        : "nothing"
-    );
-    console.log(name, group);
-    console.log(name, radio);
-  }, []);
 
   return (
     <Flex direction="column">

@@ -38,12 +38,12 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
 
   useEffect(() => {
     sessionStorage.setItem(names.eng, values);
-    console.log(names.eng, values);
+    // console.log(names.eng, values);
     setRange(getPriceRange(values, options[names.eng].steps));
   }, [values]);
 
   useEffect(() => {
-    console.log(names.eng, range);
+    // console.log(names.eng, range);
 
     onUpdate((prices) => {
       const newPrices = prices.map((price, _idx) => {

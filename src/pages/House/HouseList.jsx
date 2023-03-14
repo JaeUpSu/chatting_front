@@ -55,8 +55,6 @@ const TopBtn = styled.div`
 `;
 
 function HouseList({ room_kind }) {
-  const params = useParams();
-  const navigate = useNavigate();
   const scrollRef = useRef(null);
 
   const [address, setAddress] = useState("");
@@ -71,7 +69,6 @@ function HouseList({ room_kind }) {
     depositRange: [0, 30],
     monthlyRentRange: [0, 30],
   });
-  const [isOption, setIsOption] = useState(false);
   const [orderBy, setOrderBy] = useState([
     "최근순",
     "좋아요순",
@@ -79,17 +76,8 @@ function HouseList({ room_kind }) {
     "낮은가격순",
   ]);
 
-  const { data, totalCounts, hasNextPage, setFetching } = useInfiniteScroll(
-    getOptionHouses,
-    {
-      size: 24,
-    }
-  );
-
-  // const onDelete = (e) => {
-  //   const name = e.currentTarget.children[0].getAttribute("name");
-  //   navigate(`/houselist`);
-  // };
+  const { data, totalCounts, hasNextPage, setFetching, setBackParams } =
+    useInfiniteScroll(getOptionHouses, { size: 24 });
 
   const onOrderBy = (e) => {
     const value = e.currentTarget.getAttribute("value");
@@ -153,16 +141,8 @@ function HouseList({ room_kind }) {
   }, [data]);
 
   useEffect(() => {
-    // const allOptions = {
-    //   ...getBackOptions({
-    //     ...APIParams,
-    //     address: address,
-    //   }),
-    //   size: 24,
-    // };
-    // const paramsUrl = new URLSearchParams();
-    // console.log("APIParams", { size: 24, ...APIParams });
-    // console.log("APIParams", paramsUrl.toString());
+    const apiParams = getBackOptions(APIParams);
+    setBackParams(apiParams);
   }, [APIParams]);
 
   return (
