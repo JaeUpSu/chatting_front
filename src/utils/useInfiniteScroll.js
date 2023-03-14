@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { getBackOptions } from "./getBackOptions";
 
 import { throttle } from "./throttle";
 
@@ -8,10 +9,21 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   const [data, setData] = useState([]);
   const [isFetching, setFetching] = useState(false);
   const [hasNextPage, setNextPage] = useState(true);
+  const [backParams, setBackParams] = useState({
+    roomKind: "전체",
+    cellKind: "전체",
+    py: "전체",
+    toilet_counts: "전체",
+    room_counts: "전체",
+    maintenanceFeeRange: [0, 30],
+    priceRange: [0, 30],
+    depositRange: [0, 30],
+    monthlyRentRange: [0, 30],
+  });
 
   const executeFetch = useCallback(async () => {
     try {
-      const data = await fetcher({ page, size });
+      const data = await fetcher({ page, size, ...backParams });
 
       setData((prev) => prev.concat(data.contents));
       setTotalCounts(data.totalCounts);
@@ -32,7 +44,6 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
         setFetching(true);
       }
     });
-
     setFetching(true);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -44,7 +55,14 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
     } else if (!hasNextPage) setFetching(false);
   }, [isFetching]);
 
-  return { page, data, totalCounts, setFetching, hasNextPage };
+  useEffect(() => {
+    console.log("scroll", backParams);
+    if (hasNextPage) {
+      executeFetch();
+    }
+  }, [backParams]);
+
+  return { page, data, totalCounts, setFetching, setBackParams, hasNextPage };
 };
 
 export default useInfiniteScroll;

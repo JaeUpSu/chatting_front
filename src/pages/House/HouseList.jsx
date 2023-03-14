@@ -55,8 +55,6 @@ const TopBtn = styled.div`
 `;
 
 function HouseList({ room_kind }) {
-  const params = useParams();
-  const navigate = useNavigate();
   const scrollRef = useRef(null);
 
   const [address, setAddress] = useState("");
@@ -78,12 +76,8 @@ function HouseList({ room_kind }) {
     "낮은가격순",
   ]);
 
-  const { data, totalCounts, hasNextPage, setFetching } = useInfiniteScroll(
-    getOptionHouses,
-    {
-      size: 24,
-    }
-  );
+  const { data, totalCounts, hasNextPage, setFetching, setBackParams } =
+    useInfiniteScroll(getOptionHouses, { size: 24 });
 
   const onOrderBy = (e) => {
     const value = e.currentTarget.getAttribute("value");
@@ -147,7 +141,8 @@ function HouseList({ room_kind }) {
   }, [data]);
 
   useEffect(() => {
-    console.log("APIParams", APIParams);
+    const apiParams = getBackOptions(APIParams);
+    setBackParams(apiParams);
   }, [APIParams]);
 
   return (
