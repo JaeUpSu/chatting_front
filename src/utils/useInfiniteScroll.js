@@ -23,8 +23,8 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
 
   const executeFetch = useCallback(async () => {
     try {
-      const data = await fetcher({ page, size, ...backParams });
-      console.log();
+      const data = await fetcher({ page, ...getBackOptions(backParams) });
+      console.log(data);
 
       setData((prev) => prev.concat(data.contents));
       setTotalCounts(data.totalCounts);
@@ -59,6 +59,7 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   useEffect(() => {
     console.log("scroll", backParams);
     if (hasNextPage) {
+      setPage(1);
       executeFetch();
     }
   }, [backParams]);

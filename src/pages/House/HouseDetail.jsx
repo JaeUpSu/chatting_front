@@ -15,7 +15,7 @@ import {
   GridItem,
   Center,
 } from "@chakra-ui/react";
-import { CellKinds, RoomKinds } from "../../services/data";
+import { CellKindsToBack, RoomKindsToBack } from "../../services/data";
 
 function House() {
   const params = useParams();
@@ -119,7 +119,7 @@ function House() {
               상세정보
             </Heading>
             <List mb="4" fontSize="17">
-              <ListItem>방종류 : {RoomKinds[data?.room_kind]}</ListItem>
+              <ListItem>방종류 : {RoomKindsToBack[data?.room_kind]}</ListItem>
               <br />
               {/* <ListItem>해당층/건물층 : 2층 / 7층</ListItem> */}
               <ListItem>전용면적 : {data?.pyeongsu} 평</ListItem>

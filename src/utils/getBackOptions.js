@@ -1,10 +1,10 @@
 import {
-  CellKinds,
+  CellKindsToBack,
   filterMenu,
   options,
   optionsMenu,
   Prices,
-  RoomKinds,
+  RoomKindsToBack,
 } from "../services/data";
 import { getPriceRange } from "./getPriceRange";
 
@@ -60,9 +60,9 @@ export const getBackOptions = (_options) => {
   optionsMenu.forEach((op, idx) => {
     if (_options[op.eng] !== "전체") {
       if (idx == 0) {
-        backOptions[op.eng] = RoomKinds[_options[op.eng]];
+        backOptions[op.eng] = RoomKindsToBack[_options[op.eng]];
       } else if (idx == 1) {
-        backOptions[op.eng] = CellKinds[_options[op.eng]];
+        backOptions[op.eng] = CellKindsToBack[_options[op.eng]];
       } else if (idx == 2) {
         backOptions[op.eng] = getBackPy(_options[op.eng]);
       } else if (idx < 5) {
