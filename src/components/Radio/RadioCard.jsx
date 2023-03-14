@@ -30,18 +30,16 @@ function RadioCard({ name, radio, onSelect }) {
       setChecked(!checked);
     }
 
-    if (!filterValueNames[name]) {
-      onSelect((opts) => {
-        const newOpts = opts.map((item, i) => {
-          if (idx != i) {
-            return item;
-          } else {
-            return input.value;
-          }
-        });
-        return newOpts;
+    onSelect((opts) => {
+      const newOpts = opts.map((item, i) => {
+        if (idx != i) {
+          return item;
+        } else {
+          return input.value;
+        }
       });
-    }
+      return newOpts;
+    });
   };
 
   return (
@@ -95,14 +93,26 @@ function RadioCard({ name, radio, onSelect }) {
 function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: `${name}`,
-    defaultValue: `${defaultData}`,
+    defaultValue: `${
+      sessionStorage.getItem(valueName)
+        ? sessionStorage.getItem(valueName)
+        : defaultData
+    }`,
   });
 
+  const group = getRootProps();
+  const radio = getRadioProps();
   useEffect(() => {
     console.log(name, defaultData);
+    console.log(
+      name,
+      sessionStorage.getItem(valueName)
+        ? sessionStorage.getItem(valueName)
+        : "nothing"
+    );
+    console.log(name, group);
+    console.log(name, radio);
   }, []);
-
-  const group = getRootProps();
 
   return (
     <Flex direction="column">
