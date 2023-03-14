@@ -23,23 +23,38 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
   const moneyRange = options[names.eng].values;
   const labels = options[names.eng].labels;
 
+  // console.log(names.eng, labels);
+
   const handleChange = (newValues) => {
     setValues(newValues);
   };
 
   useEffect(() => {
+    const initValues = sessionStorage.getItem(names.eng)
+      ? sessionStorage.getItem(names.eng).split(",")
+      : [0, 30];
+    setValues(initValues);
+  }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem(names.eng, values);
+    console.log(names.eng, values);
     setRange(getPriceRange(values, options[names.eng].steps));
   }, [values]);
 
   useEffect(() => {
+    console.log(names.eng, range);
+
     onUpdate((prices) => {
       const newPrices = prices.map((price, _idx) => {
         if (_idx == idx) {
-          return getPrices(range);
+          const newPrice = getPrices(range);
+          return newPrice;
         } else {
           return price;
         }
       });
+
       return newPrices;
     });
   }, [range]);
@@ -99,6 +114,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
         </RangeSliderTrack>
         <RangeSliderThumb
           max={values[0] - 10}
+          value={values[0]}
           boxSize={8}
           index={0}
           border="2px solid black"
@@ -110,6 +126,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
         </RangeSliderThumb>
         <RangeSliderThumb
           min={values[1] + 10}
+          value={values[1]}
           boxSize={8}
           index={1}
           border="2px solid black"

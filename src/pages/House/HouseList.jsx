@@ -17,18 +17,20 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // import { useQuery } from "@tanstack/react-query";
-import { filterMenu, optionsMenu, rooms } from "../../services/data";
+import { filterMenu, options, optionsMenu, rooms } from "../../services/data";
 import { getOptionsSize } from "../../utils/getOptionsSize";
 import { getOptionsByUrl } from "../../utils/getOptionsByUrl";
 import { getDelOptionsUrl } from "../../utils/getDelOptionsUrl";
+import { getBackOptions } from "../../utils/getBackOptions";
+import { throttle } from "../../utils/throttle";
+import useInfiniteScroll from "../../utils/useInfiniteScroll";
+
+import { getOptionHouses } from "../../services/api";
 
 import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
 import OptionBadge from "../../components/Badge/OptionBadge";
-import { getOptionHouses } from "../../services/api";
-import useInfiniteScroll from "../../utils/useInfiniteScroll";
-import { throttle } from "../../utils/throttle";
 
 const TopBtn = styled.div`
   position: fixed;
@@ -61,17 +63,13 @@ function HouseList({ room_kind }) {
   const [APIParams, setAPIParams] = useState({
     roomKind: "전체",
     cellKind: "전체",
-    maintenanceFeeRange: ["전체"],
     py: "전체",
-    depositRange: ["전체"],
-    monthlyRentRange: ["전체"],
-    priceRange: ["전체"],
-  });
-  // optionsMenu 순서
-  const [filter, setFilter] = useState({
-    room_counts: "",
-    toilet_counts: "",
-    isStationArea: "",
+    toilet_counts: "전체",
+    room_counts: "전체",
+    maintenanceFeeRange: [0, 30],
+    priceRange: [0, 30],
+    depositRange: [0, 30],
+    monthlyRentRange: [0, 30],
   });
   const [isOption, setIsOption] = useState(false);
   const [orderBy, setOrderBy] = useState([
@@ -88,12 +86,10 @@ function HouseList({ room_kind }) {
     }
   );
 
-  const onDelete = (e) => {
-    const name = e.currentTarget.children[0].getAttribute("name");
-    navigate(
-      `/houselist/${getDelOptionsUrl(getOptionsByUrl(params.options), name)}`
-    );
-  };
+  // const onDelete = (e) => {
+  //   const name = e.currentTarget.children[0].getAttribute("name");
+  //   navigate(`/houselist`);
+  // };
 
   const onOrderBy = (e) => {
     const value = e.currentTarget.getAttribute("value");
@@ -116,6 +112,23 @@ function HouseList({ room_kind }) {
       behavior: "smooth",
     });
   };
+
+  // init options
+  useEffect(() => {
+    let initOptions = {};
+    optionsMenu.forEach((item, idx) => {
+      if (idx < 5) {
+        initOptions[item.eng] = sessionStorage.getItem(item.eng)
+          ? sessionStorage.getItem(item.eng)
+          : "전체";
+      } else {
+        initOptions[item.eng] = sessionStorage.getItem(item.eng)
+          ? sessionStorage.getItem(item.eng).split(",")
+          : [options[item.eng].values[0], options[item.eng].values[3]];
+      }
+    });
+    setAPIParams(initOptions);
+  }, []);
 
   // scroll reload event
   useEffect(() => {
@@ -140,24 +153,16 @@ function HouseList({ room_kind }) {
   }, [data]);
 
   useEffect(() => {
-    if (params.options != "options=null") {
-      setFilter(getOptionsByUrl(params.options));
-      setIsOption(true);
-    }
-  }, [params]);
-
-  useEffect(() => {
-    console.log("filter", { ...filter, size: 24, ...APIParams });
-  }, [filter]);
-
-  useEffect(() => {
-    const paramsUrl = new URLSearchParams({
-      ...filter,
-      size: 24,
-      ...APIParams,
-    });
-    console.log("APIParams", { ...filter, size: 24, ...APIParams });
-    console.log("APIParams", paramsUrl.toString());
+    // const allOptions = {
+    //   ...getBackOptions({
+    //     ...APIParams,
+    //     address: address,
+    //   }),
+    //   size: 24,
+    // };
+    // const paramsUrl = new URLSearchParams();
+    // console.log("APIParams", { size: 24, ...APIParams });
+    // console.log("APIParams", paramsUrl.toString());
   }, [APIParams]);
 
   return (
@@ -188,44 +193,14 @@ function HouseList({ room_kind }) {
               fontWeight="600"
               color="blackAlpha.800"
               fontSize="25px"
-              w="30vw"
+              w="20vw"
+              minW="250px"
+              maxW="280px"
             >
               부동산 목록 {totalCounts ? totalCounts : ""} 개
             </Text>
-            <Flex
-              w="76.5%"
-              borderRadius="10px"
-              px="10px"
-              alignItems="center"
-              fontWeight="600"
-              flexWrap="wrap"
-            >
-              {isOption && getOptionsSize(filter) > 0
-                ? filterMenu.map((item, idx) => {
-                    if (
-                      filter[item.eng] === "" ||
-                      filter[item.eng] === "[]" ||
-                      filter[item.eng] === "undefined" ||
-                      filter[item.eng] === undefined
-                    ) {
-                      return "";
-                    } else {
-                      console.log("checking", filter[item.eng]);
-                      return (
-                        <Flex key={idx} onClick={onDelete} cursor="pointer">
-                          <OptionBadge
-                            key={idx}
-                            name={item.eng}
-                            option={filter[item.eng]}
-                          />
-                        </Flex>
-                      );
-                    }
-                  })
-                : "비어있습니다."}
-            </Flex>
 
-            <Menu pos="absolute" right="280%">
+            <Menu>
               <MenuButton as={Button} rightIcon={<HiChevronDown />}>
                 {orderBy[0]}
               </MenuButton>

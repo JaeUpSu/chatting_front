@@ -45,7 +45,7 @@ function AddressMenu({ onUpdate }) {
 
   const onHouseList = () => {
     console.log(params);
-    navigate(`/houseList/${params.options}`);
+    navigate(`/houseList`);
   };
 
   const onMenuOpen = () => {
