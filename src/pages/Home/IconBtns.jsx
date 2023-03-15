@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
 
 const Img = styled.img`
@@ -13,6 +15,12 @@ const IconName = styled.p`
 `;
 
 const IconBtns = ({ src, children }) => {
+  const navigate = useNavigate();
+
+  const onHosuseList = () => {
+    sessionStorage.setItem("roomKind", roomQuery);
+    navigate(`/houseList`);
+  };
   const [roomQuery, setRoomQuery] = useState(children);
 
   const sessionStorage = window.sessionStorage;
@@ -21,14 +29,9 @@ const IconBtns = ({ src, children }) => {
     setRoomQuery(children);
   }, [children]);
 
-  const homeToDetail = () => {
-    sessionStorage.setItem("roomKind", roomQuery);
-    console.log(roomQuery);
-  };
-
   return (
     <div>
-      <Img src={src} onClick={homeToDetail} />
+      <Img src={src} onClick={onHosuseList} />
       <IconName>{children}</IconName>
     </div>
   );

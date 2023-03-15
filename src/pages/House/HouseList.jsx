@@ -54,12 +54,14 @@ const TopBtn = styled.div`
   z-index: 99999;
 `;
 
-function HouseList({ room_kind }) {
+function HouseList() {
   const scrollRef = useRef(null);
 
   const [address, setAddress] = useState("");
   const [APIParams, setAPIParams] = useState({
-    roomKind: "전체",
+    roomKind: sessionStorage.getItem("roomKind")
+      ? sessionStorage.getItem("roomKind")
+      : "전체",
     cellKind: "전체",
     py: "전체",
     toilet_counts: "전체",
