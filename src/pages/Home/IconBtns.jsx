@@ -13,15 +13,15 @@ const IconName = styled.p`
 `;
 
 const IconBtns = ({ src, children }) => {
-  let [roomQuery, setRoomQuery] = useState(children);
+  const [roomQuery, setRoomQuery] = useState(children);
 
-  let sessionStorage = window.sessionStorage;
+  const sessionStorage = window.sessionStorage;
 
   useEffect(() => {
     setRoomQuery(children);
   }, [children]);
 
-  let homeToDetail = () => {
+  const homeToDetail = () => {
     sessionStorage.setItem("roomKind", roomQuery);
     console.log(roomQuery);
   };
