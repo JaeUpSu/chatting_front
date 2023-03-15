@@ -139,6 +139,12 @@ export const initParams = () => {
     monthlyRentRange: sessionStorage.getItem("monthlyRentRange")
       ? sessionStorage.getItem("monthlyRentRange").split(",")
       : [0, 30],
+    gu: sessionStorage.getItem("gugunsiIdx")
+      ? sessionStorage.getItem("gugunsiIdx")
+      : -1,
+    dong: sessionStorage.getItem("ebmyeondongIdx")
+      ? sessionStorage.getItem("ebmyeondongIdx")
+      : -1,
   };
 };
 
@@ -150,8 +156,6 @@ export const getInitOrderBy = () => {
     visited: "조회순",
     row_price: "낮은가격순",
   };
-
-  console.log(sessionStorage.getItem("sort_by"));
 
   const orderBy = sessionStorage.getItem("sort_by")
     ? orders[sessionStorage.getItem("sort_by")]

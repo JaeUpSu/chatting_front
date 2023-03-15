@@ -20,23 +20,26 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { getGuList, getDongList } from "../../services/api";
-import { getAddressUrl } from "../../utils/getAddressUrl";
-import { getAddress } from "../../services/local";
 import { Address, addressKinds, addressNameArr } from "../../services/data";
 
 import SelectModal from "../Modal/SelectModal";
 
 function AddressMenu({ onUpdate }) {
   const navigate = useNavigate();
-  const params = useParams();
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [guIdx, setGuIdx] = useState(0);
 
   const [btnIdx, setBtnIdx] = useState(1);
-  const [address, setAddress] = useState("");
-  const [addressUrl, setAddressUrl] = useState("address");
+  const [address, setAddress] = useState(
+    sessionStorage.getItem("ebmyeondong")
+      ? `서울 ${sessionStorage.getItem("gugunsi")} ${sessionStorage.getItem(
+          "ebmyeondong"
+        )}`
+      : sessionStorage.getItem("gugunsi")
+      ? `서울 ${sessionStorage.getItem("gugunsi")}`
+      : "Address Search ..."
+  );
   const [activeBtns, setActiveBtn] = useState([false, true, false]);
   const [addressList, setAddressList] = useState(["서울", "", ""]);
 
@@ -44,7 +47,6 @@ function AddressMenu({ onUpdate }) {
   const dongList = useQuery(["donglist", guIdx], getDongList);
 
   const onHouseList = () => {
-    console.log(params);
     navigate(`/houseList`);
   };
 
@@ -55,24 +57,10 @@ function AddressMenu({ onUpdate }) {
 
   const onSearchAddress = () => {
     let _address = "서울 ";
-    let _url = "metropolitan=0&";
 
     _address += `${sessionStorage.getItem("gugunsi")} `;
     _address += `${sessionStorage.getItem("ebmyeondong")}`;
 
-    const addressArr = _address.split(" ");
-    guList.data?.map((item, idx) => {
-      if (item.pk == addressArr[1]) {
-        _url += `gugunsi=${item.pk}&`;
-      }
-    });
-    dongList.data?.map((item, idx) => {
-      if (item.pk == addressArr[2]) {
-        _url += `ebmyeondong=${item.pk}`;
-      }
-    });
-
-    setAddressUrl(_url);
     setAddress(_address);
     onUpdate(address);
     setBtnIdx(0);
@@ -95,6 +83,7 @@ function AddressMenu({ onUpdate }) {
   }, [addressList]);
 
   useEffect(() => {
+    console.log("address", address);
     onHouseList();
   }, [address]);
 
@@ -108,6 +97,8 @@ function AddressMenu({ onUpdate }) {
     });
     setActiveBtn(new_ActiveBtn);
   }, [btnIdx]);
+
+  useEffect(() => {}, []);
 
   return (
     <div
@@ -135,7 +126,7 @@ function AddressMenu({ onUpdate }) {
           w="80%"
           textAlign="center"
         >
-          {address.length > 1 ? address : "Address Search ..."}
+          {address}
         </Text>
         <FontAwesomeIcon size={"lg"} icon={faSearch} />
       </Flex>

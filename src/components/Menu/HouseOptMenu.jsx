@@ -20,7 +20,7 @@ import OptionRangeSlider from "../Slider/RangeSlider";
 import DataRadioCard from "../Radio/RadioCard";
 import PricesMenu from "./PricesMenu";
 
-function HouseOptMenu({ onUpdate, address }) {
+function HouseOptMenu({ onUpdate }) {
   const [selectedOpts, setSelectedOpts] = useState(new Array(5).fill("전체"));
   const [activePrices, setActivePrices] = useState([true, true, true]);
   const [prices, setPrices] = useState([

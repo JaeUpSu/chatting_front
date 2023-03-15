@@ -156,13 +156,26 @@ function HouseList() {
   }, [orderBy]);
 
   useEffect(() => {
+    const gu = sessionStorage.getItem("gugunsiIdx")
+      ? sessionStorage.getItem("gugunsiIdx")
+      : "-1";
+
+    const dong = sessionStorage.getItem("ebmyeondongIdx")
+      ? sessionStorage.getItem("ebmyeondongIdx")
+      : "-1";
+
+    setAPIParams((params) => {
+      return { ...params, gu, dong };
+    });
+  }, [address]);
+
+  useEffect(() => {
     console.log("loading", isLoading);
   }, [isLoading]);
 
   useEffect(() => {
     const apiParams = getBackOptions(APIParams);
     setBackParams(apiParams);
-    // window.location.reload();
   }, [APIParams]);
 
   return (
@@ -177,7 +190,7 @@ function HouseList() {
               <AddressMenu onUpdate={setAddress} />
             </Flex>
             <Flex w="80%" ml="20px">
-              <HouseOptMenu onUpdate={setAPIParams} address={address} />
+              <HouseOptMenu onUpdate={setAPIParams} />
             </Flex>
           </Flex>
         </GridItem>{" "}
