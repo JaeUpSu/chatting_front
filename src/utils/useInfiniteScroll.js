@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
+import { initParams } from "../services/local";
+import { getBackOptions } from "./getBackOptions";
 
 import { throttle } from "./throttle";
 
@@ -8,10 +10,16 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   const [data, setData] = useState([]);
   const [isFetching, setFetching] = useState(false);
   const [hasNextPage, setNextPage] = useState(true);
+  const [backParams, setBackParams] = useState(getBackOptions(initParams()));
 
   const executeFetch = useCallback(async () => {
     try {
+<<<<<<< HEAD
       const data = await fetcher({ page, size });
+=======
+      const data = await fetcher({ page, ...backParams });
+
+>>>>>>> b00a47f7b69e08d01571df17aca8fdc32a438321
       setData((prev) => prev.concat(data.contents));
       setTotalCounts(data.totalCounts);
       setPage(data.pageNumber + 1);
@@ -31,8 +39,6 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
         setFetching(true);
       }
     });
-
-    setFetching(true);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -43,7 +49,13 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
     } else if (!hasNextPage) setFetching(false);
   }, [isFetching]);
 
-  return { page, data, totalCounts, setFetching, hasNextPage };
+  useEffect(() => {
+    setPage(1);
+    setData([]);
+    setFetching(true);
+  }, [backParams]);
+
+  return { page, data, totalCounts, setFetching, setBackParams, hasNextPage };
 };
 
 export default useInfiniteScroll;

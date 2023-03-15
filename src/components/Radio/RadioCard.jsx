@@ -12,7 +12,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { filterValueNames, optionsMenu } from "../../services/data";
+import {  optionsMenu } from "../../services/data";
 
 function RadioCard({ name, radio, onSelect }) {
   const { getInputProps, getCheckboxProps } = useRadio(radio);
@@ -30,18 +30,16 @@ function RadioCard({ name, radio, onSelect }) {
       setChecked(!checked);
     }
 
-    if (!filterValueNames[name]) {
-      onSelect((opts) => {
-        const newOpts = opts.map((item, i) => {
-          if (idx != i) {
-            return item;
-          } else {
-            return input.value;
-          }
-        });
-        return newOpts;
+    onSelect((opts) => {
+      const newOpts = opts.map((item, i) => {
+        if (idx != i) {
+          return item;
+        } else {
+          return input.value;
+        }
       });
-    }
+      return newOpts;
+    });
   };
 
   return (
@@ -95,14 +93,15 @@ function RadioCard({ name, radio, onSelect }) {
 function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: `${name}`,
-    defaultValue: `${defaultData}`,
+    defaultValue: `${
+      sessionStorage.getItem(valueName)
+        ? sessionStorage.getItem(valueName)
+        : defaultData
+    }`,
   });
 
-  useEffect(() => {
-    console.log(name, defaultData);
-  }, []);
-
   const group = getRootProps();
+  const radio = getRadioProps();
 
   return (
     <Flex direction="column">

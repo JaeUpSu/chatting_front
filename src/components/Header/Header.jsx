@@ -49,17 +49,16 @@ function Header() {
     navigate(`/signup`);
   };
   const onHouse = () => {
-    navigate(`/houseList/options=null/house/houseId`);
+    navigate(`/houseList/house/houseId`);
   };
   const onHouseList = () => {
-    navigate(`/houseList/options=null`);
+    navigate(`/houseList`);
   };
   const {
     isOpen: isLoginOpen,
     onClose: onLoginClose,
     onOpen: onLoginOpen,
   } = useDisclosure();
-  console.log(user);
   return (
     <HStack justifyContent={"space-between"} px={"10"} py={"3"}>
       <Text onClick={onHome} fontSize="2xl" color={"#ff404c"}>

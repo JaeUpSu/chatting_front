@@ -16,11 +16,13 @@ import {
 import { getPrices } from "../../utils/getPrices";
 
 function OptionRangeSlider({ idx, names, onUpdate }) {
-  //   const [values, setValues] = useState(moneyDefaults[name]);
-  const [values, setValues] = useState([0, 30]);
+  const [values, setValues] = useState(
+    sessionStorage.getItem(names.eng)
+      ? sessionStorage.getItem(names.eng).split(",")
+      : [0, 30]
+  );
   const [range, setRange] = useState("");
 
-  const moneyRange = options[names.eng].values;
   const labels = options[names.eng].labels;
 
   const handleChange = (newValues) => {
@@ -28,6 +30,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
   };
 
   useEffect(() => {
+    sessionStorage.setItem(names.eng, values);
     setRange(getPriceRange(values, options[names.eng].steps));
   }, [values]);
 
@@ -35,11 +38,13 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
     onUpdate((prices) => {
       const newPrices = prices.map((price, _idx) => {
         if (_idx == idx) {
-          return getPrices(range);
+          const newPrice = getPrices(range);
+          return newPrice;
         } else {
           return price;
         }
       });
+
       return newPrices;
     });
   }, [range]);
@@ -78,7 +83,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
       <RangeSlider
         mt="10px"
         mx="10px"
-        defaultValue={values}
+        defaultValue={values[0] ? values : [0, 30]}
         min={0}
         max={30}
         step={1}
@@ -98,7 +103,8 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
           <RangeSliderFilledTrack bg="blue.700" ml="10px" />
         </RangeSliderTrack>
         <RangeSliderThumb
-          max={values[0] - 10}
+          max={values[0] ? values[0] - 10 : -10}
+          value={values[0] ? values[0] : 0}
           boxSize={8}
           index={0}
           border="2px solid black"
@@ -109,7 +115,8 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
           </Box>
         </RangeSliderThumb>
         <RangeSliderThumb
-          min={values[1] + 10}
+          min={values[0] ? values[1] + 10 : 10}
+          value={values[0] ? values[1] : 30}
           boxSize={8}
           index={1}
           border="2px solid black"
