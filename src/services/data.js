@@ -274,23 +274,23 @@ export const backParamsValueList = [
 export const backParamsRangeList = [
   {
     name: "maintenanceFeeRange",
-    paramNameStart: "maintenance_cost_start_params",
-    paramNameEnd: "maintenance_cost_end_params",
+    paramNameStart: "maintenance_cost_start",
+    paramNameEnd: "maintenance_cost_end",
   },
   {
     name: "priceRange",
-    paramNameStart: "sale_start_params",
-    paramNameEnd: "sale_end_params",
+    paramNameStart: "sale_start",
+    paramNameEnd: "sale_end",
   },
   {
     name: "depositRange",
-    paramNameStart: "deposit_start_params",
-    paramNameEnd: "deposit_end_params",
+    paramNameStart: "deposit_start",
+    paramNameEnd: "deposit_end",
   },
   {
     name: "monthlyRentRange",
-    paramNameStart: "monthly_rent_start_params",
-    paramNameEnd: "monthly_rent_end_params",
+    paramNameStart: "monthly_rent_start",
+    paramNameEnd: "monthly_rent_end",
   },
 ];
 

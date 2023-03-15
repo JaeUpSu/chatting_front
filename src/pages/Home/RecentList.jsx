@@ -8,9 +8,6 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-
 const HouseImg = styled.img`
   max-width: 200px;
   margin-right: 60px;
@@ -25,8 +22,8 @@ const FontFam = styled.p`
 
 const RecentWrapper = styled.div`
   max-width: 1000px;
-  overflow: hidden;
   margin: 0 auto;
+  overflow: hidden;
 `;
 
 const RecentList = () => {
@@ -37,7 +34,6 @@ const RecentList = () => {
   });
   const recentList = data && data.filter((item) => item.isRecent).slice(0, 10);
 
-  const handleRoomDetail = () => {};
   const [count, setCount] = useState(0);
   const handlePrev = () => {
     setCount((count) => (count === 0 ? recentList.length - 4 : count - 1));
@@ -56,7 +52,7 @@ const RecentList = () => {
           {recentList &&
             recentList.map((item) => (
               <div key={item.id}>
-                <HouseImg src={item.img} onClick={handleRoomDetail} />
+                <HouseImg src={item.img} />
                 <Flex>
                   <FontFam>{item.type}</FontFam>
                   <p>Room: {item.room}</p>
@@ -69,6 +65,7 @@ const RecentList = () => {
             ))}
         </Flex>
       </Flex>
+
       <Flex justify={"space-between"} mt="10px" cursor={"pointer"}>
         <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrev} />
         <FontAwesomeIcon icon={faChevronRight} onClick={handleNext} />
