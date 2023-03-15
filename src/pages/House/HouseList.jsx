@@ -184,25 +184,28 @@ function HouseList() {
               minW="250px"
               maxW="280px"
             >
-              부동산 목록 {totalCounts ? totalCounts : ""} 개
+              {totalCounts ? `부동산 목록 ${totalCounts} 개` : "비어있습니다"}
             </Text>
-
-            <Menu>
-              <MenuButton as={Button} rightIcon={<HiChevronDown />}>
-                {orderBy[0]}
-              </MenuButton>
-              <MenuList>
-                {orderBy.map((item, idx) => {
-                  if (idx > 0) {
-                    return (
-                      <MenuItem key={idx} onClick={onOrderBy} value={item}>
-                        {item}
-                      </MenuItem>
-                    );
-                  }
-                })}
-              </MenuList>
-            </Menu>
+            {totalCounts ? (
+              <Menu>
+                <MenuButton as={Button} rightIcon={<HiChevronDown />}>
+                  {orderBy[0]}
+                </MenuButton>
+                <MenuList>
+                  {orderBy.map((item, idx) => {
+                    if (idx > 0) {
+                      return (
+                        <MenuItem key={idx} onClick={onOrderBy} value={item}>
+                          {item}
+                        </MenuItem>
+                      );
+                    }
+                  })}
+                </MenuList>
+              </Menu>
+            ) : (
+              ""
+            )}
           </HStack>
         </GridItem>
         <GridItem
