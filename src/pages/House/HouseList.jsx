@@ -103,21 +103,20 @@ function HouseList({ room_kind }) {
 
   // init options
   useEffect(() => {
-    let initOptions = {};
-    optionsMenu.forEach((item, idx) => {
-      if (idx < 5) {
-        initOptions[item.eng] = sessionStorage.getItem(item.eng)
-          ? sessionStorage.getItem(item.eng)
-          : "전체";
-      } else {
-        console.log("deposit", sessionStorage.getItem("depositRange"));
-        initOptions[item.eng] = sessionStorage.getItem(item.eng)
-          ? sessionStorage.getItem(item.eng).split(",")
-          : [options[item.eng].values[0], options[item.eng].values[3]];
-      }
-    });
-    console.log("init", initOptions);
-    setAPIParams(initOptions);
+    // let initOptions = {};
+    // optionsMenu.forEach((item, idx) => {
+    //   if (idx < 5) {
+    //     initOptions[item.eng] = sessionStorage.getItem(item.eng)
+    //       ? sessionStorage.getItem(item.eng)
+    //       : "전체";
+    //   } else {
+    //     console.log("deposit", sessionStorage.getItem("depositRange"));
+    //     initOptions[item.eng] = sessionStorage.getItem(item.eng)
+    //       ? sessionStorage.getItem(item.eng).split(",")
+    //       : [options[item.eng].values[0], options[item.eng].values[3]];
+    //   }
+    // });
+    // setAPIParams(initOptions);
   }, []);
 
   // scroll reload event
@@ -143,10 +142,9 @@ function HouseList({ room_kind }) {
   }, [data]);
 
   useEffect(() => {
-    console.log("prev", APIParams);
     const apiParams = getBackOptions(APIParams);
-    console.log("api", apiParams);
     setBackParams(apiParams);
+    // window.location.reload();
   }, [APIParams]);
 
   return (

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { initParams } from "../services/local";
 import { getBackOptions } from "./getBackOptions";
 
 import { throttle } from "./throttle";
@@ -9,23 +10,10 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   const [data, setData] = useState([]);
   const [isFetching, setFetching] = useState(false);
   const [hasNextPage, setNextPage] = useState(true);
-  const [backParams, setBackParams] = useState(
-    getBackOptions({
-      roomKind: "전체",
-      cellKind: "전체",
-      py: "전체",
-      toilet_counts: "전체",
-      room_counts: "전체",
-      maintenanceFeeRange: [0, 30],
-      priceRange: [0, 30],
-      depositRange: [0, 30],
-      monthlyRentRange: [0, 30],
-    })
-  );
+  const [backParams, setBackParams] = useState(getBackOptions(initParams()));
 
   const executeFetch = useCallback(async () => {
     try {
-      console.log("execute", backParams);
       const data = await fetcher({ page, ...backParams });
 
       setData((prev) => prev.concat(data.contents));
@@ -58,8 +46,8 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   }, [isFetching]);
 
   useEffect(() => {
-    console.log("scroll", backParams);
     setPage(1);
+    setData([]);
     setFetching(true);
   }, [backParams]);
 

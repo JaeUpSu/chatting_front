@@ -111,3 +111,33 @@ export const getOptions = () => {
   options.isStationArea = getIsStationArea();
   return options;
 };
+
+export const initParams = () => {
+  return {
+    roomKind: sessionStorage.getItem("roomKind")
+      ? sessionStorage.getItem("roomKind")
+      : "전체",
+    cellKind: sessionStorage.getItem("cellKind")
+      ? sessionStorage.getItem("cellKind")
+      : "전체",
+    py: sessionStorage.getItem("py") ? sessionStorage.getItem("py") : "전체",
+    toilet_counts: sessionStorage.getItem("toilet_counts")
+      ? sessionStorage.getItem("toilet_counts")
+      : "전체",
+    room_counts: sessionStorage.getItem("room_counts")
+      ? sessionStorage.getItem("room_counts")
+      : "전체",
+    maintenanceFeeRange: sessionStorage.getItem("maintenanceFeeRange")
+      ? sessionStorage.getItem("maintenanceFeeRange").split(",")
+      : [0, 30],
+    priceRange: sessionStorage.getItem("priceRange")
+      ? sessionStorage.getItem("priceRange").split(",")
+      : [0, 30],
+    depositRange: sessionStorage.getItem("depositRange")
+      ? sessionStorage.getItem("depositRange").split(",")
+      : [0, 30],
+    monthlyRentRange: sessionStorage.getItem("monthlyRentRange")
+      ? sessionStorage.getItem("monthlyRentRange").split(",")
+      : [0, 30],
+  };
+};
