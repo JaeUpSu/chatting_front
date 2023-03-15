@@ -207,7 +207,15 @@ export const rooms = [
 ];
 
 export const options = {
-  roomKind: ["원룸", "주택", "아파트", "빌라", "오피스텔", "쉐어하우스"],
+  roomKind: [
+    "전체",
+    "원룸",
+    "주택",
+    "아파트",
+    "빌라",
+    "오피스텔",
+    "쉐어하우스",
+  ],
   cellKind: ["전체", "매매", "전세", "월세"],
   py: [
     "전체",
@@ -256,8 +264,8 @@ export const optionsMenu = [
 ];
 
 export const backParamsValueList = [
-  { name: "roomKind", paramName: "room_kind_params" },
-  { name: "cellKind", paramName: "cell_kind_params" },
+  { name: "roomKind", paramName: "room_kind" },
+  { name: "cellKind", paramName: "cell_kind" },
   { name: "py", paramName: "pyeongsu" },
   { name: "toilet_counts", paramName: "num_of_toilet" },
   { name: "room_counts", paramName: "num_of_room" },

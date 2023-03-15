@@ -190,7 +190,6 @@ export const getOptionHouses = (params) => {
     });
 };
 
-//izuna.pythonanywhere.com/api/v1/
 // 해당 집 가져오기
 export const getHouse = ({ queryKey }) => {
   const [_, id] = queryKey;
