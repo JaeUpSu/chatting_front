@@ -153,7 +153,8 @@ export const getBackOptions = (_options) => {
   // if (sessionStorage.getItem("gugunsi") != "-1") {
   //   backOptions["gu"] = _options["gu"];
   // }
-  if (_options["ebmyeongdong"] != "-1") {
+
+  if (_options["dong"] && _options["dong"] != "-1") {
     backOptions["dong"] = _options["dong"];
   }
   return backOptions;

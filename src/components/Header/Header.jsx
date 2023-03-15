@@ -32,6 +32,7 @@ function Header() {
   const navigate = useNavigate();
 
   const onHome = () => {
+    sessionStorage.clear();
     navigate(`${routes.home}`);
   };
   const onProfile = () => {
