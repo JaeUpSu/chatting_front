@@ -33,9 +33,11 @@ function SelectModal({
 
   const onSelect = (e) => {
     const selectedVal = e.currentTarget.getAttribute("value");
+    const selectedIdx = e.currentTarget.getAttribute("idx");
     setBtnName(selectedVal);
     onNextActive();
     sessionStorage.setItem(name, selectedVal);
+    sessionStorage.setItem(name + "Idx", selectedIdx);
 
     onSetAddress((items) => {
       let nextAddress = [0, 0, 0];
