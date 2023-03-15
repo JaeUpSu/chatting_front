@@ -22,11 +22,11 @@ import { getOptionsSize } from "../../utils/getOptionsSize";
 import { getOptionsByUrl } from "../../utils/getOptionsByUrl";
 import { getDelOptionsUrl } from "../../utils/getDelOptionsUrl";
 import { getBackOptions } from "../../utils/getBackOptions";
-import { throttle } from "../../utils/throttle";
-import useInfiniteScroll from "../../utils/useInfiniteScroll";
-
 import { getOptionHouses } from "../../services/api";
+import { getBackOrderBy } from "../../utils/getBackOrderBy";
+import { throttle } from "../../utils/throttle";
 
+import useInfiniteScroll from "../../utils/useInfiniteScroll";
 import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
@@ -69,12 +69,7 @@ function HouseList({ room_kind }) {
     depositRange: [0, 30],
     monthlyRentRange: [0, 30],
   });
-  const [orderBy, setOrderBy] = useState([
-    "최근순",
-    "좋아요순",
-    "조회순",
-    "낮은가격순",
-  ]);
+  const [orderBy, setOrderBy] = useState(["최근순", "조회순", "낮은가격순"]);
 
   const { data, totalCounts, hasNextPage, setFetching, setBackParams } =
     useInfiniteScroll(getOptionHouses, { size: 24 });
@@ -140,6 +135,14 @@ function HouseList({ room_kind }) {
         scrollRef.current.removeEventListener("scroll", throttleScrollHandler);
     });
   }, [data]);
+
+  useEffect(() => {
+    const sort_by = getBackOrderBy(orderBy[0]);
+    sessionStorage.setItem("sort_by", sort_by);
+    setAPIParams((params) => {
+      return { ...params, sort_by };
+    });
+  }, [orderBy]);
 
   useEffect(() => {
     const apiParams = getBackOptions(APIParams);
