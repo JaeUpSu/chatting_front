@@ -5,9 +5,9 @@ module.exports = function (app) {
     "/api/v1/",
     createProxyMiddleware({
       // target: "https://izuna.pythonanywhere.com",
-      // target: "http://127.0.0.1:8000",
+      target: "http://127.0.0.1:8000",
       // target: "https://bangsam.onrender.com",
-      target: "https://bangsam.onrender.com",
+      // target: "https://bangsam.onrender.com",
       changeOrigin: true,
       secure: false,
     })

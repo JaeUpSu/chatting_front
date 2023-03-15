@@ -6,7 +6,7 @@ import routes from "./routes";
 
 import Home from "./pages/Home/Home";
 import SignUp from "./pages/SignUp/SignUp";
-import Profile from "./pages/Profile/Profile";
+import Profile from "./pages/House/Profile/Profile";
 import Chat from "./pages/Chat/Chat";
 import ChatList from "./pages/Chat/ChatList";
 import House from "./pages/House/HouseDetail";

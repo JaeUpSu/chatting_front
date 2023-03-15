@@ -1,6 +1,17 @@
-import { Avatar, Box, Heading, HStack, Text, VStack } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Heading,
+  HStack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useUser from "../../hooks/useUser";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteChatRoom } from "../../services/api";
 
 export default function ListChat({
   id,
@@ -10,48 +21,59 @@ export default function ListChat({
   lastMessage,
 }) {
   const navigate = useNavigate();
-  console.log(users);
   const { user } = useUser();
   const handleChatClick = (id) => {
     navigate(`/chatlist/${id}`);
   };
+  const queryClient = useQueryClient();
+  const mutation = useMutation(deleteChatRoom, {
+    onMutate: (data) => console.log(data),
+    onSuccess: () => queryClient.refetchQueries(["chatRoomList"]),
+  });
+  const { chatRoomPk } = useParams();
+  const onDelete = (event) => {
+    event.stopPropagation();
+    mutation.mutate(id);
+  };
   return (
     <HStack
       p="5"
-      spacing={"5"}
-      borderTopWidth="1px"
-      borderColor="gray.200"
+      borderRadius={"md"}
+      borderWidth="1px"
+      borderColor={chatRoomPk != id ? "gray.200" : "blue.200"}
       onClick={() => handleChatClick(id)}
+      justifyContent="space-between"
+      alignItems={"flex-end"}
+      w="100%"
     >
-      <Avatar name={users[0]?.name} src={users[0]?.avatar} />
-      <VStack alignItems={"flex-start"}>
-        <Heading size="sm" mb={2}>
-          {users[0]?.name} 님과의 채팅방
-          {unread_messages !== 0 ? (
-            <Text
-              as="span"
-              p={1.5}
-              ml={3}
-              rounded={"20%"}
-              bg="red.300"
-              width={"100%"}
-              textAlign="center"
-            >
-              + {unread_messages}
-            </Text>
-          ) : null}
-        </Heading>
+      <HStack spacing={"8"} p={2} w="100%">
+        <Avatar name={users[0]?.name} src={users[0]?.avatar} />
+        <VStack alignItems={"flex-start"} w="100%">
+          <HStack
+            justifyContent={"space-between"}
+            h={"5"}
+            alignItems={"flex-start"}
+          >
+            <Heading size="sm">
+              {users[0]?.name} 님과의 채팅방
+              {unread_messages !== 0 ? (
+                <Text ml={"3"} as={"span"} color="red.300">
+                  {" "}
+                  + {unread_messages}
+                </Text>
+              ) : null}
+            </Heading>
+          </HStack>
 
-        <Text fontSize="sm" color="gray.500">
-          {lastMessage}
-        </Text>
-        <Text fontSize="sm" color="gray.500">
-          Last message :{" "}
-          {updated_at.split(".")[0].split("T")[0] +
-            "  /  " +
-            updated_at.split(".")[0].split("T")[1]}
-        </Text>
-      </VStack>
+          <Text fontSize="sm" color="gray.800">
+            {lastMessage}
+          </Text>
+          <Text fontSize="sm" color="gray.500">
+            {updated_at.split(".")[0].split("T")[0]}
+          </Text>
+        </VStack>
+      </HStack>
+      <Button onClick={onDelete}>삭제하기</Button>
     </HStack>
   );
 }

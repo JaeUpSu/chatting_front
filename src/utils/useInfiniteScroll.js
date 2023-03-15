@@ -14,12 +14,7 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
 
   const executeFetch = useCallback(async () => {
     try {
-<<<<<<< HEAD
-      const data = await fetcher({ page, size });
-=======
       const data = await fetcher({ page, ...backParams });
-
->>>>>>> b00a47f7b69e08d01571df17aca8fdc32a438321
       setData((prev) => prev.concat(data.contents));
       setTotalCounts(data.totalCounts);
       setPage(data.pageNumber + 1);
