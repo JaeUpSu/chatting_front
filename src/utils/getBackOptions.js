@@ -145,5 +145,9 @@ export const getBackOptions = (_options) => {
       }
     }
   });
+
+  if (_options["sort_by"]) {
+    backOptions["sort_by"] = _options["sort_by"];
+  }
   return backOptions;
 };
