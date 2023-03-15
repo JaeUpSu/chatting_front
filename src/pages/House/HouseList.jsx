@@ -22,11 +22,11 @@ import { getOptionsSize } from "../../utils/getOptionsSize";
 import { getOptionsByUrl } from "../../utils/getOptionsByUrl";
 import { getDelOptionsUrl } from "../../utils/getDelOptionsUrl";
 import { getBackOptions } from "../../utils/getBackOptions";
-import { throttle } from "../../utils/throttle";
-import useInfiniteScroll from "../../utils/useInfiniteScroll";
-
 import { getOptionHouses } from "../../services/api";
+import { getBackOrderBy } from "../../utils/getBackOrderBy";
+import { throttle } from "../../utils/throttle";
 
+import useInfiniteScroll from "../../utils/useInfiniteScroll";
 import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
@@ -54,12 +54,14 @@ const TopBtn = styled.div`
   z-index: 99999;
 `;
 
-function HouseList({ room_kind }) {
+function HouseList() {
   const scrollRef = useRef(null);
 
   const [address, setAddress] = useState("");
   const [APIParams, setAPIParams] = useState({
-    roomKind: "전체",
+    roomKind: sessionStorage.getItem("roomKind")
+      ? sessionStorage.getItem("roomKind")
+      : "전체",
     cellKind: "전체",
     py: "전체",
     toilet_counts: "전체",
@@ -69,12 +71,7 @@ function HouseList({ room_kind }) {
     depositRange: [0, 30],
     monthlyRentRange: [0, 30],
   });
-  const [orderBy, setOrderBy] = useState([
-    "최근순",
-    "좋아요순",
-    "조회순",
-    "낮은가격순",
-  ]);
+  const [orderBy, setOrderBy] = useState(["최근순", "조회순", "낮은가격순"]);
 
   const { data, totalCounts, hasNextPage, setFetching, setBackParams } =
     useInfiniteScroll(getOptionHouses, { size: 24 });
@@ -103,19 +100,20 @@ function HouseList({ room_kind }) {
 
   // init options
   useEffect(() => {
-    let initOptions = {};
-    optionsMenu.forEach((item, idx) => {
-      if (idx < 5) {
-        initOptions[item.eng] = sessionStorage.getItem(item.eng)
-          ? sessionStorage.getItem(item.eng)
-          : "전체";
-      } else {
-        initOptions[item.eng] = sessionStorage.getItem(item.eng)
-          ? sessionStorage.getItem(item.eng).split(",")
-          : [options[item.eng].values[0], options[item.eng].values[3]];
-      }
-    });
-    setAPIParams(initOptions);
+    // let initOptions = {};
+    // optionsMenu.forEach((item, idx) => {
+    //   if (idx < 5) {
+    //     initOptions[item.eng] = sessionStorage.getItem(item.eng)
+    //       ? sessionStorage.getItem(item.eng)
+    //       : "전체";
+    //   } else {
+    //     console.log("deposit", sessionStorage.getItem("depositRange"));
+    //     initOptions[item.eng] = sessionStorage.getItem(item.eng)
+    //       ? sessionStorage.getItem(item.eng).split(",")
+    //       : [options[item.eng].values[0], options[item.eng].values[3]];
+    //   }
+    // });
+    // setAPIParams(initOptions);
   }, []);
 
   // scroll reload event
@@ -141,8 +139,17 @@ function HouseList({ room_kind }) {
   }, [data]);
 
   useEffect(() => {
+    const sort_by = getBackOrderBy(orderBy[0]);
+    sessionStorage.setItem("sort_by", sort_by);
+    setAPIParams((params) => {
+      return { ...params, sort_by };
+    });
+  }, [orderBy]);
+
+  useEffect(() => {
     const apiParams = getBackOptions(APIParams);
     setBackParams(apiParams);
+    // window.location.reload();
   }, [APIParams]);
 
   return (
@@ -177,25 +184,28 @@ function HouseList({ room_kind }) {
               minW="250px"
               maxW="280px"
             >
-              부동산 목록 {totalCounts ? totalCounts : ""} 개
+              {totalCounts ? `부동산 목록 ${totalCounts} 개` : "비어있습니다"}
             </Text>
-
-            <Menu>
-              <MenuButton as={Button} rightIcon={<HiChevronDown />}>
-                {orderBy[0]}
-              </MenuButton>
-              <MenuList>
-                {orderBy.map((item, idx) => {
-                  if (idx > 0) {
-                    return (
-                      <MenuItem key={idx} onClick={onOrderBy} value={item}>
-                        {item}
-                      </MenuItem>
-                    );
-                  }
-                })}
-              </MenuList>
-            </Menu>
+            {totalCounts ? (
+              <Menu>
+                <MenuButton as={Button} rightIcon={<HiChevronDown />}>
+                  {orderBy[0]}
+                </MenuButton>
+                <MenuList>
+                  {orderBy.map((item, idx) => {
+                    if (idx > 0) {
+                      return (
+                        <MenuItem key={idx} onClick={onOrderBy} value={item}>
+                          {item}
+                        </MenuItem>
+                      );
+                    }
+                  })}
+                </MenuList>
+              </Menu>
+            ) : (
+              ""
+            )}
           </HStack>
         </GridItem>
         <GridItem

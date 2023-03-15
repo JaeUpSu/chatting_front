@@ -68,7 +68,6 @@ function Header() {
       {/* <OptionDropdown /> */}
       <HStack>
         <FontAwesomeIcon size={"2x"} icon={faUserPlus} onClick={onSignUp} />
-        <Text onClick={onHouse}>집</Text>
         <Text onClick={onHouseList}>집리스트</Text>
       </HStack>
       <HStack>

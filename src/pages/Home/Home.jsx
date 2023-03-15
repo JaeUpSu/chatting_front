@@ -1,10 +1,12 @@
 import { Flex, Box, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
+
 import styled from "styled-components";
 import IconBtns from "./IconBtns";
 import RecentList from "./RecentList";
 import LikedList from "./LikedList";
 import { isLoggedInVar } from "./../../apollo";
+import routes from "../../routes";
 
 const HomeWrapper = styled.div`
   overflow-y: scroll;
