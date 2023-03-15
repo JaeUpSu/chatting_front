@@ -15,7 +15,11 @@ import {
   GridItem,
   Center,
 } from "@chakra-ui/react";
-import { CellKindsToBack, RoomKindsToBack } from "../../services/data";
+import {
+  CellKindsToBack,
+  RoomKindsToBack,
+  RoomKindsToFront,
+} from "../../services/data";
 
 function House() {
   const params = useParams();
@@ -48,7 +52,6 @@ function House() {
         flexDirection="column"
         px="5vw"
       >
-        {/* 스크롤이 필요한 컨텐츠 */}
         <Center>
           <Grid
             mt="3vh"
@@ -107,10 +110,6 @@ function House() {
               )}`}
               {" / "}
               관리비 월 {data?.maintenance_cost}
-              {/* <br />
-              <br />
-              포함 : 수도,인터넷,티비 <br />
-              별도 : 전기, 가스 */}
             </Text>
             <Text fontSize="22" mb="20px">
               {data?.description}
@@ -119,9 +118,10 @@ function House() {
               상세정보
             </Heading>
             <List mb="4" fontSize="17">
-              <ListItem>방종류 : {RoomKindsToBack[data?.room_kind]}</ListItem>
+              <ListItem>동네 : {data?.dong.name}</ListItem>
               <br />
-              {/* <ListItem>해당층/건물층 : 2층 / 7층</ListItem> */}
+              <ListItem>방종류 : {RoomKindsToFront[data?.room_kind]}</ListItem>
+              <br />
               <ListItem>전용면적 : {data?.pyeongsu} 평</ListItem>
               <br />
               <ListItem>방 수 : {data?.room}개 </ListItem>

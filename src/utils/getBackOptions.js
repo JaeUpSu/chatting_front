@@ -145,5 +145,17 @@ export const getBackOptions = (_options) => {
       }
     }
   });
+
+  if (_options["sort_by"]) {
+    backOptions["sort_by"] = _options["sort_by"];
+  }
+
+  // if (sessionStorage.getItem("gugunsi") != "-1") {
+  //   backOptions["gu"] = _options["gu"];
+  // }
+
+  if (_options["dong"] && _options["dong"] != "-1") {
+    backOptions["dong"] = _options["dong"];
+  }
   return backOptions;
 };

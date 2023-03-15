@@ -9,6 +9,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Center,
 } from "@chakra-ui/react";
 import { HiChevronDown } from "react-icons/hi";
 import styled from "styled-components";
@@ -31,6 +32,7 @@ import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
 import OptionBadge from "../../components/Badge/OptionBadge";
+import { getInitOrderBy } from "../../services/local";
 
 const TopBtn = styled.div`
   position: fixed;
@@ -54,12 +56,14 @@ const TopBtn = styled.div`
   z-index: 99999;
 `;
 
-function HouseList({ room_kind }) {
+function HouseList() {
   const scrollRef = useRef(null);
 
   const [address, setAddress] = useState("");
   const [APIParams, setAPIParams] = useState({
-    roomKind: "전체",
+    roomKind: sessionStorage.getItem("roomKind")
+      ? sessionStorage.getItem("roomKind")
+      : "전체",
     cellKind: "전체",
     py: "전체",
     toilet_counts: "전체",
@@ -69,10 +73,17 @@ function HouseList({ room_kind }) {
     depositRange: [0, 30],
     monthlyRentRange: [0, 30],
   });
-  const [orderBy, setOrderBy] = useState(["최근순", "조회순", "낮은가격순"]);
+  const [orderBy, setOrderBy] = useState(getInitOrderBy());
 
-  const { data, totalCounts, hasNextPage, setFetching, setBackParams } =
-    useInfiniteScroll(getOptionHouses, { size: 24 });
+  const {
+    data,
+    totalCounts,
+    hasNextPage,
+    isLoading,
+    setFetching,
+    setBackParams,
+  } = useInfiniteScroll(getOptionHouses, { size: 24 });
+  // const [loading, setLoading] = useState(false);
 
   const onOrderBy = (e) => {
     const value = e.currentTarget.getAttribute("value");
@@ -97,22 +108,9 @@ function HouseList({ room_kind }) {
   };
 
   // init options
-  useEffect(() => {
-    // let initOptions = {};
-    // optionsMenu.forEach((item, idx) => {
-    //   if (idx < 5) {
-    //     initOptions[item.eng] = sessionStorage.getItem(item.eng)
-    //       ? sessionStorage.getItem(item.eng)
-    //       : "전체";
-    //   } else {
-    //     console.log("deposit", sessionStorage.getItem("depositRange"));
-    //     initOptions[item.eng] = sessionStorage.getItem(item.eng)
-    //       ? sessionStorage.getItem(item.eng).split(",")
-    //       : [options[item.eng].values[0], options[item.eng].values[3]];
-    //   }
-    // });
-    // setAPIParams(initOptions);
-  }, []);
+  // useEffect(() => {
+  //   sessionStorage.clear();
+  // }, []);
 
   // scroll reload event
   useEffect(() => {
@@ -145,9 +143,22 @@ function HouseList({ room_kind }) {
   }, [orderBy]);
 
   useEffect(() => {
+    const dong = sessionStorage.getItem("ebmyeondongIdx")
+      ? sessionStorage.getItem("ebmyeondongIdx")
+      : "-1";
+
+    setAPIParams((params) => {
+      return { ...params, dong };
+    });
+  }, [address]);
+
+  useEffect(() => {
+    console.log("loading", isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
     const apiParams = getBackOptions(APIParams);
     setBackParams(apiParams);
-    // window.location.reload();
   }, [APIParams]);
 
   return (
@@ -162,7 +173,7 @@ function HouseList({ room_kind }) {
               <AddressMenu onUpdate={setAddress} />
             </Flex>
             <Flex w="80%" ml="20px">
-              <HouseOptMenu onUpdate={setAPIParams} address={address} />
+              <HouseOptMenu onUpdate={setAPIParams} />
             </Flex>
           </Flex>
         </GridItem>{" "}
@@ -182,25 +193,34 @@ function HouseList({ room_kind }) {
               minW="250px"
               maxW="280px"
             >
-              부동산 목록 {totalCounts ? totalCounts : ""} 개
+              {isLoading
+                ? "Loading..."
+                : totalCounts
+                ? `부동산 목록 ${totalCounts} 개`
+                : "비어있습니다"}
             </Text>
-
-            <Menu>
-              <MenuButton as={Button} rightIcon={<HiChevronDown />}>
-                {orderBy[0]}
-              </MenuButton>
-              <MenuList>
-                {orderBy.map((item, idx) => {
-                  if (idx > 0) {
-                    return (
-                      <MenuItem key={idx} onClick={onOrderBy} value={item}>
-                        {item}
-                      </MenuItem>
-                    );
-                  }
-                })}
-              </MenuList>
-            </Menu>
+            {isLoading ? (
+              "Loading..."
+            ) : totalCounts ? (
+              <Menu>
+                <MenuButton as={Button} rightIcon={<HiChevronDown />}>
+                  {orderBy[0]}
+                </MenuButton>
+                <MenuList>
+                  {orderBy.map((item, idx) => {
+                    if (idx > 0) {
+                      return (
+                        <MenuItem key={idx} onClick={onOrderBy} value={item}>
+                          {item}
+                        </MenuItem>
+                      );
+                    }
+                  })}
+                </MenuList>
+              </Menu>
+            ) : (
+              ""
+            )}
           </HStack>
         </GridItem>
         <GridItem
@@ -225,11 +245,24 @@ function HouseList({ room_kind }) {
             },
           }}
         >
-          <Flex flexWrap="wrap" maxH="100vh">
-            {data?.map((item, idx) => {
-              return <HouseCard key={idx} {...item} />;
-            })}
-          </Flex>
+          {isLoading ? (
+            "Loading..."
+          ) : totalCounts ? (
+            <Flex flexWrap="wrap" maxH="100vh">
+              {data?.map((item, idx) => {
+                return <HouseCard key={idx} {...item} />;
+              })}
+            </Flex>
+          ) : (
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              height="65vh"
+              fontWeight="600"
+            >
+              해당 옵션을 가진 제품은 없습니다.
+            </Flex>
+          )}
         </GridItem>
       </Grid>
       <TopBtn onClick={onTop}>Top</TopBtn>
