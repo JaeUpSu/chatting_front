@@ -16,7 +16,6 @@ const getBackPrices = (name, prices) => {
 
   if ((!isNaN(prevPrices[0]) && prevPrices[0] > 0) || !isNaN(prevPrices[1])) {
     prevPrices = getPrices(getPriceRange(prices, options[name].steps));
-    console.log("checking", prevPrices);
   }
 
   const isMinBillion = String(prevPrices[0]).includes("억");
@@ -33,7 +32,6 @@ const getBackPrices = (name, prices) => {
       .replace("무제한", "")
   );
 
-  console.log("backPrices[0]", backPrices[0]);
   backPrices[0] = Math.floor(
     isMinBillion ? backPrices[0] * 100000000 : backPrices[0]
   );
@@ -105,10 +103,10 @@ export const getBackOptions = (_options) => {
           (_options[op.eng].findIndex(isSameTwo) == -1 ||
             _options[op.eng].findIndex(isSameThree) == -1)
         ) {
-          const minParamName = getParamRangeName(idx - 5, true);
           const maxParamName = getParamRangeName(idx - 5, false);
+          const minParamName = getParamRangeName(idx - 5, true);
 
-          if (idx == 5) {
+          if (_options["cellKind"] == "전체") {
             const range = getBackPrices(op.eng, _options[op.eng]);
             if (range[0] > 0) {
               backOptions[minParamName] = range[0];
@@ -117,21 +115,31 @@ export const getBackOptions = (_options) => {
               backOptions[maxParamName] = range[1];
             }
           } else {
-            Prices.forEach((item) => {
-              if (_options.cellKind == item.name) {
-                item.list.forEach((item) => {
-                  if (item == op.eng) {
-                    const range = getBackPrices(op.eng, _options[op.eng]);
-                    if (range[0] > 0) {
-                      backOptions[minParamName] = range[0];
-                    }
-                    if (range[1] > 0) {
-                      backOptions[maxParamName] = range[1];
-                    }
-                  }
-                });
+            if (idx == 5) {
+              const range = getBackPrices(op.eng, _options[op.eng]);
+              if (range[0] > 0) {
+                backOptions[minParamName] = range[0];
               }
-            });
+              if (range[1] > 0) {
+                backOptions[maxParamName] = range[1];
+              }
+            } else {
+              Prices.forEach((item) => {
+                if (_options.cellKind == item.name) {
+                  item.list.forEach((item) => {
+                    if (item == op.eng) {
+                      const range = getBackPrices(op.eng, _options[op.eng]);
+                      if (range[0] > 0) {
+                        backOptions[minParamName] = range[0];
+                      }
+                      if (range[1] > 0) {
+                        backOptions[maxParamName] = range[1];
+                      }
+                    }
+                  });
+                }
+              });
+            }
           }
         }
       }
