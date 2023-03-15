@@ -53,7 +53,7 @@ function App() {
           }
         />
         <Route
-          path={routes.chatList}
+          path="Chatlist"
           element={
             isLoggedIn ? (
               <Layout>
@@ -61,7 +61,9 @@ function App() {
               </Layout>
             ) : null
           }
-        />
+        >
+          <Route path=":chatRoomPk" element={<Chat />} />
+        </Route>
         <Route
           path={routes.house}
           element={

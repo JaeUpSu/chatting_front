@@ -38,7 +38,7 @@ function Header() {
     navigate(`/profile/userId`);
   };
   const onChatList = () => {
-    navigate(`/chatList/isOwner`);
+    navigate(`/chatList`);
   };
 
   // 없어질 예정
