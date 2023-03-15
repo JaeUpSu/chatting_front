@@ -56,15 +56,21 @@ function AddressMenu({ onUpdate }) {
   };
 
   const onSearchAddress = () => {
-    let _address = "서울 ";
+    let _address = `서울`;
+    const dong = sessionStorage.getItem("ebmyeondong")
+      ? sessionStorage.getItem("ebmyeondong")
+      : "nothing";
 
-    _address += `${sessionStorage.getItem("gugunsi")} `;
-    _address += `${sessionStorage.getItem("ebmyeondong")}`;
+    if (dong != "nothing") {
+      _address += ` ${sessionStorage.getItem("gugunsi")} ${dong}`;
 
-    setAddress(_address);
-    onUpdate(address);
-    setBtnIdx(0);
-    onClose();
+      setAddress(_address);
+      onUpdate(address);
+      setBtnIdx(0);
+      onClose();
+    } else {
+      alert("구/동 모두 선택해야 버튼을 누를 수 있습니다.");
+    }
   };
 
   const onNextActive = () => {
@@ -97,8 +103,6 @@ function AddressMenu({ onUpdate }) {
     });
     setActiveBtn(new_ActiveBtn);
   }, [btnIdx]);
-
-  useEffect(() => {}, []);
 
   return (
     <div

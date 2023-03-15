@@ -203,7 +203,7 @@ export const getGuList = () =>
 export const getDongList = async ({ queryKey }) => {
   const [_, id] = queryKey;
   return await instance
-    .get(`houses/gulist/${id}`)
+    .get(`houses/${id}/donglist`)
     .then((response) => response.data);
 };
 

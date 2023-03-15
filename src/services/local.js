@@ -141,10 +141,10 @@ export const initParams = () => {
       : [0, 30],
     gu: sessionStorage.getItem("gugunsiIdx")
       ? sessionStorage.getItem("gugunsiIdx")
-      : -1,
+      : "-1",
     dong: sessionStorage.getItem("ebmyeondongIdx")
       ? sessionStorage.getItem("ebmyeondongIdx")
-      : -1,
+      : "-1",
   };
 };
 

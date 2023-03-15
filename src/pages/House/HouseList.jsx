@@ -108,22 +108,9 @@ function HouseList() {
   };
 
   // init options
-  useEffect(() => {
-    // let initOptions = {};
-    // optionsMenu.forEach((item, idx) => {
-    //   if (idx < 5) {
-    //     initOptions[item.eng] = sessionStorage.getItem(item.eng)
-    //       ? sessionStorage.getItem(item.eng)
-    //       : "전체";
-    //   } else {
-    //     console.log("deposit", sessionStorage.getItem("depositRange"));
-    //     initOptions[item.eng] = sessionStorage.getItem(item.eng)
-    //       ? sessionStorage.getItem(item.eng).split(",")
-    //       : [options[item.eng].values[0], options[item.eng].values[3]];
-    //   }
-    // });
-    // setAPIParams(initOptions);
-  }, []);
+  // useEffect(() => {
+  //   sessionStorage.clear();
+  // }, []);
 
   // scroll reload event
   useEffect(() => {
@@ -156,16 +143,12 @@ function HouseList() {
   }, [orderBy]);
 
   useEffect(() => {
-    const gu = sessionStorage.getItem("gugunsiIdx")
-      ? sessionStorage.getItem("gugunsiIdx")
-      : "-1";
-
     const dong = sessionStorage.getItem("ebmyeondongIdx")
       ? sessionStorage.getItem("ebmyeondongIdx")
       : "-1";
 
     setAPIParams((params) => {
-      return { ...params, gu, dong };
+      return { ...params, dong };
     });
   }, [address]);
 
