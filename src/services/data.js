@@ -255,6 +255,37 @@ export const optionsMenu = [
   { eng: "monthlyRentRange", kor: "월세" },
 ];
 
+export const backParamsValueList = [
+  { name: "roomKind", paramName: "room_kind_params" },
+  { name: "cellKind", paramName: "cell_kind_params" },
+  { name: "py", paramName: "pyeongsu" },
+  { name: "toilet_counts", paramName: "num_of_toilet" },
+  { name: "room_counts", paramName: "num_of_room" },
+];
+
+export const backParamsRangeList = [
+  {
+    name: "maintenanceFeeRange",
+    paramNameStart: "maintenance_cost_start_params",
+    paramNameEnd: "maintenance_cost_end_params",
+  },
+  {
+    name: "priceRange",
+    paramNameStart: "sale_start_params",
+    paramNameEnd: "sale_end_params",
+  },
+  {
+    name: "depositRange",
+    paramNameStart: "deposit_start_params",
+    paramNameEnd: "deposit_end_params",
+  },
+  {
+    name: "monthlyRentRange",
+    paramNameStart: "monthly_rent_start_params",
+    paramNameEnd: "monthly_rent_end_params",
+  },
+];
+
 export const filterMenu = [
   // { eng: "toilet_counts", kor: "화장실" },
   // { eng: "room_counts", kor: "방" },

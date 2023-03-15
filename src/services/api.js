@@ -170,12 +170,13 @@ export const getAllHouses = () => {
 
 // 모든 집 가져오기
 export const getOptionHouses = (params) => {
-  // console.log(params);
+  console.log("params", params);
   return instance
     .get("/houses", {
       params,
     })
     .then((response) => {
+      console.log("response", response);
       const { count, results, current_page, num_pages } = response.data;
       return {
         contents: results,
