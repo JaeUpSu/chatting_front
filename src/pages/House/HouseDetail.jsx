@@ -14,9 +14,8 @@ import {
   Grid,
   GridItem,
   Center,
-  Container,
 } from "@chakra-ui/react";
-import { CellKinds, RoomKinds } from "../../services/data";
+import { CellKindsToBack, RoomKindsToBack } from "../../services/data";
 
 function House() {
   const params = useParams();
@@ -47,52 +46,38 @@ function House() {
         scrollbarWidth="thin"
         display="flex"
         flexDirection="column"
+        px="5vw"
       >
         {/* 스크롤이 필요한 컨텐츠 */}
         <Center>
           <Grid
-            mt="40px"
-            w="100%"
+            mt="3vh"
             templateRows="repeat(2, 1fr)"
             templateColumns="repeat(5, 1fr)"
             gap={2}
           >
-            <GridItem
-              w="650px"
-              h="450px"
-              rowSpan={2}
-              colSpan={1}
-              backgroundImage={`url(${"https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"})`}
-              backgroundSize="cover"
-            ></GridItem>
-            <GridItem
-              w="360px"
-              h="220px"
-              colSpan={2}
-              backgroundImage={`url(${"https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"})`}
-              backgroundSize="cover"
-            />
-            <GridItem
-              w="360px"
-              h="220px"
-              colSpan={2}
-              backgroundImage={`url(${"https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"})`}
-              backgroundSize="cover"
-            />
-            <GridItem
-              w="360px"
-              h="220px"
-              colSpan={2}
-              backgroundImage={`url(${"https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"})`}
-              backgroundSize="cover"
-            />
-            <GridItem
-              w="360px"
-              h="220px"
-              colSpan={2}
-              backgroundImage={`url(${"https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"})`}
-              backgroundSize="cover"
-            />
+            {data?.Image.map((item, idx) => {
+              return (
+                <GridItem rowSpan={idx == 0 ? 2 : 1} colSpan={idx == 0 ? 0 : 2}>
+                  <Box
+                    w={idx > 0 ? "20vw" : "50vw"}
+                    h={idx > 0 ? "25vh" : "50vh"}
+                    backgroundImage={`url(${item.url})`}
+                    backgroundSize="cover"
+                    backgroundPosition="center"
+                    borderLeftRadius={idx == 0 ? "20px" : "0px"}
+                    borderTopRightRadius={
+                      (idx > 0) & (idx == 2) ? "20px" : "0px"
+                    }
+                    borderBottomRightRadius={
+                      (idx > 0) & (idx == 4) ? "20px" : "0px"
+                    }
+                    boxShadow="0px 4px 4px -3px black"
+                    border="2px solid white"
+                  />
+                </GridItem>
+              );
+            })}
           </Grid>
         </Center>
 
@@ -105,46 +90,46 @@ function House() {
               display="flex"
               alignItems="center"
             >
-              {data.is_sale ? "팔렸습니다" : ""}
+              {data?.is_sale ? "팔렸습니다" : ""}
               <br />
               <br />
-              {`${data.address} ${data.title}`}
+              {`${data?.address} ${data?.title}`}
               <Text fontSize="21" ml="5%">
-                방문자수 {data.visited}
+                방문자수 {data?.visited}
               </Text>
             </Heading>
             <Text mb="6" fontSize="22">
               {`${getSaleContents(
-                data.cell_kind,
-                data.deposit,
-                data.monthly_rent,
-                data.sale
+                data?.cell_kind,
+                data?.deposit,
+                data?.monthly_rent,
+                data?.sale
               )}`}
               {" / "}
-              관리비 월 {data.maintenance_cost}
+              관리비 월 {data?.maintenance_cost}
               {/* <br />
               <br />
               포함 : 수도,인터넷,티비 <br />
               별도 : 전기, 가스 */}
             </Text>
             <Text fontSize="22" mb="20px">
-              {data.description}
+              {data?.description}
             </Text>
             <Heading as="h1" fontSize="3xl" mb="4">
               상세정보
             </Heading>
             <List mb="4" fontSize="17">
-              <ListItem>방종류 : {RoomKinds[data.room_kind]}</ListItem>
+              <ListItem>방종류 : {RoomKindsToBack[data?.room_kind]}</ListItem>
               <br />
               {/* <ListItem>해당층/건물층 : 2층 / 7층</ListItem> */}
-              <ListItem>전용면적 : {data.pyeongsu} 평</ListItem>
+              <ListItem>전용면적 : {data?.pyeongsu} 평</ListItem>
               <br />
-              <ListItem>방 수 : {data.room}개 </ListItem>
+              <ListItem>방 수 : {data?.room}개 </ListItem>
               <br />
-              <ListItem> 화장실 수 : {data.toilet}개</ListItem>
+              <ListItem> 화장실 수 : {data?.toilet}개</ListItem>
               <br />
               <ListItem>
-                역세권 : {data.distance_to_station < 50 ? "YES" : "NO"}
+                역세권 : {data?.distance_to_station < 250 ? "YES" : "NO"}
               </ListItem>
               <br />
             </List>

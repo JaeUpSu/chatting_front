@@ -1,37 +1,54 @@
 import {
-  CellKinds,
-  filterMenu,
+  backParamsRangeList,
+  backParamsValueList,
+  CellKindsToBack,
   options,
   optionsMenu,
   Prices,
-  RoomKinds,
+  RoomKindsToBack,
 } from "../services/data";
 import { getPriceRange } from "./getPriceRange";
+import { getPrices } from "./getPrices";
 
 const getBackPrices = (name, prices) => {
+  let prevPrices = prices;
   let backPrices = [];
 
+  if ((!isNaN(prevPrices[0]) && prevPrices[0] > 0) || !isNaN(prevPrices[1])) {
+    prevPrices = getPrices(getPriceRange(prices, options[name].steps));
+    console.log("checking", prevPrices);
+  }
+
+  const isMinBillion = String(prevPrices[0]).includes("억");
+
   backPrices[0] = Number(
-    String(prices[0]).replace("만", "0000").replace("억", "00000000")
+    String(prevPrices[0]).replace("만", "0000").replace("억", "00000000")
   );
 
-  const isBillion = String(prices[1]).includes("억");
+  const isMaxBillion = String(prevPrices[1]).includes("억");
   backPrices[1] = Number(
-    String(prices[1])
+    String(prevPrices[1])
       .replace("만", "0000")
       .replace("억", "")
       .replace("무제한", "")
   );
 
-  backPrices[1] = isBillion ? backPrices[1] * 100000000 : backPrices[1];
+  console.log("backPrices[0]", backPrices[0]);
+  backPrices[0] = Math.floor(
+    isMinBillion ? backPrices[0] * 100000000 : backPrices[0]
+  );
+  backPrices[1] = Math.floor(
+    isMaxBillion ? backPrices[1] * 100000000 : backPrices[1]
+  );
 
   if (backPrices[0] == "0") {
-    backPrices.reverse().pop();
+    backPrices[0] = -1;
   }
 
   if (backPrices[1] == "") {
-    backPrices.pop();
+    backPrices[1] = -1;
   }
+
   return backPrices;
 };
 
@@ -53,20 +70,32 @@ const getBackPy = (py) => {
   }
 };
 
+const getParamValueName = (idx) => {
+  return backParamsValueList[idx].paramName;
+};
+const getParamRangeName = (idx, first) => {
+  if (first) {
+    return backParamsRangeList[idx].paramNameStart;
+  }
+  return backParamsRangeList[idx].paramNameEnd;
+};
+
 export const getBackOptions = (_options) => {
   let backOptions = {};
-  // { eng: "roomKind", kor: "방 종류" },
-  // { eng: "cellKind", kor: "매매 종류" },
+
   optionsMenu.forEach((op, idx) => {
     if (_options[op.eng] !== "전체") {
-      if (idx == 0) {
-        backOptions[op.eng] = RoomKinds[_options[op.eng]];
-      } else if (idx == 1) {
-        backOptions[op.eng] = CellKinds[_options[op.eng]];
-      } else if (idx == 2) {
-        backOptions[op.eng] = getBackPy(_options[op.eng]);
-      } else if (idx < 5) {
-        backOptions[op.eng] = getBackFilter(_options[op.eng]);
+      if (idx < 5) {
+        const paramName = getParamValueName(idx);
+        if (idx == 0) {
+          backOptions[paramName] = RoomKindsToBack[_options[op.eng]];
+        } else if (idx == 1) {
+          backOptions[paramName] = CellKindsToBack[_options[op.eng]];
+        } else if (idx == 2) {
+          backOptions[paramName] = getBackPy(_options[op.eng]);
+        } else {
+          backOptions[paramName] = getBackFilter(_options[op.eng]);
+        }
       } else {
         const isSameOne = (element) => element == "전체";
         const isSameTwo = (element) => element == "0";
@@ -76,17 +105,29 @@ export const getBackOptions = (_options) => {
           (_options[op.eng].findIndex(isSameTwo) == -1 ||
             _options[op.eng].findIndex(isSameThree) == -1)
         ) {
+          const minParamName = getParamRangeName(idx - 5, true);
+          const maxParamName = getParamRangeName(idx - 5, false);
+
           if (idx == 5) {
-            backOptions[op.eng] = getBackPrices(op.eng, _options[op.eng]);
+            const range = getBackPrices(op.eng, _options[op.eng]);
+            if (range[0] > 0) {
+              backOptions[minParamName] = range[0];
+            }
+            if (range[1] > 0) {
+              backOptions[maxParamName] = range[1];
+            }
           } else {
             Prices.forEach((item) => {
               if (_options.cellKind == item.name) {
                 item.list.forEach((item) => {
                   if (item == op.eng) {
-                    backOptions[op.eng] = getBackPrices(
-                      op.eng,
-                      _options[op.eng]
-                    );
+                    const range = getBackPrices(op.eng, _options[op.eng]);
+                    if (range[0] > 0) {
+                      backOptions[minParamName] = range[0];
+                    }
+                    if (range[1] > 0) {
+                      backOptions[maxParamName] = range[1];
+                    }
                   }
                 });
               }
