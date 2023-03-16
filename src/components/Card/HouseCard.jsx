@@ -60,18 +60,35 @@ function HouseCard({
           />
           <Box left="8%" top="10px" spacing="3" position="relative">
             <Box w="22vw">
-              <Heading w="100%" size="md" mb="5px" fontSize="26px">
+              <Heading
+                w="100%"
+                size="md"
+                mb="5px"
+                fontSize="1.7em"
+                color="blackAlpha.800"
+              >
                 {address}
               </Heading>
-              <Text h="auto" w="100%" fontSize="17px">
+              <Text
+                h="auto"
+                w="100%"
+                color="blackAlpha.800"
+                fontSize="1.1em"
+                mb="4"
+              >
                 {description.length > 17
                   ? description.substring(0, 17) + "..."
                   : description}
               </Text>
-              <Text mt="5px" color="blue.600" fontSize="25px">
+              <Text
+                mt="5px"
+                color="blackAlpha.800"
+                fontSize="1.5em"
+                fontWeight="600"
+              >
                 {`${RoomKindsToFront[room_kind]} ${CellKindsToFront[cell_kind]}`}
               </Text>
-              <Text mt="5px" color="blue.600" fontSize="22px">
+              <Text mt="5px" color="red.400" fontSize="1.4em" fontWeight="600">
                 {`${getSaleContents(cell_kind, deposit, monthly_rent, sale)}`}
               </Text>
             </Box>
