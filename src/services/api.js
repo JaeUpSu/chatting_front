@@ -1,13 +1,9 @@
 import axios from "axios";
 import Cookie from "js-cookie";
 
-// https://izuna.pythonanywhere.com/redoc
-
 // 객체 만들기
 const instance = axios.create({
   baseURL: "/api/v1",
-  // baseURL: "https://izuna.pythonanywhere.com/api/v1/",
-  // baseURL: "http://127.0.0.1:8000/api/v1/",
   withCredentials: true,
 });
 
@@ -203,7 +199,7 @@ export const getGuList = () =>
 export const getDongList = async ({ queryKey }) => {
   const [_, id] = queryKey;
   return await instance
-    .get(`houses/gulist/${id}`)
+    .get(`houses/${id}/donglist`)
     .then((response) => response.data);
 };
 

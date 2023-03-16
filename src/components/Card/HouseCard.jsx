@@ -44,7 +44,9 @@ function HouseCard({
       >
         <VStack>
           <Box
-            backgroundImage={Image[0].url}
+            backgroundImage={
+              "https://img.seoul.co.kr/img/upload/2019/12/03/SSI_20191203152256_O2.jpg"
+            }
             backgroundSize="cover"
             backgroundRepeat="no-repeat"
             backgroundPosition="center"

@@ -139,5 +139,33 @@ export const initParams = () => {
     monthlyRentRange: sessionStorage.getItem("monthlyRentRange")
       ? sessionStorage.getItem("monthlyRentRange").split(",")
       : [0, 30],
+    gu: sessionStorage.getItem("gugunsiIdx")
+      ? sessionStorage.getItem("gugunsiIdx")
+      : "-1",
+    dong: sessionStorage.getItem("ebmyeondongIdx")
+      ? sessionStorage.getItem("ebmyeondongIdx")
+      : "-1",
   };
+};
+
+export const getInitOrderBy = () => {
+  let initOrderBy = [];
+  const ordersFront = ["최근순", "조회순", "낮은가격순"];
+  const orders = {
+    lastest: "최근순",
+    visited: "조회순",
+    row_price: "낮은가격순",
+  };
+
+  const orderBy = sessionStorage.getItem("sort_by")
+    ? orders[sessionStorage.getItem("sort_by")]
+    : "최근순";
+
+  initOrderBy.push(orderBy);
+  ordersFront.forEach((item, idx) => {
+    if (orderBy !== item) {
+      initOrderBy.push(item);
+    }
+  });
+  return initOrderBy;
 };

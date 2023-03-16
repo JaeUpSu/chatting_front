@@ -9,18 +9,14 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Center,
 } from "@chakra-ui/react";
 import { HiChevronDown } from "react-icons/hi";
+import { BiRefresh } from "react-icons/bi";
 import styled from "styled-components";
 
 import { useEffect, useState, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 
-// import { useQuery } from "@tanstack/react-query";
-import { filterMenu, options, optionsMenu, rooms } from "../../services/data";
-import { getOptionsSize } from "../../utils/getOptionsSize";
-import { getOptionsByUrl } from "../../utils/getOptionsByUrl";
-import { getDelOptionsUrl } from "../../utils/getDelOptionsUrl";
 import { getBackOptions } from "../../utils/getBackOptions";
 import { getOptionHouses } from "../../services/api";
 import { getBackOrderBy } from "../../utils/getBackOrderBy";
@@ -30,7 +26,7 @@ import useInfiniteScroll from "../../utils/useInfiniteScroll";
 import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
-import OptionBadge from "../../components/Badge/OptionBadge";
+import { getInitOrderBy, initParams } from "../../services/local";
 
 const TopBtn = styled.div`
   position: fixed;
@@ -71,10 +67,17 @@ function HouseList() {
     depositRange: [0, 30],
     monthlyRentRange: [0, 30],
   });
-  const [orderBy, setOrderBy] = useState(["최근순", "조회순", "낮은가격순"]);
+  const [orderBy, setOrderBy] = useState(getInitOrderBy());
 
-  const { data, totalCounts, hasNextPage, setFetching, setBackParams } =
-    useInfiniteScroll(getOptionHouses, { size: 24 });
+  const {
+    data,
+    totalCounts,
+    hasNextPage,
+    isLoading,
+    setFetching,
+    setBackParams,
+  } = useInfiniteScroll(getOptionHouses, { size: 24 });
+  // const [loading, setLoading] = useState(false);
 
   const onOrderBy = (e) => {
     const value = e.currentTarget.getAttribute("value");
@@ -98,23 +101,16 @@ function HouseList() {
     });
   };
 
+  const onInitOptions = () => {
+    sessionStorage.clear();
+    window.location.reload();
+    // setAPIParams(initParams);
+  };
+
   // init options
-  useEffect(() => {
-    // let initOptions = {};
-    // optionsMenu.forEach((item, idx) => {
-    //   if (idx < 5) {
-    //     initOptions[item.eng] = sessionStorage.getItem(item.eng)
-    //       ? sessionStorage.getItem(item.eng)
-    //       : "전체";
-    //   } else {
-    //     console.log("deposit", sessionStorage.getItem("depositRange"));
-    //     initOptions[item.eng] = sessionStorage.getItem(item.eng)
-    //       ? sessionStorage.getItem(item.eng).split(",")
-    //       : [options[item.eng].values[0], options[item.eng].values[3]];
-    //   }
-    // });
-    // setAPIParams(initOptions);
-  }, []);
+  // useEffect(() => {
+  //   sessionStorage.clear();
+  // }, []);
 
   // scroll reload event
   useEffect(() => {
@@ -147,9 +143,22 @@ function HouseList() {
   }, [orderBy]);
 
   useEffect(() => {
+    const dong = sessionStorage.getItem("ebmyeondongIdx")
+      ? sessionStorage.getItem("ebmyeondongIdx")
+      : "-1";
+
+    setAPIParams((params) => {
+      return { ...params, dong };
+    });
+  }, [address]);
+
+  useEffect(() => {
+    console.log("loading", isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
     const apiParams = getBackOptions(APIParams);
     setBackParams(apiParams);
-    // window.location.reload();
   }, [APIParams]);
 
   return (
@@ -164,7 +173,7 @@ function HouseList() {
               <AddressMenu onUpdate={setAddress} />
             </Flex>
             <Flex w="80%" ml="20px">
-              <HouseOptMenu onUpdate={setAPIParams} address={address} />
+              <HouseOptMenu onUpdate={setAPIParams} />
             </Flex>
           </Flex>
         </GridItem>{" "}
@@ -184,27 +193,53 @@ function HouseList() {
               minW="250px"
               maxW="280px"
             >
-              {totalCounts ? `부동산 목록 ${totalCounts} 개` : "비어있습니다"}
+              {isLoading
+                ? "Loading..."
+                : totalCounts
+                ? `부동산 목록 ${totalCounts} 개`
+                : "비어있습니다"}
             </Text>
-            {totalCounts ? (
-              <Menu>
-                <MenuButton as={Button} rightIcon={<HiChevronDown />}>
-                  {orderBy[0]}
-                </MenuButton>
-                <MenuList>
-                  {orderBy.map((item, idx) => {
-                    if (idx > 0) {
-                      return (
-                        <MenuItem key={idx} onClick={onOrderBy} value={item}>
-                          {item}
-                        </MenuItem>
-                      );
-                    }
-                  })}
-                </MenuList>
-              </Menu>
-            ) : (
+            {isLoading ? (
+              "Loading..."
+            ) : totalCounts ? (
               ""
+            ) : (
+              <HStack>
+                <Menu>
+                  <MenuButton
+                    size="sm"
+                    as={Button}
+                    rightIcon={<HiChevronDown />}
+                  >
+                    {orderBy[0]}
+                  </MenuButton>
+                  <MenuList>
+                    {orderBy.map((item, idx) => {
+                      if (idx > 0) {
+                        return (
+                          <MenuItem key={idx} onClick={onOrderBy} value={item}>
+                            {item}
+                          </MenuItem>
+                        );
+                      }
+                    })}
+                  </MenuList>
+                </Menu>
+                <Button
+                  size="sm"
+                  rightIcon={
+                    <BiRefresh
+                      style={{
+                        fontSize: "1.5em",
+                      }}
+                    />
+                  }
+                  onClick={onInitOptions}
+                >
+                  {" "}
+                  초기화
+                </Button>
+              </HStack>
             )}
           </HStack>
         </GridItem>
@@ -230,11 +265,24 @@ function HouseList() {
             },
           }}
         >
-          <Flex flexWrap="wrap" maxH="100vh">
-            {data?.map((item, idx) => {
-              return <HouseCard key={idx} {...item} />;
-            })}
-          </Flex>
+          {isLoading ? (
+            "Loading..."
+          ) : totalCounts ? (
+            <Flex flexWrap="wrap" maxH="100vh">
+              {data?.map((item, idx) => {
+                return <HouseCard key={idx} {...item} />;
+              })}
+            </Flex>
+          ) : (
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              height="65vh"
+              fontWeight="600"
+            >
+              해당 옵션을 가진 제품은 없습니다.
+            </Flex>
+          )}
         </GridItem>
       </Grid>
       <TopBtn onClick={onTop}>Top</TopBtn>
