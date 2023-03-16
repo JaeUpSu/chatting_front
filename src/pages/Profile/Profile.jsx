@@ -9,6 +9,7 @@ import {
   Button,
   List,
   ListItem,
+  Image,
 } from "@chakra-ui/react";
 
 // Component for registering a house
@@ -58,17 +59,28 @@ function ViewHouses(props) {
   // Retrieve the landlord's registered houses and transaction records from the backend
   const houses = [
     {
+      id: 1,
       address: "123 Main St",
-      price: 100000,
-      transactions: [{ date: "01/01/2023", amount: 50000 }],
+      bedrooms: 2,
+      bathrooms: 2,
+      rent: 2500,
+      imageUrl: "https://cdn.imweb.me/thumbnail/20191030/5ec98b32ba90f.png",
     },
     {
-      address: "456 Maple Ave",
-      price: 200000,
-      transactions: [
-        { date: "02/01/2023", amount: 100000 },
-        { date: "03/01/2023", amount: 50000 },
-      ],
+      id: 2,
+      address: "456 Elm St",
+      bedrooms: 3,
+      bathrooms: 2,
+      rent: 3000,
+      imageUrl: "https://cdn.imweb.me/thumbnail/20191030/5ec98b32ba90f.png",
+    },
+    {
+      id: 3,
+      address: "789 Oak St",
+      bedrooms: 1,
+      bathrooms: 1,
+      rent: 1500,
+      imageUrl: "https://cdn.imweb.me/thumbnail/20191030/5ec98b32ba90f.png",
     },
   ];
 
@@ -77,31 +89,24 @@ function ViewHouses(props) {
       <Heading as="h3" size="md" mb="4">
         Your Registered Houses
       </Heading>
-      <List>
+      <List display="flex" flexWrap="wrap">
         {houses.map((house) => (
-          <ListItem key={house.address} mb="4">
-            <Box borderWidth="1px" borderRadius="lg" p="4">
-              <p>
-                <strong>Address:</strong> {house.address}
-              </p>
-              <p>
-                <strong>Price:</strong> {house.price}
-              </p>
-              <Heading as="h4" size="sm" mt="4" mb="2">
-                Transaction Records
+          <ListItem
+            key={house.id}
+            mb="4"
+            flex="1"
+            minWidth="300px"
+            marginRight="4"
+          >
+            <Image src={house.imageUrl} alt={house.address} mr="4" w="200px" />
+            <Box>
+              <Heading as="h4" size="md" mb="2">
+                {house.address}
               </Heading>
-              <List>
-                {house.transactions.map((transaction) => (
-                  <ListItem key={transaction.date} mb="2">
-                    <p>
-                      <strong>Date:</strong> {transaction.date}
-                    </p>
-                    <p>
-                      <strong>Amount:</strong> {transaction.amount}
-                    </p>
-                  </ListItem>
-                ))}
-              </List>
+              <p>
+                {house.bedrooms} bedroom, {house.bathrooms} bathroom - $
+                {house.rent}/month
+              </p>
             </Box>
           </ListItem>
         ))}
@@ -119,7 +124,7 @@ function Profile(props) {
   };
 
   return (
-    <Box maxW="md" mx="auto" my="8" h="800px" overflowY="scroll">
+    <Box maxW="lg" mx="auto" my="8" h="800px" overflowY="scroll">
       <Box borderWidth="1px" borderRadius="lg" p="4" mb="5">
         <Heading as="h3" size="md" mb="4">
           Gneral User Profile
