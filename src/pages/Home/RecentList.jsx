@@ -20,21 +20,6 @@ const FontFam = styled.p`
   margin-right: 10px;
 `;
 
-const PrevArrow = ({ onClick }) => {
-  return (
-    <div className="arrow prev-arrow" onClick={onClick}>
-      <FontAwesomeIcon icon={faArrowLeft} />
-    </div>
-  );
-};
-const NextArrow = ({ onClick }) => {
-  return (
-    <div className="arrow next-arrow" onClick={onClick}>
-      <FontAwesomeIcon icon={faArrowRight} />
-    </div>
-  );
-};
-
 const RecentWrapper = styled.div`
   width: 1000px;
   margin: 0 auto;
@@ -42,21 +27,8 @@ const RecentWrapper = styled.div`
   .arrow {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
     font-size: 24px;
     cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-    &:hover {
-      opacity: 1;
-    }
-  }
-  .prev-arrow {
-    left: -25px;
-  }
-  .next-arrow {
-    right: 0px;
-  }
 `;
 
 const RecentList = () => {
@@ -73,8 +45,6 @@ const RecentList = () => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 2,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
     responsive: [
       {
         breakpoint: 1024,

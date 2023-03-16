@@ -42,21 +42,8 @@ const LikedWrapper = styled.div`
   .arrow {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
     font-size: 24px;
     cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-    &:hover {
-      opacity: 1;
-    }
-  }
-  .prev-arrow {
-    left: -25px;
-  }
-  .next-arrow {
-    right: 0px;
-  }
 `;
 
 const LikedList = () => {
@@ -75,8 +62,6 @@ const LikedList = () => {
     slidesToScroll: 3,
     autoplay: true,
     autoplaySpeed: 4000,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
     responsive: [
       {
         breakpoint: 1024,
