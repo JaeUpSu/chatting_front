@@ -133,7 +133,6 @@ function Profile(props) {
           <ListItem>Membership Type: Premium</ListItem>
         </List>
       </Box>
-      <br />
       <FormControl mb="4">
         <FormLabel>User Type</FormLabel>
         <Select value={userType} onChange={handleUserTypeChange}>
