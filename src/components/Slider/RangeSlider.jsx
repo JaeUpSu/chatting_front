@@ -62,7 +62,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
                   px: "3",
                   py: "2",
                   rounded: "full",
-                  bg: "blue.700",
+                  bg: "red.700",
                   color: "white",
                   fontSize: "15px",
                 }
@@ -71,7 +71,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
                   px: "3",
                   py: "2",
                   rounded: "full",
-                  bg: "blue.700",
+                  bg: "red.700",
                   color: "white",
                   fontSize: "15px",
                 }
@@ -87,7 +87,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
         min={0}
         max={30}
         step={1}
-        w="480px"
+        w="450px"
         onChange={handleChange}
         position="relative"
       >
@@ -99,8 +99,8 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
             </RangeSliderMark>
           );
         })}
-        <RangeSliderTrack bg="blue.100">
-          <RangeSliderFilledTrack bg="blue.700" ml="10px" />
+        <RangeSliderTrack bg="red.100">
+          <RangeSliderFilledTrack bg="red.700" ml="10px" />
         </RangeSliderTrack>
         <RangeSliderThumb
           max={values[0] ? values[0] - 10 : -10}
@@ -110,7 +110,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
           border="2px solid black"
           ml={`11px`}
         >
-          <Box color="blue.700" position="absolute" left={0} fontWeight="600">
+          <Box color="red.700" position="absolute" left={0} fontWeight="600">
             min
           </Box>
         </RangeSliderThumb>
@@ -122,7 +122,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
           border="2px solid black"
           ml={`20px`}
         >
-          <Box color="blue.700" position="absolute" left={0} fontWeight="600">
+          <Box color="red.700" position="absolute" left={0} fontWeight="600">
             max
           </Box>
         </RangeSliderThumb>

@@ -236,8 +236,8 @@ export const options = {
   },
   priceRange: {
     values: [0, 5000, 25000, 100000],
-    labels: ["0", "5천만", "2.5억", "무제한"],
-    steps: [500, 2000, 3000],
+    labels: ["0", "5억", "20억", "무제한"],
+    steps: [5000, 15000, 20000],
   },
   depositRange: {
     values: [0, 5000, 25000, 100000],
