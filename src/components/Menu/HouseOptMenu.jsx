@@ -49,8 +49,8 @@ function HouseOptMenu({ onUpdate }) {
   }, []);
 
   useEffect(() => {
-    const cellKind = selectedOpts[1];
-    setActivePrices(getActivePrices(cellKind));
+    const sellKind = selectedOpts[1];
+    setActivePrices(getActivePrices(sellKind));
     onUpdate((opts) => {
       let newParams = {};
       optionsMenu.forEach((item, idx) => {

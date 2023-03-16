@@ -52,11 +52,10 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   }, [backParams]);
 
   return {
-    page,
+    hasNextPage,
     data,
     totalCounts,
     isFetching,
-    hasNextPage,
     setFetching,
     setBackParams,
   };

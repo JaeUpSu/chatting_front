@@ -1,13 +1,13 @@
 import { options } from "../services/data";
 
-export const getActivePrices = (cellKind) => {
+export const getActivePrices = (sellKind) => {
   const activePricesItems = [
     [true, true, true],
     [true, false, false],
     [false, true, false],
     [false, true, true],
   ];
-  const cellKinds = options.cellKind;
-  const idx = cellKinds.findIndex((cell) => cell == cellKind);
+  const sellKinds = options.sellKind;
+  const idx = sellKinds.findIndex((sell) => sell == sellKind);
   return activePricesItems[idx];
 };

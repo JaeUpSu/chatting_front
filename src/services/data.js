@@ -216,7 +216,7 @@ export const options = {
     "오피스텔",
     "쉐어하우스",
   ],
-  cellKind: ["전체", "매매", "전세", "월세"],
+  sellKind: ["전체", "매매", "전세", "월세"],
   py: [
     "전체",
     "10평 이하",
@@ -253,7 +253,7 @@ export const options = {
 
 export const optionsMenu = [
   { eng: "roomKind", kor: "방 종류" },
-  { eng: "cellKind", kor: "매매 종류" },
+  { eng: "sellKind", kor: "매매 종류" },
   { eng: "py", kor: "평수" },
   { eng: "toilet_counts", kor: "화장실" },
   { eng: "room_counts", kor: "방" },
@@ -265,7 +265,7 @@ export const optionsMenu = [
 
 export const backParamsValueList = [
   { name: "roomKind", paramName: "room_kind" },
-  { name: "cellKind", paramName: "cell_kind" },
+  { name: "sellKind", paramName: "sell_kind" },
   { name: "py", paramName: "pyeongsu" },
   { name: "toilet_counts", paramName: "num_of_toilet" },
   { name: "room_counts", paramName: "num_of_room" },
@@ -306,7 +306,7 @@ export const Prices = [
   { name: "전세", list: ["depositRange"] },
   { name: "월세", list: ["depositRange", "monthlyRentRange"] },
 ];
-export const CellKindsToBack = {
+export const SellKindsToBack = {
   매매: "SALE",
   월세: "MONTHLY_RENT",
   전세: "CHARTER",
@@ -319,7 +319,7 @@ export const RoomKindsToBack = {
   원룸: "ONE_ROOM",
   주택: "HOME",
 };
-export const CellKindsToFront = {
+export const SellKindsToFront = {
   SALE: "매매",
   MONTHLY_RENT: "월세",
   CHARTER: "전세",
