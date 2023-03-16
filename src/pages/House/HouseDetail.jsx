@@ -81,7 +81,7 @@ function House() {
               display="flex"
               alignItems="center"
             >
-              {data?.is_sale ? "팔렸습니다" : ""}
+              {data?.is_sale ? "" : "팔렸습니다"}
               <br />
               <br />
               {`${data?.address} ${data?.title}`}
