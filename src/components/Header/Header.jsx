@@ -49,8 +49,8 @@ function Header() {
   const onSignUp = () => {
     navigate(`/signup`);
   };
-  const onHouse = () => {
-    navigate(`/houseList/house/houseId`);
+  const onSell = () => {
+    navigate(`/sell`);
   };
   const onHouseList = () => {
     navigate(`/houseList`);
@@ -71,6 +71,7 @@ function Header() {
         <FontAwesomeIcon size={"2x"} icon={faUserPlus} onClick={onSignUp} />
         <Text onClick={onHouseList}>집리스트</Text>
         <Text onClick={onProfile}>프로필</Text>
+        <Text onClick={onSell}>판매</Text>
       </HStack>
       <HStack>
         <FontAwesomeIcon
