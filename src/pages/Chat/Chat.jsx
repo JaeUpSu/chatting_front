@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import {
+  Avatar,
   Box,
   Button,
   Grid,
@@ -65,7 +66,7 @@ const ChatRoom = () => {
 
   useEffect(() => {
     // Connect to the WebSocket server
-    socketRef.current = new WebSocket(`ws://127.0.0.1:8001/ws/${chatRoomPk}`);
+    socketRef.current = new WebSocket(`ws://127.0.0.1:8000/ws/${chatRoomPk}`);
     setSocket(socketRef.current);
 
     // Load chat history
@@ -124,7 +125,7 @@ const ChatRoom = () => {
   const navigate = useNavigate();
 
   return (
-    <VStack as={"form"} onSubmit={handleSubmit(onSubmit)}>
+    <VStack as={"form"} w="100%" spacing="0" onSubmit={handleSubmit(onSubmit)}>
       <VStack spacing={5} width={"100%"}>
         <Box
           borderWidth="1px"

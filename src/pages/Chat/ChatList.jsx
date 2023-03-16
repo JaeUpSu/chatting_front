@@ -80,6 +80,7 @@ export default function ChatList() {
                     <ListChat
                       id={room.id}
                       key={index}
+                      house={room.house}
                       users={room.users
                         .map((value) =>
                           user.name == value.name ? null : value

@@ -19,6 +19,7 @@ export default function ListChat({
   unread_messages,
   updated_at,
   lastMessage,
+  house,
 }) {
   const navigate = useNavigate();
   const { user } = useUser();
@@ -55,7 +56,7 @@ export default function ListChat({
             alignItems={"flex-start"}
           >
             <Heading size="sm">
-              {users[0]?.name} 님과의 채팅방
+              {users[0]?.username} 님과의 채팅방
               {unread_messages !== 0 ? (
                 <Text ml={"3"} as={"span"} color="red.300">
                   {" "}
@@ -64,7 +65,6 @@ export default function ListChat({
               ) : null}
             </Heading>
           </HStack>
-
           <Text fontSize="sm" color="gray.800">
             {lastMessage}
           </Text>
@@ -73,7 +73,10 @@ export default function ListChat({
           </Text>
         </VStack>
       </HStack>
-      <Button onClick={onDelete}>삭제하기</Button>
+      <VStack w="lg" alignItems={"flex-end"}>
+        <Text>{house.title}</Text>
+        <Button onClick={onDelete}>삭제하기</Button>
+      </VStack>
     </HStack>
   );
 }

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getHouse } from "../../services/api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getHouse, makeChatRoom } from "../../services/api";
 import { getSaleContents } from "../../utils/getSaleContents";
 
 import {
@@ -20,6 +20,7 @@ import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 function House() {
   const params = useParams();
   const id = params.houseId;
+  const navigate = useNavigate();
   const { data, isLoading } = useQuery(["house", id], getHouse);
 
   useEffect(() => {
@@ -29,6 +30,15 @@ function House() {
   useEffect(() => {
     console.log("Detail", data);
   }, [data]);
+  const mutation = useMutation(makeChatRoom, {
+    onMutate: () => console.log(1),
+    onSuccess: () => {
+      navigate("/chatlist");
+    },
+  });
+  const goChat = () => {
+    mutation.mutate(id);
+  };
   return (
     <>
       <Box
@@ -107,27 +117,20 @@ function House() {
             </Heading>
             <List mb="4" fontSize="17">
               <ListItem>동네 : {data?.dong.name}</ListItem>
-              <br />
               <ListItem>방종류 : {RoomKindsToFront[data?.room_kind]}</ListItem>
-              <br />
               <ListItem>전용면적 : {data?.pyeongsu} 평</ListItem>
-              <br />
               <ListItem>방 수 : {data?.room}개 </ListItem>
-              <br />
               <ListItem> 화장실 수 : {data?.toilet}개</ListItem>
-              <br />
               <ListItem>
                 역세권 : {data?.distance_to_station < 250 ? "YES" : "NO"}
               </ListItem>
-              <br />
             </List>
 
             <Heading as="h1" fontSize="3xl" mb="4">
               옵션
             </Heading>
-            <List mb="4" fontSize="17">
+            <List mb="4" fontSize="17" spacing={5}>
               <ListItem>에어컨 / 세탁기 / 옷장 / 냉장고 / 인덕션</ListItem>
-              <br />
             </List>
 
             <Heading as="h1" fontSize="3xl" mb="4">
@@ -137,10 +140,16 @@ function House() {
               <ListItem>
                 비디오폰 / 공동현관 / CCTV / 카드키 / 화재경보기
               </ListItem>
-              <br />
             </List>
 
-            <Button colorScheme="blue" size="lg">
+            <Button
+              colorScheme="red"
+              size="lg"
+              position={"fixed"}
+              bottom={10}
+              right={10}
+              onClick={goChat}
+            >
               채팅하기
             </Button>
           </Box>
