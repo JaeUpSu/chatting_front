@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getHouse } from "../../services/api";
 import { getSaleContents } from "../../utils/getSaleContents";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getHouse, makeChatRoom } from "../../services/api";
