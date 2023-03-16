@@ -5,6 +5,8 @@ import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const HouseImg = styled.img`
   max-width: 200px;
@@ -18,11 +20,43 @@ const FontFam = styled.p`
   margin-right: 10px;
 `;
 
+const PrevArrow = ({ onClick }) => {
+  return (
+    <div className="arrow prev-arrow" onClick={onClick}>
+      <FontAwesomeIcon icon={faArrowLeft} />
+    </div>
+  );
+};
+const NextArrow = ({ onClick }) => {
+  return (
+    <div className="arrow next-arrow" onClick={onClick}>
+      <FontAwesomeIcon icon={faArrowRight} />
+    </div>
+  );
+};
+
 const LikedWrapper = styled.div`
-  max-width: 1000px;
-  overflow: hidden;
+  width: 1000px;
   margin: 0 auto;
-  margin-bottom: 50px;
+  overflow: hidden;
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .prev-arrow {
+    left: -25px;
+  }
+  .next-arrow {
+    right: 0px;
+  }
 `;
 
 const LikedList = () => {
@@ -38,23 +72,23 @@ const LikedList = () => {
     infinite: true,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToScroll: 3,
     autoplay: true,
-    autoplaySpeed: 2500,
+    autoplaySpeed: 4000,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 4,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: false,
+          slidesToShow: 3,
+          slidesToScroll: 2,
         },
       },
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 3,
           slidesToScroll: 2,
         },
       },

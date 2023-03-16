@@ -62,7 +62,7 @@ function Header() {
   } = useDisclosure();
   return (
     <HStack justifyContent={"space-between"} px={"10"} py={"3"}>
-      <Text onClick={onHome} fontSize="2xl" color={"#ff404c"}>
+      <Text onClick={onHome} fontSize="2xl" color={"#ff404c"} cursor="pointer">
         BangSam
       </Text>
       {/* 없어질 컬럼 (routing 편하게 할려고 만듬) */}
@@ -72,8 +72,18 @@ function Header() {
         <Text onClick={onHouseList}>집리스트</Text>
       </HStack>
       <HStack>
-        <FontAwesomeIcon size={"2x"} icon={faComment} onClick={onChat} />
-        <FontAwesomeIcon size={"2x"} icon={faComments} onClick={onChatList} />
+        <FontAwesomeIcon
+          size={"2x"}
+          cursor="pointer"
+          icon={faComment}
+          onClick={onChat}
+        />
+        <FontAwesomeIcon
+          size={"2x"}
+          cursor="pointer"
+          icon={faComments}
+          onClick={onChatList}
+        />
         {!isLoggedIn && !userLoading ? (
           <Avatar onClick={() => onLoginOpen()} />
         ) : (
