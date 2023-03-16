@@ -124,55 +124,63 @@ function Profile(props) {
   };
 
   return (
-    <Box maxW="lg" mx="auto" my="8" h="800px" overflowY="scroll">
-      <Box borderWidth="1px" borderRadius="lg" p="4" mb="5">
-        <Heading as="h3" size="md" mb="4">
-          Gneral User Profile
-        </Heading>
-        <p>Welcome to your profile page!</p>
-        <p>Here is some general information about you:</p>
-        <List styleType="none" mt="4">
-          <ListItem>Name: John Doe</ListItem>
-          <ListItem>Email: john.doe@example.com</ListItem>
-          <ListItem>Membership Status: Active</ListItem>
-          <ListItem>Membership Type: Premium</ListItem>
-        </List>
-      </Box>
-      <FormControl mb="4">
-        <FormLabel>User Type</FormLabel>
-        <Select value={userType} onChange={handleUserTypeChange}>
-          <option value="general">General</option>
-          <option value="landlord">Landlord</option>
-          <option value="broker">Broker</option>
-        </Select>
-      </FormControl>
-
-      {userType === "landlord" && (
-        <>
-          <RegisterHouse />
-          <ViewHouses />
-        </>
-      )}
-
-      {userType === "broker" && (
-        <Box borderWidth="1px" borderRadius="lg" p="4">
+    <Box maxWidth="100vw" margin="0 auto">
+      <Box
+        w="70vw"
+        mx="auto"
+        my="8"
+        h="800px"
+        overflowY="scroll"
+        boxShadow="0px 3px 3px 1px black"
+        padding="20px"
+        borderRadius="10px"
+      >
+        <Box borderWidth="1px" borderRadius="lg" p="4" mb="5">
           <Heading as="h3" size="md" mb="4">
-            Broker Profile
+            User Profile
           </Heading>
-          <p>Here is a list of registered houses and transaction records:</p>
-          <List mt="4">
-            <ListItem>
-              123 Main St - 2 bedroom, 2 bathroom apartment - $2,500/month
-            </ListItem>
-            <ListItem>
-              456 Elm St - 3 bedroom, 2 bathroom house - $3,000/month
-            </ListItem>
-            <ListItem>
-              789 Oak St - 1 bedroom, 1 bathroom studio - $1,500/month
-            </ListItem>
+          <List styleType="none" mt="4">
+            <ListItem>Name: John Doe</ListItem>
+            <ListItem>Email: john.doe@example.com</ListItem>
+            <ListItem>Membership Status: Active</ListItem>
+            <ListItem>Membership Type: Premium</ListItem>
           </List>
         </Box>
-      )}
+        <FormControl mb="4">
+          <FormLabel>User Type</FormLabel>
+          <Select value={userType} onChange={handleUserTypeChange}>
+            <option value="landlord">Landlord</option>
+            <option value="broker">Broker</option>
+          </Select>
+        </FormControl>
+
+        {userType === "landlord" && (
+          <>
+            <RegisterHouse />
+            <ViewHouses />
+          </>
+        )}
+
+        {userType === "broker" && (
+          <Box borderWidth="1px" borderRadius="lg" p="4">
+            <Heading as="h3" size="md" mb="4">
+              Broker Profile
+            </Heading>
+            <p>Here is a list of registered houses and transaction records:</p>
+            <List mt="4">
+              <ListItem>
+                123 Main St - 2 bedroom, 2 bathroom apartment - $2,500/month
+              </ListItem>
+              <ListItem>
+                456 Elm St - 3 bedroom, 2 bathroom house - $3,000/month
+              </ListItem>
+              <ListItem>
+                789 Oak St - 1 bedroom, 1 bathroom studio - $1,500/month
+              </ListItem>
+            </List>
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 }
