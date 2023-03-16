@@ -87,7 +87,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
         min={0}
         max={30}
         step={1}
-        w="35vw"
+        w="450px"
         onChange={handleChange}
         position="relative"
       >
