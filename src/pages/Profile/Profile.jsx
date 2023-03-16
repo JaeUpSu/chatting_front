@@ -156,8 +156,8 @@ function Profile(props) {
 
         {userType === "landlord" && (
           <>
-            <RegisterHouse />
             <ViewHouses />
+            <RegisterHouse />
           </>
         )}
 
