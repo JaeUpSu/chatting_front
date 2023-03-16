@@ -70,6 +70,7 @@ function Header() {
       <HStack>
         <FontAwesomeIcon size={"2x"} icon={faUserPlus} onClick={onSignUp} />
         <Text onClick={onHouseList}>집리스트</Text>
+        <Text onClick={onProfile}>프로필</Text>
       </HStack>
       <HStack>
         <FontAwesomeIcon

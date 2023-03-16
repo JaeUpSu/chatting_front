@@ -31,11 +31,11 @@ import { getInitOrderBy, initParams } from "../../services/local";
 const TopBtn = styled.div`
   position: fixed;
   top: 95%;
-  right: 30px;
+  right: 45px;
   width: 60px;
   height: 60px;
   transform: translateY(-50%);
-  background-color: navy;
+  background-color: red;
   border-radius: 50%;
   font-size: 17px;
   font-weight: bold;
@@ -73,11 +73,10 @@ function HouseList() {
     data,
     totalCounts,
     hasNextPage,
-    isLoading,
+    isFetching,
     setFetching,
     setBackParams,
   } = useInfiniteScroll(getOptionHouses, { size: 24 });
-  // const [loading, setLoading] = useState(false);
 
   const onOrderBy = (e) => {
     const value = e.currentTarget.getAttribute("value");
@@ -104,13 +103,7 @@ function HouseList() {
   const onInitOptions = () => {
     sessionStorage.clear();
     window.location.reload();
-    // setAPIParams(initParams);
   };
-
-  // init options
-  // useEffect(() => {
-  //   sessionStorage.clear();
-  // }, []);
 
   // scroll reload event
   useEffect(() => {
@@ -153,10 +146,6 @@ function HouseList() {
   }, [address]);
 
   useEffect(() => {
-    console.log("loading", isLoading);
-  }, [isLoading]);
-
-  useEffect(() => {
     const apiParams = getBackOptions(APIParams);
     setBackParams(apiParams);
   }, [APIParams]);
@@ -193,17 +182,15 @@ function HouseList() {
               minW="250px"
               maxW="280px"
             >
-              {isLoading
+              {isFetching
                 ? "Loading..."
                 : totalCounts
                 ? `부동산 목록 ${totalCounts} 개`
                 : "비어있습니다"}
             </Text>
-            {isLoading ? (
+            {isFetching ? (
               "Loading..."
             ) : totalCounts ? (
-              ""
-            ) : (
               <HStack>
                 <Menu>
                   <MenuButton
@@ -240,6 +227,8 @@ function HouseList() {
                   초기화
                 </Button>
               </HStack>
+            ) : (
+              ""
             )}
           </HStack>
         </GridItem>
@@ -247,7 +236,7 @@ function HouseList() {
           area={"main"}
           mt="0.2%"
           mr="0.3%"
-          maxH="81vh"
+          maxH="72.5vh"
           ref={scrollRef}
           overflowY={"scroll"}
           overflowX="hidden"
@@ -265,9 +254,7 @@ function HouseList() {
             },
           }}
         >
-          {isLoading ? (
-            "Loading..."
-          ) : totalCounts ? (
+          {totalCounts ? (
             <Flex flexWrap="wrap" maxH="100vh">
               {data?.map((item, idx) => {
                 return <HouseCard key={idx} {...item} />;

@@ -138,7 +138,7 @@ export default function SignUp() {
           <FormLabel>ID</FormLabel>
           <Flex align="center">
             <Input {...register("username", { required: true })} />
-            {/* <Button ml="3" colorScheme="facebook">
+            {/* <Button ml="3" colorScheme="red">
               중복확인
             </Button> */}
           </Flex>
@@ -155,7 +155,7 @@ export default function SignUp() {
               type="password"
               {...register("password", { required: true })}
             />
-            {/* <Button ml="3" colorScheme="facebook">
+            {/* <Button ml="3" colorScheme="red">
               중복확인
             </Button> */}
           </Flex>

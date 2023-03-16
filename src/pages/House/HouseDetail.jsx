@@ -15,11 +15,7 @@ import {
   GridItem,
   Center,
 } from "@chakra-ui/react";
-import {
-  CellKindsToBack,
-  RoomKindsToBack,
-  RoomKindsToFront,
-} from "../../services/data";
+import { CellKindsToFront, RoomKindsToFront } from "../../services/data";
 
 function House() {
   const params = useParams();
@@ -33,14 +29,6 @@ function House() {
   useEffect(() => {
     console.log("Detail", data);
   }, [data]);
-  // {
-  //   "id": 3,
-  //     "is_sale": true,
-  //     "is_owner": false,
-  //     "owner": 1,
-  //     "realtor": null,
-  //       "dong": 1
-  // }
   return (
     <>
       <Box
@@ -93,7 +81,7 @@ function House() {
               display="flex"
               alignItems="center"
             >
-              {data?.is_sale ? "팔렸습니다" : ""}
+              {data?.is_sale ? "" : "팔렸습니다"}
               <br />
               <br />
               {`${data?.address} ${data?.title}`}
@@ -118,6 +106,8 @@ function House() {
               상세정보
             </Heading>
             <List mb="4" fontSize="17">
+              <ListItem>판매 : {CellKindsToFront[data?.cell_kind]}</ListItem>
+              <br />
               <ListItem>동네 : {data?.dong.name}</ListItem>
               <br />
               <ListItem>방종류 : {RoomKindsToFront[data?.room_kind]}</ListItem>

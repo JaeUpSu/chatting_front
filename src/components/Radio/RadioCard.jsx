@@ -12,7 +12,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import {  optionsMenu } from "../../services/data";
+import { optionsMenu } from "../../services/data";
 
 function RadioCard({ name, radio, onSelect }) {
   const { getInputProps, getCheckboxProps } = useRadio(radio);
@@ -49,13 +49,13 @@ function RadioCard({ name, radio, onSelect }) {
         {...checkbox}
         backgroundColor="white"
         cursor="pointer"
-        borderWidth="3px"
-        borderColor="blue.600"
+        borderWidth="2px"
+        borderColor="red.300"
         fontWeight="600"
         borderRadius="md"
         boxShadow="md"
         _checked={{
-          bg: "blue.600",
+          bg: "red.300",
           color: "white",
           borderWidth: "3px",
         }}

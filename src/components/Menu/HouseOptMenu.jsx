@@ -87,7 +87,7 @@ function HouseOptMenu({ onUpdate }) {
               <Menu key={idx}>
                 <MenuButton
                   as={Button}
-                  colorScheme="facebook"
+                  colorScheme="red"
                   p="15px"
                   rightIcon={<IoIosArrowDown />}
                 >
@@ -125,7 +125,7 @@ function HouseOptMenu({ onUpdate }) {
               <Menu key={idx}>
                 <MenuButton
                   as={Button}
-                  colorScheme="facebook"
+                  colorScheme="red"
                   p="15px"
                   rightIcon={<IoIosArrowDown />}
                 >

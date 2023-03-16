@@ -47,10 +47,19 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   useEffect(() => {
     setPage(1);
     setData([]);
+    setNextPage(true);
     setFetching(true);
   }, [backParams]);
 
-  return { page, data, totalCounts, setFetching, setBackParams, hasNextPage };
+  return {
+    page,
+    data,
+    totalCounts,
+    isFetching,
+    hasNextPage,
+    setFetching,
+    setBackParams,
+  };
 };
 
 export default useInfiniteScroll;
