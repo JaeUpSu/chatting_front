@@ -18,8 +18,6 @@ const FontFam = styled.p`
   margin-right: 10px;
 `;
 
-const LikedCont = styled.div``;
-
 const LikedWrapper = styled.div`
   max-width: 1000px;
   overflow: hidden;
@@ -27,7 +25,6 @@ const LikedWrapper = styled.div`
   margin-bottom: 50px;
 `;
 
-//api 호출 //
 const LikedList = () => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["list"],
@@ -36,7 +33,6 @@ const LikedList = () => {
   });
   const likedList = data && data.filter((item) => item.isLike).slice(0, 11);
 
-  //캐러셀 슬라이드 로직
   const settings = {
     dots: false,
     infinite: true,
@@ -44,7 +40,7 @@ const LikedList = () => {
     slidesToShow: 4,
     slidesToScroll: 4,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 2500,
     responsive: [
       {
         breakpoint: 1024,
@@ -77,7 +73,7 @@ const LikedList = () => {
       <Slider {...settings}>
         {likedList &&
           likedList.map((item, index) => (
-            <LikedCont key={index}>
+            <div key={index}>
               <HouseImg src={item.img} />
               <Flex>
                 <FontFam>{item.type}</FontFam>
@@ -87,7 +83,7 @@ const LikedList = () => {
                 <FontFam> {item.totalPrice}</FontFam>
                 <p> {item?.rent}</p>
               </Flex>
-            </LikedCont>
+            </div>
           ))}
       </Slider>
     </LikedWrapper>

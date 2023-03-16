@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/layout";
-import React, { useState } from "react";
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import Slider from "react-slick";
@@ -17,8 +17,6 @@ const FontFam = styled.p`
   font-weight: 600;
   margin-right: 10px;
 `;
-
-const RecentCont = styled.div``;
 
 const RecentWrapper = styled.div`
   width: 1000px;
@@ -74,7 +72,7 @@ const RecentList = () => {
       <Slider {...settings}>
         {recentList &&
           recentList.map((item, index) => (
-            <RecentCont key={index}>
+            <div key={index}>
               <HouseImg src={item.img} />
               <Flex>
                 <FontFam>{item.type}</FontFam>
@@ -84,7 +82,7 @@ const RecentList = () => {
                 <FontFam> {item.totalPrice}</FontFam>
                 <p> {item?.rent}</p>
               </Flex>
-            </RecentCont>
+            </div>
           ))}
       </Slider>
     </RecentWrapper>
