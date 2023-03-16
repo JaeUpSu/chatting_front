@@ -116,7 +116,7 @@ function ViewHouses(props) {
 }
 
 function Profile(props) {
-  const [userType, setUserType] = useState("general"); // Set the user type to 'general' by default
+  const [userType, setUserType] = useState("landlord"); // Set the user type to 'general' by default
 
   // Handle changing the user type
   const handleUserTypeChange = (event) => {
