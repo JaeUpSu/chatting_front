@@ -120,7 +120,7 @@ function Profile(props) {
 
   return (
     <Box maxW="md" mx="auto" my="8" h="800px" overflowY="scroll">
-      <Box borderWidth="1px" borderRadius="lg" p="4">
+      <Box borderWidth="1px" borderRadius="lg" p="4" mb="5">
         <Heading as="h3" size="md" mb="4">
           Gneral User Profile
         </Heading>
@@ -133,7 +133,6 @@ function Profile(props) {
           <ListItem>Membership Type: Premium</ListItem>
         </List>
       </Box>
-      <br />
       <FormControl mb="4">
         <FormLabel>User Type</FormLabel>
         <Select value={userType} onChange={handleUserTypeChange}>
