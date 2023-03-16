@@ -106,8 +106,6 @@ function House() {
               상세정보
             </Heading>
             <List mb="4" fontSize="17">
-              <ListItem>판매 : {SellKindsToFront[data?.sell_kind]}</ListItem>
-              <br />
               <ListItem>동네 : {data?.dong.name}</ListItem>
               <br />
               <ListItem>방종류 : {RoomKindsToFront[data?.room_kind]}</ListItem>
