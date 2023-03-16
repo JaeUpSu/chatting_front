@@ -47,7 +47,7 @@ export default function Home() {
             고시원
           </IconBtns>
           <IconBtns src="https://cdn-icons-png.flaticon.com/512/602/602175.png">
-            그 외
+            쉐어하우스
           </IconBtns>
         </Flex>
 

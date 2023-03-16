@@ -1,16 +1,14 @@
-import { Flex } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Flex } from "@chakra-ui/layout";
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronLeft,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const HouseImg = styled.img`
   max-width: 200px;
-  margin-right: 60px;
+  margin-right: 4rem;
   cursor: pointer;
   transition: transform 0.5s ease-in-out;
 `;
@@ -21,7 +19,7 @@ const FontFam = styled.p`
 `;
 
 const RecentWrapper = styled.div`
-  max-width: 1000px;
+  width: 1000px;
   margin: 0 auto;
   overflow: hidden;
 `;
@@ -34,42 +32,59 @@ const RecentList = () => {
   });
   const recentList = data && data.filter((item) => item.isRecent).slice(0, 10);
 
-  const [count, setCount] = useState(0);
-  const handlePrev = () => {
-    setCount((count) => (count === 0 ? recentList.length - 4 : count - 1));
-  };
-  const handleNext = () => {
-    setCount((count) => (count + 1) % (recentList.length - 3));
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
     <RecentWrapper>
-      <Flex
-        transform={`translateX(-${count * 240}px)`}
-        transition="transform 0.5s ease-in-out"
-      >
-        <Flex>
-          {recentList &&
-            recentList.map((item) => (
-              <div key={item.id}>
-                <HouseImg src={item.img} />
-                <Flex>
-                  <FontFam>{item.type}</FontFam>
-                  <p>Room: {item.room}</p>
-                </Flex>
-                <Flex>
-                  <FontFam> {item.totalPrice}</FontFam>
-                  <p> {item?.rent}</p>
-                </Flex>
-              </div>
-            ))}
-        </Flex>
-      </Flex>
-
-      <Flex justify={"space-between"} mt="10px" cursor={"pointer"}>
-        <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrev} />
-        <FontAwesomeIcon icon={faChevronRight} onClick={handleNext} />
-      </Flex>
+      <Slider {...settings}>
+        {recentList &&
+          recentList.map((item, index) => (
+            <div key={index}>
+              <HouseImg src={item.img} />
+              <Flex>
+                <FontFam>{item.type}</FontFam>
+                <p>Room: {item.room}</p>
+              </Flex>
+              <Flex>
+                <FontFam> {item.totalPrice}</FontFam>
+                <p> {item?.rent}</p>
+              </Flex>
+            </div>
+          ))}
+      </Slider>
     </RecentWrapper>
   );
 };
