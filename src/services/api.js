@@ -158,6 +158,19 @@ export const getChatList = ({ queryKey }) => {
     .get(`chatlist/${roomPk}/chatlist`)
     .then((response) => response.data);
 };
+export const makeChatRoom = (id) => {
+  return instance
+    .post(
+      `chatlist/${id}`,
+      {},
+      {
+        headers: {
+          "X-CSRFToken": Cookie.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((response) => response.data);
+};
 export const deleteChatRoom = (id) => {
   return instance
     .delete(`chatlist/${id}`, {
