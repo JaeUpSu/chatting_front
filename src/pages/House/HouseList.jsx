@@ -241,7 +241,7 @@ function HouseList() {
           area={"main"}
           mt="0.2%"
           mr="0.3%"
-          maxH="81vh"
+          maxH="72.5vh"
           ref={scrollRef}
           overflowY={"scroll"}
           overflowX="hidden"
