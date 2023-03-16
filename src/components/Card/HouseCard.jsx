@@ -10,7 +10,7 @@ import {
 } from "../../services/data";
 import { getSaleContents } from "../../utils/getSaleContents";
 function HouseCard({
-  Image,
+  thumnail,
   address,
   cell_kind,
   description,
@@ -44,9 +44,7 @@ function HouseCard({
       >
         <VStack>
           <Box
-            backgroundImage={
-              "https://img.seoul.co.kr/img/upload/2019/12/03/SSI_20191203152256_O2.jpg"
-            }
+            backgroundImage={thumnail}
             backgroundSize="cover"
             backgroundRepeat="no-repeat"
             backgroundPosition="center"

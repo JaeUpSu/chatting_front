@@ -31,11 +31,11 @@ import { getInitOrderBy, initParams } from "../../services/local";
 const TopBtn = styled.div`
   position: fixed;
   top: 95%;
-  right: 30px;
+  right: 45px;
   width: 60px;
   height: 60px;
   transform: translateY(-50%);
-  background-color: navy;
+  background-color: red;
   border-radius: 50%;
   font-size: 17px;
   font-weight: bold;
