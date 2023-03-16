@@ -104,13 +104,7 @@ function HouseList() {
   const onInitOptions = () => {
     sessionStorage.clear();
     window.location.reload();
-    // setAPIParams(initParams);
   };
-
-  // init options
-  // useEffect(() => {
-  //   sessionStorage.clear();
-  // }, []);
 
   // scroll reload event
   useEffect(() => {
@@ -202,8 +196,6 @@ function HouseList() {
             {isLoading ? (
               "Loading..."
             ) : totalCounts ? (
-              ""
-            ) : (
               <HStack>
                 <Menu>
                   <MenuButton
@@ -240,6 +232,8 @@ function HouseList() {
                   초기화
                 </Button>
               </HStack>
+            ) : (
+              ""
             )}
           </HStack>
         </GridItem>
