@@ -11,12 +11,10 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   const [isFetching, setFetching] = useState(false);
   const [hasNextPage, setNextPage] = useState(true);
   const [backParams, setBackParams] = useState(getBackOptions(initParams()));
-  const [isLoading, setLoading] = useState(false);
 
   const executeFetch = useCallback(async () => {
     try {
       const data = await fetcher({ page, ...backParams });
-      setLoading(true);
       setData((prev) => prev.concat(data.contents));
       setTotalCounts(data.totalCounts);
       setPage(data.pageNumber + 1);
@@ -26,8 +24,6 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
     } catch (err) {
       console.log("execute - err", err);
       onError?.(err);
-    } finally {
-      setLoading(false);
     }
   }, [page]);
 
@@ -59,7 +55,7 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
     page,
     data,
     totalCounts,
-    isLoading,
+    isFetching,
     hasNextPage,
     setFetching,
     setBackParams,

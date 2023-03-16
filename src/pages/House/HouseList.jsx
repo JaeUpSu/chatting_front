@@ -73,11 +73,10 @@ function HouseList() {
     data,
     totalCounts,
     hasNextPage,
-    isLoading,
+    isFetching,
     setFetching,
     setBackParams,
   } = useInfiniteScroll(getOptionHouses, { size: 24 });
-  // const [loading, setLoading] = useState(false);
 
   const onOrderBy = (e) => {
     const value = e.currentTarget.getAttribute("value");
@@ -147,10 +146,6 @@ function HouseList() {
   }, [address]);
 
   useEffect(() => {
-    console.log("loading", isLoading);
-  }, [isLoading]);
-
-  useEffect(() => {
     const apiParams = getBackOptions(APIParams);
     setBackParams(apiParams);
   }, [APIParams]);
@@ -187,13 +182,13 @@ function HouseList() {
               minW="250px"
               maxW="280px"
             >
-              {isLoading
+              {isFetching
                 ? "Loading..."
                 : totalCounts
                 ? `부동산 목록 ${totalCounts} 개`
                 : "비어있습니다"}
             </Text>
-            {isLoading ? (
+            {isFetching ? (
               "Loading..."
             ) : totalCounts ? (
               <HStack>
@@ -259,9 +254,7 @@ function HouseList() {
             },
           }}
         >
-          {isLoading ? (
-            "Loading..."
-          ) : totalCounts ? (
+          {totalCounts ? (
             <Flex flexWrap="wrap" maxH="100vh">
               {data?.map((item, idx) => {
                 return <HouseCard key={idx} {...item} />;
