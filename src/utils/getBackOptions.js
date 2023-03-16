@@ -1,7 +1,7 @@
 import {
   backParamsRangeList,
   backParamsValueList,
-  CellKindsToBack,
+  SellKindsToBack,
   options,
   optionsMenu,
   Prices,
@@ -88,7 +88,7 @@ export const getBackOptions = (_options) => {
         if (idx == 0) {
           backOptions[paramName] = RoomKindsToBack[_options[op.eng]];
         } else if (idx == 1) {
-          backOptions[paramName] = CellKindsToBack[_options[op.eng]];
+          backOptions[paramName] = SellKindsToBack[_options[op.eng]];
         } else if (idx == 2) {
           backOptions[paramName] = getBackPy(_options[op.eng]);
         } else {
@@ -106,7 +106,7 @@ export const getBackOptions = (_options) => {
           const maxParamName = getParamRangeName(idx - 5, false);
           const minParamName = getParamRangeName(idx - 5, true);
 
-          if (_options["cellKind"] == "전체") {
+          if (_options["sellKind"] == "전체") {
             const range = getBackPrices(op.eng, _options[op.eng]);
             if (range[0] > 0) {
               backOptions[minParamName] = range[0];
@@ -125,7 +125,7 @@ export const getBackOptions = (_options) => {
               }
             } else {
               Prices.forEach((item) => {
-                if (_options.cellKind == item.name) {
+                if (_options.sellKind == item.name) {
                   item.list.forEach((item) => {
                     if (item == op.eng) {
                       const range = getBackPrices(op.eng, _options[op.eng]);

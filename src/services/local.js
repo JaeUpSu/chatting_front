@@ -17,11 +17,11 @@ const isNoMatter = (val) => {
   }
   return false;
 };
-const getCellKind = () => {
-  const cell = sessionStorage.getItem("cellKind");
+const getSellKind = () => {
+  const sell = sessionStorage.getItem("sellKind");
 
-  if (isVal(cell) && !isNoMatter(cell)) {
-    return cell;
+  if (isVal(sell) && !isNoMatter(sell)) {
+    return sell;
   }
 
   return "";
@@ -74,10 +74,10 @@ const getPriceArr = (options) => {
 };
 
 export const initLocal = () => {
-  const cellKind = sessionStorage.getItem("cellKind");
-  if (!isVal(cellKind)) {
-    sessionStorage.removeItem("cellKind");
-    sessionStorage.setItem("cellKind", options.cellKind[0]);
+  const sellKind = sessionStorage.getItem("sellKind");
+  if (!isVal(sellKind)) {
+    sessionStorage.removeItem("sellKind");
+    sessionStorage.setItem("sellKind", options.sellKind[0]);
     sessionStorage.setItem("room_counts", options.room_counts[0]);
     sessionStorage.setItem("toilet_counts", options.toilet_counts[0]);
     sessionStorage.setItem("isStationArea", options.isStationArea[0]);
@@ -117,8 +117,8 @@ export const initParams = () => {
     roomKind: sessionStorage.getItem("roomKind")
       ? sessionStorage.getItem("roomKind")
       : "전체",
-    cellKind: sessionStorage.getItem("cellKind")
-      ? sessionStorage.getItem("cellKind")
+    sellKind: sessionStorage.getItem("sellKind")
+      ? sessionStorage.getItem("sellKind")
       : "전체",
     py: sessionStorage.getItem("py") ? sessionStorage.getItem("py") : "전체",
     toilet_counts: sessionStorage.getItem("toilet_counts")
