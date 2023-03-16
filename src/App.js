@@ -16,6 +16,7 @@ import SignUpSuceess from "./pages/SignUp/SignUpSuccess";
 import GitgubConfirm from "./pages/SignUp/NaverConfirm";
 import KakaoConfirm from "./pages/SignUp/KakakoConfirm";
 import NaverConfirm from "./pages/SignUp/NaverConfirm";
+import HouseSell from "./pages/House/HouseSell";
 
 function App() {
   // 전역
@@ -113,6 +114,17 @@ function App() {
             }
           />
         </Route>
+
+        <Route
+          path={"/sell"}
+          element={
+            isLoggedIn ? (
+              <Layout>
+                <HouseSell />
+              </Layout>
+            ) : null
+          }
+        />
       </Routes>
     </Router>
   );
