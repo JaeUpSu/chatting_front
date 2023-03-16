@@ -182,7 +182,6 @@ export const getOptionHouses = (params) => {
   return instance
     .get("/houses", {
       params,
-      is_sale: false,
     })
     .then((response) => {
       console.log("response", response);
