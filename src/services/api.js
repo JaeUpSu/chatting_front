@@ -152,9 +152,21 @@ export const validateCheck = (
     .then((response) => response.data);
 };
 // 채팅리스트 가져오기
-export const getChatList = () =>
-  instance.get("chat/list").then((response) => response.data);
-
+export const getChatList = ({ queryKey }) => {
+  const [_, roomPk] = queryKey;
+  return instance
+    .get(`chatlist/${roomPk}/chatlist`)
+    .then((response) => response.data);
+};
+export const deleteChatRoom = (id) => {
+  return instance
+    .delete(`chatlist/${id}`, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
+};
 // 채팅리스트 가져오기
 export const getChat = ({ id }) =>
   instance.get(`chat/${id}/chatlist`).then((response) => response.data);
@@ -206,3 +218,6 @@ export const getDongList = async ({ queryKey }) => {
 // 해당 구 가져오기
 export const getWishLists = () =>
   instance.get(`wishlists/`).then((response) => response.data);
+
+export const getChatRoomList = () =>
+  instance.get("chatlist/").then((res) => res.data);
