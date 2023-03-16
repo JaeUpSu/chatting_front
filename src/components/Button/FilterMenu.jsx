@@ -19,7 +19,7 @@ function FilterMenu({ names, onUpdate }) {
     <Menu>
       <MenuButton
         as={Button}
-        colorScheme="facebook"
+        colorScheme="red"
         p="15px"
         rightIcon={<IoIosArrowDown />}
       >
