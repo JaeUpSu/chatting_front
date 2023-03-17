@@ -24,11 +24,6 @@ const RecentWrapper = styled.div`
   width: 1000px;
   margin: 0 auto;
   overflow: hidden;
-  .arrow {
-    position: absolute;
-    top: 50%;
-    font-size: 24px;
-    cursor: pointer;
 `;
 
 const RecentList = () => {
@@ -45,31 +40,6 @@ const RecentList = () => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 2,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
   };
 
   return (
