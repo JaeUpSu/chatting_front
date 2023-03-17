@@ -216,7 +216,7 @@ export const options = {
     "오피스텔",
     "쉐어하우스",
   ],
-  sellKind: ["전체", "매매", "전세", "월세"],
+  sellKind: ["매매", "전세", "월세"],
   py: [
     "전체",
     "10평 이하",
@@ -332,3 +332,21 @@ export const RoomKindsToFront = {
   ONE_ROOM: "원룸",
   HOME: "주택",
 };
+
+export const HouseRegisterValues = [
+  { eng: "title", kor: "제목", isRequired: true },
+  { eng: "gu", kor: "구", isRequired: true },
+  { eng: "dong", kor: "동", isRequired: true },
+  { eng: "address", kor: "주소", isRequired: true },
+  { eng: "room_kind", kor: "방 종류", isRequired: true },
+  { eng: "sell_kind", kor: "거래 종류", isRequired: true },
+  { eng: "sale", kor: "매매가", isRequired: true },
+  { eng: "deposit", kor: "보증금", isRequired: true },
+  { eng: "monthly_rent", kor: "월세", isRequired: true },
+  { eng: "maintenance_cost", kor: "관리비", isRequired: true },
+  { eng: "room", kor: "방 개수", isRequired: true },
+  { eng: "toilet", kor: "화장실 개수", isRequired: true },
+  { eng: "pyeongsu", kor: "평수", isRequired: true },
+  { eng: "distance_to_station", kor: "역까지 거리", isRequired: true },
+  { eng: "description", kor: "설명", isRequired: true },
+];

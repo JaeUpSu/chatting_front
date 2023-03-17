@@ -127,16 +127,11 @@ function HouseList() {
 
     const throttleScrollHandler = throttle(handleScroll);
 
-    if (hasNextPage) {
-      scrollRef.current.addEventListener("scroll", throttleScrollHandler);
-      scrollRef.current.addEventListener("beforeunload", () => {
-        return () =>
-          scrollRef.current.removeEventListener(
-            "scroll",
-            throttleScrollHandler
-          );
-      });
-    }
+    scrollRef.current.addEventListener("scroll", throttleScrollHandler);
+    scrollRef.current.addEventListener("beforeunload", () => {
+      return () =>
+        scrollRef.current.removeEventListener("scroll", throttleScrollHandler);
+    });
   }, [data]);
 
   // loading set
@@ -203,7 +198,7 @@ function HouseList() {
               <HStack>
                 <Menu>
                   <MenuButton
-                    size="sm"
+                    size="md"
                     as={Button}
                     rightIcon={<HiChevronDown />}
                   >
@@ -222,7 +217,7 @@ function HouseList() {
                   </MenuList>
                 </Menu>
                 <Button
-                  size="sm"
+                  size="md"
                   rightIcon={
                     <BiRefresh
                       style={{
@@ -245,11 +240,10 @@ function HouseList() {
         {totalCounts ? (
           <Grid
             w={"99.5vw"}
-            pl="8vw"
             mt="0.2%"
             maxH="72.5vh"
-            gap={5}
-            gridTemplateColumns={"repeat(auto-fit, minmax(20vw, 1fr))"}
+            rowGap={12}
+            gridTemplateColumns={"repeat(4, 1fr)"}
             ref={scrollRef}
             overflowX="hidden"
             overflowY={"scroll"}
@@ -269,7 +263,7 @@ function HouseList() {
           >
             {data?.map((item, idx) => {
               return (
-                <GridItem key={idx} h="45vh">
+                <GridItem key={idx} h="33vh">
                   <HouseCard key={idx} {...item} />
                 </GridItem>
               );
@@ -281,6 +275,7 @@ function HouseList() {
             justifyContent="center"
             height="65vh"
             fontWeight="600"
+            ref={scrollRef}
           >
             해당 옵션을 가진 제품은 없습니다.
           </Flex>

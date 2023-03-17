@@ -22,7 +22,7 @@ import PricesMenu from "./PricesMenu";
 
 function HouseOptMenu({ onUpdate }) {
   const [selectedOpts, setSelectedOpts] = useState(new Array(5).fill("전체"));
-  const [activePrices, setActivePrices] = useState([true, true, true]);
+  const [activePrices, setActivePrices] = useState([true, false, false]);
   const [prices, setPrices] = useState([
     [0, 30],
     [0, 30],
@@ -30,11 +30,16 @@ function HouseOptMenu({ onUpdate }) {
     [0, 30],
   ]);
 
+  // init
   useEffect(() => {
     let newParams = [];
     let newPrices = [];
     optionsMenu.forEach((item, idx) => {
-      if (idx < 5) {
+      if (idx == 1) {
+        newParams[idx] = sessionStorage.getItem(item.eng)
+          ? sessionStorage.getItem(item.eng)
+          : "매매";
+      } else if (idx < 5) {
         newParams[idx] = sessionStorage.getItem(item.eng)
           ? sessionStorage.getItem(item.eng)
           : "전체";
@@ -48,6 +53,7 @@ function HouseOptMenu({ onUpdate }) {
     setSelectedOpts(newParams);
   }, []);
 
+  // options setting
   useEffect(() => {
     const sellKind = selectedOpts[1];
     setActivePrices(getActivePrices(sellKind));
@@ -67,7 +73,7 @@ function HouseOptMenu({ onUpdate }) {
     });
   }, [selectedOpts]);
 
-  // price
+  // price setting
   useEffect(() => {
     let newPriceOpts = {};
     prices.forEach((item, idx) => {
