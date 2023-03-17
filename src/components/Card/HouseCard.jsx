@@ -25,9 +25,7 @@ function HouseCard({
 
   return (
     <Card
-      maxW="container.md"
-      m="15px"
-      w="10vw"
+      w="23vw"
       boxShadow="0px"
       flexGrow={1}
       _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}
@@ -39,8 +37,8 @@ function HouseCard({
             backgroundSize="cover"
             backgroundRepeat="no-repeat"
             backgroundPosition="center"
-            maxW="33vw"
-            minW="22vw"
+            minW="21vw"
+            maxW="30vw"
             width="100%"
             alt="house"
             borderRadius="lg"
@@ -49,7 +47,7 @@ function HouseCard({
               aspectRatio: "2 / 1",
             }}
           />
-          <Box left="8%" top="10px" spacing="3" position="relative">
+          <Box left="1" top="10px" spacing="3" position="relative">
             <Box w="22vw">
               <Heading
                 w="100%"

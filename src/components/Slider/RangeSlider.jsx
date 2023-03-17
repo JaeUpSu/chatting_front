@@ -50,8 +50,8 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
   }, [range]);
 
   return (
-    <Box my="20px">
-      <Text fontWeight="bold" mb="10px" ml="-10px" fontSize="17px">
+    <Box mx="2vw" my="2vh">
+      <Text fontWeight="bold" fontSize="17px">
         {names.kor}
         <Highlight
           query={range}
