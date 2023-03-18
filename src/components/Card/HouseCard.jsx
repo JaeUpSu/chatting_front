@@ -23,6 +23,7 @@ const BoxAction = styled.div`
   background-color: transparent;
   position: absolute;
   right: 2vw;
+  top: 2vw;
 `;
 
 function HouseCard({
@@ -42,7 +43,8 @@ function HouseCard({
 
   const [isLike, setIsLike] = useState(false);
 
-  const onLike = () => {
+  const onLike = (event) => {
+    event.stopPropagation();
     setIsLike(!isLike);
   };
 
@@ -52,7 +54,7 @@ function HouseCard({
 
   return (
     <Card
-      w="23vw"
+      w="100%"
       boxShadow="0px"
       flexGrow={1}
       _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}
@@ -73,19 +75,6 @@ function HouseCard({
             css={{
               aspectRatio: "2 / 1",
             }}
-          />
-          <BoxAction>
-            <FontAwesomeIcon
-              size="2x"
-              icon={isLike ? Solid.faHeart : faHeart}
-              onClick={onLike}
-              style={{
-                "&:hover": {
-                  backgroundColor: "black",
-                },
-              }}
-            />
-          </BoxAction>
           <Box left="1" top="10px" spacing="3" position="relative">
             <Box w="22vw">
               <Heading

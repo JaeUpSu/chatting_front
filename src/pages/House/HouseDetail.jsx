@@ -24,6 +24,7 @@ import {
 } from "@chakra-ui/react";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import useUser from "../../hooks/useUser";
+import { useDidMountEffect } from "../../hooks/useDidMoutEffect";
 
 function House() {
   const params = useParams();
@@ -51,7 +52,7 @@ function House() {
     setIsLike(!isLike);
   };
 
-  useEffect(() => {
+  useDidMountEffect(() => {
     if (isLike) {
       toast({
         title: "좋아요 +1",
