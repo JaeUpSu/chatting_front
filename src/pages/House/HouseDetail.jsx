@@ -1,8 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSaleContents } from "../../utils/getSaleContents";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getHouse, makeChatRoom } from "../../services/api";
+
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import * as Solid from "@fortawesome/free-solid-svg-icons";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
   Box,
@@ -14,6 +19,8 @@ import {
   Grid,
   GridItem,
   Center,
+  HStack,
+  useToast,
 } from "@chakra-ui/react";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import useUser from "../../hooks/useUser";
@@ -21,7 +28,11 @@ import useUser from "../../hooks/useUser";
 function House() {
   const params = useParams();
   const id = params.houseId;
+
+  const toast = useToast();
   const navigate = useNavigate();
+
+  const [isLike, setIsLike] = useState(false);
   const { data, isLoading } = useQuery(["house", id], getHouse);
   const { userLoading, isLoggedIn } = useUser();
   const mutation = useMutation(makeChatRoom, {
@@ -32,6 +43,29 @@ function House() {
   const goChat = () => {
     mutation.mutate(id);
   };
+
+  const onLike = () => {
+    setIsLike(!isLike);
+  };
+
+  useEffect(() => {
+    if (isLike) {
+      toast({
+        title: "좋아요 +1",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "좋아요 -1",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  }, [isLike]);
+
   return (
     <>
       <Box
@@ -84,13 +118,20 @@ function House() {
               display="flex"
               alignItems="center"
             >
-              {data?.is_sale ? "" : "팔렸습니다"}
-              <br />
-              <br />
-              {`${data?.address} ${data?.title}`}
-              <Text fontSize="21" ml="5%">
-                방문자수 {data?.visited}
-              </Text>
+              <HStack w={"100vw"}>
+                <Text>{`${data?.address} ${data?.title}`}</Text>
+
+                <FontAwesomeIcon
+                  size="md"
+                  color="red"
+                  icon={isLike ? Solid.faHeart : faHeart}
+                  onClick={onLike}
+                  cursor="pointer"
+                />
+                <Text fontSize="21" px="5vw">
+                  방문자수 {data?.visited}
+                </Text>
+              </HStack>{" "}
             </Heading>
             <Text mb="6" fontSize="22">
               {`${getSaleContents(
@@ -100,7 +141,7 @@ function House() {
                 data?.sale
               )}`}
               {" / "}
-              관리비 월 {data?.maintenance_cost}
+              관리비 월 {data?.maintenance_cost / 10000}만
             </Text>
             <Text fontSize="22" mb="20px">
               {data?.description}

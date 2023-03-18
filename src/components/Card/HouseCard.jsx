@@ -1,9 +1,30 @@
-import { Card, Box, CardBody, Text, Heading, VStack } from "@chakra-ui/react";
+import {
+  Card,
+  Box,
+  CardBody,
+  Text,
+  Heading,
+  VStack,
+  IconButton,
+} from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { RoomKindsToFront, SellKindsToFront } from "../../services/data";
 import { getSaleContents } from "../../utils/getSaleContents";
+import styled from "styled-components";
+
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import * as Solid from "@fortawesome/free-solid-svg-icons";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const BoxAction = styled.div`
+  background-color: transparent;
+  position: absolute;
+  right: 2vw;
+`;
+
 function HouseCard({
   thumnail,
   address,
@@ -19,6 +40,12 @@ function HouseCard({
 }) {
   const navigation = useNavigate();
 
+  const [isLike, setIsLike] = useState(false);
+
+  const onLike = () => {
+    setIsLike(!isLike);
+  };
+  
   const onHouseDetail = () => {
     navigation(`house/${id}`);
   };
@@ -47,6 +74,14 @@ function HouseCard({
               aspectRatio: "2 / 1",
             }}
           />
+          <BoxAction>
+            <FontAwesomeIcon
+              size="2x"
+              color="red"
+              icon={isLike ? Solid.faHeart : faHeart}
+              onClick={onLike}
+            />
+          </BoxAction>
           <Box left="1" top="10px" spacing="3" position="relative">
             <Box w="22vw">
               <Heading

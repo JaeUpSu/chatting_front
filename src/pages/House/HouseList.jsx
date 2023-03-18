@@ -232,7 +232,20 @@ function HouseList() {
                 </Button>
               </HStack>
             ) : (
-              ""
+              <Button
+                size="md"
+                rightIcon={
+                  <BiRefresh
+                    style={{
+                      fontSize: "1.5em",
+                    }}
+                  />
+                }
+                onClick={onInitOptions}
+              >
+                {" "}
+                초기화
+              </Button>
             )}
           </HStack>
         </Box>
@@ -263,7 +276,7 @@ function HouseList() {
           >
             {data?.map((item, idx) => {
               return (
-                <GridItem key={idx} h="33vh">
+                <GridItem key={idx} h="35vh">
                   <HouseCard key={idx} {...item} />
                 </GridItem>
               );
