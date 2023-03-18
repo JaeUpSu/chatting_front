@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { getSaleContents } from "../../utils/getSaleContents";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getHouse, makeChatRoom } from "../../services/api";
-import { getSaleContents } from "../../utils/getSaleContents";
 
 import {
   Box,
@@ -15,7 +15,7 @@ import {
   GridItem,
   Center,
 } from "@chakra-ui/react";
-import { CellKindsToFront, RoomKindsToFront } from "../../services/data";
+import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 
 function House() {
   const params = useParams();
@@ -93,7 +93,7 @@ function House() {
             </Heading>
             <Text mb="6" fontSize="22">
               {`${getSaleContents(
-                data?.cell_kind,
+                data?.sell_kind,
                 data?.deposit,
                 data?.monthly_rent,
                 data?.sale
@@ -108,6 +108,7 @@ function House() {
               상세정보
             </Heading>
             <List mb="4" fontSize="17">
+              <ListItem>판매 : {SellKindsToFront[data?.sell_kind]}</ListItem>
               <ListItem>동네 : {data?.dong.name}</ListItem>
               <ListItem>방종류 : {RoomKindsToFront[data?.room_kind]}</ListItem>
               <ListItem>전용면적 : {data?.pyeongsu} 평</ListItem>

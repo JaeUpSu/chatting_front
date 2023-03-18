@@ -5,6 +5,8 @@ import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const HouseImg = styled.img`
   max-width: 200px;
@@ -37,34 +39,7 @@ const RecentList = () => {
     infinite: true,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 4,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
+    slidesToScroll: 2,
   };
 
   return (

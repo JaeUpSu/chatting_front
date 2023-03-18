@@ -1,4 +1,4 @@
-// cellKind=전세&isStationArea=역세권&room_counts=방2개&toilet_counts=화장실2개&py=[]&priceArr=[]&
+// sellKind=전세&isStationArea=역세권&room_counts=방2개&toilet_counts=화장실2개&py=[]&priceArr=[]&
 export const getOptionsByUrl = (optionsUrl) => {
   const options = {};
 

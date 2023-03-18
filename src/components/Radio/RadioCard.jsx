@@ -104,7 +104,7 @@ function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
   const radio = getRadioProps();
 
   return (
-    <Flex direction="column">
+    <Flex direction="column" justifyContent="flex-start">
       <Text fontWeight="bold" mb="10px">
         {name}
       </Text>

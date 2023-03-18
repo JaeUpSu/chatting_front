@@ -22,7 +22,7 @@ import PricesMenu from "./PricesMenu";
 
 function HouseOptMenu({ onUpdate }) {
   const [selectedOpts, setSelectedOpts] = useState(new Array(5).fill("전체"));
-  const [activePrices, setActivePrices] = useState([true, true, true]);
+  const [activePrices, setActivePrices] = useState([true, false, false]);
   const [prices, setPrices] = useState([
     [0, 30],
     [0, 30],
@@ -30,11 +30,16 @@ function HouseOptMenu({ onUpdate }) {
     [0, 30],
   ]);
 
+  // init
   useEffect(() => {
     let newParams = [];
     let newPrices = [];
     optionsMenu.forEach((item, idx) => {
-      if (idx < 5) {
+      if (idx == 1) {
+        newParams[idx] = sessionStorage.getItem(item.eng)
+          ? sessionStorage.getItem(item.eng)
+          : "매매";
+      } else if (idx < 5) {
         newParams[idx] = sessionStorage.getItem(item.eng)
           ? sessionStorage.getItem(item.eng)
           : "전체";
@@ -48,9 +53,10 @@ function HouseOptMenu({ onUpdate }) {
     setSelectedOpts(newParams);
   }, []);
 
+  // options setting
   useEffect(() => {
-    const cellKind = selectedOpts[1];
-    setActivePrices(getActivePrices(cellKind));
+    const sellKind = selectedOpts[1];
+    setActivePrices(getActivePrices(sellKind));
     onUpdate((opts) => {
       let newParams = {};
       optionsMenu.forEach((item, idx) => {
@@ -67,7 +73,7 @@ function HouseOptMenu({ onUpdate }) {
     });
   }, [selectedOpts]);
 
-  // price
+  // price setting
   useEffect(() => {
     let newPriceOpts = {};
     prices.forEach((item, idx) => {
@@ -100,7 +106,7 @@ function HouseOptMenu({ onUpdate }) {
                     : selectedOpts[idx]}
                 </MenuButton>
                 <MenuList p="20px" maxW={idx == 5 || idx == 1 ? "" : "460px"}>
-                  <Flex justifyContent="center">
+                  <Flex px="2vw">
                     <DataRadioCard
                       name={item.kor}
                       valueName={item.eng}

@@ -9,7 +9,9 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Center,
+  VStack,
+  Box,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { HiChevronDown } from "react-icons/hi";
 import { BiRefresh } from "react-icons/bi";
@@ -58,7 +60,7 @@ function HouseList() {
     roomKind: sessionStorage.getItem("roomKind")
       ? sessionStorage.getItem("roomKind")
       : "전체",
-    cellKind: "전체",
+    sellKind: "전체",
     py: "전체",
     toilet_counts: "전체",
     room_counts: "전체",
@@ -68,16 +70,21 @@ function HouseList() {
     monthlyRentRange: [0, 30],
   });
   const [orderBy, setOrderBy] = useState(getInitOrderBy());
+  const [isLoading, setLoading] = useState(false);
 
   const {
+    hasNextPage,
     data,
     totalCounts,
-    hasNextPage,
     isFetching,
     setFetching,
     setBackParams,
   } = useInfiniteScroll(getOptionHouses, { size: 24 });
 
+  const columnSizes = [4, 3, 2, 1];
+  const columns = columnSizes.map((size) => `repeat(${size}, 1fr)`).reverse();
+
+  // orderBy rearrange
   const onOrderBy = (e) => {
     const value = e.currentTarget.getAttribute("value");
     setOrderBy((_orderBy) => {
@@ -91,6 +98,7 @@ function HouseList() {
     });
   };
 
+  // scroll top
   const onTop = () => {
     if (scrollRef.current.scrollTop == 0) return;
 
@@ -100,6 +108,7 @@ function HouseList() {
     });
   };
 
+  // init
   const onInitOptions = () => {
     sessionStorage.clear();
     window.location.reload();
@@ -111,22 +120,26 @@ function HouseList() {
       const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
 
       if (scrollTop + clientHeight >= scrollHeight - 1) {
-        if (hasNextPage) {
-          setFetching(true);
-        }
+        setFetching(true);
+        setLoading(true);
       }
     };
 
     const throttleScrollHandler = throttle(handleScroll);
 
     scrollRef.current.addEventListener("scroll", throttleScrollHandler);
-
     scrollRef.current.addEventListener("beforeunload", () => {
       return () =>
         scrollRef.current.removeEventListener("scroll", throttleScrollHandler);
     });
   }, [data]);
 
+  // loading set
+  useEffect(() => {
+    setLoading(isFetching);
+  }, [isFetching]);
+
+  // orderBy => params
   useEffect(() => {
     const sort_by = getBackOrderBy(orderBy[0]);
     sessionStorage.setItem("sort_by", sort_by);
@@ -135,6 +148,7 @@ function HouseList() {
     });
   }, [orderBy]);
 
+  // address => params
   useEffect(() => {
     const dong = sessionStorage.getItem("ebmyeondongIdx")
       ? sessionStorage.getItem("ebmyeondongIdx")
@@ -145,6 +159,7 @@ function HouseList() {
     });
   }, [address]);
 
+  // options => params
   useEffect(() => {
     const apiParams = getBackOptions(APIParams);
     setBackParams(apiParams);
@@ -152,27 +167,16 @@ function HouseList() {
 
   return (
     <>
-      <Grid
-        templateAreas={`"header" "searchResult" "main"`}
-        gridTemplateRows={"0.3fr 0.005fr 8.5fr"}
-      >
-        <GridItem area={"header"}>
-          <Flex w="100%" alignItems="center" p="20px" borderY="2px solid black">
-            <Flex w="30%" alignItems="center">
-              <AddressMenu onUpdate={setAddress} />
-            </Flex>
-            <Flex w="80%" ml="20px">
-              <HouseOptMenu onUpdate={setAPIParams} />
-            </Flex>
+      <VStack>
+        <Flex w="100%" alignItems="center" p="20px" borderY="2px solid black">
+          <Flex w="30%" alignItems="center">
+            <AddressMenu onUpdate={setAddress} />
           </Flex>
-        </GridItem>{" "}
-        <GridItem
-          area={"searchResult"}
-          pl="3%"
-          py="1%"
-          w="100%"
-          boxShadow="0 4px 4px -3px black"
-        >
+          <Flex w="80%" ml="20px">
+            <HouseOptMenu onUpdate={setAPIParams} />
+          </Flex>
+        </Flex>
+        <Box pl="3%" py="1%" w="100%" boxShadow="0 4px 4px -3px black">
           <HStack>
             <Text
               fontWeight="600"
@@ -182,19 +186,19 @@ function HouseList() {
               minW="250px"
               maxW="280px"
             >
-              {isFetching
+              {isLoading
                 ? "Loading..."
                 : totalCounts
                 ? `부동산 목록 ${totalCounts} 개`
                 : "비어있습니다"}
             </Text>
-            {isFetching ? (
+            {isLoading ? (
               "Loading..."
             ) : totalCounts ? (
               <HStack>
                 <Menu>
                   <MenuButton
-                    size="sm"
+                    size="md"
                     as={Button}
                     rightIcon={<HiChevronDown />}
                   >
@@ -213,7 +217,7 @@ function HouseList() {
                   </MenuList>
                 </Menu>
                 <Button
-                  size="sm"
+                  size="md"
                   rightIcon={
                     <BiRefresh
                       style={{
@@ -231,47 +235,52 @@ function HouseList() {
               ""
             )}
           </HStack>
-        </GridItem>
-        <GridItem
-          area={"main"}
-          mt="0.2%"
-          mr="0.3%"
-          maxH="72.5vh"
-          ref={scrollRef}
-          overflowY={"scroll"}
-          overflowX="hidden"
-          css={{
-            "&::-webkit-scrollbar": {
-              width: "15px",
-            },
-            "&::-webkit-scrollbar-track": {
-              width: "12px",
-              background: "rgb(55,55,55,0.1)",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              background: "rgb(55,55,55,0.5)",
-              borderRadius: "20px",
-            },
-          }}
-        >
-          {totalCounts ? (
-            <Flex flexWrap="wrap" maxH="100vh">
-              {data?.map((item, idx) => {
-                return <HouseCard key={idx} {...item} />;
-              })}
-            </Flex>
-          ) : (
-            <Flex
-              alignItems="center"
-              justifyContent="center"
-              height="65vh"
-              fontWeight="600"
-            >
-              해당 옵션을 가진 제품은 없습니다.
-            </Flex>
-          )}
-        </GridItem>
-      </Grid>
+        </Box>
+
+        {totalCounts ? (
+          <Grid
+            w={"99.5vw"}
+            mt="0.2%"
+            maxH="72.5vh"
+            rowGap={12}
+            gridTemplateColumns={"repeat(4, 1fr)"}
+            ref={scrollRef}
+            overflowX="hidden"
+            overflowY={"scroll"}
+            sx={{
+              "&::-webkit-scrollbar": {
+                width: "15px",
+              },
+              "&::-webkit-scrollbar-track": {
+                width: "12px",
+                background: "rgb(55,55,55,0.1)",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "rgb(55,55,55,0.5)",
+                borderRadius: "20px",
+              },
+            }}
+          >
+            {data?.map((item, idx) => {
+              return (
+                <GridItem key={idx} h="33vh">
+                  <HouseCard key={idx} {...item} />
+                </GridItem>
+              );
+            })}
+          </Grid>
+        ) : (
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            height="65vh"
+            fontWeight="600"
+            ref={scrollRef}
+          >
+            해당 옵션을 가진 제품은 없습니다.
+          </Flex>
+        )}
+      </VStack>
       <TopBtn onClick={onTop}>Top</TopBtn>
     </>
   );

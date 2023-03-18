@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-
+import { isLoggedInVar } from "../../apollo";
 import routes from "../../routes";
 import styled from "styled-components";
 import {
@@ -26,6 +26,7 @@ import AddressMenu from "../Menu/AddressMenu";
 import OptionDropdown from "../Menu/OptionDropdown";
 import LoginModal from "../Modal/LoginModal";
 import useUser from "../../hooks/useUser";
+import UserInfoMenu from "../Menu/UserInfoMenu";
 
 function Header() {
   const { user, isLoggedIn, userLoading } = useUser();
@@ -38,9 +39,6 @@ function Header() {
   const onProfile = () => {
     navigate(`/profile/userId`);
   };
-  const onChatList = () => {
-    navigate(`/chatList`);
-  };
 
   // 없어질 예정
   const onChat = () => {
@@ -49,8 +47,8 @@ function Header() {
   const onSignUp = () => {
     navigate(`/signup`);
   };
-  const onHouse = () => {
-    navigate(`/houseList/house/houseId`);
+  const onSell = () => {
+    navigate(`/sell`);
   };
   const onHouseList = () => {
     navigate(`/houseList`);
@@ -60,9 +58,12 @@ function Header() {
     onClose: onLoginClose,
     onOpen: onLoginOpen,
   } = useDisclosure();
+
+  // const [userMenu, setUserMenu] = useState(false);
+
   return (
     <HStack justifyContent={"space-between"} px={"10"} py={"3"}>
-      <Text onClick={onHome} fontSize="2xl" color={"#ff404c"}>
+      <Text onClick={onHome} fontSize="2xl" color={"#ff404c"} cursor="pointer">
         BangSam
       </Text>
       {/* 없어질 컬럼 (routing 편하게 할려고 만듬) */}
@@ -71,17 +72,24 @@ function Header() {
         <FontAwesomeIcon size={"2x"} icon={faUserPlus} onClick={onSignUp} />
         <Text onClick={onHouseList}>집리스트</Text>
         <Text onClick={onProfile}>프로필</Text>
+        <Text onClick={onSell}>판매</Text>
       </HStack>
+
       <HStack>
-        <FontAwesomeIcon size={"2x"} icon={faComment} onClick={onChat} />
-        <FontAwesomeIcon size={"2x"} icon={faComments} onClick={onChatList} />
+        {isLoggedIn ? (
+          <FontAwesomeIcon
+            size={"2x"}
+            cursor="pointer"
+            icon={faComment}
+            onClick={onChat}
+          />
+        ) : null}
         {!isLoggedIn && !userLoading ? (
           <Avatar onClick={() => onLoginOpen()} />
         ) : (
-          <Avatar onClick={() => onLoginOpen()} />
+          <UserInfoMenu />
         )}
       </HStack>
-      {/* <FontAwesomeIcon size={"2x"} icon={faUser} onClick={onProfile} /> */}
       <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
     </HStack>
   );

@@ -37,6 +37,10 @@ function SelectModal({
     sessionStorage.setItem(name, selectedVal);
     sessionStorage.setItem(name + "Idx", selectedIdx);
 
+    if (name.includes("gugunsi")) {
+      sessionStorage.setItem("dong", "nothing");
+    }
+
     onSetAddress((items) => {
       let nextAddress = [0, 0, 0];
       items.forEach((item, idx) => {

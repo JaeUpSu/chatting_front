@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Img = styled.img`
-  max-width: 3rem;
+  max-width: 4rem;
   cursor: pointer;
   margin-bottom: 5px;
 `;
