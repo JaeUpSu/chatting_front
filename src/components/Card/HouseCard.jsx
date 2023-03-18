@@ -75,16 +75,6 @@ function HouseCard({
             css={{
               aspectRatio: "2 / 1",
             }}
-          >
-            <BoxAction>
-              <FontAwesomeIcon
-                size="lg"
-                color="red"
-                icon={isLike ? Solid.faHeart : faHeart}
-                onClick={onLike}
-              />
-            </BoxAction>
-          </Box>
           <Box left="1" top="10px" spacing="3" position="relative">
             <Box w="22vw">
               <Heading

@@ -44,6 +44,9 @@ function House() {
   const goChat = () => {
     mutation.mutate(id);
   };
+  const onEdit = () => {
+    navigate("/edit");
+  };
 
   const onLike = () => {
     setIsLike(!isLike);
@@ -177,18 +180,17 @@ function House() {
                 비디오폰 / 공동현관 / CCTV / 카드키 / 화재경보기
               </ListItem>
             </List>
-            {isLoggedIn && !userLoading ? (
-              <Button
-                colorScheme="red"
-                size="lg"
-                position={"fixed"}
-                bottom={10}
-                right={10}
-                onClick={goChat}
-              >
-                채팅하기
-              </Button>
-            ) : null}
+
+            <Button
+              colorScheme="red"
+              size="lg"
+              position={"fixed"}
+              bottom={10}
+              right={10}
+              onClick={goChat}
+            >
+              채팅하기
+            </Button>
           </Box>
         </Center>
       </Box>
