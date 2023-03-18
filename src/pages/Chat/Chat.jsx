@@ -24,6 +24,7 @@ import { getChatList } from "../../services/api";
 import ChatMessage from "../../components/Card/ChatMessage";
 import IconBtns from "../Home/IconBtns";
 import { FaArrowLeft } from "react-icons/fa";
+import ProtectedPage from "../../components/auth/ProtectedPage";
 const ChatRoom = () => {
   const { register, handleSubmit, watch, setValue } = useForm();
   const [messages, setMessages] = useState([]);
@@ -127,79 +128,83 @@ const ChatRoom = () => {
   const navigate = useNavigate();
   if (!isLoading) {
     return (
-      <VStack
-        as={"form"}
-        w="100%"
-        spacing="0"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <VStack spacing={5} width={"100%"}>
-          <Box
-            borderWidth="1px"
-            borderColor="gray.200"
-            borderRadius="md"
-            p={4}
-            h={"65vh"}
-            w={"100%"}
-            overflowY="scroll"
-            ref={chatBoxRef}
-          >
-            <HStack
-              position={"fixed"}
-              zIndex={1}
-              justifyContent={"space-between"}
+      <ProtectedPage>
+        <VStack
+          as={"form"}
+          w="100%"
+          spacing="0"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <VStack spacing={5} width={"100%"}>
+            <Box
+              borderWidth="1px"
+              borderColor="gray.200"
+              borderRadius="md"
+              p={4}
+              h={"65vh"}
+              w={"100%"}
+              overflowY="scroll"
+              ref={chatBoxRef}
             >
-              <Button onClick={() => navigate("../")}>
-                <FaArrowLeft />
-              </Button>
-            </HStack>
-            {messages.map((message, i) =>
-              message.sender.username === sender ? (
-                <Box key={i} mb={5} mr={4}>
-                  <ChatMessage
-                    key={i}
-                    message={message}
-                    isSentByCurrentUser={true}
-                    isRead={message.is_read}
-                    time={message.time}
-                  />
-                </Box>
-              ) : (
-                <Box key={i} mb={2} ml={4}>
-                  <ChatMessage
-                    key={i}
-                    message={message}
-                    isSentByCurrentUser={false}
-                    isRead={message.is_read}
-                    time={message.time}
-                  />
-                </Box>
-              )
-            )}
-          </Box>
-          <Grid
-            as={"div"}
-            w={"100%"}
-            templateColumns={"6fr 1fr"}
-            gap="5"
-            alignItems="center"
-          >
-            <Input
-              onClick={handleClick}
-              {...register("text", { required: true })}
-              focusBorderColor="gray.300"
-              isDisabled={!serverConnect}
-              placeholder={
-                serverConnect ? "채팅을 입력하세요." : "서버 상태를 확인하세요."
-              }
-            />
+              <HStack
+                position={"fixed"}
+                zIndex={1}
+                justifyContent={"space-between"}
+              >
+                <Button onClick={() => navigate("../")}>
+                  <FaArrowLeft />
+                </Button>
+              </HStack>
+              {messages.map((message, i) =>
+                message.sender.username === sender ? (
+                  <Box key={i} mb={5} mr={4}>
+                    <ChatMessage
+                      key={i}
+                      message={message}
+                      isSentByCurrentUser={true}
+                      isRead={message.is_read}
+                      time={message.time}
+                    />
+                  </Box>
+                ) : (
+                  <Box key={i} mb={2} ml={4}>
+                    <ChatMessage
+                      key={i}
+                      message={message}
+                      isSentByCurrentUser={false}
+                      isRead={message.is_read}
+                      time={message.time}
+                    />
+                  </Box>
+                )
+              )}
+            </Box>
+            <Grid
+              as={"div"}
+              w={"100%"}
+              templateColumns={"6fr 1fr"}
+              gap="5"
+              alignItems="center"
+            >
+              <Input
+                onClick={handleClick}
+                {...register("text", { required: true })}
+                focusBorderColor="gray.300"
+                isDisabled={!serverConnect}
+                placeholder={
+                  serverConnect
+                    ? "채팅을 입력하세요."
+                    : "서버 상태를 확인하세요."
+                }
+              />
 
-            <Button type="submit" isDisabled={!serverConnect}>
-              Send
-            </Button>
-          </Grid>
+              <Button type="submit" isDisabled={!serverConnect}>
+                Send
+              </Button>
+            </Grid>
+          </VStack>
         </VStack>
-      </VStack>
+      </ProtectedPage>
     );
   }
 };
