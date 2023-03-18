@@ -31,7 +31,6 @@ import { useNavigate } from "react-router-dom";
 export default function SignUp() {
   const toast = useToast();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
   const [avatar, setAvatar] = useState("");
   const {
     handleSubmit,
@@ -117,9 +116,9 @@ export default function SignUp() {
     <Container display={"flex"} justifyContent={"center"}>
       <VStack
         as={"form"}
-        mt={"7"}
+        mt={"3"}
         onSubmit={handleSubmit(onSubmit)}
-        spacing={3}
+        spacing={2}
         alignItems={"flex-start"}
         w={"33vw"}
       >
@@ -219,17 +218,9 @@ export default function SignUp() {
             </Text>
           )}
         </FormControl>
-        <HStack
-          // alignItems={"center"}
-          justifyContent="center"
-          width={"100%"}
-        >
-          <Checkbox {...register("isHost")} mr={"10"}>
-            집주인
-          </Checkbox>
-
-          <Checkbox {...register("isRealtor")}>공인중개사</Checkbox>
-        </HStack>
+        <Checkbox {...register("isHost")} mr={"10"}>
+          공인중개사입니다.
+        </Checkbox>
 
         <Button
           isLoading={
@@ -244,7 +235,6 @@ export default function SignUp() {
         >
           Submit
         </Button>
-        {error ? <Text>{error}</Text> : null}
       </VStack>
     </Container>
   );

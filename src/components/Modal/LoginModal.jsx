@@ -58,6 +58,7 @@ export default function LoginModal({ isOpen, onClose }) {
         description: `Welcome!`,
         status: "success",
         position: "top",
+        isClosable: true,
       });
       onClose();
       reset();

@@ -75,21 +75,11 @@ function Header() {
         <Text onClick={onSell}>판매</Text>
       </HStack>
 
-      <HStack>
-        {isLoggedIn ? (
-          <FontAwesomeIcon
-            size={"2x"}
-            cursor="pointer"
-            icon={faComment}
-            onClick={onChat}
-          />
-        ) : null}
-        {!isLoggedIn && !userLoading ? (
-          <Avatar onClick={() => onLoginOpen()} />
-        ) : (
-          <UserInfoMenu />
-        )}
-      </HStack>
+      {!isLoggedIn && !userLoading ? (
+        <Avatar onClick={() => onLoginOpen()} />
+      ) : (
+        <UserInfoMenu user={user} />
+      )}
       <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
     </HStack>
   );

@@ -23,6 +23,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
+import useUser from "../../hooks/useUser";
 
 function House() {
   const params = useParams();
@@ -33,9 +34,8 @@ function House() {
 
   const [isLike, setIsLike] = useState(false);
   const { data, isLoading } = useQuery(["house", id], getHouse);
-
+  const { userLoading, isLoggedIn } = useUser();
   const mutation = useMutation(makeChatRoom, {
-    onMutate: () => console.log(1),
     onSuccess: () => {
       navigate("/chatlist");
     },
@@ -189,16 +189,6 @@ function House() {
               onClick={goChat}
             >
               채팅하기
-            </Button>
-            <Button
-              colorScheme="red"
-              size="lg"
-              position={"fixed"}
-              bottom={10}
-              right={10}
-              onClick={onEdit}
-            >
-              수정하기
             </Button>
           </Box>
         </Center>

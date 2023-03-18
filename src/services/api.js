@@ -24,8 +24,6 @@ export const kakaoLogin = (code) =>
       }
     )
     .then((response) => {
-      const csftToken = response.request;
-      console.log(csftToken);
       // const sessionid = response.config.headers.get("sessionid");
       // console.log(Cookie.get("csrftoken"));
       // Cookie.set("csrftoken", csftToken);
@@ -59,16 +57,18 @@ export const login = ({ username, password }) => {
 };
 
 // 로그아웃
-export const logout = () => {
+export const logout = () =>
   instance
-    .post("users/logout/", "", {
-      headers: {
-        "X-CSRFToken": Cookie.get("csrftoken") || "",
-      },
-    })
+    .post(
+      "users/logout/",
+      {},
+      {
+        headers: {
+          "X-CSRFToken": Cookie.get("csrftoken") || "",
+        },
+      }
+    )
     .then((response) => response.data);
-};
-
 export const getUploadURL = () =>
   instance
     .post(`images/geturl`, null, {
@@ -81,7 +81,6 @@ export const getUploadURL = () =>
 export const uploadImage = ({ file, uploadURL }) => {
   const form = new FormData();
   form.append("file", file[0]);
-  console.log(form);
   return axios
     .post(uploadURL, form, {
       headers: {
@@ -158,8 +157,8 @@ export const getChatList = ({ queryKey }) => {
     .get(`chatlist/${roomPk}/chatlist`)
     .then((response) => response.data);
 };
-export const makeChatRoom = (id) => {
-  return instance
+export const makeChatRoom = (id) =>
+  instance
     .post(
       `chatlist/${id}/`,
       {},
@@ -170,7 +169,6 @@ export const makeChatRoom = (id) => {
       }
     )
     .then((response) => response.data);
-};
 export const deleteChatRoom = (id) => {
   return instance
     .delete(`chatlist/${id}`, {
@@ -191,13 +189,11 @@ export const getAllHouses = () => {
 
 // 모든 집 가져오기
 export const getOptionHouses = (params) => {
-  console.log("params", params);
   return instance
     .get("/houses", {
       params,
     })
     .then((response) => {
-      console.log("response", response);
       const { count, results, current_page, num_pages } = response.data;
       return {
         contents: results,
