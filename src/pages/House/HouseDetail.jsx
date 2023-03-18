@@ -16,13 +16,14 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
+import useUser from "../../hooks/useUser";
 
 function House() {
   const params = useParams();
   const id = params.houseId;
   const navigate = useNavigate();
   const { data, isLoading } = useQuery(["house", id], getHouse);
-
+  const { userLoading, isLoggedIn } = useUser();
   const mutation = useMutation(makeChatRoom, {
     onSuccess: () => {
       navigate("/chatlist");
@@ -134,17 +135,18 @@ function House() {
                 비디오폰 / 공동현관 / CCTV / 카드키 / 화재경보기
               </ListItem>
             </List>
-
-            <Button
-              colorScheme="red"
-              size="lg"
-              position={"fixed"}
-              bottom={10}
-              right={10}
-              onClick={goChat}
-            >
-              채팅하기
-            </Button>
+            {isLoggedIn && !userLoading ? (
+              <Button
+                colorScheme="red"
+                size="lg"
+                position={"fixed"}
+                bottom={10}
+                right={10}
+                onClick={goChat}
+              >
+                채팅하기
+              </Button>
+            ) : null}
           </Box>
         </Center>
       </Box>

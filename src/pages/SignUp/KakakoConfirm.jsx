@@ -30,6 +30,7 @@ export default function KakaoConfirm() {
           title: "Log In Success",
           status: "success",
           position: "top",
+          isClosable: true,
         });
       }
       queryClient.refetchQueries(["me"]);

@@ -28,7 +28,6 @@ export default function ChatList() {
       setSocket(socketRef.current);
 
       socketRef.current.onopen = () => {
-        console.log(111);
         if (params) {
           socketRef.current?.send(
             JSON.stringify({
