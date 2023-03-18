@@ -160,15 +160,11 @@ export const getChatList = ({ queryKey }) => {
 };
 export const makeChatRoom = (id) => {
   return instance
-    .post(
-      `chatlist/${id}`,
-      {},
-      {
-        headers: {
-          "X-CSRFToken": Cookie.get("csrftoken") || "",
-        },
-      }
-    )
+    .post(`chatlist/${id}/`, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
     .then((response) => response.data);
 };
 export const deleteChatRoom = (id) => {

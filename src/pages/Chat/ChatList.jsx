@@ -23,11 +23,12 @@ export default function ChatList() {
   const { user } = useUser();
   useEffect(() => {
     if (user) {
-      const socketUrl = `ws://127.0.0.1:8001/notifications?user=${user.id}`;
+      const socketUrl = `wss://bangsam.onrender.com/notifications?user=${user.id}`;
       socketRef.current = new WebSocket(socketUrl);
       setSocket(socketRef.current);
 
       socketRef.current.onopen = () => {
+        console.log(111);
         if (params) {
           socketRef.current?.send(
             JSON.stringify({
@@ -66,46 +67,48 @@ export default function ChatList() {
       };
     }
   }, [userLoading, chatRoomList, user, roomPk]);
-  return (
-    <ProtectedPage>
-      <Container h={"80vh"} maxW="container.xl">
-        <Grid templateColumns={"1fr 1fr"} mt={"14"}>
-          <Container maxW="container.lg" overflowY="scroll" maxHeight="70vh">
-            {isLoading ? (
-              <Text>Loading...</Text>
+  if (!isLoading && !userLoading) {
+    return (
+      <ProtectedPage>
+        <Container h={"80vh"} maxW="container.xl">
+          <Grid templateColumns={"1fr 1fr"} mt={"14"}>
+            <Container maxW="container.lg" overflowY="scroll" maxHeight="70vh">
+              {isLoading ? (
+                <Text>Loading...</Text>
+              ) : (
+                <Box overflow="hidden">
+                  {chatRoomList.length > 0 ? (
+                    chatRoomList.map((room, index) => (
+                      <ListChat
+                        id={room.id}
+                        key={index}
+                        house={room.house}
+                        users={room.users
+                          .map((value) =>
+                            user.name == value.name ? null : value
+                          )
+                          .filter((user) => user !== null)}
+                        unread_messages={room.unread_messages}
+                        updated_at={room.updated_at}
+                        lastMessage={room.lastMessage}
+                      />
+                    ))
+                  ) : (
+                    <Text>채팅방이 없습니다.</Text>
+                  )}
+                </Box>
+              )}
+            </Container>
+            {roomPk ? (
+              <Outlet context={{ read, setRead }} />
             ) : (
-              <Box overflow="hidden">
-                {chatRoomList.length > 0 ? (
-                  chatRoomList.map((room, index) => (
-                    <ListChat
-                      id={room.id}
-                      key={index}
-                      house={room.house}
-                      users={room.users
-                        .map((value) =>
-                          user.name == value.name ? null : value
-                        )
-                        .filter((user) => user !== null)}
-                      unread_messages={room.unread_messages}
-                      updated_at={room.updated_at}
-                      lastMessage={room.lastMessage}
-                    />
-                  ))
-                ) : (
-                  <Text>채팅방이 없습니다.</Text>
-                )}
-              </Box>
+              <VStack minH={"lg"} justifyContent={"center"}>
+                <Heading color={"red.300"}>BangSam</Heading>
+              </VStack>
             )}
-          </Container>
-          {roomPk ? (
-            <Outlet context={{ read, setRead }} />
-          ) : (
-            <VStack minH={"lg"} justifyContent={"center"}>
-              <Heading color={"red.300"}>BangSam</Heading>
-            </VStack>
-          )}
-        </Grid>
-      </Container>
-    </ProtectedPage>
-  );
+          </Grid>
+        </Container>
+      </ProtectedPage>
+    );
+  }
 }

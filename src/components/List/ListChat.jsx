@@ -28,7 +28,6 @@ export default function ListChat({
   };
   const queryClient = useQueryClient();
   const mutation = useMutation(deleteChatRoom, {
-    onMutate: (data) => console.log(data),
     onSuccess: () => queryClient.refetchQueries(["chatRoomList"]),
   });
   const { chatRoomPk } = useParams();

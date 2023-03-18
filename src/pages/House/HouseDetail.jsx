@@ -23,15 +23,7 @@ function House() {
   const navigate = useNavigate();
   const { data, isLoading } = useQuery(["house", id], getHouse);
 
-  useEffect(() => {
-    console.log("Detail", id);
-  }, [id]);
-
-  useEffect(() => {
-    console.log("Detail", data);
-  }, [data]);
   const mutation = useMutation(makeChatRoom, {
-    onMutate: () => console.log(1),
     onSuccess: () => {
       navigate("/chatlist");
     },
