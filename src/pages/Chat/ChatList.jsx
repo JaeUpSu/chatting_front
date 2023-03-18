@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Heading, Text, VStack } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { Outlet, useParams } from "react-router-dom";
-import ProtectedPage from "../../components/auth/LoginOnlyPage";
+import ProtectedPage from "../../components/auth/ProtectedPage";
 import { useEffect, useRef, useState } from "react";
 import { getChatRoomList } from "../../services/api";
 import ListChat from "../../components/List/ListChat";

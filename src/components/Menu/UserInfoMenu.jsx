@@ -27,7 +27,7 @@ function UserInfoMenu({ user }) {
   };
 
   const onProfile = () => {
-    navigate(`/profile/userId`);
+    navigate(`/profile/${user?.username}`);
   };
   const queryClient = useQueryClient();
   const toast = useToast();
