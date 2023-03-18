@@ -256,7 +256,13 @@ function HouseList() {
             mt="0.2%"
             maxH="72.5vh"
             rowGap={12}
-            gridTemplateColumns={"repeat(4, 1fr)"}
+            gridTemplateColumns={{
+              sm: "1fr",
+              md: "1fr 1fr",
+              lg: "repeat(3, 1fr)",
+              xl: "repeat(4, 1fr)",
+              "2xl": "repeat(5, 1fr)",
+            }}
             ref={scrollRef}
             overflowX="hidden"
             overflowY={"scroll"}
