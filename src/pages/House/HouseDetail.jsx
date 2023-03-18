@@ -43,6 +43,9 @@ function House() {
   const goChat = () => {
     mutation.mutate(id);
   };
+  const onEdit = () => {
+    navigate("/edit");
+  };
 
   const onLike = () => {
     setIsLike(!isLike);
@@ -186,6 +189,16 @@ function House() {
               onClick={goChat}
             >
               채팅하기
+            </Button>
+            <Button
+              colorScheme="red"
+              size="lg"
+              position={"fixed"}
+              bottom={10}
+              right={10}
+              onClick={onEdit}
+            >
+              수정하기
             </Button>
           </Box>
         </Center>

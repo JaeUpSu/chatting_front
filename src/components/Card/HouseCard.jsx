@@ -45,7 +45,7 @@ function HouseCard({
   const onLike = () => {
     setIsLike(!isLike);
   };
-  
+
   const onHouseDetail = () => {
     navigation(`house/${id}`);
   };
@@ -77,9 +77,13 @@ function HouseCard({
           <BoxAction>
             <FontAwesomeIcon
               size="2x"
-              color="red"
               icon={isLike ? Solid.faHeart : faHeart}
               onClick={onLike}
+              style={{
+                "&:hover": {
+                  backgroundColor: "black",
+                },
+              }}
             />
           </BoxAction>
           <Box left="1" top="10px" spacing="3" position="relative">

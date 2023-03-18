@@ -161,7 +161,7 @@ export const getChatList = ({ queryKey }) => {
 export const makeChatRoom = (id) => {
   return instance
     .post(
-      `chatlist/${id}`,
+      `chatlist/${id}/`,
       {},
       {
         headers: {
@@ -216,6 +216,14 @@ export const getHouse = ({ queryKey }) => {
   const [_, id] = queryKey;
   return instance.get(`houses/${id}`).then((response) => response.data);
 };
+
+// 해당 집 등록하기
+export const putHouse = (id, updatedHouse) => {
+  return instance
+    .put(`houses/${id}`, { updatedHouse })
+    .then((response) => console.log("data", response.data));
+};
+
 // 모든 구 가져오기
 export const getGuList = () =>
   instance.get(`houses/gulist`).then((response) => response.data);
@@ -228,9 +236,13 @@ export const getDongList = async ({ queryKey }) => {
     .then((response) => response.data);
 };
 
-// 해당 구 가져오기
 export const getWishLists = () =>
   instance.get(`wishlists/`).then((response) => response.data);
+
+export const setWishLists = ({ queryKey }) => {
+  const [_, id] = queryKey;
+  instance.post(`wishlists/${id}`);
+};
 
 export const getChatRoomList = () =>
   instance.get("chatlist/").then((res) => res.data);
