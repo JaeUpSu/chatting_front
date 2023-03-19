@@ -81,7 +81,6 @@ const ChatRoom = () => {
 
     socketRef.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log(data);
       if (Array.isArray(data)) {
         setMessages(data.reverse());
       } else {
@@ -111,6 +110,7 @@ const ChatRoom = () => {
   });
 
   useEffect(() => {
+    console.log(1);
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }

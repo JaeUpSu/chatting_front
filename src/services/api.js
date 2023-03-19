@@ -209,7 +209,6 @@ export const getOptionHouses = (params) => {
 
 // 해당 집 가져오기
 export const getHouse = ({ queryKey }) => {
-  console.log("queryKey", queryKey);
   const [_, id] = queryKey;
   return instance.get(`houses/${id}`).then((response) => response.data);
 };
