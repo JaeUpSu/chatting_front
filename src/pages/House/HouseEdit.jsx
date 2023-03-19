@@ -374,7 +374,7 @@ const HouseEdit = () => {
           </FormControl>
           <Flex justifyContent="flex-end">
             <Button my="5" type="submit" isLoading={mutate.isLoading}>
-              판매 등록
+              수정하기
             </Button>
           </Flex>
         </form>
