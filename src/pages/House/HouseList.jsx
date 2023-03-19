@@ -254,14 +254,13 @@ function HouseList() {
           <Grid
             w={"99.5vw"}
             mt="0.2%"
-            maxH="72.5vh"
-            rowGap={12}
+            maxH="65vh"
+            // rowGap={3}
             gridTemplateColumns={{
               sm: "1fr",
               md: "1fr 1fr",
               lg: "repeat(3, 1fr)",
               xl: "repeat(4, 1fr)",
-              "2xl": "repeat(5, 1fr)",
             }}
             ref={scrollRef}
             overflowX="hidden"
@@ -282,7 +281,7 @@ function HouseList() {
           >
             {data?.map((item, idx) => {
               return (
-                <GridItem key={idx} h="35vh">
+                <GridItem key={idx}>
                   <HouseCard key={idx} {...item} />
                 </GridItem>
               );

@@ -230,3 +230,12 @@ export const getWishLists = () =>
 
 export const getChatRoomList = () =>
   instance.get("chatlist/").then((res) => res.data);
+
+export const editUser = (value) =>
+  instance
+    .put("users/me/", value, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);

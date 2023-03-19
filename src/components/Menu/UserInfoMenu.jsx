@@ -63,14 +63,13 @@ function UserInfoMenu({ user }) {
   return (
     <Menu>
       <MenuButton>
-        <Avatar src={user?.avatar} name={user?.name}>
-          <AvatarBadge boxSize="1.25rem" bg="green.500" />
+        <Avatar src={user?.avatar} name={user?.name} size="sm">
+          <AvatarBadge boxSize="0.9rem" bg="green.500" />
         </Avatar>
       </MenuButton>
       {/* <Badge colorScheme="green">Login</Badge> */}
-
       <MenuList>
-        <MenuItem onClick={onChatList}>문의내역</MenuItem>
+        <MenuItem onClick={onChatList}>채팅내역</MenuItem>
         <MenuItem onClick={onProfile}>마이페이지</MenuItem>
         <MenuItem>판매하기</MenuItem>
         <MenuItem onClick={onLogOut}>로그아웃</MenuItem>
