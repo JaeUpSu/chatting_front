@@ -3,8 +3,10 @@ import {
   Box,
   Button,
   Container,
+  Flex,
   Heading,
   HStack,
+  Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -42,20 +44,31 @@ export default function ListChat({
       borderWidth="1px"
       borderColor={chatRoomPk != id ? "gray.200" : "blue.200"}
       onClick={() => handleChatClick(id)}
-      justifyContent="space-between"
+      justifyContent="space-evenly"
       alignItems={"flex-end"}
-      w="100%"
+      // w="100%"
+      overflowX={"scroll"}
     >
-      <HStack spacing={"8"} p={2} w="100%">
-        <Avatar name={users[0]?.name} src={users[0]?.avatar} />
+      <Stack
+        direction={{ lg: "row", md: "column" }}
+        spacing={{ lg: "10", md: "5" }}
+        p={2}
+        w="100%"
+      >
+        <Avatar
+          size={{ sm: "sm", md: "md", lg: "lg" }}
+          name={users[0]?.name}
+          src={users[0]?.avatar}
+        />
         <VStack alignItems={"flex-start"} w="100%">
           <HStack
+            minW="2xs"
             justifyContent={"space-between"}
             h={"5"}
             alignItems={"flex-start"}
           >
             <Heading size="sm">
-              {users[0]?.username} 님과의 채팅방
+              {users[0]?.name} 님과의 채팅방
               {unread_messages !== 0 ? (
                 <Text ml={"3"} as={"span"} color="red.300">
                   {" "}
@@ -71,7 +84,7 @@ export default function ListChat({
             {updated_at.split(".")[0].split("T")[0]}
           </Text>
         </VStack>
-      </HStack>
+      </Stack>
       <VStack w="lg" alignItems={"flex-end"}>
         <Text>{house.title}</Text>
         <Button onClick={onDelete}>삭제하기</Button>
