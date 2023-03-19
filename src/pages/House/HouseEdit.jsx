@@ -16,10 +16,12 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getDongList, getGuList, postHouse } from "../../services/api";
+import { useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+
+import { getDongList, getGuList, getHouse, putHouse } from "../../services/api";
 import { RoomKindsToFront, SellKindsToFront } from "../../services/data";
 
 const inputFileStyle = {
@@ -34,13 +36,9 @@ const uploadButtonStyle = {
   py: 2,
 };
 
-const HouseSell = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
+const HouseEdit = () => {
+  const { id } = useParams();
+  const house = useQuery(["house", id], getHouse);
   const fileInputRef = useRef();
 
   const [guIdx, setGuIdx] = useState(0);
@@ -66,42 +64,41 @@ const HouseSell = () => {
     })
   );
 
-  const guList = guListData.data?.map((gu) => ({
+  const guList = guListData?.data?.map((gu) => ({
     label: gu.name,
     value: gu.name,
     index: gu.pk,
   }));
 
-  const dongList = dongListData.data?.map((dong) => ({
+  const dongList = dongListData?.data?.map((dong) => ({
     label: dong.name,
     value: dong.name,
     index: dong.pk,
   }));
 
-  const { mutate } = useMutation(postHouse, {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const { mutate } = useMutation((formData) => putHouse(id, formData), {
     onSuccess: () => {
-      console.log("created house!");
+      console.log("update house!");
     },
     onError: () => {
-      console.log("failed to create house!");
+      console.log("don't update house!");
     },
   });
 
   const onSubmit = (formData) => {
-    const Image = [];
-    images.forEach((item) => {
-      Image.push({ url: item });
-    });
-    console.log(Image);
-    console.log(formData);
-    // formData.append("")
-    // mutate(formData);
+    mutate(formData);
   };
 
   const handleGuSelectChange = (event) => {
     const selectedGuVal = event.currentTarget.value;
     const selectedGu = guList?.find((item) => item.value == selectedGuVal);
-    setGuIdx(selectedGu.index);
+    setGuIdx(selectedGu?.index);
   };
 
   const handleSellKindSelectChange = (event) => {
@@ -110,8 +107,15 @@ const HouseSell = () => {
   };
 
   useEffect(() => {
-    console.log("imgs!!", images);
-  }, [images]);
+    console.log("check");
+  }, []);
+
+  useEffect(() => {
+    console.log("data", house);
+    const selectedGu = guList?.find((item) => item.value == house.data?.gu);
+    setGuIdx(selectedGu?.index);
+    setSellKind(house.data?.sell_kind);
+  }, [house]);
 
   return (
     <VStack>
@@ -127,13 +131,18 @@ const HouseSell = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl isInvalid={errors.title} id="title" my="1" w="70vw">
             <FormLabel>제목</FormLabel>
-            <Input type="text" {...register("title", { required: true })} />
+            <Input
+              type="text"
+              defaultValue={house.data?.title}
+              {...register("title", { required: true })}
+            />
             <FormErrorMessage>{`제목을 입력하세요`}</FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={errors.images} id="images">
             <FormLabel>이미지 ( 5개 ) </FormLabel>{" "}
             <Input
               type="file"
+              defaultValue={house.data?.Image}
               multiple
               onChange={(e) => {
                 const files = e.target.files;
@@ -195,7 +204,11 @@ const HouseSell = () => {
 
           <FormControl isInvalid={errors.address} id="address" my="1">
             <FormLabel>상세주소</FormLabel>
-            <Input type="text" {...register("address", { required: true })} />
+            <Input
+              type="text"
+              defaultValue={house.data?.address}
+              {...register("address", { required: true })}
+            />
             <FormErrorMessage>{`상세주소를 입력하세요`}</FormErrorMessage>
           </FormControl>
 
@@ -236,13 +249,18 @@ const HouseSell = () => {
           <HStack w="70vw">
             <FormControl isInvalid={errors.room} id="room" my="1">
               <FormLabel>방 개수</FormLabel>
-              <Input type="number" {...register("room", { required: true })} />
+              <Input
+                type="number"
+                defaultValue={house.data?.room}
+                {...register("room", { required: true })}
+              />
               <FormErrorMessage>{`방 수를 입력하세요`}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={errors.toilet} id="toilet" my="1">
               <FormLabel>화장실 개수</FormLabel>
               <Input
                 type="number"
+                defaultValue={house.data?.toilet}
                 {...register("toilet", { required: true })}
               />
               <FormErrorMessage>{`화장실 수 입력하세요`}</FormErrorMessage>
@@ -251,6 +269,7 @@ const HouseSell = () => {
               <FormLabel>평수</FormLabel>
               <Input
                 type="number"
+                defaultValue={house.data?.pyeongsu}
                 {...register("pyeongsu", { required: true })}
               />
               <FormErrorMessage>{`평수를 입력하세요`}</FormErrorMessage>
@@ -268,6 +287,7 @@ const HouseSell = () => {
               <FormLabel>매매가</FormLabel>
               <Input
                 type="number"
+                defaultValue={house.data?.sale}
                 {...register("sale", {
                   required: sellKind == "SALE" ? true : false,
                 })}
@@ -287,6 +307,7 @@ const HouseSell = () => {
               <FormLabel>보증금</FormLabel>
               <Input
                 type="number"
+                defaultValue={house.data?.deposit}
                 {...register("deposit", {
                   required:
                     sellKind == "CHARTER" || sellKind == "MONTHLY_RENT"
@@ -307,6 +328,7 @@ const HouseSell = () => {
               <FormLabel>월세</FormLabel>
               <Input
                 type="number"
+                defaultValue={house.data?.monthly_rent}
                 {...register("monthly_rent", {
                   required: sellKind == "MONTHLY_RENT" ? true : false,
                 })}
@@ -321,6 +343,7 @@ const HouseSell = () => {
               <FormLabel>관리비</FormLabel>
               <Input
                 type="number"
+                defaultValue={house.data?.maintenance_cost}
                 {...register("maintenance_cost", { required: true })}
               />
               <FormErrorMessage>{`관리비를 입력하세요`}</FormErrorMessage>
@@ -333,6 +356,7 @@ const HouseSell = () => {
             <FormLabel>설명</FormLabel>
             <Textarea
               type="text"
+              defaultValue={house.data?.description}
               {...register("description", { required: true })}
             />
             <FormErrorMessage>{`설명을 입력하세요`}</FormErrorMessage>
@@ -345,17 +369,63 @@ const HouseSell = () => {
             my="1"
           >
             <FormLabel>역까지 거리</FormLabel>
-            <Input type="number" {...register("distance_to_station")} />
+            <Input
+              type="number"
+              defaultValue={house.data?.distance_to_station}
+              {...register("distance_to_station")}
+            />
             <FormErrorMessage>{`역까지 거리를 입력하세요`}</FormErrorMessage>
           </FormControl>
           <Flex justifyContent="flex-end">
             <Button my="5" type="submit" isLoading={mutate.isLoading}>
-              판매 등록
+              수정하기
             </Button>
           </Flex>
         </form>
       </Center>
     </VStack>
+
+    // <Box p={4}>
+    //   <form onSubmit={handleSubmit(onSubmit)}>
+    //     <FormControl isInvalid={errors.title}>
+    //       <FormLabel>Title</FormLabel>
+    //       <Input
+    //         defaultValue={house.data?.title}
+    //         {...register("title", { required: true })}
+    //       />
+    //       {errors.title && (
+    //         <FormErrorMessage>건물이름을 꼭 적어주세요</FormErrorMessage>
+    //       )}
+    //     </FormControl>
+    //     <FormControl isInvalid={errors.description}>
+    //       <FormLabel>Description</FormLabel>
+    //       <Textarea
+    //         defaultValue={house.data?.description}
+    //         {...register("description", { required: true })}
+    //       />
+    //       {errors.description && (
+    //         <FormErrorMessage>
+    //           최소한의 설명이라도 꼭 적어주세요
+    //         </FormErrorMessage>
+    //       )}
+    //     </FormControl>
+    //     <FormControl isInvalid={errors.price}>
+    //       <FormLabel>Price</FormLabel>
+    //       <Input
+    //         type="number"
+    //         defaultValue={house.data?.price}
+    //         {...register("price", { required: true })}
+    //       />
+    //       {errors.price && (
+    //         <FormErrorMessage>매매가를 입력해주세요</FormErrorMessage>
+    //       )}
+    //     </FormControl>
+    //     <Button type="submit" isLoading={house?.isLoading}>
+    //       Update
+    //     </Button>
+    //   </form>
+    // </Box>
   );
 };
-export default HouseSell;
+
+export default HouseEdit;

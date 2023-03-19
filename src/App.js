@@ -20,6 +20,7 @@ import MyInfo from "./pages/Profile/MyInfo";
 import WishList from "./pages/Profile/WishList";
 import RecentView from "./pages/Profile/RecentView";
 import SellHistory from "./pages/Profile/SellHistory";
+import HouseEdit from "./pages/House/HouseEdit";
 
 function App() {
   // 전역
@@ -49,6 +50,7 @@ function App() {
             <Route path="naver" element={<NaverConfirm />} />
           </Route>
           <Route path="sell" element={<HouseSell />} />
+          <Route path="edit/:id" element={<HouseEdit />} />
         </Route>
       </Routes>
     </Router>

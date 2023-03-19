@@ -281,7 +281,7 @@ function HouseList() {
           >
             {data?.map((item, idx) => {
               return (
-                <GridItem key={idx}>
+                <GridItem key={idx} h="35vh">
                   <HouseCard key={idx} {...item} />
                 </GridItem>
               );
