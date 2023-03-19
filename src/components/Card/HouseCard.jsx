@@ -67,7 +67,7 @@ function HouseCard({
             backgroundRepeat="no-repeat"
             backgroundPosition="center"
             minW="21vw"
-            maxW="30vw"
+            maxW="23vw"
             width="100%"
             alt="house"
             borderRadius="lg"
@@ -76,13 +76,13 @@ function HouseCard({
               aspectRatio: "2 / 1",
             }}
           />
-          <Box left="1" top="10px" spacing="3" position="relative">
+          <Box top="10px" spacing="3" position="relative">
             <Box w="22vw">
               <Heading
                 w="100%"
                 size="md"
                 mb="5px"
-                fontSize="1.7em"
+                fontSize="1.5em"
                 color="blackAlpha.800"
               >
                 {address}
@@ -101,12 +101,12 @@ function HouseCard({
               <Text
                 mt="5px"
                 color="blackAlpha.800"
-                fontSize="1.5em"
+                fontSize="1.4em"
                 fontWeight="600"
               >
                 {`${RoomKindsToFront[room_kind]} ${SellKindsToFront[sell_kind]}`}
               </Text>
-              <Text mt="5px" color="red.400" fontSize="1.4em" fontWeight="600">
+              <Text mt="5px" color="red.400" fontSize="1.3em" fontWeight="600">
                 {`${getSaleContents(sell_kind, deposit, monthly_rent, sale)}`}
               </Text>
             </Box>

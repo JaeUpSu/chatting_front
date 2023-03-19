@@ -100,7 +100,7 @@ const HouseSell = () => {
 
   const handleGuSelectChange = (event) => {
     const selectedGuVal = event.currentTarget.value;
-    const selectedGu = guList.find((item) => item.value == selectedGuVal);
+    const selectedGu = guList?.find((item) => item.value == selectedGuVal);
     setGuIdx(selectedGu.index);
   };
 

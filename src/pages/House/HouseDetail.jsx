@@ -42,10 +42,22 @@ function House() {
     },
   });
   const goChat = () => {
-    mutation.mutate(id);
+    if (!userLoading && isLoggedIn) {
+      mutation.mutate(id);
+    } else {
+      toast({
+        title: "로그인을 해야 사용가능합니다.",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
   const onEdit = () => {
     navigate(`/edit/${id}`);
+  };
+  const onDel = () => {
+    console.log("Delete House");
   };
 
   const onLike = () => {
@@ -91,7 +103,11 @@ function House() {
           >
             {data?.Image.map((item, idx) => {
               return (
-                <GridItem rowSpan={idx == 0 ? 2 : 1} colSpan={idx == 0 ? 0 : 2}>
+                <GridItem
+                  key={idx}
+                  rowSpan={idx == 0 ? 2 : 1}
+                  colSpan={idx == 0 ? 0 : 2}
+                >
                   <Box
                     w={idx > 0 ? "20vw" : "50vw"}
                     h={idx > 0 ? "25vh" : "50vh"}
@@ -193,14 +209,24 @@ function House() {
               채팅하기
             </Button>
             <Button
-              colorScheme="red"
+              colorScheme="blackAlpha"
               size="lg"
               position={"fixed"}
               bottom={10}
-              right={10}
+              right={170}
               onClick={onEdit}
             >
               수정하기
+            </Button>
+            <Button
+              colorScheme="green"
+              size="lg"
+              position={"fixed"}
+              bottom={10}
+              right={300}
+              onClick={onDel}
+            >
+              삭제하기
             </Button>
           </Box>
         </Center>
