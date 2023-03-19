@@ -6,6 +6,8 @@ import {
   Heading,
   VStack,
   IconButton,
+  Button,
+  HStack,
 } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
@@ -13,11 +15,13 @@ import { useEffect, useState } from "react";
 import { RoomKindsToFront, SellKindsToFront } from "../../services/data";
 import { getSaleContents } from "../../utils/getSaleContents";
 import styled from "styled-components";
+import { useQuery } from "@tanstack/react-query";
 
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import * as Solid from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getWishLists } from "../../services/api";
 
 const BoxAction = styled.div`
   background-color: transparent;
@@ -40,8 +44,8 @@ function HouseCard({
   sale,
 }) {
   const navigation = useNavigate();
-
   const [isLike, setIsLike] = useState(false);
+  // const isLikeBack = useQuery(["like"], getWishLists);
 
   const onLike = (event) => {
     event.stopPropagation();
@@ -51,6 +55,10 @@ function HouseCard({
   const onHouseDetail = () => {
     navigation(`house/${id}`);
   };
+
+  // useEffect(() => {
+  // console.log("isLike", isLikeBack?.data);
+  // }, [isLikeBack]);
 
   return (
     <Card
@@ -98,14 +106,22 @@ function HouseCard({
                   ? description.substring(0, 17) + "..."
                   : description}
               </Text>
-              <Text
-                mt="5px"
-                color="blackAlpha.800"
-                fontSize="1.4em"
-                fontWeight="600"
-              >
-                {`${RoomKindsToFront[room_kind]} ${SellKindsToFront[sell_kind]}`}
-              </Text>
+              <HStack alignItems="center">
+                <Text
+                  mt="5px"
+                  color="blackAlpha.800"
+                  fontSize="1.4em"
+                  fontWeight="600"
+                >
+                  {`${RoomKindsToFront[room_kind]} ${SellKindsToFront[sell_kind]}`}
+                </Text>
+                <Box onClick={onLike}>
+                  <FontAwesomeIcon
+                    size="lg"
+                    icon={isLike ? Solid.faHeart : faHeart}
+                  />
+                </Box>
+              </HStack>
               <Text mt="5px" color="red.400" fontSize="1.3em" fontWeight="600">
                 {`${getSaleContents(sell_kind, deposit, monthly_rent, sale)}`}
               </Text>

@@ -243,8 +243,8 @@ export const getDongList = async ({ queryKey }) => {
 export const getWishLists = () =>
   instance.get(`wishlists/`).then((response) => response.data);
 
-export const setWishLists = (id) => {
-  instance.post(`wishlists/${id}`);
+export const setWishLists = () => {
+  instance.post(`wishlists/`);
 };
 
 export const getChatRoomList = () =>
