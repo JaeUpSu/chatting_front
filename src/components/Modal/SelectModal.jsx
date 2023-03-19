@@ -20,7 +20,6 @@ function SelectModal({
 }) {
   const [btnName, setBtnName] = useState(valName);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [dongList, setDongList] = useState({});
 
   useEffect(() => {
     if (name == addressKinds[0]) {
