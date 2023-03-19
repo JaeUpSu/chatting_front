@@ -75,6 +75,7 @@ function HouseCard({
             css={{
               aspectRatio: "2 / 1",
             }}
+          />
           <Box left="1" top="10px" spacing="3" position="relative">
             <Box w="22vw">
               <Heading

@@ -1,85 +1,89 @@
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  Textarea,
+} from "@chakra-ui/react";
+
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
-import axios from "axios";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+
 import { getHouse, putHouse } from "../../services/api";
 
-const HouseEdit = ({ match }) => {
-  const { register, handleSubmit } = useForm();
-  const history = useHistory();
-  const queryClient = useQueryClient();
+const HouseEdit = () => {
+  const { id } = useParams();
+  const house = useQuery(["house", id], getHouse);
 
-  const [house, setHouse] = useState(null);
-  const { id } = match.params;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const { mutateAsync } = useMutation(putHouse, {
+  const { mutate } = useMutation((formData) => putHouse(id, formData), {
     onSuccess: () => {
-      queryClient.invalidateQueries("houses");
-      history.push("/");
+      console.log("update house!");
+    },
+    onError: () => {
+      console.log("don't update house!");
     },
   });
 
-  const onSubmit = async (data) => {
-    try {
-      await mutateAsync(data);
-    } catch (error) {
-      console.error(error);
-    }
+  const onSubmit = (formData) => {
+    mutate(formData);
   };
 
   useEffect(() => {
-    const fetchHouse = async () => {
-      const { data } = await getHouse(id);
-      setHouse(data);
-    };
-
-    fetchHouse();
-  }, [id]);
-
-  if (!house) {
-    return <div>Loading...</div>;
-  }
+    console.log("data", house);
+  }, [house]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="title">Title</label>
-        <input
-          type="text"
-          id="title"
-          defaultValue={house.title}
-          {...register("title")}
-        />
-      </div>
-      <div>
-        <label htmlFor="description">Description</label>
-        <textarea
-          id="description"
-          defaultValue={house.description}
-          {...register("description")}
-        />
-      </div>
-      <div>
-        <label htmlFor="address">Address</label>
-        <input
-          type="text"
-          id="address"
-          defaultValue={house.address}
-          {...register("address")}
-        />
-      </div>
-      <div>
-        <label htmlFor="price">Price</label>
-        <input
-          type="number"
-          id="price"
-          defaultValue={house.price}
-          {...register("price")}
-        />
-      </div>
-      <button type="submit">Update</button>
-    </form>
+    <Box p={4}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl isInvalid={errors.title}>
+          <FormLabel>Title</FormLabel>
+          <Input
+            defaultValue={house.data?.title}
+            {...register("title", { required: true })}
+          />
+          {errors.title && (
+            <FormErrorMessage>건물이름을 꼭 적어주세요</FormErrorMessage>
+          )}
+        </FormControl>
+        <FormControl isInvalid={errors.description}>
+          <FormLabel>Description</FormLabel>
+          <Textarea
+            defaultValue={house.data?.description}
+            {...register("description", { required: true })}
+          />
+          {errors.description && (
+            <FormErrorMessage>
+              최소한의 설명이라도 꼭 적어주세요
+            </FormErrorMessage>
+          )}
+        </FormControl>
+        <FormControl isInvalid={errors.price}>
+          <FormLabel>Price</FormLabel>
+          <Input
+            type="number"
+            defaultValue={house.data?.price}
+            {...register("price", { required: true })}
+          />
+          {errors.price && (
+            <FormErrorMessage>매매가를 입력해주세요</FormErrorMessage>
+          )}
+        </FormControl>
+        <Button type="submit" isLoading={house?.isLoading}>
+          Update
+        </Button>
+      </form>
+    </Box>
   );
 };
 

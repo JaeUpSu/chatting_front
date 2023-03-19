@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSaleContents } from "../../utils/getSaleContents";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getHouse, makeChatRoom } from "../../services/api";
+import { getHouse, makeChatRoom, setWishLists } from "../../services/api";
 
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import * as Solid from "@fortawesome/free-solid-svg-icons";
@@ -45,7 +45,7 @@ function House() {
     mutation.mutate(id);
   };
   const onEdit = () => {
-    navigate("/edit");
+    navigate(`/edit/${id}`);
   };
 
   const onLike = () => {
@@ -68,6 +68,7 @@ function House() {
         isClosable: true,
       });
     }
+    setWishLists(id);
   }, [isLike]);
 
   return (
@@ -190,6 +191,16 @@ function House() {
               onClick={goChat}
             >
               채팅하기
+            </Button>
+            <Button
+              colorScheme="red"
+              size="lg"
+              position={"fixed"}
+              bottom={10}
+              right={10}
+              onClick={onEdit}
+            >
+              수정하기
             </Button>
           </Box>
         </Center>

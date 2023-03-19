@@ -209,11 +209,19 @@ export const getOptionHouses = (params) => {
 
 // 해당 집 가져오기
 export const getHouse = ({ queryKey }) => {
+  console.log("queryKey", queryKey);
   const [_, id] = queryKey;
   return instance.get(`houses/${id}`).then((response) => response.data);
 };
 
 // 해당 집 등록하기
+export const postHouse = (updatedHouse) => {
+  return instance
+    .post(`houses/`, { updatedHouse })
+    .then((response) => console.log("data", response.data));
+};
+
+// 해당 집 수정하기
 export const putHouse = (id, updatedHouse) => {
   return instance
     .put(`houses/${id}`, { updatedHouse })
@@ -235,8 +243,7 @@ export const getDongList = async ({ queryKey }) => {
 export const getWishLists = () =>
   instance.get(`wishlists/`).then((response) => response.data);
 
-export const setWishLists = ({ queryKey }) => {
-  const [_, id] = queryKey;
+export const setWishLists = (id) => {
   instance.post(`wishlists/${id}`);
 };
 
