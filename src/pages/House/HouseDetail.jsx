@@ -100,8 +100,8 @@ function House() {
       });
     }
     setIsLike(!isLike);
+    console.log("detail", !user.userLoading && user.isLoggedIn, id);
     if (!user.userLoading && user.isLoggedIn && id > 0) {
-      console.log("detail", !user.userLoading && user.isLoggedIn, id);
       likeMutation.mutate(id);
     }
   };
@@ -119,9 +119,6 @@ function House() {
     }
   }, [wishlists]);
 
-  useEffect(() => {
-    console.log("user", user.data);
-  }, [user]);
   return (
     <>
       <Box
@@ -239,19 +236,7 @@ function House() {
                 비디오폰 / 공동현관 / CCTV / 카드키 / 화재경보기
               </ListItem>
             </List>
-
-            <Button
-              colorScheme="red"
-              size="lg"
-              position={"fixed"}
-              bottom={10}
-              right={10}
-              onClick={goChat}
-            >
-              채팅하기
-            </Button>
-
-            {!user.userLoading && user.isLoggedIn ? (
+            {user?.user?.username === data?.host?.username ? (
               <>
                 <Button
                   colorScheme="blackAlpha"
@@ -285,7 +270,16 @@ function House() {
                 </Button>
               </>
             ) : (
-              ""
+              <Button
+                colorScheme="red"
+                size="lg"
+                position={"fixed"}
+                bottom={10}
+                right={10}
+                onClick={goChat}
+              >
+                채팅하기
+              </Button>
             )}
           </Box>
         </Center>
