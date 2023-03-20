@@ -148,7 +148,7 @@ export const initParams = () => {
   };
 };
 
-export const getInitOrderBy = () => {
+export const getInitOrderBy = (sellKindFlag) => {
   let initOrderBy = [];
   const ordersFront = ["최근순", "조회순", "낮은가격순"];
   const orders = {
@@ -157,15 +157,17 @@ export const getInitOrderBy = () => {
     row_price: "낮은가격순",
   };
 
-  const orderBy = sessionStorage.getItem("sort_by")
-    ? orders[sessionStorage.getItem("sort_by")]
-    : "최근순";
-
-  initOrderBy.push(orderBy);
-  ordersFront.forEach((item, idx) => {
-    if (orderBy !== item) {
+  if (sellKindFlag) {
+    ordersFront.forEach((item, idx) => {
       initOrderBy.push(item);
-    }
-  });
+    });
+  } else {
+    ordersFront.forEach((item, idx) => {
+      if (item !== "낮은가격순") {
+        initOrderBy.push(item);
+      }
+    });
+  }
+
   return initOrderBy;
 };
