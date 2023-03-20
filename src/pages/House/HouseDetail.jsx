@@ -61,9 +61,13 @@ function House() {
   const onDel = () => {
     console.log("Delete House");
   };
+  const onSoldOut = () => {
+    console.log("SoldOut House");
+  };
 
   const onLike = () => {
     setIsLike(!isLike);
+    setWishLists();
   };
 
   useDidMountEffect(() => {
@@ -229,6 +233,16 @@ function House() {
               onClick={onDel}
             >
               삭제하기
+            </Button>
+            <Button
+              colorScheme="orange"
+              size="lg"
+              position={"fixed"}
+              bottom={10}
+              right={430}
+              onClick={onSoldOut}
+            >
+              판매완료
             </Button>
           </Box>
         </Center>

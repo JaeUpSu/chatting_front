@@ -246,8 +246,8 @@ export const getWishLists = () =>
     .then((response) => response.data)
     .then((res) => console.log(res.data));
 
-export const setWishLists = (id) => {
-  instance.post(`wishlists/${id}`);
+export const setWishLists = () => {
+  instance.post(`wishlists/`);
 };
 
 export const getChatRoomList = () =>
