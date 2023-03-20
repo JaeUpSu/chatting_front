@@ -60,6 +60,9 @@ function UserInfoMenu({ user }) {
     mutation.mutate();
   };
 
+  const onSell = () => {
+    navigate(`/sell`);
+  };
   return (
     <Menu>
       <MenuButton>
@@ -71,7 +74,7 @@ function UserInfoMenu({ user }) {
       <MenuList>
         <MenuItem onClick={onChatList}>채팅내역</MenuItem>
         <MenuItem onClick={onProfile}>마이페이지</MenuItem>
-        <MenuItem>판매하기</MenuItem>
+        <MenuItem onClick={onSell}>판매하기</MenuItem>
         <MenuItem onClick={onLogOut}>로그아웃</MenuItem>
       </MenuList>
     </Menu>
