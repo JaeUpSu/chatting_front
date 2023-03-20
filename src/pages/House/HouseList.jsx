@@ -85,8 +85,6 @@ function HouseList() {
   const columnSizes = [4, 3, 2, 1];
   const columns = columnSizes.map((size) => `repeat(${size}, 1fr)`).reverse();
 
-  const wishlists = useQuery(["wishlist"], getWishLists);
-
   // orderBy rearrange
   const onOrderBy = (e) => {
     const value = e.currentTarget.getAttribute("value");
@@ -167,10 +165,6 @@ function HouseList() {
     const apiParams = getBackOptions(APIParams);
     setBackParams(apiParams);
   }, [APIParams]);
-
-  useEffect(() => {
-    console.log("wish", wishlists);
-  }, [wishlists]);
 
   return (
     <>
