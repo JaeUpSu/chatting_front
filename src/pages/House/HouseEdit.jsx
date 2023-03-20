@@ -129,7 +129,7 @@ const HouseEdit = () => {
             <FormLabel>제목</FormLabel>
             <Input
               type="text"
-              defaultValue={house.data?.title}
+              defaultValue={house?.data?.title}
               {...register("title", { required: true })}
             />
             <FormErrorMessage>{`제목을 입력하세요`}</FormErrorMessage>
@@ -138,11 +138,10 @@ const HouseEdit = () => {
             <FormLabel>이미지 ( 5개 ) </FormLabel>{" "}
             <Input
               type="file"
-              defaultValue={house.data?.Image}
+              // defaultValue={house?.data?.thumnail}
               multiple
               onChange={(e) => {
                 const files = e.target.files;
-                console.log(files.length);
                 setImages((list) => {
                   const imgs = [];
                   list.map((item) => {
@@ -202,7 +201,7 @@ const HouseEdit = () => {
             <FormLabel>상세주소</FormLabel>
             <Input
               type="text"
-              defaultValue={house.data?.address}
+              defaultValue={house?.data?.address}
               {...register("address", { required: true })}
             />
             <FormErrorMessage>{`상세주소를 입력하세요`}</FormErrorMessage>
@@ -233,7 +232,7 @@ const HouseEdit = () => {
                 fontSize="14px"
                 onChange={handleSellKindSelectChange}
               >
-                {sellKindOptions.map((option) => (
+                {sellKindOptions?.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -247,7 +246,7 @@ const HouseEdit = () => {
               <FormLabel>방 개수</FormLabel>
               <Input
                 type="number"
-                defaultValue={house.data?.room}
+                defaultValue={house?.data?.room}
                 {...register("room", { required: true })}
               />
               <FormErrorMessage>{`방 수를 입력하세요`}</FormErrorMessage>
@@ -256,7 +255,7 @@ const HouseEdit = () => {
               <FormLabel>화장실 개수</FormLabel>
               <Input
                 type="number"
-                defaultValue={house.data?.toilet}
+                defaultValue={house?.data?.toilet}
                 {...register("toilet", { required: true })}
               />
               <FormErrorMessage>{`화장실 수 입력하세요`}</FormErrorMessage>
@@ -265,7 +264,7 @@ const HouseEdit = () => {
               <FormLabel>평수</FormLabel>
               <Input
                 type="number"
-                defaultValue={house.data?.pyeongsu}
+                defaultValue={house?.data?.pyeongsu}
                 {...register("pyeongsu", { required: true })}
               />
               <FormErrorMessage>{`평수를 입력하세요`}</FormErrorMessage>
@@ -283,7 +282,7 @@ const HouseEdit = () => {
               <FormLabel>매매가</FormLabel>
               <Input
                 type="number"
-                defaultValue={house.data?.sale}
+                defaultValue={house?.data?.sale}
                 {...register("sale", {
                   required: sellKind == "SALE" ? true : false,
                 })}
@@ -303,7 +302,7 @@ const HouseEdit = () => {
               <FormLabel>보증금</FormLabel>
               <Input
                 type="number"
-                defaultValue={house.data?.deposit}
+                defaultValue={house?.data?.deposit}
                 {...register("deposit", {
                   required:
                     sellKind == "CHARTER" || sellKind == "MONTHLY_RENT"
@@ -324,7 +323,7 @@ const HouseEdit = () => {
               <FormLabel>월세</FormLabel>
               <Input
                 type="number"
-                defaultValue={house.data?.monthly_rent}
+                defaultValue={house?.data?.monthly_rent}
                 {...register("monthly_rent", {
                   required: sellKind == "MONTHLY_RENT" ? true : false,
                 })}
@@ -339,7 +338,7 @@ const HouseEdit = () => {
               <FormLabel>관리비</FormLabel>
               <Input
                 type="number"
-                defaultValue={house.data?.maintenance_cost}
+                defaultValue={house?.data?.maintenance_cost}
                 {...register("maintenance_cost", { required: true })}
               />
               <FormErrorMessage>{`관리비를 입력하세요`}</FormErrorMessage>
@@ -367,7 +366,7 @@ const HouseEdit = () => {
             <FormLabel>역까지 거리</FormLabel>
             <Input
               type="number"
-              defaultValue={house.data?.distance_to_station}
+              defaultValue={house?.data?.distance_to_station}
               {...register("distance_to_station")}
             />
             <FormErrorMessage>{`역까지 거리를 입력하세요`}</FormErrorMessage>

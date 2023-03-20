@@ -39,6 +39,7 @@ export default function ListChat({
   };
   return (
     <HStack
+      cursor={"pointer"}
       p="5"
       borderRadius={"md"}
       borderWidth="1px"
