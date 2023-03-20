@@ -62,7 +62,7 @@ function Header() {
   // const [userMenu, setUserMenu] = useState(false);
 
   return (
-    <HStack justifyContent={"space-between"} px={"10"} py={"3"}>
+    <HStack justifyContent={"space-between"} px={"7"} py={"4"}>
       <Text onClick={onHome} fontSize="2xl" color={"#ff404c"} cursor="pointer">
         BangSam
       </Text>

@@ -12,7 +12,6 @@ import ProtectedPage from "../../components/auth/ProtectedPage";
 import OnlyMePage from "../../components/auth/OnlyMePage";
 
 function Profile() {
-  console.log(1);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const tabMap = {
@@ -22,7 +21,6 @@ function Profile() {
     sellHistory: 3,
   };
   const selectedTabIndex = tabMap[pathname.split("/").slice(-1)[0]];
-  const params = useParams();
   const changeTab = (index) => {
     navigate(`./${Object.keys(tabMap)[index]}`);
   };
@@ -30,18 +28,47 @@ function Profile() {
   return (
     <OnlyMePage>
       <Tabs
+        m={"10%"}
         isLazy
         isFitted
-        variant="enclosed"
+        variant="unstyled"
         mt="45px"
         defaultIndex={selectedTabIndex}
         onChange={changeTab}
       >
-        <TabList>
-          <Tab _selected={{ color: "white", bg: "#ff535e" }}>회원정보</Tab>
-          <Tab _selected={{ color: "white", bg: "#ff535e" }}>WishList</Tab>
-          <Tab _selected={{ color: "white", bg: "#ff535e" }}>최근 본 방</Tab>
-          <Tab _selected={{ color: "white", bg: "#ff535e" }}>판매내역</Tab>
+        <TabList borderTopRadius={"3xl"}>
+          <Tab
+            m={"1px"}
+            borderTopRadius={"xl"}
+            bg={"gray.200"}
+            _selected={{ color: "white", bg: "#ff535e" }}
+          >
+            내 정보
+          </Tab>
+          <Tab
+            m={"1px"}
+            borderTopRadius={"xl"}
+            bg={"gray.200"}
+            _selected={{ color: "white", bg: "#ff535e" }}
+          >
+            찜한 방
+          </Tab>
+          <Tab
+            m={"1px"}
+            borderTopRadius={"xl"}
+            bg={"gray.200"}
+            _selected={{ color: "white", bg: "#ff535e" }}
+          >
+            최근 본 방
+          </Tab>
+          <Tab
+            m={"1px"}
+            borderTopRadius={"xl"}
+            bg={"gray.200"}
+            _selected={{ color: "white", bg: "#ff535e" }}
+          >
+            판매내역
+          </Tab>
         </TabList>
         <TabPanels>
           <TabPanel>

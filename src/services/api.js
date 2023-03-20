@@ -209,7 +209,6 @@ export const getOptionHouses = (params) => {
 
 // 해당 집 가져오기
 export const getHouse = ({ queryKey }) => {
-  console.log("queryKey", queryKey);
   const [_, id] = queryKey;
   return instance.get(`houses/${id}`).then((response) => response.data);
 };
@@ -261,3 +260,12 @@ export const setWishLists = (id) => {
 
 export const getChatRoomList = () =>
   instance.get("chatlist/").then((res) => res.data);
+
+export const editUser = (value) =>
+  instance
+    .put("users/me/", value, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);

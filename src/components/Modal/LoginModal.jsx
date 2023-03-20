@@ -127,7 +127,7 @@ export default function LoginModal({ isOpen, onClose }) {
               </Text>
             ) : null}
             <Button
-              isLoading={mutation.isLoading}
+              // isLoading={mutation.isLoading}
               type="submit"
               mt="4"
               color={"white"}
