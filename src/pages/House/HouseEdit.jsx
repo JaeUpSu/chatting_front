@@ -380,47 +380,6 @@ const HouseEdit = () => {
         </form>
       </Center>
     </VStack>
-
-    // <Box p={4}>
-    //   <form onSubmit={handleSubmit(onSubmit)}>
-    //     <FormControl isInvalid={errors.title}>
-    //       <FormLabel>Title</FormLabel>
-    //       <Input
-    //         defaultValue={house.data?.title}
-    //         {...register("title", { required: true })}
-    //       />
-    //       {errors.title && (
-    //         <FormErrorMessage>건물이름을 꼭 적어주세요</FormErrorMessage>
-    //       )}
-    //     </FormControl>
-    //     <FormControl isInvalid={errors.description}>
-    //       <FormLabel>Description</FormLabel>
-    //       <Textarea
-    //         defaultValue={house.data?.description}
-    //         {...register("description", { required: true })}
-    //       />
-    //       {errors.description && (
-    //         <FormErrorMessage>
-    //           최소한의 설명이라도 꼭 적어주세요
-    //         </FormErrorMessage>
-    //       )}
-    //     </FormControl>
-    //     <FormControl isInvalid={errors.price}>
-    //       <FormLabel>Price</FormLabel>
-    //       <Input
-    //         type="number"
-    //         defaultValue={house.data?.price}
-    //         {...register("price", { required: true })}
-    //       />
-    //       {errors.price && (
-    //         <FormErrorMessage>매매가를 입력해주세요</FormErrorMessage>
-    //       )}
-    //     </FormControl>
-    //     <Button type="submit" isLoading={house?.isLoading}>
-    //       Update
-    //     </Button>
-    //   </form>
-    // </Box>
   );
 };
 

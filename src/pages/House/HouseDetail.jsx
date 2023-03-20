@@ -54,7 +54,9 @@ function House() {
     }
   };
   const onEdit = () => {
-    navigate(`/edit/${id}`);
+    window.addEventListener("load", () => {
+      navigate(`/edit/${id}`);
+    });
   };
   const onDel = () => {
     console.log("Delete House");

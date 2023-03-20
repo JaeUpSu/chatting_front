@@ -241,7 +241,10 @@ export const getDongList = async ({ queryKey }) => {
 };
 
 export const getWishLists = () =>
-  instance.get(`wishlists/`).then((response) => response.data);
+  instance
+    .get(`wishlists/`)
+    .then((response) => response.data)
+    .then((res) => console.log(res.data));
 
 export const setWishLists = (id) => {
   instance.post(`wishlists/${id}`);
