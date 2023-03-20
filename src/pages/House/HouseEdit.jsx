@@ -138,7 +138,6 @@ const HouseEdit = () => {
             <FormLabel>이미지 ( 5개 ) </FormLabel>{" "}
             <Input
               type="file"
-              // defaultValue={house?.data?.thumnail}
               multiple
               onChange={(e) => {
                 const files = e.target.files;

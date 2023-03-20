@@ -70,7 +70,8 @@ function HouseList() {
     depositRange: [0, 30],
     monthlyRentRange: [0, 30],
   });
-  const [orderBy, setOrderBy] = useState(getInitOrderBy());
+  const [isSellKind, setIsSellKind] = useState(false);
+  const [orderBy, setOrderBy] = useState(getInitOrderBy(isSellKind));
   const [isLoading, setLoading] = useState(false);
 
   const {
@@ -162,9 +163,20 @@ function HouseList() {
 
   // options => params
   useEffect(() => {
+    const sellKind = sessionStorage.getItem("sellKind");
+    if (sellKind !== undefined && sellKind !== "전체") {
+      setIsSellKind(true);
+    } else {
+      setIsSellKind(false);
+    }
     const apiParams = getBackOptions(APIParams);
     setBackParams(apiParams);
   }, [APIParams]);
+
+  useEffect(() => {
+    // sessionStorage.removeItem("sort_by");
+    setOrderBy(getInitOrderBy(isSellKind));
+  }, [isSellKind]);
 
   return (
     <>
@@ -282,7 +294,7 @@ function HouseList() {
           >
             {data?.map((item, idx) => {
               return (
-                <GridItem key={idx} h="35vh">
+                <GridItem key={idx} h="41vh">
                   <HouseCard key={idx} {...item} />
                 </GridItem>
               );

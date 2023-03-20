@@ -90,8 +90,6 @@ function HouseCard({
     if (isLikeInit && wishlists.data !== undefined) {
       const savedLike = wishlists.data?.find((item) => {
         if (item.house === Number(id)) {
-          console.log(isLikeInit, id);
-
           return true;
         }
       });
