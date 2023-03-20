@@ -26,6 +26,8 @@ import {
   Center,
   HStack,
   useToast,
+  Skeleton,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import useUser from "../../hooks/useUser";
@@ -236,39 +238,18 @@ function House() {
                 비디오폰 / 공동현관 / CCTV / 카드키 / 화재경보기
               </ListItem>
             </List>
-            {user?.user?.username === data?.host?.username ? (
-              <>
-                <Button
-                  colorScheme="blackAlpha"
-                  size="lg"
-                  position={"fixed"}
-                  bottom={10}
-                  right={170}
-                  onClick={onEdit}
-                >
-                  수정하기
-                </Button>
-                <Button
-                  colorScheme="green"
-                  size="lg"
-                  position={"fixed"}
-                  bottom={10}
-                  right={300}
-                  onClick={onDel}
-                >
-                  삭제하기
-                </Button>
-                <Button
-                  colorScheme="orange"
-                  size="lg"
-                  position={"fixed"}
-                  bottom={10}
-                  right={430}
-                  onClick={onSoldOut}
-                >
+            {data?.is_host ? (
+              <ButtonGroup position={"fixed"} bottom={10} right={10} gap={5}>
+                <Button colorScheme="orange" size="lg" onClick={onSoldOut}>
                   판매완료
                 </Button>
-              </>
+                <Button colorScheme="blackAlpha" size="lg" onClick={onEdit}>
+                  수정하기
+                </Button>
+                <Button colorScheme="green" size="lg" onClick={onDel}>
+                  삭제하기
+                </Button>
+              </ButtonGroup>
             ) : (
               <Button
                 colorScheme="red"
