@@ -43,7 +43,7 @@ function House() {
   const { data, isLoading } = useQuery(["house", id], getHouse);
   const wishlists = useQuery(["wish"], getWishLists);
 
-  const { userLoading, isLoggedIn } = useUser();
+  const user = useUser();
   const mutation = useMutation(makeChatRoom, {
     onSuccess: () => {
       navigate("/chatlist");
@@ -60,7 +60,7 @@ function House() {
   });
 
   const goChat = () => {
-    if (!userLoading && isLoggedIn) {
+    if (!user.userLoading && user.isLoggedIn) {
       mutation.mutate(id);
     } else {
       toast({
@@ -100,8 +100,8 @@ function House() {
       });
     }
     setIsLike(!isLike);
-    if (!userLoading && isLoggedIn && id > 0) {
-      console.log("detail", !userLoading && isLoggedIn, id);
+    if (!user.userLoading && user.isLoggedIn && id > 0) {
+      console.log("detail", !user.userLoading && user.isLoggedIn, id);
       likeMutation.mutate(id);
     }
   };
@@ -118,29 +118,10 @@ function House() {
       setIsLikeInit(false);
     }
   }, [wishlists]);
-  // useDidMountEffect(() => {
-  //   setWishLists(id);
-  // }, [isLike]);
 
-  // useDidMountEffect(() => {
-  //   if (isLike) {
-  //     toast({
-  //       title: "좋아요 +1",
-  //       status: "success",
-  //       duration: 2000,
-  //       isClosable: true,
-  //     });
-  //   } else {
-  //     toast({
-  //       title: "좋아요 -1",
-  //       status: "error",
-  //       duration: 2000,
-  //       isClosable: true,
-  //     });
-  //   }
-  //   setWishLists(id);
-  // }, [isLike]);
-
+  useEffect(() => {
+    console.log("user", user.data);
+  }, [user]);
   return (
     <>
       <Box
@@ -199,7 +180,7 @@ function House() {
             >
               <HStack w={"100vw"}>
                 <Text>{`${data?.address} ${data?.title}`}</Text>
-                {!userLoading && isLoggedIn ? (
+                {!user.userLoading && user.isLoggedIn ? (
                   <FontAwesomeIcon
                     size="sm"
                     color="red"
@@ -270,7 +251,7 @@ function House() {
               채팅하기
             </Button>
 
-            {!userLoading && isLoggedIn ? (
+            {!user.userLoading && user.isLoggedIn ? (
               <>
                 <Button
                   colorScheme="blackAlpha"
