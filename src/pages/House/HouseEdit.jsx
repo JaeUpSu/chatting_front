@@ -43,6 +43,7 @@ const HouseEdit = () => {
 
   const [guIdx, setGuIdx] = useState(0);
   const [sellKind, setSellKind] = useState("");
+  const [isModify, setIsModify] = useState(new Array(16).fill(false));
   const [images, setImages] = useState([]);
 
   const guListData = useQuery(["gulist"], getGuList);
@@ -95,6 +96,21 @@ const HouseEdit = () => {
     mutate(formData);
   };
 
+  const onModify = (e) => {
+    const idx = Number(e.currentTarget.getAttribute("idx"));
+    setIsModify((list) => {
+      let modifyArr = [];
+      list.forEach((item, index) => {
+        if (idx == index) {
+          modifyArr.push(!item);
+        } else {
+          modifyArr.push(item);
+        }
+      });
+      return modifyArr;
+    });
+  };
+
   const handleGuSelectChange = (event) => {
     const selectedGuVal = event.currentTarget.value;
     const selectedGu = guList?.find((item) => item.value == selectedGuVal);
@@ -127,12 +143,31 @@ const HouseEdit = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl isInvalid={errors.title} id="title" my="1" w="70vw">
             <FormLabel>제목</FormLabel>
-            <Input
-              type="text"
-              defaultValue={house.data?.title}
-              {...register("title", { required: true })}
-            />
-            <FormErrorMessage>{`제목을 입력하세요`}</FormErrorMessage>
+            {isModify[0] ? (
+              <HStack>
+                <Input
+                  type="text"
+                  defaultValue={house.data?.title}
+                  {...register("title", { required: true })}
+                />
+                <Button>입력</Button>
+                <Button onClick={onModify} idx={0}>
+                  취소
+                </Button>
+              </HStack>
+            ) : (
+              <HStack my="4">
+                <Text>{house.data?.title}</Text>
+                <Button
+                  position="absolute"
+                  right="1%"
+                  onClick={onModify}
+                  idx={0}
+                >
+                  수정
+                </Button>
+              </HStack>
+            )}
           </FormControl>
           <FormControl isInvalid={errors.images} id="images">
             <FormLabel>이미지 ( 5개 ) </FormLabel>{" "}
@@ -158,22 +193,42 @@ const HouseEdit = () => {
           <HStack w="70vw">
             <FormControl isInvalid={errors.gu} id="gu" my="1">
               <FormLabel>구</FormLabel>
-              <Select
-                {...register("gu", { required: true })}
-                placeholder="구를 선택해주세요"
-                fontSize="14px"
-                onChange={handleGuSelectChange}
-              >
-                {guList?.map((option) => (
-                  <option
-                    key={option.value}
-                    index={option.index}
-                    value={option.value}
+              {isModify[1] ? (
+                <HStack>
+                  <Select
+                    {...register("gu", { required: true })}
+                    placeholder="구를 선택해주세요"
+                    fontSize="14px"
+                    onChange={handleGuSelectChange}
                   >
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
+                    {guList?.map((option) => (
+                      <option
+                        key={option.value}
+                        index={option.index}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </option>
+                    ))}
+                  </Select>
+                  <Button>입력</Button>
+                  <Button onClick={onModify} idx={1}>
+                    취소
+                  </Button>
+                </HStack>
+              ) : (
+                <HStack my="4">
+                  <Text>{house.data?.gu}</Text>
+                  <Button
+                    position="absolute"
+                    right="1%"
+                    onClick={onModify}
+                    idx={1}
+                  >
+                    수정
+                  </Button>
+                </HStack>
+              )}
               <FormErrorMessage>{`구를 선택해주세요`}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={errors.dong} id="dong" my="1">
