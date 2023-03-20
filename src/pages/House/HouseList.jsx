@@ -164,7 +164,7 @@ function HouseList() {
   // options => params
   useEffect(() => {
     const sellKind = sessionStorage.getItem("sellKind");
-    if (sellKind !== undefined && sellKind !== "전체") {
+    if (sellKind !== undefined && sellKind !== null && sellKind !== "전체") {
       setIsSellKind(true);
     } else {
       setIsSellKind(false);
