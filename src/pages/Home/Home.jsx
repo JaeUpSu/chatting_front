@@ -5,8 +5,8 @@ import styled from "styled-components";
 import IconBtns from "./IconBtns";
 import RecentList from "./RecentList";
 import LikedList from "./LikedList";
-import { isLoggedInVar } from "./../../apollo";
 import routes from "../../routes";
+import useUser from "../../hooks/useUser";
 
 const HomeWrapper = styled.div`
   overflow-y: scroll;
@@ -27,6 +27,7 @@ const DivideLine = styled.div`
 `;
 
 export default function Home() {
+  const { user, isLoggedIn, userLoading } = useUser();
   return (
     <HomeWrapper>
       <Box>
@@ -53,12 +54,11 @@ export default function Home() {
 
         <DivideLine />
 
-        {isLoggedInVar() ? (
+        {isLoggedIn ? (
           <HomeContainer>
             <Text as="b" fontSize={"2xl"} ml="8rem">
               최근 본 방
             </Text>
-            <RecentList />
 
             <DivideLine />
 

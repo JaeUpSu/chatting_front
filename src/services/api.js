@@ -247,5 +247,8 @@ export const setWishLists = () => {
   instance.post(`wishlists/`);
 };
 
+export const getHouseLists = () =>
+  instance.get(`houselists/`).then((response) => response.data);
+
 export const getChatRoomList = () =>
   instance.get("chatlist/").then((res) => res.data);

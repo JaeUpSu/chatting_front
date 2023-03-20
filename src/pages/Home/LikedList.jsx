@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-
+import { getWishLists, setWishLists } from "../../services/api";
 const HouseImg = styled.img`
   max-width: 200px;
   margin-right: 60px;
@@ -47,12 +47,10 @@ const LikedWrapper = styled.div`
 `;
 
 const LikedList = () => {
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["list"],
-    queryFn: () =>
-      fetch(`http://localhost:5000/list`).then((res) => res.json()),
-  });
-  const likedList = data && data.filter((item) => item.isLike).slice(0, 11);
+  const { data } = useQuery(["house"], getWishLists);
+
+  const likedList =
+    data && data.filter((item) => item.recently_views).slice(0, 11);
 
   const settings = {
     dots: false,
@@ -93,14 +91,14 @@ const LikedList = () => {
         {likedList &&
           likedList.map((item, index) => (
             <div key={index}>
-              <HouseImg src={item.img} />
+              <HouseImg src={item.thumnail} />
               <Flex>
-                <FontFam>{item.type}</FontFam>
+                <FontFam>{item.room_kind}</FontFam>
                 <p>Room: {item.room}</p>
               </Flex>
               <Flex>
-                <FontFam> {item.totalPrice}</FontFam>
-                <p> {item?.rent}</p>
+                <FontFam> {item.deposit}</FontFam>
+                <p> {item?.monthly_rent}</p>
               </Flex>
             </div>
           ))}
