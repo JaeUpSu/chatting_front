@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSaleContents } from "../../utils/getSaleContents";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getHouse, makeChatRoom, setWishLists } from "../../services/api";
+import {
+  getHouse,
+  getWishLists,
+  makeChatRoom,
+  setWishLists,
+} from "../../services/api";
 
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import * as Solid from "@fortawesome/free-solid-svg-icons";
@@ -33,14 +38,27 @@ function House() {
   const toast = useToast();
   const navigate = useNavigate();
 
+  const [isLikeInit, setIsLikeInit] = useState(true);
   const [isLike, setIsLike] = useState(false);
   const { data, isLoading } = useQuery(["house", id], getHouse);
+  const wishlists = useQuery(["wish"], getWishLists);
+
   const { userLoading, isLoggedIn } = useUser();
   const mutation = useMutation(makeChatRoom, {
     onSuccess: () => {
       navigate("/chatlist");
     },
   });
+
+  const likeMutation = useMutation(setWishLists, {
+    onMutate: () => {
+      console.log("like mutation");
+    },
+    onSuccess: () => {
+      console.log(isLike ? `like house ${id}` : `like cancel house ${id}`);
+    },
+  });
+
   const goChat = () => {
     if (!userLoading && isLoggedIn) {
       mutation.mutate(id);
@@ -54,9 +72,9 @@ function House() {
     }
   };
   const onEdit = () => {
-    window.addEventListener("load", () => {
+    setTimeout(() => {
       navigate(`/edit/${id}`);
-    });
+    }, 0);
   };
   const onDel = () => {
     console.log("Delete House");
@@ -66,28 +84,62 @@ function House() {
   };
 
   const onLike = () => {
-    setIsLike(!isLike);
-    setWishLists();
-  };
-
-  useDidMountEffect(() => {
     if (isLike) {
+      toast({
+        title: "좋아요 -1",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+      });
+    } else {
       toast({
         title: "좋아요 +1",
         status: "success",
         duration: 2000,
         isClosable: true,
       });
-    } else {
-      toast({
-        title: "좋아요 -1",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
     }
-    setWishLists(id);
-  }, [isLike]);
+    setIsLike(!isLike);
+    if (!userLoading && isLoggedIn && id > 0) {
+      console.log("detail", !userLoading && isLoggedIn, id);
+      likeMutation.mutate(id);
+    }
+  };
+
+  useEffect(() => {
+    if (isLikeInit && wishlists.data !== undefined) {
+      console.log(isLikeInit, wishlists);
+      const savedLike = wishlists.data?.find((item) => {
+        if (item.house === Number(id)) {
+          return true;
+        }
+      });
+      setIsLike(savedLike);
+      setIsLikeInit(false);
+    }
+  }, [wishlists]);
+  // useDidMountEffect(() => {
+  //   setWishLists(id);
+  // }, [isLike]);
+
+  // useDidMountEffect(() => {
+  //   if (isLike) {
+  //     toast({
+  //       title: "좋아요 +1",
+  //       status: "success",
+  //       duration: 2000,
+  //       isClosable: true,
+  //     });
+  //   } else {
+  //     toast({
+  //       title: "좋아요 -1",
+  //       status: "error",
+  //       duration: 2000,
+  //       isClosable: true,
+  //     });
+  //   }
+  //   setWishLists(id);
+  // }, [isLike]);
 
   return (
     <>
@@ -147,14 +199,17 @@ function House() {
             >
               <HStack w={"100vw"}>
                 <Text>{`${data?.address} ${data?.title}`}</Text>
-
-                <FontAwesomeIcon
-                  size="md"
-                  color="red"
-                  icon={isLike ? Solid.faHeart : faHeart}
-                  onClick={onLike}
-                  cursor="pointer"
-                />
+                {!userLoading && isLoggedIn ? (
+                  <FontAwesomeIcon
+                    size="sm"
+                    color="red"
+                    icon={isLike ? Solid.faHeart : faHeart}
+                    onClick={onLike}
+                    cursor="pointer"
+                  />
+                ) : (
+                  ""
+                )}
                 <Text fontSize="21" px="5vw">
                   방문자수 {data?.visited}
                 </Text>
@@ -214,36 +269,43 @@ function House() {
             >
               채팅하기
             </Button>
-            <Button
-              colorScheme="blackAlpha"
-              size="lg"
-              position={"fixed"}
-              bottom={10}
-              right={170}
-              onClick={onEdit}
-            >
-              수정하기
-            </Button>
-            <Button
-              colorScheme="green"
-              size="lg"
-              position={"fixed"}
-              bottom={10}
-              right={300}
-              onClick={onDel}
-            >
-              삭제하기
-            </Button>
-            <Button
-              colorScheme="orange"
-              size="lg"
-              position={"fixed"}
-              bottom={10}
-              right={430}
-              onClick={onSoldOut}
-            >
-              판매완료
-            </Button>
+
+            {!userLoading && isLoggedIn ? (
+              <>
+                <Button
+                  colorScheme="blackAlpha"
+                  size="lg"
+                  position={"fixed"}
+                  bottom={10}
+                  right={170}
+                  onClick={onEdit}
+                >
+                  수정하기
+                </Button>
+                <Button
+                  colorScheme="green"
+                  size="lg"
+                  position={"fixed"}
+                  bottom={10}
+                  right={300}
+                  onClick={onDel}
+                >
+                  삭제하기
+                </Button>
+                <Button
+                  colorScheme="orange"
+                  size="lg"
+                  position={"fixed"}
+                  bottom={10}
+                  right={430}
+                  onClick={onSoldOut}
+                >
+                  판매완료
+                </Button>
+              </>
+            ) : (
+              ""
+            )}
           </Box>
         </Center>
       </Box>

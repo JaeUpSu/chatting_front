@@ -64,13 +64,13 @@ const HouseEdit = () => {
     })
   );
 
-  const guList = guListData?.data?.map((gu) => ({
+  const guList = guListData.data?.map((gu) => ({
     label: gu.name,
     value: gu.name,
     index: gu.pk,
   }));
 
-  const dongList = dongListData?.data?.map((dong) => ({
+  const dongList = dongListData.data?.map((dong) => ({
     label: dong.name,
     value: dong.name,
     index: dong.pk,
@@ -105,10 +105,6 @@ const HouseEdit = () => {
     const selectedSellKindVal = event.currentTarget.value;
     setSellKind(selectedSellKindVal);
   };
-
-  useEffect(() => {
-    console.log("check");
-  }, []);
 
   useEffect(() => {
     console.log("data", house);

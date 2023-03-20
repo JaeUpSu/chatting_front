@@ -20,7 +20,7 @@ import styled from "styled-components";
 import { useEffect, useState, useRef } from "react";
 
 import { getBackOptions } from "../../utils/getBackOptions";
-import { getOptionHouses } from "../../services/api";
+import { getOptionHouses, getWishLists } from "../../services/api";
 import { getBackOrderBy } from "../../utils/getBackOrderBy";
 import { throttle } from "../../utils/throttle";
 
@@ -29,6 +29,7 @@ import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
 import { getInitOrderBy, initParams } from "../../services/local";
+import { useQuery } from "@tanstack/react-query";
 
 const TopBtn = styled.div`
   position: fixed;
@@ -83,6 +84,8 @@ function HouseList() {
 
   const columnSizes = [4, 3, 2, 1];
   const columns = columnSizes.map((size) => `repeat(${size}, 1fr)`).reverse();
+
+  const wishlists = useQuery(["wishlist"], getWishLists);
 
   // orderBy rearrange
   const onOrderBy = (e) => {
@@ -165,6 +168,10 @@ function HouseList() {
     setBackParams(apiParams);
   }, [APIParams]);
 
+  useEffect(() => {
+    console.log("wish", wishlists);
+  }, [wishlists]);
+
   return (
     <>
       <VStack>
@@ -198,7 +205,7 @@ function HouseList() {
               <HStack>
                 <Menu>
                   <MenuButton
-                    size="md"
+                    size="sm"
                     as={Button}
                     rightIcon={<HiChevronDown />}
                   >
@@ -217,7 +224,7 @@ function HouseList() {
                   </MenuList>
                 </Menu>
                 <Button
-                  size="md"
+                  size="sm"
                   rightIcon={
                     <BiRefresh
                       style={{
@@ -233,7 +240,7 @@ function HouseList() {
               </HStack>
             ) : (
               <Button
-                size="md"
+                size="sm"
                 rightIcon={
                   <BiRefresh
                     style={{

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "../services/api";
+
 export default function useUser() {
   const { isLoading, data, isError } = useQuery(["me"], getUserInfo, {
     retry: false,
