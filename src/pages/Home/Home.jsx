@@ -1,12 +1,11 @@
 import { Flex, Box, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
-
 import styled from "styled-components";
 import IconBtns from "./IconBtns";
 import RecentList from "./RecentList";
 import LikedList from "./LikedList";
-import { isLoggedInVar } from "./../../apollo";
 import routes from "../../routes";
+import useUser from "../../hooks/useUser";
 
 const HomeWrapper = styled.div`
   overflow-y: scroll;
@@ -26,7 +25,15 @@ const DivideLine = styled.div`
   width: 600px;
 `;
 
+const SlideWrapper = styled.div`
+  width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+`;
+
 export default function Home() {
+  const { user, isLoggedIn, userLoading } = useUser();
+
   return (
     <HomeWrapper>
       <Box>
@@ -53,19 +60,23 @@ export default function Home() {
 
         <DivideLine />
 
-        {isLoggedInVar() ? (
+        {isLoggedIn ? (
           <HomeContainer>
             <Text as="b" fontSize={"2xl"} ml="8rem">
               최근 본 방
             </Text>
-            <RecentList />
+            <SlideWrapper>
+              <RecentList />
+            </SlideWrapper>
 
             <DivideLine />
 
             <Text as="b" fontSize={"2xl"} ml="8rem">
               찜한 방
             </Text>
-            <LikedList />
+            <SlideWrapper>
+              <LikedList />
+            </SlideWrapper>
           </HomeContainer>
         ) : null}
       </Box>
