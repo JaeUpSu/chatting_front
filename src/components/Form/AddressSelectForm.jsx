@@ -6,6 +6,7 @@ import {
   Text,
   Select,
   FormErrorMessage,
+  VStack,
 } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
@@ -21,7 +22,8 @@ const AddressSelectForm = ({ setUpdatedHouse, savedGu, savedDong }) => {
     formState: { errors },
   } = useForm();
 
-  const [guIdx, setGuIdx] = useState(0);
+  const [guIdx, setGuIdx] = useState(1);
+  const [isInit, setIsInit] = useState(true);
   const [isModify, setIsModify] = useState(false);
 
   const guListData = useQuery(["gulist"], getGuList);
@@ -42,25 +44,39 @@ const AddressSelectForm = ({ setUpdatedHouse, savedGu, savedDong }) => {
   const handleGuSelectChange = (event) => {
     const selectedGuVal = event.currentTarget.value;
     const selectedGu = guList?.find((item) => item.value == selectedGuVal);
-    console.log(selectedGuVal, selectedGu?.index);
     setGuIdx(selectedGu?.index);
   };
 
   const onEnter = (data) => {
     console.log("check", data);
     let nextHouse = {};
+    let isChange = false;
     setUpdatedHouse((prevHouse) => {
       HouseRegisterValues.forEach((item) => {
-        if (prevHouse[item.eng]) {
-          if (data[item.eng]) {
-            nextHouse[item.eng] = data[item.eng];
+        console.log(data);
+        if (data[item.eng]) {
+          if (data[item.eng] !== prevHouse[item.eng]) {
+            if (item.eng === "dong") {
+              const selectedDong = dongListData.data?.find(
+                (d) => d.name == data[item.eng]
+              );
+              nextHouse["dong"] = selectedDong;
+            } else {
+              nextHouse["gu"] = data["gu"];
+            }
+            isChange = true;
           } else {
             nextHouse[item.eng] = prevHouse[item.eng];
           }
+        } else {
+          nextHouse[item.eng] = prevHouse[item.eng];
         }
       });
       return nextHouse;
     });
+    if (isChange) {
+      setIsModify(false);
+    }
   };
 
   const onModify = () => {
@@ -68,21 +84,22 @@ const AddressSelectForm = ({ setUpdatedHouse, savedGu, savedDong }) => {
   };
 
   useEffect(() => {
-    const selectedGu = guList?.find((item) => item.value == savedGu);
-    setGuIdx(selectedGu?.index);
+    if (savedGu && isInit) {
+      const selectedGu = guList?.find((item) => item.value == savedGu);
+      setGuIdx(selectedGu?.index);
+      setIsInit(false);
+    }
   }, [guList]);
 
-  useEffect(() => {
-    console.log(guIdx);
-  }, [guIdx]);
-
   return (
-    <form onSubmit={handleSubmit(onEnter)}>
-      <HStack w="60vw">
-        <FormControl isInvalid={errors.gu} id="gu" my="1" w="60vw">
-          <FormLabel fontWeight="600">구</FormLabel>
-          {isModify ? (
-            <HStack>
+    <>
+      <FormLabel marginBottom="0" fontWeight="600" w="100%">
+        구 / 동
+      </FormLabel>
+      {isModify ? (
+        <form onSubmit={handleSubmit(onEnter)}>
+          <HStack w="60vw">
+            <FormControl isInvalid={errors.gu} id="gu" my="1" w="60vw">
               <Select
                 {...register("gu", { required: true })}
                 placeholder="구를 선택해주세요"
@@ -99,49 +116,42 @@ const AddressSelectForm = ({ setUpdatedHouse, savedGu, savedDong }) => {
                   </option>
                 ))}
               </Select>
-            </HStack>
-          ) : (
-            <HStack my="4">
-              <Text>{savedGu}</Text>
-            </HStack>
-          )}
-          <FormErrorMessage>{`구를 선택해주세요`}</FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={errors.dong} id="dong" my="1" w="60vw">
-          <FormLabel fontWeight="600">동</FormLabel>
-          {isModify ? (
-            <HStack>
-              <Select
-                {...register("dong", { required: true })}
-                placeholder="동을 선택해주세요"
-                fontSize="14px"
-                isDisabled={guIdx > 0 ? false : true}
-              >
-                {dongList?.map((option) => (
-                  <option
-                    key={option.value}
-                    index={option.index}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
-              <Button type="submit">입력</Button>
-              <Button onClick={onModify}>취소</Button>
-            </HStack>
-          ) : (
-            <HStack my="4">
-              <Text>{savedDong?.name}</Text>
-              <Button position="absolute" right="1%" onClick={onModify} idx={2}>
-                수정
-              </Button>
-            </HStack>
-          )}
-          <FormErrorMessage>{`동을 선택해주세요`}</FormErrorMessage>
-        </FormControl>
-      </HStack>
-    </form>
+              <FormErrorMessage>{`구를 선택해주세요`}</FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={errors.dong} id="dong" my="1" w="60vw">
+              <HStack>
+                <Select
+                  {...register("dong", { required: true })}
+                  placeholder="동을 선택해주세요"
+                  fontSize="14px"
+                  isDisabled={guIdx > 0 ? false : true}
+                >
+                  {dongList?.map((option) => (
+                    <option
+                      key={option.value}
+                      index={option.index}
+                      value={option.value}
+                    >
+                      {option.label}
+                    </option>
+                  ))}
+                </Select>
+                <Button type="submit">입력</Button>
+                <Button onClick={onModify}>취소</Button>
+              </HStack>
+              <FormErrorMessage>{`동을 선택해주세요`}</FormErrorMessage>
+            </FormControl>
+          </HStack>
+        </form>
+      ) : (
+        <HStack justifyContent="space-between" w="100%">
+          <VStack justifyContent="flex-start" w="100%">
+            <Text w="100%">{`서울 ${savedGu} ${savedDong?.name}`}</Text>
+          </VStack>
+          <Button onClick={onModify}>수정</Button>
+        </HStack>
+      )}
+    </>
   );
 };
 

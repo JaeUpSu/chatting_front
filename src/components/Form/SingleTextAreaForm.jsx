@@ -2,18 +2,18 @@ import {
   Button,
   FormControl,
   FormLabel,
-  Input,
   HStack,
   Text,
   FormErrorMessage,
   VStack,
+  Textarea,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { HouseRegisterValues } from "../../services/data";
 
-const SingleForm = ({ setUpdatedHouse, value, name, label }) => {
+const SingleTextAreaForm = ({ setUpdatedHouse, value, name, label }) => {
   const {
     register,
     handleSubmit,
@@ -60,7 +60,7 @@ const SingleForm = ({ setUpdatedHouse, value, name, label }) => {
         <form onSubmit={handleSubmit(onEnter)}>
           <FormControl isInvalid={errors[name]} id={name} my="1" w="60vw">
             <HStack>
-              <Input
+              <Textarea
                 type="text"
                 defaultValue={value}
                 {...register(name, { required: true })}
@@ -83,4 +83,4 @@ const SingleForm = ({ setUpdatedHouse, value, name, label }) => {
   );
 };
 
-export default SingleForm;
+export default SingleTextAreaForm;
