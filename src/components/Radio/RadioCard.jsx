@@ -47,20 +47,15 @@ function RadioCard({ name, radio, onSelect }) {
       <input {...input} />
       <Flex
         {...checkbox}
-        backgroundColor="white"
+        backgroundColor="rgb(233,239,244)"
         cursor="pointer"
-        borderWidth="2px"
-        borderColor="red.300"
+        // borderWidth="2px"
+        // borderColor="red.200"
         fontWeight="600"
         borderRadius="md"
-        boxShadow="md"
         _checked={{
           bg: "red.300",
           color: "white",
-          borderWidth: "3px",
-        }}
-        _focus={{
-          boxShadow: "outline",
         }}
         px={3}
         py={2}
@@ -78,13 +73,7 @@ function RadioCard({ name, radio, onSelect }) {
             opacity: "1",
           }}
           _focus={{ opacity: "1" }}
-        >
-          <FontAwesomeIcon
-            size="lg"
-            icon={faCheck}
-            style={{ marginRight: "10px" }}
-          />{" "}
-        </Box>
+        ></Box>
         {radio.value}
       </Flex>
     </Box>
@@ -104,11 +93,17 @@ function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
   const radio = getRadioProps();
 
   return (
-    <Flex direction="column" justifyContent="flex-start">
-      <Text fontWeight="bold" mb="10px">
+    <Flex direction="column" w="100%">
+      {/* <Text fontWeight="bold" mb="10px">
         {name}
-      </Text>
-      <Flex {...group} flexWrap="wrap">
+      </Text> */}
+      <Flex
+        {...group}
+        flexWrap="wrap"
+        alignItems={"center"}
+        justifyContent="flex-start"
+        w="100%"
+      >
         {data.map((value, idx) => {
           const radio = getRadioProps({ value });
 

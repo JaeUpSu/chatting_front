@@ -24,6 +24,8 @@ import * as Solid from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getWishLists, setWishLists } from "../../services/api";
 import useUser from "../../hooks/useUser";
+import { FaHeart } from "react-icons/fa";
+import { AiOutlineHeart } from "react-icons/ai";
 
 const BoxAction = styled.div`
   background-color: transparent;
@@ -102,74 +104,75 @@ function HouseCard({
     <Card
       w="100%"
       boxShadow="0px"
-      flexGrow={1}
       _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}
+      display={"flex"}
+      alignItems="center"
+      justifyContent={"center"}
     >
-      <CardBody onClick={onHouseDetail} cursor="pointer" h="auto">
-        <VStack>
+      <CardBody
+        display={"flex"}
+        alignItems="center"
+        justifyContent={"center"}
+        w={"100%"}
+        onClick={onHouseDetail}
+        cursor="pointer"
+      >
+        <VStack w={"100%"} alignItems="flex-start" spacing={"5"}>
           <Box
             backgroundImage={thumnail}
             backgroundSize="cover"
             backgroundRepeat="no-repeat"
             backgroundPosition="center"
-            minW="21vw"
-            maxW="23vw"
             width="100%"
             alt="house"
             borderRadius="lg"
-            boxShadow="0px 0px 1px 1px gray"
             css={{
-              aspectRatio: "2 / 1",
+              aspectRatio: "1 / 1",
             }}
-          />
-          <Box top="10px" spacing="3" position="relative">
-            <Box w="22vw">
-              <Heading
-                w="100%"
-                size="sm"
-                mb="5px"
-                fontSize="1.5em"
-                color="blackAlpha.800"
+          >
+            {!userLoading && isLoggedIn ? (
+              <Box
+                onClick={onLike}
+                float="right"
+                mt="4"
+                mr="4"
+                color={isLike ? "red" : "white"}
               >
-                {address}
-              </Heading>
-              <Text
-                h="auto"
-                w="100%"
-                color="blackAlpha.800"
-                fontSize="1.1em"
-                mb="4"
-              >
-                {description.length > 17
-                  ? description.substring(0, 17) + "..."
-                  : description}
-              </Text>
+                <FaHeart size={"25"} />
+              </Box>
+            ) : (
+              ""
+            )}
+          </Box>
+          <VStack alignItems={"flex-start"}>
+              {/* <Box w="22vw"> */}
+            <Heading
+              size="sm"
+              fontSize="1.5em"
+              color="blackAlpha.800"
+              noOfLines={1}
+            >
+              {address}
+            </Heading>
+            <Text
+              h="auto"
+              color="blackAlpha.800"
+              fontSize="1.1em"
+              noOfLines={1}
+            >
+              {description}
+            </Text>
+            <VStack spacing={"0"} alignItems={"flex-start"}>
               <HStack alignItems="center">
-                <Text
-                  mt="5px"
-                  color="blackAlpha.800"
-                  fontSize="1.4em"
-                  fontWeight="600"
-                >
+                <Text color="blackAlpha.800" fontSize="1.1em" fontWeight="600">
                   {`${RoomKindsToFront[room_kind]} ${SellKindsToFront[sell_kind]}`}
                 </Text>
-                {!userLoading && isLoggedIn ? (
-                  <Box onClick={onLike}>
-                    <FontAwesomeIcon
-                      size="lg"
-                      color="red"
-                      icon={isLike ? Solid.faHeart : faHeart}
-                    />
-                  </Box>
-                ) : (
-                  ""
-                )}
               </HStack>
-              <Text mt="5px" color="red.400" fontSize="1.3em" fontWeight="600">
+              <Text fontSize="1.1em" fontWeight="600">
                 {`${getSaleContents(sell_kind, deposit, monthly_rent, sale)}`}
               </Text>
-            </Box>
-          </Box>
+            </VStack>
+          </VStack>
         </VStack>
       </CardBody>
     </Card>

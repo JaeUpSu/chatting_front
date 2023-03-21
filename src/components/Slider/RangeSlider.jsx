@@ -62,8 +62,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
                   px: "3",
                   py: "2",
                   rounded: "full",
-                  bg: "red.700",
-                  color: "white",
+                  color: "gray",
                   fontSize: "15px",
                 }
               : {
@@ -71,8 +70,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
                   px: "3",
                   py: "2",
                   rounded: "full",
-                  bg: "red.700",
-                  color: "white",
+                  color: "gray",
                   fontSize: "15px",
                 }
           }
@@ -81,7 +79,8 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
         </Highlight>
       </Text>
       <RangeSlider
-        mt="10px"
+        mt="20px"
+        mb="20px"
         mx="10px"
         defaultValue={values[0] ? values : [0, 30]}
         min={0}
@@ -89,7 +88,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
         step={1}
         w="450px"
         onChange={handleChange}
-        position="relative"
+        // position="relative"
       >
         {" "}
         {labels.map((item, idx) => {
@@ -99,32 +98,34 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
             </RangeSliderMark>
           );
         })}
-        <RangeSliderTrack bg="red.100">
-          <RangeSliderFilledTrack bg="red.700" ml="10px" />
+        <RangeSliderTrack bg="red.100" ml="10px">
+          <RangeSliderFilledTrack bg="red.200" w="100%" />
         </RangeSliderTrack>
         <RangeSliderThumb
           max={values[0] ? values[0] - 10 : -10}
           value={values[0] ? values[0] : 0}
-          boxSize={8}
+          boxSize={5}
           index={0}
-          border="2px solid black"
-          ml={`11px`}
+          bg="red.400"
+          // border="2px solid black"
+          mr={`20px`}
         >
-          <Box color="red.700" position="absolute" left={0} fontWeight="600">
+          {/* <Box color="red.700" position="absolute" left={0} fontWeight="600">
             min
-          </Box>
+          </Box> */}
         </RangeSliderThumb>
         <RangeSliderThumb
           min={values[0] ? values[1] + 10 : 10}
           value={values[0] ? values[1] : 30}
-          boxSize={8}
+          boxSize={5}
           index={1}
-          border="2px solid black"
+          bg="red.400"
+          // border="2px solid black"
           ml={`20px`}
         >
-          <Box color="red.700" position="absolute" left={0} fontWeight="600">
+          {/* <Box color="red.700" position="absolute" left={0} fontWeight="600">
             max
-          </Box>
+          </Box> */}
         </RangeSliderThumb>
       </RangeSlider>
     </Box>

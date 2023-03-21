@@ -33,17 +33,15 @@ import { useQuery } from "@tanstack/react-query";
 
 const TopBtn = styled.div`
   position: fixed;
-  top: 95%;
-  right: 45px;
-  width: 60px;
-  height: 60px;
+  bottom: 2%;
+  right: 2%;
+  width: 40px;
+  height: 40px;
   transform: translateY(-50%);
-  background-color: red;
-  border-radius: 50%;
-  font-size: 17px;
+  background-color: #ff404c;
+  border-radius: 10px;
+  font-size: 25px;
   font-weight: bold;
-  letter-spacing: -0.28px;
-  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -180,21 +178,23 @@ function HouseList() {
 
   return (
     <>
-      <VStack>
-        <Flex w="100%" alignItems="center" p="20px" borderY="2px solid black">
-          <Flex w="30%" alignItems="center">
+      <VStack h={"100vh"} pb="10vh">
+        <HStack spacing={"5"} w="100vw" pl={"5%"} pr={"5%"} pb={5} pt={2}>
+          <HStack spacing={"10"}>
             <AddressMenu onUpdate={setAddress} />
-          </Flex>
-          <Flex w="80%" ml="20px">
             <HouseOptMenu onUpdate={setAPIParams} />
-          </Flex>
-        </Flex>
-        <Box pl="3%" py="1%" w="100%" boxShadow="0 4px 4px -3px black">
-          <HStack>
+          </HStack>
+          <Button size="sm" onClick={onInitOptions}>
+            {" "}
+            초기화
+          </Button>
+        </HStack>
+        <HStack w="100vw" pl="7%" pr="7%">
+          <HStack justifyContent={"space-between"} w="100%">
             <Text
               fontWeight="600"
               color="blackAlpha.800"
-              fontSize="25px"
+              fontSize={"xl"}
               w="20vw"
               minW="250px"
               maxW="280px"
@@ -229,45 +229,18 @@ function HouseList() {
                     })}
                   </MenuList>
                 </Menu>
-                <Button
-                  size="sm"
-                  rightIcon={
-                    <BiRefresh
-                      style={{
-                        fontSize: "1.5em",
-                      }}
-                    />
-                  }
-                  onClick={onInitOptions}
-                >
-                  {" "}
-                  초기화
-                </Button>
               </HStack>
-            ) : (
-              <Button
-                size="sm"
-                rightIcon={
-                  <BiRefresh
-                    style={{
-                      fontSize: "1.5em",
-                    }}
-                  />
-                }
-                onClick={onInitOptions}
-              >
-                {" "}
-                초기화
-              </Button>
-            )}
+            ) : null}
           </HStack>
-        </Box>
+        </HStack>
 
         {totalCounts ? (
           <Grid
-            w={"99.5vw"}
-            mt="0.2%"
-            maxH="65vh"
+            w={"100vw"}
+            pl="5vw"
+            pr="5vw"
+            // mt="0.2%"
+            // maxH="30vh"
             // rowGap={3}
             gridTemplateColumns={{
               sm: "1fr",
@@ -276,25 +249,31 @@ function HouseList() {
               xl: "repeat(4, 1fr)",
             }}
             ref={scrollRef}
-            overflowX="hidden"
+            // overflowX="hidden"
             overflowY={"scroll"}
-            sx={{
-              "&::-webkit-scrollbar": {
-                width: "15px",
-              },
-              "&::-webkit-scrollbar-track": {
-                width: "12px",
-                background: "rgb(55,55,55,0.1)",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                background: "rgb(55,55,55,0.5)",
-                borderRadius: "20px",
-              },
-            }}
+            // sx={{
+            //   "&::-webkit-scrollbar": {
+            //     width: "15px",
+            //   },
+            //   "&::-webkit-scrollbar-track": {
+            //     width: "12px",
+            //     background: "rgb(55,55,55,0.1)",
+            //   },
+            //   "&::-webkit-scrollbar-thumb": {
+            //     background: "rgb(55,55,55,0.5)",
+            //     borderRadius: "20px",
+            //   },
+            h="100%"
+            // }}
           >
             {data?.map((item, idx) => {
               return (
-                <GridItem key={idx} h="41vh">
+                <GridItem
+                  key={idx}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent="center"
+                >
                   <HouseCard key={idx} {...item} />
                 </GridItem>
               );
@@ -312,7 +291,7 @@ function HouseList() {
           </Flex>
         )}
       </VStack>
-      <TopBtn onClick={onTop}>Top</TopBtn>
+      <TopBtn onClick={onTop}>&uarr;</TopBtn>
     </>
   );
 }
