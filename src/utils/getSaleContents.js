@@ -4,7 +4,9 @@ export const getSaleContents = (sell_kind, deposit, monthly_rent, sale) => {
 
   if (SellKindsToFront[sell_kind] == "월세") {
     if (deposit >= 100000000) {
-      contents += `보증금 ${deposit / 100000000}만`;
+      contents += `보증금 ${deposit / 100000000}억 / 월 ${
+        monthly_rent / 10000
+      }만`;
     } else {
       contents += `보증금 ${deposit / 10000}만 / 월 ${monthly_rent / 10000}만`;
     }

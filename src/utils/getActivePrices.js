@@ -2,6 +2,7 @@ import { options } from "../services/data";
 
 export const getActivePrices = (sellKind) => {
   const activePricesItems = [
+    [false, false, false],
     [true, false, false],
     [false, true, false],
     [false, true, true],

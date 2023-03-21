@@ -20,7 +20,7 @@ import styled from "styled-components";
 import { useEffect, useState, useRef } from "react";
 
 import { getBackOptions } from "../../utils/getBackOptions";
-import { getOptionHouses } from "../../services/api";
+import { getOptionHouses, getWishLists } from "../../services/api";
 import { getBackOrderBy } from "../../utils/getBackOrderBy";
 import { throttle } from "../../utils/throttle";
 
@@ -29,6 +29,7 @@ import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
 import { getInitOrderBy, initParams } from "../../services/local";
+import { useQuery } from "@tanstack/react-query";
 
 const TopBtn = styled.div`
   position: fixed;
@@ -69,7 +70,8 @@ function HouseList() {
     depositRange: [0, 30],
     monthlyRentRange: [0, 30],
   });
-  const [orderBy, setOrderBy] = useState(getInitOrderBy());
+  const [isSellKind, setIsSellKind] = useState(false);
+  const [orderBy, setOrderBy] = useState(getInitOrderBy(isSellKind));
   const [isLoading, setLoading] = useState(false);
 
   const {
@@ -161,9 +163,20 @@ function HouseList() {
 
   // options => params
   useEffect(() => {
+    const sellKind = sessionStorage.getItem("sellKind");
+    if (sellKind !== undefined && sellKind !== null && sellKind !== "전체") {
+      setIsSellKind(true);
+    } else {
+      setIsSellKind(false);
+    }
     const apiParams = getBackOptions(APIParams);
     setBackParams(apiParams);
   }, [APIParams]);
+
+  useEffect(() => {
+    // sessionStorage.removeItem("sort_by");
+    setOrderBy(getInitOrderBy(isSellKind));
+  }, [isSellKind]);
 
   return (
     <>
@@ -198,7 +211,7 @@ function HouseList() {
               <HStack>
                 <Menu>
                   <MenuButton
-                    size="md"
+                    size="sm"
                     as={Button}
                     rightIcon={<HiChevronDown />}
                   >
@@ -217,7 +230,7 @@ function HouseList() {
                   </MenuList>
                 </Menu>
                 <Button
-                  size="md"
+                  size="sm"
                   rightIcon={
                     <BiRefresh
                       style={{
@@ -233,7 +246,7 @@ function HouseList() {
               </HStack>
             ) : (
               <Button
-                size="md"
+                size="sm"
                 rightIcon={
                   <BiRefresh
                     style={{
@@ -254,14 +267,13 @@ function HouseList() {
           <Grid
             w={"99.5vw"}
             mt="0.2%"
-            maxH="72.5vh"
-            rowGap={12}
+            maxH="65vh"
+            // rowGap={3}
             gridTemplateColumns={{
               sm: "1fr",
               md: "1fr 1fr",
               lg: "repeat(3, 1fr)",
               xl: "repeat(4, 1fr)",
-              "2xl": "repeat(5, 1fr)",
             }}
             ref={scrollRef}
             overflowX="hidden"
@@ -282,7 +294,7 @@ function HouseList() {
           >
             {data?.map((item, idx) => {
               return (
-                <GridItem key={idx} h="38vh">
+                <GridItem key={idx} h="41vh">
                   <HouseCard key={idx} {...item} />
                 </GridItem>
               );

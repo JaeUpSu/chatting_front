@@ -126,12 +126,12 @@ const HouseSell = () => {
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl isInvalid={errors.title} id="title" my="1" w="70vw">
-            <FormLabel>제목</FormLabel>
+            <FormLabel fontWeight="600">제목</FormLabel>
             <Input type="text" {...register("title", { required: true })} />
             <FormErrorMessage>{`제목을 입력하세요`}</FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={errors.images} id="images">
-            <FormLabel>이미지 ( 5개 ) </FormLabel>{" "}
+            <FormLabel fontWeight="600">이미지 ( 5개 ) </FormLabel>{" "}
             <Input
               type="file"
               multiple
@@ -152,7 +152,7 @@ const HouseSell = () => {
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
           <HStack w="70vw">
             <FormControl isInvalid={errors.gu} id="gu" my="1">
-              <FormLabel>구</FormLabel>
+              <FormLabel fontWeight="600">구</FormLabel>
               <Select
                 {...register("gu", { required: true })}
                 placeholder="구를 선택해주세요"
@@ -172,7 +172,7 @@ const HouseSell = () => {
               <FormErrorMessage>{`구를 선택해주세요`}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={errors.dong} id="dong" my="1">
-              <FormLabel>동</FormLabel>
+              <FormLabel fontWeight="600">동</FormLabel>
               <Select
                 {...register("dong", { required: true })}
                 placeholder="동을 선택해주세요"
@@ -194,7 +194,7 @@ const HouseSell = () => {
           </HStack>
 
           <FormControl isInvalid={errors.address} id="address" my="1">
-            <FormLabel>상세주소</FormLabel>
+            <FormLabel fontWeight="600">상세주소</FormLabel>
             <Input type="text" {...register("address", { required: true })} />
             <FormErrorMessage>{`상세주소를 입력하세요`}</FormErrorMessage>
           </FormControl>
@@ -202,7 +202,7 @@ const HouseSell = () => {
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
           <HStack w="70vw">
             <FormControl isInvalid={errors.room_kind} id="room_kind" my="1">
-              <FormLabel>방 종류</FormLabel>
+              <FormLabel fontWeight="600">방 종류</FormLabel>
               <Select
                 {...register("room_kind", { required: true })}
                 placeholder="방 종류를 선택해주세요"
@@ -217,7 +217,7 @@ const HouseSell = () => {
               <FormErrorMessage>{`방 종류를 선택해주세요`}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={errors.sell_kind} id="sell_kind" my="1">
-              <FormLabel>거래 종류</FormLabel>
+              <FormLabel fontWeight="600">거래 종류</FormLabel>
               <Select
                 {...register("sell_kind", { required: true })}
                 placeholder="거래 종류를 선택해주세요"
@@ -235,12 +235,12 @@ const HouseSell = () => {
           </HStack>
           <HStack w="70vw">
             <FormControl isInvalid={errors.room} id="room" my="1">
-              <FormLabel>방 개수</FormLabel>
+              <FormLabel fontWeight="600">방 개수</FormLabel>
               <Input type="number" {...register("room", { required: true })} />
               <FormErrorMessage>{`방 수를 입력하세요`}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={errors.toilet} id="toilet" my="1">
-              <FormLabel>화장실 개수</FormLabel>
+              <FormLabel fontWeight="600">화장실 개수</FormLabel>
               <Input
                 type="number"
                 {...register("toilet", { required: true })}
@@ -248,7 +248,7 @@ const HouseSell = () => {
               <FormErrorMessage>{`화장실 수 입력하세요`}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={errors.pyeongsu} id="pyeongsu" my="1">
-              <FormLabel>평수</FormLabel>
+              <FormLabel fontWeight="600">평수</FormLabel>
               <Input
                 type="number"
                 {...register("pyeongsu", { required: true })}
@@ -265,7 +265,7 @@ const HouseSell = () => {
               my="1"
               isDisabled={sellKind == "SALE" ? false : true}
             >
-              <FormLabel>매매가</FormLabel>
+              <FormLabel fontWeight="600">매매가</FormLabel>
               <Input
                 type="number"
                 {...register("sale", {
@@ -284,7 +284,7 @@ const HouseSell = () => {
                   : true
               }
             >
-              <FormLabel>보증금</FormLabel>
+              <FormLabel fontWeight="600">보증금</FormLabel>
               <Input
                 type="number"
                 {...register("deposit", {
@@ -304,7 +304,7 @@ const HouseSell = () => {
               my="1"
               isDisabled={sellKind == "MONTHLY_RENT" ? false : true}
             >
-              <FormLabel>월세</FormLabel>
+              <FormLabel fontWeight="600">월세</FormLabel>
               <Input
                 type="number"
                 {...register("monthly_rent", {
@@ -318,7 +318,7 @@ const HouseSell = () => {
               id="maintenance_cost"
               my="1"
             >
-              <FormLabel>관리비</FormLabel>
+              <FormLabel fontWeight="600">관리비</FormLabel>
               <Input
                 type="number"
                 {...register("maintenance_cost", { required: true })}
@@ -330,7 +330,7 @@ const HouseSell = () => {
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
 
           <FormControl isInvalid={errors.description} id="description" my="1">
-            <FormLabel>설명</FormLabel>
+            <FormLabel fontWeight="600">설명</FormLabel>
             <Textarea
               type="text"
               {...register("description", { required: true })}
@@ -344,7 +344,7 @@ const HouseSell = () => {
             id="distance_to_station"
             my="1"
           >
-            <FormLabel>역까지 거리</FormLabel>
+            <FormLabel fontWeight="600">역까지 거리</FormLabel>
             <Input type="number" {...register("distance_to_station")} />
             <FormErrorMessage>{`역까지 거리를 입력하세요`}</FormErrorMessage>
           </FormControl>

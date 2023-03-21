@@ -36,23 +36,6 @@ function Header() {
     sessionStorage.clear();
     navigate(`${routes.home}`);
   };
-  const onProfile = () => {
-    navigate(`/profile/userId`);
-  };
-
-  // 없어질 예정
-  const onChat = () => {
-    navigate(`/chatList/isOwner/chat/chatId`);
-  };
-  const onSignUp = () => {
-    navigate(`/signup`);
-  };
-  const onSell = () => {
-    navigate(`/sell`);
-  };
-  const onHouseList = () => {
-    navigate(`/houseList`);
-  };
   const {
     isOpen: isLoginOpen,
     onClose: onLoginClose,
@@ -62,19 +45,10 @@ function Header() {
   // const [userMenu, setUserMenu] = useState(false);
 
   return (
-    <HStack justifyContent={"space-between"} px={"10"} py={"3"}>
+    <HStack justifyContent={"space-between"} px={"7"} py={"4"}>
       <Text onClick={onHome} fontSize="2xl" color={"#ff404c"} cursor="pointer">
         BangSam
       </Text>
-      {/* 없어질 컬럼 (routing 편하게 할려고 만듬) */}
-      {/* <OptionDropdown /> */}
-      <HStack>
-        <FontAwesomeIcon size={"2x"} icon={faUserPlus} onClick={onSignUp} />
-        <Text onClick={onHouseList}>집리스트</Text>
-        <Text onClick={onProfile}>프로필</Text>
-        <Text onClick={onSell}>판매</Text>
-      </HStack>
-
       {!isLoggedIn && !userLoading ? (
         <Avatar onClick={() => onLoginOpen()} />
       ) : (

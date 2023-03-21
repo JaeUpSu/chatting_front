@@ -35,11 +35,7 @@ function HouseOptMenu({ onUpdate }) {
     let newParams = [];
     let newPrices = [];
     optionsMenu.forEach((item, idx) => {
-      if (idx == 1) {
-        newParams[idx] = sessionStorage.getItem(item.eng)
-          ? sessionStorage.getItem(item.eng)
-          : "매매";
-      } else if (idx < 5) {
+      if (idx < 5) {
         newParams[idx] = sessionStorage.getItem(item.eng)
           ? sessionStorage.getItem(item.eng)
           : "전체";
