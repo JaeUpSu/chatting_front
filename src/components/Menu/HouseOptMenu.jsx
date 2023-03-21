@@ -102,7 +102,7 @@ function HouseOptMenu({ onUpdate }) {
                     : selectedOpts[idx]}
                 </MenuButton>
                 <MenuList p="20px" maxW={idx == 5 || idx == 1 ? "" : "460px"}>
-                  <Flex px="2vw">
+                  <Flex>
                     <DataRadioCard
                       name={item.kor}
                       valueName={item.eng}

@@ -214,12 +214,14 @@ export const getHouse = ({ queryKey }) => {
 };
 
 // 해당 집 등록하기
-export const postHouse = (updatedHouse) => {
-  return instance
-    .post(`houses/`, { updatedHouse })
-    .then((response) => console.log("data", response.data));
-};
-
+export const postHouse = (house) =>
+  instance
+    .post(`houses/`, house, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
 // 해당 집 수정하기
 export const putHouse = (id, updatedHouse) => {
   return instance
