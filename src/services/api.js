@@ -221,7 +221,7 @@ export const postHouse = (house) =>
         "X-CSRFToken": Cookie.get("csrftoken") || "",
       },
     })
-    .then((response) => console.log("data", response.data));
+    .then((response) => response.data);
 // 해당 집 수정하기
 export const putHouse = (id, updatedHouse) => {
   return instance

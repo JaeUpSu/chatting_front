@@ -140,7 +140,7 @@ function HouseCard({
                 fontSize="1.1em"
                 mb="4"
               >
-                {description.length > 17
+                {description?.length > 17
                   ? description.substring(0, 17) + "..."
                   : description}
               </Text>

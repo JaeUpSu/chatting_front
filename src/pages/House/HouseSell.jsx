@@ -30,6 +30,7 @@ import {
 import { RoomKindsToFront, SellKindsToFront } from "../../services/data";
 
 import { getProcessedData } from "../../utils/getProcessedData";
+import { useNavigate } from "react-router-dom";
 
 const inputFileStyle = {
   display: "none",
@@ -91,10 +92,12 @@ const HouseSell = () => {
     value: dong.name,
     index: dong.pk,
   }));
-
+  const navigate = useNavigate();
   const { mutate } = useMutation(postHouse, {
     onMutate: (d) => console.log("1", d),
-    onSuccess: () => {
+    onSuccess: ({ id }) => {
+      navigate(`../houseList/house/${id}`);
+
       console.log("created house!");
     },
     onError: () => {
@@ -205,7 +208,7 @@ const HouseSell = () => {
     <VStack>
       <Center
         pb="5vh"
-        pt="50vh"
+        pt="80vh"
         w="120vw"
         borderWidth="1px"
         borderRadius="lg"
