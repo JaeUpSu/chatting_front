@@ -15,9 +15,10 @@ import {
   Text,
   useColorModeValue,
   Image,
+  useToast,
 } from "@chakra-ui/react";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -28,11 +29,14 @@ import AddressSelectForm from "../../components/Form/AddressSelectForm";
 import KindSelectForm from "../../components/Form/KindSelectForm";
 import TripleForm from "../../components/Form/TripleForm";
 import PriceForm from "../../components/Form/PriceForm";
+import ImageForm from "../../components/Form/ImageForm";
 import SingleTextAreaForm from "../../components/Form/SingleTextAreaForm";
 
 const HouseEdit = () => {
   const { id } = useParams();
   const house = useQuery(["house", id], getHouse);
+  const navigate = useNavigate();
+  const toast = useToast();
 
   const [initHouse, setInitHouse] = useState(true);
   const [sellKind, setSellKind] = useState("");
@@ -40,8 +44,18 @@ const HouseEdit = () => {
   const [updatedHouse, setUpdatedHouse] = useState({});
 
   const { mutate } = useMutation(putHouse, {
+    onMutate: (d) => {
+      console.log("update", d);
+    },
     onSuccess: () => {
       console.log("update house!");
+      toast({
+        title: "수정을 완료했습니다!",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      navigate(`/houseList/house/${id}`);
     },
     onError: () => {
       console.log("don't update house!");
@@ -50,7 +64,7 @@ const HouseEdit = () => {
 
   const onSubmit = () => {
     console.log(updatedHouse);
-    mutate(updatedHouse);
+    mutate({ id, updatedHouse });
   };
 
   useEffect(() => {
@@ -68,7 +82,7 @@ const HouseEdit = () => {
 
   return (
     <VStack
-      pt="30vh"
+      pt="40vh"
       pb="5vh"
       borderWidth="1px"
       borderRadius="lg"
@@ -79,7 +93,7 @@ const HouseEdit = () => {
     >
       <Center>
         <VStack>
-          <Text fontWeight="600" fontSize="23px" mt="50px" w="60vw">
+          <Text fontWeight="600" fontSize="23px" mt="50px" w="70vw">
             기본
           </Text>
           <SingleForm
@@ -87,6 +101,12 @@ const HouseEdit = () => {
             value={updatedHouse?.title}
             name="title"
             label="제목"
+          />
+          <ImageForm
+            setUpdatedHouse={setUpdatedHouse}
+            values={updatedHouse?.Image}
+            name="Image"
+            label="이미지"
           />
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
           <AddressSelectForm
@@ -139,7 +159,7 @@ const HouseEdit = () => {
             label="설명"
           />
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-          <Text fontWeight="600" fontSize="23px" mb="20" w="60vw">
+          <Text fontWeight="600" fontSize="23px" mb="20" w="70vw">
             옵션
           </Text>
           <SingleForm

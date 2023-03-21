@@ -98,8 +98,8 @@ const AddressSelectForm = ({ setUpdatedHouse, savedGu, savedDong }) => {
       </FormLabel>
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
-          <HStack w="60vw">
-            <FormControl isInvalid={errors.gu} id="gu" my="1" w="60vw">
+          <HStack w="70vw">
+            <FormControl isInvalid={errors.gu} id="gu" my="1" w="70vw">
               <Select
                 {...register("gu", { required: true })}
                 placeholder="구를 선택해주세요"
@@ -118,7 +118,7 @@ const AddressSelectForm = ({ setUpdatedHouse, savedGu, savedDong }) => {
               </Select>
               <FormErrorMessage>{`구를 선택해주세요`}</FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={errors.dong} id="dong" my="1" w="60vw">
+            <FormControl isInvalid={errors.dong} id="dong" my="1" w="70vw">
               <HStack>
                 <Select
                   {...register("dong", { required: true })}
@@ -144,7 +144,7 @@ const AddressSelectForm = ({ setUpdatedHouse, savedGu, savedDong }) => {
           </HStack>
         </form>
       ) : (
-        <HStack justifyContent="space-between" w="100%">
+        <HStack justifyContent="space-between" w="100%" h="5.3vh">
           <VStack justifyContent="flex-start" w="100%">
             <Text w="100%">{`서울 ${savedGu} ${savedDong?.name}`}</Text>
           </VStack>

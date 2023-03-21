@@ -53,17 +53,17 @@ const TripleForm = ({ setUpdatedHouse, values, names, labeles }) => {
 
   return (
     <>
-      <FormLabel marginBottom="0px" w="60vw" fontWeight="600">
+      <FormLabel marginBottom="0px" w="70vw" fontWeight="600">
         {`${labeles[0]} / ${labeles[1]} / ${labeles[2]}`}
       </FormLabel>
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
-          <HStack w="60vw">
+          <HStack w="70vw">
             <FormControl
               isInvalid={errors[names[0]]}
               id={names[0]}
               my="1"
-              w="60vw"
+              w="18vw"
             >
               <Input
                 type="text"
@@ -76,7 +76,7 @@ const TripleForm = ({ setUpdatedHouse, values, names, labeles }) => {
               isInvalid={errors[names[1]]}
               id={names[1]}
               my="1"
-              w="60vw"
+              w="18vw"
             >
               <Input
                 type="text"
@@ -89,7 +89,7 @@ const TripleForm = ({ setUpdatedHouse, values, names, labeles }) => {
               isInvalid={errors[names[2]]}
               id={names[2]}
               my="1"
-              w="60vw"
+              w="34vw"
             >
               <HStack>
                 <Input
@@ -105,8 +105,8 @@ const TripleForm = ({ setUpdatedHouse, values, names, labeles }) => {
           </HStack>
         </form>
       ) : (
-        <VStack w="60vw">
-          <HStack w="60vw" justifyContent="space-between">
+        <VStack w="70vw" h="5.3vh">
+          <HStack w="70vw" justifyContent="space-between">
             <Text w="20%">{values[0]}</Text>
             <Text w="20%">{values[1]}</Text>
             <Text w="30%">{values[2]}</Text>

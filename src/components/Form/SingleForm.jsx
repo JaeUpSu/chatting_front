@@ -9,7 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HouseRegisterValues } from "../../services/data";
 
@@ -53,13 +53,13 @@ const SingleForm = ({ setUpdatedHouse, value, name, label }) => {
 
   return (
     <>
-      <FormLabel marginBottom="0px" w="60vw" fontWeight="600">
+      <FormLabel marginBottom="0px" w="100%" fontWeight="600">
         {label}
       </FormLabel>
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
-          <FormControl isInvalid={errors[name]} id={name} my="1" w="60vw">
-            <HStack>
+          <FormControl isInvalid={errors[name]} id={name} my="1" w="70vw">
+            <HStack w="70vw" justifyContent="flex-start">
               <Input
                 type="text"
                 defaultValue={value}
@@ -72,8 +72,8 @@ const SingleForm = ({ setUpdatedHouse, value, name, label }) => {
           </FormControl>
         </form>
       ) : (
-        <VStack w="60vw">
-          <HStack w="60vw" justifyContent="space-between">
+        <VStack w="70vw">
+          <HStack w="70vw" h="5.3vh" justifyContent="space-between">
             <Text w="70%">{value}</Text>
             <Button onClick={onModify}>수정</Button>
           </HStack>
