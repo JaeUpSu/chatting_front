@@ -13,14 +13,23 @@ import {
   Divider,
   Flex,
   Text,
+  Image,
   useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getDongList, getGuList, postHouse } from "../../services/api";
+import {
+  getDongList,
+  getGuList,
+  postHouse,
+  getUploadURL,
+  uploadImage,
+} from "../../services/api";
 import { RoomKindsToFront, SellKindsToFront } from "../../services/data";
+
+import { getProcessedData } from "../../utils/getProcessedData";
 
 const inputFileStyle = {
   display: "none",
@@ -38,6 +47,8 @@ const HouseSell = () => {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -46,6 +57,9 @@ const HouseSell = () => {
   const [guIdx, setGuIdx] = useState(0);
   const [sellKind, setSellKind] = useState("");
   const [images, setImages] = useState([]);
+  const [uploadUrls, setUploadUrls] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
+  const [imageBackUrls, setImageBackUrls] = useState([]);
 
   const guListData = useQuery(["gulist"], getGuList);
   const dongListData = useQuery(["donglist", guIdx], getDongList);
@@ -79,6 +93,7 @@ const HouseSell = () => {
   }));
 
   const { mutate } = useMutation(postHouse, {
+    onMutate: (d) => console.log("1", d),
     onSuccess: () => {
       console.log("created house!");
     },
@@ -88,16 +103,9 @@ const HouseSell = () => {
   });
 
   const onSubmit = (formData) => {
-    const Image = [];
-    images.forEach((item) => {
-      Image.push({ url: item });
-    });
-    console.log(Image);
-    console.log(formData);
-    // formData.append("")
-    // mutate(formData);
+    let processedData = getProcessedData(formData, imageBackUrls);
+    mutate(processedData);
   };
-
   const handleGuSelectChange = (event) => {
     const selectedGuVal = event.currentTarget.value;
     const selectedGu = guList?.find((item) => item.value == selectedGuVal);
@@ -109,9 +117,89 @@ const HouseSell = () => {
     setSellKind(selectedSellKindVal);
   };
 
+  const uploadImageMutation = useMutation(uploadImage, {
+    onSuccess: ({ result }) => {
+      setImageBackUrls((imgs) => {
+        const newImgBack = [];
+        imgs?.map((item) => {
+          newImgBack.push(item);
+        });
+        newImgBack.push({ url: result.variants[0] });
+        return newImgBack;
+      });
+      console.log(watch());
+    },
+  });
+
+  const uploadURLMutation = useMutation(getUploadURL, {
+    onSuccess: (data) => {
+      setUploadUrls((imgs) => {
+        const newImgBack = [];
+        imgs?.map((item) => {
+          newImgBack.push(item);
+        });
+        newImgBack.push(data.uploadURL);
+        return newImgBack;
+      });
+    },
+  });
+
   useEffect(() => {
-    console.log("imgs!!", images);
+    if (images.length === 5) {
+      const readerPromises = [];
+
+      for (let i = 0; i < images.length; i++) {
+        const file = images[i][0];
+        const reader = new FileReader();
+
+        readerPromises.push(
+          new Promise((resolve, reject) => {
+            reader.onload = () => {
+              resolve(reader.result);
+            };
+            reader.onerror = () => {
+              reject(reader.error);
+            };
+            reader.readAsDataURL(file);
+          })
+        );
+      }
+
+      Promise.all(readerPromises)
+        .then((results) => {
+          setImageUrls((imgUrls) => {
+            const nextImgUrls = [...imgUrls, ...results];
+            return nextImgUrls;
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }, [images]);
+
+  useEffect(() => {
+    for (let i = 0; i < images.length; i++) {
+      uploadURLMutation.mutate();
+    }
+  }, [imageUrls]);
+
+  useEffect(() => {
+    if (uploadUrls?.length === 5) {
+      for (let i = 0; i < 5; i++) {
+        uploadImageMutation.mutate({
+          uploadURL: uploadUrls[i],
+          file: images[i],
+        });
+      }
+    }
+  }, [uploadUrls]);
+
+  useEffect(() => {
+    if (imageBackUrls?.length === 5) {
+      console.log("back", imageBackUrls);
+    }
+  }, [imageBackUrls]);
 
   return (
     <VStack>
@@ -131,13 +219,15 @@ const HouseSell = () => {
             <FormErrorMessage>{`제목을 입력하세요`}</FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={errors.images} id="images">
-            <FormLabel fontWeight="600">이미지 ( 5개 ) </FormLabel>{" "}
+            <FormLabel fontWeight="600">
+              이미지 ( {images.length} / 5 ){" "}
+            </FormLabel>{" "}
             <Input
               type="file"
               multiple
               onChange={(e) => {
                 const files = e.target.files;
-                console.log(files.length);
+                console.log(files);
                 setImages((list) => {
                   const imgs = [];
                   list.map((item) => {
@@ -148,6 +238,13 @@ const HouseSell = () => {
                 });
               }}
             />
+            <HStack>
+              {imageUrls?.map((item, idx) => {
+                if (idx < 5) {
+                  return <Image key={idx} src={item} w="6vw" h="4vh" />;
+                }
+              })}
+            </HStack>
           </FormControl>
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
           <HStack w="70vw">
@@ -258,6 +355,7 @@ const HouseSell = () => {
           </HStack>
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
 
+          <Flex justifyContent="flex-end">(만원)</Flex>
           <HStack>
             <FormControl
               isInvalid={errors.sale}
@@ -344,7 +442,7 @@ const HouseSell = () => {
             id="distance_to_station"
             my="1"
           >
-            <FormLabel fontWeight="600">역까지 거리</FormLabel>
+            <FormLabel fontWeight="600">역까지 거리 (m)</FormLabel>
             <Input type="number" {...register("distance_to_station")} />
             <FormErrorMessage>{`역까지 거리를 입력하세요`}</FormErrorMessage>
           </FormControl>
