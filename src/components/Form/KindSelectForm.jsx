@@ -87,12 +87,12 @@ const KindSelectForm = ({
       </FormLabel>
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
-          <HStack w="60vw" alignItems="center">
+          <HStack w="70vw" alignItems="center">
             <FormControl
               isInvalid={errors.room_kind}
               id="room_kind"
               my="1"
-              w="60vw"
+              w="70vw"
             >
               <Select
                 {...register("room_kind", { required: true })}
@@ -111,7 +111,7 @@ const KindSelectForm = ({
               isInvalid={errors.sell_kind}
               id="sell_kind"
               my="1"
-              w="60vw"
+              w="70vw"
             >
               <HStack>
                 <Select
@@ -134,7 +134,7 @@ const KindSelectForm = ({
           </HStack>
         </form>
       ) : (
-        <HStack justifyContent="space-between" w="100%" my="4">
+        <HStack justifyContent="space-between" w="100%" my="4" h="5.3vh">
           <VStack justifyContent="flex-start" w="100%">
             <HStack w="100%">
               <Text>{roomKind ? RoomKindsToFront[roomKind] : ""}</Text>

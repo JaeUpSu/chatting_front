@@ -65,7 +65,7 @@ function PriceForm({ setUpdatedHouse, sellKind, values, names, labeles }) {
         <Text>(만원)</Text>
       </Flex>
       <form onSubmit={handleSubmit(onEnter)}>
-        <HStack w="60vw">
+        <HStack w="70vw">
           <FormControl
             isInvalid={errors[names[0]]}
             id={names[0]}
@@ -84,7 +84,9 @@ function PriceForm({ setUpdatedHouse, sellKind, values, names, labeles }) {
                   })}
                 />
               ) : (
-                <Text w="70%">{onPrice(values[0])}</Text>
+                <Text w="70%" h="5.2vh">
+                  {onPrice(values[0])}
+                </Text>
               )}
             </HStack>
             <FormErrorMessage>{`${names[0]}를 입력하세요`}</FormErrorMessage>
@@ -116,13 +118,15 @@ function PriceForm({ setUpdatedHouse, sellKind, values, names, labeles }) {
                   })}
                 />
               ) : (
-                <Text w="70%">{onPrice(values[2])}</Text>
+                <Text w="70%" h="5.2vh">
+                  {onPrice(values[1])}
+                </Text>
               )}
             </HStack>
             <FormErrorMessage>{`${labeles[1]}을 입력하세요`}</FormErrorMessage>
           </FormControl>
         </HStack>
-        <HStack w="60vw">
+        <HStack w="70vw">
           <FormControl
             isInvalid={errors[names[2]]}
             id={names[2]}
@@ -143,7 +147,9 @@ function PriceForm({ setUpdatedHouse, sellKind, values, names, labeles }) {
                   })}
                 />
               ) : (
-                <Text w="70%">{onPrice(values[2])}</Text>
+                <Text w="70%" h="5.2vh">
+                  {onPrice(values[2])}
+                </Text>
               )}
             </HStack>
             <FormErrorMessage>{`${labeles[2]}를 입력하세요`}</FormErrorMessage>
@@ -163,7 +169,9 @@ function PriceForm({ setUpdatedHouse, sellKind, values, names, labeles }) {
                 {...register(names[3], { required: true })}
               />
             ) : (
-              <Text w="70%">{onPrice(values[3])}</Text>
+              <Text w="70%" h="5.2vh">
+                {onPrice(values[3])}
+              </Text>
             )}
             <FormErrorMessage>{`관리비를 입력하세요`}</FormErrorMessage>
           </FormControl>

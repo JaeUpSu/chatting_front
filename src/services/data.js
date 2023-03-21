@@ -349,4 +349,5 @@ export const HouseRegisterValues = [
   { eng: "pyeongsu", kor: "평수", isRequired: true },
   { eng: "distance_to_station", kor: "역까지 거리", isRequired: true },
   { eng: "description", kor: "설명", isRequired: true },
+  { eng: "Image", kor: "이미지", isRequired: true },
 ];

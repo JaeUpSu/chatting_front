@@ -17,13 +17,9 @@ export const getProcessedData = (data, images) => {
         processedData[item.eng] = data[item.eng];
       }
     }
+    if (item.eng === "Image") {
+      processedData["Image"] = images;
+    }
   });
-  // let Image = [];
-  // images.forEach((item, idx) => {
-  //   if (idx < 5) {
-  //     Image.push({ url: item });
-  //   }
-  // });
-  processedData["Image"] = images;
   return processedData;
 };
