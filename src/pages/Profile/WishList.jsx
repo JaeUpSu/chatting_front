@@ -1,48 +1,50 @@
+import {
+  VStack,
+  Card,
+  CardBody,
+  Image,
+  Flex,
+  Text,
+  Box,
+} from "@chakra-ui/react";
 import { getWishLists } from "../../services/api";
 import { useQuery } from "@tanstack/react-query";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Image,
-  Heading,
-  Button,
-  Text,
-  Stack,
-} from "@chakra-ui/react";
+import { Pagination } from "react-bootstrap";
+import { useEffect } from "react";
+import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 
 export default function WishList() {
+  const { data } = useQuery(["house"], getWishLists);
+
   return (
-    <Card
-      direction={{ base: "column", sm: "row" }}
-      overflow="hidden"
-      variant="outline"
-      maxW="500px;"
-    >
-      <Image
-        objectFit="cover"
-        maxW={{ base: "100%", sm: "200px" }}
-        src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
-        alt="Caffe Latte"
-      />
+    <Flex>
+      {data?.map((item, index) => {
+        return (
+          <Card w="250px" m="20px">
+            <Image src={item.house.thumnail} h="150px" />
+            <CardBody>
+              <Flex justify={"space-between"}>
+                <Box fontWeight={600}>{item.house.title}</Box>
+                {RoomKindsToFront[item.house.room_kind]}
+              </Flex>
 
-      <Stack>
-        <CardBody>
-          <Heading size="md">The perfect latte</Heading>
-
-          <Text py="2">
-            Caffè latte is a coffee beverage of Italian origin made with
-            espresso and steamed milk.
-          </Text>
-        </CardBody>
-
-        <CardFooter>
-          <Button variant="solid" colorScheme="blue">
-            Buy Latte
-          </Button>
-        </CardFooter>
-      </Stack>
-    </Card>
+              <Flex justify={"space-around"}>
+                <Box>{SellKindsToFront[item.house.sell_kind]}</Box>
+                {item?.house.deposit !== 0
+                  ? item?.house.deposit
+                  : item?.house.sale !== 0
+                  ? item?.house.sale
+                  : null}
+                <Box>
+                  {item?.house.monthly_rent !== 0
+                    ? item?.house.monthly_rent
+                    : null}
+                </Box>
+              </Flex>
+            </CardBody>
+          </Card>
+        );
+      })}
+    </Flex>
   );
 }

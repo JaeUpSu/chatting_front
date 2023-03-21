@@ -2,15 +2,16 @@ import { Flex } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
+import { getWishLists } from "../../services/api";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { getWishLists, setWishLists } from "../../services/api";
+import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
+
 const HouseImg = styled.img`
-  max-width: 200px;
-  margin-right: 60px;
+  width: 200px;
+  height: 250px;
+  margin-right: 4rem;
   cursor: pointer;
   transition: transform 0.5s ease-in-out;
 `;
@@ -20,90 +21,56 @@ const FontFam = styled.p`
   margin-right: 10px;
 `;
 
-const PrevArrow = ({ onClick }) => {
-  return (
-    <div className="arrow prev-arrow" onClick={onClick}>
-      <FontAwesomeIcon icon={faArrowLeft} />
-    </div>
-  );
-};
-const NextArrow = ({ onClick }) => {
-  return (
-    <div className="arrow next-arrow" onClick={onClick}>
-      <FontAwesomeIcon icon={faArrowRight} />
-    </div>
-  );
-};
-
-const LikedWrapper = styled.div`
+const SlideWrapper = styled.div`
   width: 1000px;
   margin: 0 auto;
   overflow: hidden;
-  .arrow {
-    position: absolute;
-    top: 50%;
-    font-size: 24px;
-    cursor: pointer;
 `;
 
 const LikedList = () => {
   const { data } = useQuery(["house"], getWishLists);
 
-  const likedList =
-    data && data.filter((item) => item.recently_views).slice(0, 11);
-
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: data && data.length < 4 ? false : true,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 3,
+    slidesToShow: data && data.length < 4 ? data && data.length : 4,
+    slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
   };
 
   return (
-    <LikedWrapper>
+    <SlideWrapper>
       <Slider {...settings}>
-        {likedList &&
-          likedList.map((item, index) => (
-            <div key={index}>
-              <HouseImg src={item.thumnail} />
+        {data &&
+          data?.map((item, idx) => (
+            <div key={idx}>
+              <HouseImg src={item.house.thumnail} />
+              <FontFam>{item.house.title}</FontFam>
               <Flex>
-                <FontFam>{item.room_kind}</FontFam>
-                <p>Room: {item.room}</p>
+                <FontFam>{SellKindsToFront[item.house.sell_kind]}</FontFam>
+                <FontFam>{RoomKindsToFront[item.house.room_kind]}</FontFam>
               </Flex>
+
               <Flex>
-                <FontFam> {item.deposit}</FontFam>
-                <p> {item?.monthly_rent}</p>
+                <FontFam>
+                  {item?.house.deposit !== 0
+                    ? item?.house.deposit
+                    : item?.house.sale !== 0
+                    ? item?.house.sale
+                    : null}
+                </FontFam>
+                <p>
+                  {item?.house.monthly_rent !== 0
+                    ? item?.house.monthly_rent
+                    : null}
+                </p>
               </Flex>
             </div>
           ))}
       </Slider>
-    </LikedWrapper>
+    </SlideWrapper>
   );
 };
 
