@@ -38,7 +38,7 @@ function AddressMenu({ onUpdate }) {
         )}`
       : sessionStorage.getItem("gugunsi")
       ? `서울 ${sessionStorage.getItem("gugunsi")}`
-      : "Address Search ..."
+      : "Address Search"
   );
   const [activeBtns, setActiveBtn] = useState([false, true, false]);
   const [addressList, setAddressList] = useState(["서울", "", ""]);
@@ -107,14 +107,14 @@ function AddressMenu({ onUpdate }) {
   return (
     <div
       style={{
-        width: "90%",
         minWidth: "250px",
         cursor: "pointer",
         transform: "translateX(20px)",
-        border: "2px solid black",
+        // border: "2px solid black",
+        backgroundColor: "rgb(233,239,244)",
         borderRadius: "10px",
         padding: "5px",
-        marginRight: "50px",
+        // marginRight: "50px",
       }}
     >
       <Flex

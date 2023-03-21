@@ -77,7 +77,7 @@ export default function LoginModal({ isOpen, onClose }) {
   return (
     <Modal motionPreset={"scale"} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent p="5" pt="10" pb={"10"}>
         <ModalHeader fontSize={"2xl"} textAlign={"center"} mt={"5"}>
           로그인
         </ModalHeader>

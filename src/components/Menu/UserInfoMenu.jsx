@@ -66,8 +66,8 @@ function UserInfoMenu({ user }) {
   return (
     <Menu>
       <MenuButton>
-        <Avatar src={user?.avatar} name={user?.name} size="sm">
-          <AvatarBadge boxSize="0.9rem" bg="green.500" />
+        <Avatar src={user?.avatar} name={user?.name} size="md">
+          <AvatarBadge boxSize="1.2rem" bg="green.500" />
         </Avatar>
       </MenuButton>
       {/* <Badge colorScheme="green">Login</Badge> */}
