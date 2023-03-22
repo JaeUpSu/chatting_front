@@ -16,7 +16,6 @@ function ImageCard({ setImages, setImageUrls, src, idx }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onDelete = () => {
-    console.log("del", idx);
     setImages((imgs) => {
       const newImgs = [];
       imgs.forEach((item, _idx) => {
@@ -24,7 +23,6 @@ function ImageCard({ setImages, setImageUrls, src, idx }) {
           newImgs.push(item);
         }
       });
-      console.log("del", newImgs);
       return newImgs;
     });
 

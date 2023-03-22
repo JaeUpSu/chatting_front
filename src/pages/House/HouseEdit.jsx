@@ -50,7 +50,9 @@ const HouseEdit = () => {
   const [updatedHouse, setUpdatedHouse] = useState({});
   const [updatedData, setUpdatedData] = useState({});
   const [updatedImage, setUpdatedImage] = useState([]);
+  const [isUpdatedImage, setIsUpdatedImage] = useState([]);
 
+  // putHouse
   const { mutate } = useMutation(putHouse, {
     onMutate: (d) => {
       console.log("update", d);
@@ -69,11 +71,12 @@ const HouseEdit = () => {
     },
   });
 
+  // putHouse 실행 버튼
   const onSubmit = () => {
-    if (updatedImage?.length > 0) {
-      console.log("checking", updatedImage, updatedData);
+    if (isUpdatedImage?.length > 0) {
+      console.log("checking", updatedImage, updatedData, isUpdatedImage);
 
-      for (let i = 0; i < updatedImage?.length; i++) {
+      for (let i = 0; i < isUpdatedImage?.length; i++) {
         uploadURLMutation.mutate();
       }
     } else {
@@ -83,6 +86,7 @@ const HouseEdit = () => {
     }
   };
 
+  // url 에 image 넣기 mutate => uploadImage
   const uploadImageMutation = useMutation(uploadImage, {
     onSuccess: ({ result }) => {
       setImageBackUrls((imgs) => {
@@ -94,17 +98,13 @@ const HouseEdit = () => {
         return newImgBack;
       });
     },
-    onMutate: (d) => {
-      console.log("uploadImageMutation", d);
-    },
-    onError: (e) => {
-      console.log("uploadImageMutation", e);
-    },
+    onMutate: (d) => {},
+    onError: (e) => {},
   });
 
+  // updatedImage 개수만큼 mutate => getUploadUrl
   const uploadURLMutation = useMutation(getUploadURL, {
     onSuccess: (data) => {
-      console.log("url", data);
       setUploadUrls((imgs) => {
         const newImgBack = [];
         imgs?.map((item) => {
@@ -114,60 +114,51 @@ const HouseEdit = () => {
         return newImgBack;
       });
     },
-    onMutate: (d) => {
-      console.log("uploadURLMutation", d);
-    },
-    onError: (e) => {
-      console.log("uploadURLMutation", e);
-    },
+    onMutate: (d) => {},
+    onError: (e) => {},
   });
 
+  // 초기화
   useEffect(() => {
     if (house.data && initHouse) {
-      console.log("init", house);
       setSellKind(house.data?.sell_kind);
       setUpdatedHouse(house.data);
       setInitHouse(false);
     }
   }, [house]);
 
+  // isUpdatedImage 개수만큼 uploadUrls 에 uploadImage mutate
   useEffect(() => {
-    console.log("uploadUrl", uploadUrls, updatedImage);
-
-    if (uploadUrls?.length === updatedImage?.length && uploadUrls?.length > 0) {
-      for (let i = 0; i < updatedImage?.length; i++) {
-        console.log("updatedUrl", uploadUrls[i]);
-        console.log("updatedImg", updatedImage[i]);
+    if (
+      uploadUrls?.length === isUpdatedImage?.length &&
+      uploadUrls?.length > 0
+    ) {
+      for (let i = 0; i < isUpdatedImage?.length; i++) {
         uploadImageMutation.mutate({
           uploadURL: uploadUrls[i],
-          file: updatedImage[i],
+          file: updatedImage[isUpdatedImage[i]],
         });
       }
     }
   }, [uploadUrls]);
 
-  // 가공한 이미지가 5개가 되면 uploadUrl mutate
+  // 가공한 이미지가 5개가 되면 putHouse mutate
   useEffect(() => {
-    console.log("Img3", imageBackUrls);
-
     if (
-      imageBackUrls?.length === updatedImage?.length &&
-      updatedImage?.length > 0
+      imageBackUrls?.length === isUpdatedImage?.length &&
+      isUpdatedImage?.length > 0
     ) {
-      const imgs = [
-        ...updatedImage?.slice(imageBackUrls?.length),
-        ...imageBackUrls,
-      ];
+      let imgs = updatedHouse?.Image;
+      isUpdatedImage.forEach((item, idx) => {
+        console.log(item, imgs[item], imageBackUrls[idx]);
+        imgs[item] = imageBackUrls[idx];
+      });
       console.log("lastImg", imgs);
-      const processData = { ...updatedData, ...imgs };
+      const processData = { ...updatedData, Image: imgs };
       mutate({ id, processData });
     }
-    console.log("data", updatedData);
+    // console.log("data", updatedData);
   }, [imageBackUrls, updatedImage]);
-
-  useEffect(() => {
-    console.log("updateImg", updatedImage);
-  }, [updatedImage]);
 
   return (
     <VStack
@@ -195,6 +186,7 @@ const HouseEdit = () => {
           <ImageForm
             setUpdatedHouse={setUpdatedHouse}
             setUpdatedImage={setUpdatedImage}
+            setUpdated={setIsUpdatedImage}
             values={updatedHouse?.Image}
             name="images"
             label="이미지"
