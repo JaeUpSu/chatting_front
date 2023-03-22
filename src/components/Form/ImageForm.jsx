@@ -161,7 +161,7 @@ const ImageForm = ({
           <HStack w="70vw" justifyContent="space-between">
             <Input
               type="file"
-              accept=".jpg,.jpeg,.png"
+              accept=".jpg,.jpeg,.png,.webp"
               multiple
               onChange={(e) => {
                 const files = e.target.files;

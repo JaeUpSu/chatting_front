@@ -32,7 +32,7 @@ const SlideWrapper = styled.div`
 `;
 
 export default function Home() {
-  const { user, isLoggedIn, userLoading } = useUser();
+  const { isLoggedIn } = useUser();
 
   return (
     <HomeWrapper>

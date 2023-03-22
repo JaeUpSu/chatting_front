@@ -19,6 +19,7 @@ import ChangePasswordModal from "../../components/Modal/ChangePasswordModal";
 import useUser from "../../hooks/useUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editUser } from "../../services/api";
+import { FaComment } from "react-icons/fa";
 
 export default function MyInfo() {
   const { user } = useUser();
@@ -88,6 +89,9 @@ export default function MyInfo() {
     object[type] = value;
     mutation.mutate(object);
   };
+  const editProfile = () => {
+    console.log(1);
+  };
 
   return (
     <Box
@@ -104,7 +108,9 @@ export default function MyInfo() {
           <Avatar boxSize={"xs"} src={user?.avatar} />
           <VStack spacing={"5"}>
             <Heading size={"md"}>{user?.name}</Heading>
-            <Button size={"sm"}>Edit Profile</Button>
+            <Button size={"sm"} onClick={editProfile}>
+              Edit Profile
+            </Button>
           </VStack>
         </VStack>
         <VStack h={"60vh"} justifyContent={"center"} spacing={"10"} pr="20">
@@ -114,24 +120,52 @@ export default function MyInfo() {
                 <Text minW={16} fontWeight={"bold"}>
                   아이디{" "}
                 </Text>
-                <Text> {user?.username}</Text>
-              </HStack>
-            </HStack>
-            <HStack justifyContent={"space-between"} w={"100%"}>
-              <HStack spacing={"5"}>
-                <Text
-                  minW={16}
-                  overflowWrap={"break-word"}
-                  fontWeight={"semibold"}
-                >
-                  비밀번호
+                <Text>
+                  {" "}
+                  {user?.username}
+                  {user?.is_naver ? (
+                    <Text
+                      as={"span"}
+                      color={"white"}
+                      backgroundColor="rgb(3, 199, 90)"
+                      p={2}
+                      ml="3"
+                    >
+                      Naver 로그인 계정
+                    </Text>
+                  ) : user?.is_kakao ? (
+                    <Text
+                      as={"span"}
+                      color={"rgb(49,22,22)"}
+                      p={2}
+                      ml="3"
+                      // color="yellow"
+                      bg={"rgb(255,255,12)"}
+                    >
+                      Kakao 로그인 계정
+                    </Text>
+                  ) : null}
                 </Text>
-                <Text> *********</Text>
               </HStack>
-              <Button size={"sm"} onClick={onPasswordEditOpen}>
-                수정
-              </Button>
             </HStack>
+            {!user?.is_naver && !user?.is_kakao ? (
+              <HStack justifyContent={"space-between"} w={"100%"}>
+                <HStack spacing={"5"}>
+                  <Text
+                    minW={16}
+                    overflowWrap={"break-word"}
+                    fontWeight={"semibold"}
+                  >
+                    비밀번호
+                  </Text>
+                  <Text> *********</Text>
+                </HStack>
+                <Button size={"sm"} onClick={onPasswordEditOpen}>
+                  수정
+                </Button>
+              </HStack>
+            ) : null}
+
             <HStack justifyContent={"space-between"} w={"100%"}>
               <HStack spacing={"5"}>
                 <Text minW={16} fontWeight={"semibold"}>

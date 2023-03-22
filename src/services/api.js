@@ -55,6 +55,14 @@ export const login = ({ username, password }) => {
     }
   );
 };
+export const changePassword = (data) =>
+  instance
+    .put("users/changepassword/", data, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((res) => res.status);
 
 // 로그아웃
 export const logout = () =>
