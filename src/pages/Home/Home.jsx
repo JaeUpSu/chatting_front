@@ -51,7 +51,7 @@ export default function Home() {
             원룸
           </IconBtns>
           <IconBtns src="https://cdn-icons-png.flaticon.com/512/9567/9567116.png">
-            고시원
+            주택
           </IconBtns>
           <IconBtns src="https://cdn-icons-png.flaticon.com/512/602/602175.png">
             쉐어하우스
