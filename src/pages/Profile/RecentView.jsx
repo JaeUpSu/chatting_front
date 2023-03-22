@@ -9,8 +9,11 @@ import {
   Flex,
   Text,
   Box,
+  CardFooter,
 } from "@chakra-ui/react";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
+import { getSaleContents } from "../../utils/getSaleContents";
+import { Link } from "react-router-dom";
 
 const ViewCont = styled.div`
   display: flex;
@@ -20,32 +23,44 @@ const ViewCont = styled.div`
 `;
 
 export default function RecentView() {
-  const { data } = useQuery(["recently_views"], getHouseLists);
+  const { error, data } = useQuery(["recently_views"], getHouseLists);
+  if (error) {
+    return <div>에러가 발생했습니다.</div>;
+  }
+
+  if (!data) {
+    return <div>로딩 중입니다.</div>;
+  }
 
   return (
-    <Flex wrap={"wrap"}>
+    <Flex wrap={"wrap"} h="60vh" overflowY="scroll">
       {data?.map((item, index) => {
         return (
-          <Card w="250px" m="20px">
-            <Image src={item.recently_views.thumnail} h="150px" />
+          <Card w="70vh" m="20px" ml="3rem;">
+            <Link to={`/houseList/house/${item.recently_views.id}`}>
+              <Image src={item.recently_views.thumnail} w="24.9rem" h="15rem" />
+            </Link>
+
             <CardBody>
-              <Flex justify={"space-between"}>
-                <Box fontWeight={600}>{item.recently_views.title}</Box>
-                {RoomKindsToFront[item.recently_views.room_kind]}
+              <Box fontWeight={600}>{item.recently_views.title}</Box>
+
+              <Flex>
+                <Text mr="0.5rem">
+                  {" "}
+                  {RoomKindsToFront[item.recently_views.room_kind]}
+                </Text>
+                <Text>{SellKindsToFront[item.recently_views.sell_kind]}</Text>
               </Flex>
 
-              <Flex justify={"space-around"}>
-                <Box>{SellKindsToFront[item.recently_views.sell_kind]}</Box>
-                {item?.recently_views.deposit !== 0
-                  ? item?.recently_views.deposit
-                  : item?.recently_views.sale !== 0
-                  ? item?.recently_views.sale
-                  : null}
-                <Box>
-                  {item?.recently_views.monthly_rent !== 0
-                    ? item?.recently_views.monthly_rent
-                    : null}
-                </Box>
+              <Flex>
+                <Text>
+                  {`${getSaleContents(
+                    item.recently_views.sell_kind,
+                    item.recently_views.deposit,
+                    item.recently_views.monthly_rent,
+                    item.recently_views.sale
+                  )}`}
+                </Text>
               </Flex>
             </CardBody>
           </Card>

@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
@@ -7,6 +7,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
+import { Link } from "react-router-dom";
+import { getSaleContents } from "../../utils/getSaleContents";
 
 const HouseImg = styled.img`
   width: 200px;
@@ -27,15 +29,64 @@ const SlideWrapper = styled.div`
   overflow: hidden;
 `;
 
+const PrevArrow = (props) => {
+  const { className, onClick } = props;
+  return (
+    <div
+      className={className}
+      onClick={onClick}
+      style={{
+        ...props.style,
+        display: "block",
+        position: "absolute",
+        top: "50%",
+        left: "1rem",
+        zIndex: 1,
+        width: "40px",
+        height: "40px",
+      }}
+    />
+  );
+};
+
+const NextArrow = (props) => {
+  const { className, onClick } = props;
+  return (
+    <div
+      className={className}
+      onClick={onClick}
+      style={{
+        ...props.style,
+        display: "block",
+        position: "absolute",
+        top: "50%",
+        right: "3rem",
+        zIndex: 1,
+        width: "40px",
+        height: "40px",
+      }}
+    />
+  );
+};
+
 const LikedList = () => {
-  const { data } = useQuery(["house"], getWishLists);
+  const { error, data } = useQuery(["house"], getWishLists);
+  if (error) {
+    return <div>에러가 발생했습니다.</div>;
+  }
+
+  if (!data) {
+    return <div>로딩 중입니다.</div>;
+  }
 
   const settings = {
     dots: false,
     infinite: data && data.length < 4 ? false : true,
     speed: 500,
     slidesToShow: data && data.length < 4 ? data && data.length : 4,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
     autoplay: true,
     autoplaySpeed: 4000,
   };
@@ -46,7 +97,10 @@ const LikedList = () => {
         {data &&
           data?.map((item, idx) => (
             <div key={idx}>
-              <HouseImg src={item.house.thumnail} />
+              <Link to={`/houseList/house/${item.house.id}`}>
+                <HouseImg src={item.house.thumnail} />
+              </Link>
+
               <FontFam>{item.house.title}</FontFam>
               <Flex>
                 <FontFam>{SellKindsToFront[item.house.sell_kind]}</FontFam>
@@ -54,18 +108,14 @@ const LikedList = () => {
               </Flex>
 
               <Flex>
-                <FontFam>
-                  {item?.house.deposit !== 0
-                    ? item?.house.deposit
-                    : item?.house.sale !== 0
-                    ? item?.house.sale
-                    : null}
-                </FontFam>
-                <p>
-                  {item?.house.monthly_rent !== 0
-                    ? item?.house.monthly_rent
-                    : null}
-                </p>
+                <Text>
+                  {`${getSaleContents(
+                    item.house.sell_kind,
+                    item.house.deposit,
+                    item.house.monthly_rent,
+                    item.house.sale
+                  )}`}
+                </Text>
               </Flex>
             </div>
           ))}
