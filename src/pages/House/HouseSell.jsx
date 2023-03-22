@@ -273,7 +273,7 @@ const HouseSell = () => {
             </FormLabel>{" "}
             <Input
               type="file"
-              accept=".jpg,.jpeg,.png"
+              accept=".jpg,.jpeg,.png,.webp"
               multiple
               onChange={(e) => {
                 const files = e.target.files;

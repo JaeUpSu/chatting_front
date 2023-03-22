@@ -42,7 +42,6 @@ const HouseEdit = () => {
   const house = useQuery(["house", id], getHouse);
   const navigate = useNavigate();
   const toast = useToast();
-
   const [initHouse, setInitHouse] = useState(true);
   const [sellKind, setSellKind] = useState("");
   const [uploadUrls, setUploadUrls] = useState([]);
