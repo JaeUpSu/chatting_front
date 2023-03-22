@@ -224,8 +224,9 @@ export const postHouse = (house) =>
     .then((response) => response.data);
 // 해당 집 수정하기
 export const putHouse = (house) => {
+  console.log(house);
   return instance
-    .put(`houses/${house.id}`, house.updatedHouse, {
+    .put(`houses/${house.id}`, house.updatedData, {
       headers: {
         "X-CSRFToken": Cookie.get("csrftoken") || "",
       },

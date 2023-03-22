@@ -218,9 +218,6 @@ function House() {
               <ListItem>전용면적 : {data?.pyeongsu} 평</ListItem>
               <ListItem>방 수 : {data?.room}개 </ListItem>
               <ListItem> 화장실 수 : {data?.toilet}개</ListItem>
-              <ListItem>
-                역세권 : {data?.distance_to_station < 250 ? "YES" : "NO"}
-              </ListItem>
             </List>
 
             <Heading as="h1" fontSize="3xl" mb="4">

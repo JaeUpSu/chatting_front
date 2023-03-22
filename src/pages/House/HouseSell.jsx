@@ -27,22 +27,15 @@ import {
   getUploadURL,
   uploadImage,
 } from "../../services/api";
-import { RoomKindsToFront, SellKindsToFront } from "../../services/data";
+import {
+  ErrorCheckMenu,
+  RoomKindsToFront,
+  SellKindsToFront,
+} from "../../services/data";
 
 import { getProcessedData } from "../../utils/getProcessedData";
 import { useNavigate } from "react-router-dom";
-
-const inputFileStyle = {
-  display: "none",
-};
-
-const uploadButtonStyle = {
-  border: "1px solid",
-  borderRadius: "md",
-  cursor: "pointer",
-  px: 4,
-  py: 2,
-};
+import { validiate } from "../../services/validate";
 
 const HouseSell = () => {
   const {
@@ -74,7 +67,6 @@ const HouseSell = () => {
     monthly_rent: null,
     maintenance_cost: null,
     description: null,
-    distance_to_station: null,
   });
 
   const guListData = useQuery(["gulist"], getGuList);
@@ -107,6 +99,7 @@ const HouseSell = () => {
     value: dong.name,
     index: dong.pk,
   }));
+
   const navigate = useNavigate();
   const { mutate } = useMutation(postHouse, {
     onMutate: (d) => console.log("1", d),
@@ -125,7 +118,21 @@ const HouseSell = () => {
     mutate(processedData);
   };
 
-  const handleValidate = (event) => {};
+  const handleValidate = (event) => {
+    const value = event.target.value;
+    const name = event.target.name;
+    setError((items) => {
+      let nextItems = {};
+      ErrorCheckMenu.forEach((_name) => {
+        if (name !== _name) {
+          nextItems[_name] = items[_name];
+        } else {
+          nextItems[name] = validiate(value, name);
+        }
+      });
+      return nextItems;
+    });
+  };
 
   const handleGuSelectChange = (event) => {
     const selectedGuVal = event.currentTarget.value;
@@ -148,7 +155,7 @@ const HouseSell = () => {
         newImgBack.push({ url: result.variants[0] });
         return newImgBack;
       });
-      console.log(watch());
+      // console.log(watch());
     },
   });
 
@@ -226,7 +233,7 @@ const HouseSell = () => {
     <VStack>
       <Center
         pb="5vh"
-        pt="80vh"
+        pt="50vh"
         w="120vw"
         borderWidth="1px"
         borderRadius="lg"
@@ -236,8 +243,14 @@ const HouseSell = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl isInvalid={errors.title} id="title" my="1" w="70vw">
             <FormLabel fontWeight="600">제목</FormLabel>
-            <Input type="text" {...register("title", { required: true })} />
-            {<FormErrorMessage>{`제목을 입력하세요`}</FormErrorMessage>}
+            <Input
+              type="text"
+              {...register("title", { required: true })}
+              onChange={handleValidate}
+            />
+            {isError["title"] && (
+              <FormErrorMessage>{isError["title"]}</FormErrorMessage>
+            )}
           </FormControl>
           <FormControl isInvalid={errors.images} id="images">
             <FormLabel fontWeight="600">
@@ -313,8 +326,14 @@ const HouseSell = () => {
 
           <FormControl isInvalid={errors.address} id="address" my="1">
             <FormLabel fontWeight="600">상세주소</FormLabel>
-            <Input type="text" {...register("address", { required: true })} />
-            <FormErrorMessage>{`상세주소를 입력하세요`}</FormErrorMessage>
+            <Input
+              type="text"
+              {...register("address", { required: true })}
+              onChange={handleValidate}
+            />
+            {isError["address"] && (
+              <FormErrorMessage>{isError["address"]}</FormErrorMessage>
+            )}
           </FormControl>
 
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
@@ -354,24 +373,36 @@ const HouseSell = () => {
           <HStack w="70vw">
             <FormControl isInvalid={errors.room} id="room" my="1">
               <FormLabel fontWeight="600">방 개수</FormLabel>
-              <Input type="number" {...register("room", { required: true })} />
-              <FormErrorMessage>{`방 수를 입력하세요`}</FormErrorMessage>
+              <Input
+                type="number"
+                {...register("room", { required: true })}
+                onChange={handleValidate}
+              />
+              {isError["room"] && (
+                <FormErrorMessage>{isError["room"]}</FormErrorMessage>
+              )}
             </FormControl>
             <FormControl isInvalid={errors.toilet} id="toilet" my="1">
               <FormLabel fontWeight="600">화장실 개수</FormLabel>
               <Input
                 type="number"
                 {...register("toilet", { required: true })}
+                onChange={handleValidate}
               />
-              <FormErrorMessage>{`화장실 수 입력하세요`}</FormErrorMessage>
+              {isError["toilet"] && (
+                <FormErrorMessage>{isError["toilet"]}</FormErrorMessage>
+              )}
             </FormControl>
             <FormControl isInvalid={errors.pyeongsu} id="pyeongsu" my="1">
               <FormLabel fontWeight="600">평수</FormLabel>
               <Input
                 type="number"
                 {...register("pyeongsu", { required: true })}
+                onChange={handleValidate}
               />
-              <FormErrorMessage>{`평수를 입력하세요`}</FormErrorMessage>
+              {isError["pyeongsu"] && (
+                <FormErrorMessage>{isError["pyeongsu"]}</FormErrorMessage>
+              )}
             </FormControl>
           </HStack>
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
@@ -390,8 +421,11 @@ const HouseSell = () => {
                 {...register("sale", {
                   required: sellKind == "SALE" ? true : false,
                 })}
+                onChange={handleValidate}
               />
-              <FormErrorMessage>{`매매가를 입력하세요`}</FormErrorMessage>
+              {isError["sale"] && (
+                <FormErrorMessage>{isError["sale"]}</FormErrorMessage>
+              )}
             </FormControl>
             <FormControl
               isInvalid={errors.deposit}
@@ -412,8 +446,11 @@ const HouseSell = () => {
                       ? true
                       : false,
                 })}
+                onChange={handleValidate}
               />
-              <FormErrorMessage>{`보증금을 입력하세요`}</FormErrorMessage>
+              {isError["deposit"] && (
+                <FormErrorMessage>{isError["deposit"]}</FormErrorMessage>
+              )}
             </FormControl>
           </HStack>
           <HStack>
@@ -429,8 +466,11 @@ const HouseSell = () => {
                 {...register("monthly_rent", {
                   required: sellKind == "MONTHLY_RENT" ? true : false,
                 })}
+                onChange={handleValidate}
               />
-              <FormErrorMessage>{`월세를 입력하세요`}</FormErrorMessage>
+              {isError["monthly_rent"] && (
+                <FormErrorMessage>{isError["monthly_rent"]}</FormErrorMessage>
+              )}
             </FormControl>
             <FormControl
               isInvalid={errors.maintenance_cost}
@@ -442,7 +482,11 @@ const HouseSell = () => {
                 type="number"
                 {...register("maintenance_cost", { required: true })}
               />
-              <FormErrorMessage>{`관리비를 입력하세요`}</FormErrorMessage>
+              {isError["maintenance_cost"] && (
+                <FormErrorMessage>
+                  {isError["maintenance_cost"]}
+                </FormErrorMessage>
+              )}
             </FormControl>
           </HStack>
 
@@ -453,19 +497,11 @@ const HouseSell = () => {
             <Textarea
               type="text"
               {...register("description", { required: true })}
+              onChange={handleValidate}
             />
-            <FormErrorMessage>{`설명을 입력하세요`}</FormErrorMessage>
-          </FormControl>
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-          <Text mb="8">옵션</Text>
-          <FormControl
-            isInvalid={errors.distance_to_station}
-            id="distance_to_station"
-            my="1"
-          >
-            <FormLabel fontWeight="600">역까지 거리 (m)</FormLabel>
-            <Input type="number" {...register("distance_to_station")} />
-            <FormErrorMessage>{`역까지 거리를 입력하세요`}</FormErrorMessage>
+            {isError["description"] && (
+              <FormErrorMessage>{isError["description"]}</FormErrorMessage>
+            )}
           </FormControl>
           <Flex justifyContent="flex-end">
             <Button my="5" type="submit" isLoading={mutate.isLoading}>

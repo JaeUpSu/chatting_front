@@ -13,7 +13,13 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HouseRegisterValues } from "../../services/data";
 
-const SingleForm = ({ setUpdatedHouse, value, name, label }) => {
+const SingleForm = ({
+  setUpdatedHouse,
+  setUpdatedData,
+  value,
+  name,
+  label,
+}) => {
   const {
     register,
     handleSubmit,
@@ -26,6 +32,7 @@ const SingleForm = ({ setUpdatedHouse, value, name, label }) => {
     console.log("check", data);
 
     let nextHouse = {};
+    let nextData = {};
     let isChange = false;
     setUpdatedHouse((prevHouse) => {
       HouseRegisterValues.forEach((item) => {
@@ -42,6 +49,17 @@ const SingleForm = ({ setUpdatedHouse, value, name, label }) => {
       });
       return nextHouse;
     });
+    setUpdatedData((prevData) => {
+      HouseRegisterValues.forEach((item) => {
+        if (data[item.eng]) {
+          nextData[item.eng] = data[item.eng];
+        } else if (prevData[item.eng]) {
+          nextData[item.eng] = prevData[item.eng];
+        }
+      });
+      return nextData;
+    });
+
     if (isChange) {
       setIsModify(false);
     }
