@@ -37,7 +37,7 @@ function SelectModal({
     sessionStorage.setItem(name + "Idx", selectedIdx);
 
     if (name.includes("gugunsi")) {
-      sessionStorage.setItem("dong", "nothing");
+      sessionStorage.setItem("ebmyeondong", "nothing");
     }
 
     onSetAddress((items) => {

@@ -62,6 +62,21 @@ const HouseSell = () => {
   const [imageUrls, setImageUrls] = useState([]);
   const [imageBackUrls, setImageBackUrls] = useState([]);
 
+  const [isError, setError] = useState({
+    title: null,
+    images: null,
+    address: null,
+    room: null,
+    toilet: null,
+    pyeongsu: null,
+    sale: null,
+    deposit: null,
+    monthly_rent: null,
+    maintenance_cost: null,
+    description: null,
+    distance_to_station: null,
+  });
+
   const guListData = useQuery(["gulist"], getGuList);
   const dongListData = useQuery(["donglist", guIdx], getDongList);
 
@@ -109,6 +124,9 @@ const HouseSell = () => {
     let processedData = getProcessedData(formData, imageBackUrls);
     mutate(processedData);
   };
+
+  const handleValidate = (event) => {};
+
   const handleGuSelectChange = (event) => {
     const selectedGuVal = event.currentTarget.value;
     const selectedGu = guList?.find((item) => item.value == selectedGuVal);
@@ -219,7 +237,7 @@ const HouseSell = () => {
           <FormControl isInvalid={errors.title} id="title" my="1" w="70vw">
             <FormLabel fontWeight="600">제목</FormLabel>
             <Input type="text" {...register("title", { required: true })} />
-            <FormErrorMessage>{`제목을 입력하세요`}</FormErrorMessage>
+            {<FormErrorMessage>{`제목을 입력하세요`}</FormErrorMessage>}
           </FormControl>
           <FormControl isInvalid={errors.images} id="images">
             <FormLabel fontWeight="600">

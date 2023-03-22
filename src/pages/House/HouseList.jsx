@@ -54,6 +54,7 @@ const TopBtn = styled.div`
 function HouseList() {
   const scrollRef = useRef(null);
 
+  const [isInit, setIsInit] = useState(true);
   const [address, setAddress] = useState("");
   const [APIParams, setAPIParams] = useState({
     roomKind: sessionStorage.getItem("roomKind")
@@ -80,9 +81,6 @@ function HouseList() {
     setFetching,
     setBackParams,
   } = useInfiniteScroll(getOptionHouses, { size: 24 });
-
-  const columnSizes = [4, 3, 2, 1];
-  const columns = columnSizes.map((size) => `repeat(${size}, 1fr)`).reverse();
 
   // orderBy rearrange
   const onOrderBy = (e) => {
@@ -113,6 +111,15 @@ function HouseList() {
     sessionStorage.clear();
     window.location.reload();
   };
+
+  // useEffect(() => {
+  //   if (isInit) {
+  //     sessionStorage.removeItem("gugunsi");
+  //     sessionStorage.removeItem("gugunsiIdx");
+  //     sessionStorage.removeItem("ebmyeondong");
+  //     sessionStorage.removeItem("ebmyeondongIdx");
+  //   }
+  // }, []);
 
   // scroll reload event
   useEffect(() => {
