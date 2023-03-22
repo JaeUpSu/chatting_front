@@ -208,7 +208,7 @@ const HouseSell = () => {
 
   // 이미지가 5개가 되면 getUploadUrl mutate
   useEffect(() => {
-    if (imageUrls.length === 5) {
+    if (isPost && imageUrls.length === 5) {
       for (let i = 0; i < images.length; i++) {
         uploadURLMutation.mutate();
       }
@@ -219,6 +219,8 @@ const HouseSell = () => {
   useEffect(() => {
     if (uploadUrls?.length === 5) {
       for (let i = 0; i < 5; i++) {
+        console.log("registerUrl", uploadUrls[i]);
+        console.log("registerImg", images[i]);
         uploadImageMutation.mutate({
           uploadURL: uploadUrls[i],
           file: images[i],
@@ -231,6 +233,7 @@ const HouseSell = () => {
   useEffect(() => {
     if (imageBackUrls.length === 5) {
       let processedData = getProcessedData(datas, imageBackUrls);
+      console.log("processedData", processedData);
       mutate(processedData);
     }
   }, [imageBackUrls, datas]);

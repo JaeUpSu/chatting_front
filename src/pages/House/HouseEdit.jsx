@@ -45,11 +45,11 @@ const HouseEdit = () => {
 
   const [initHouse, setInitHouse] = useState(true);
   const [sellKind, setSellKind] = useState("");
-  const [images, setImages] = useState([]);
   const [uploadUrls, setUploadUrls] = useState([]);
   const [imageBackUrls, setImageBackUrls] = useState([]);
   const [updatedHouse, setUpdatedHouse] = useState({});
   const [updatedData, setUpdatedData] = useState({});
+  const [updatedImage, setUpdatedImage] = useState([]);
 
   const { mutate } = useMutation(putHouse, {
     onMutate: (d) => {
@@ -70,11 +70,16 @@ const HouseEdit = () => {
   });
 
   const onSubmit = () => {
-    console.log(updatedData);
-    if (updatedData?.Image) {
-      for (let i = 0; i < updatedData?.Image.length; i++) {
+    if (updatedImage?.length > 0) {
+      console.log("checking", updatedImage, updatedData);
+
+      for (let i = 0; i < updatedImage?.length; i++) {
         uploadURLMutation.mutate();
       }
+    } else {
+      console.log(updatedData);
+      const processData = updatedData;
+      mutate({ id, processData });
     }
   };
 
@@ -88,12 +93,18 @@ const HouseEdit = () => {
         newImgBack.push({ url: result.variants[0] });
         return newImgBack;
       });
-      // console.log(watch());
+    },
+    onMutate: (d) => {
+      console.log("uploadImageMutation", d);
+    },
+    onError: (e) => {
+      console.log("uploadImageMutation", e);
     },
   });
 
   const uploadURLMutation = useMutation(getUploadURL, {
     onSuccess: (data) => {
+      console.log("url", data);
       setUploadUrls((imgs) => {
         const newImgBack = [];
         imgs?.map((item) => {
@@ -102,6 +113,12 @@ const HouseEdit = () => {
         newImgBack.push(data.uploadURL);
         return newImgBack;
       });
+    },
+    onMutate: (d) => {
+      console.log("uploadURLMutation", d);
+    },
+    onError: (e) => {
+      console.log("uploadURLMutation", e);
     },
   });
 
@@ -114,32 +131,43 @@ const HouseEdit = () => {
     }
   }, [house]);
 
-  // useEffect(() => {
-  //   if (uploadUrls?.length === updatedData?.Image.length) {
-  //     for (let i = 0; i < updatedData?.Image.length; i++) {
-  //       setImages((imgs) => {
-  //         imgs.forEach((item) => {
+  useEffect(() => {
+    console.log("uploadUrl", uploadUrls, updatedImage);
 
-  //         })
-  //       })
-  //       uploadImageMutation.mutate({
-  //         uploadURL: uploadUrls[i],
-  //         file: updatedData?.Image[i],
-  //       });
-
-  //     }
-  //   }
-  // }, [uploadUrls]);
+    if (uploadUrls?.length === updatedImage?.length && uploadUrls?.length > 0) {
+      for (let i = 0; i < updatedImage?.length; i++) {
+        console.log("updatedUrl", uploadUrls[i]);
+        console.log("updatedImg", updatedImage[i]);
+        uploadImageMutation.mutate({
+          uploadURL: uploadUrls[i],
+          file: updatedImage[i],
+        });
+      }
+    }
+  }, [uploadUrls]);
 
   // 가공한 이미지가 5개가 되면 uploadUrl mutate
   useEffect(() => {
-    if (imageBackUrls?.length === updatedData?.Image?.length) {
-      // let processedData = getProcessedData(datas, imageBackUrls);
-      // mutate(processedData);
-      // mutate({ id, updatedData });
+    console.log("Img3", imageBackUrls);
+
+    if (
+      imageBackUrls?.length === updatedImage?.length &&
+      updatedImage?.length > 0
+    ) {
+      const imgs = [
+        ...updatedImage?.slice(imageBackUrls?.length),
+        ...imageBackUrls,
+      ];
+      console.log("lastImg", imgs);
+      const processData = { ...updatedData, ...imgs };
+      mutate({ id, processData });
     }
     console.log("data", updatedData);
-  }, [imageBackUrls, updatedData]);
+  }, [imageBackUrls, updatedImage]);
+
+  useEffect(() => {
+    console.log("updateImg", updatedImage);
+  }, [updatedImage]);
 
   return (
     <VStack
@@ -166,7 +194,7 @@ const HouseEdit = () => {
           />
           <ImageForm
             setUpdatedHouse={setUpdatedHouse}
-            setUpdatedData={setUpdatedData}
+            setUpdatedImage={setUpdatedImage}
             values={updatedHouse?.Image}
             name="images"
             label="이미지"
