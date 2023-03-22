@@ -112,15 +112,6 @@ function HouseList() {
     window.location.reload();
   };
 
-  // useEffect(() => {
-  //   if (isInit) {
-  //     sessionStorage.removeItem("gugunsi");
-  //     sessionStorage.removeItem("gugunsiIdx");
-  //     sessionStorage.removeItem("ebmyeondong");
-  //     sessionStorage.removeItem("ebmyeondongIdx");
-  //   }
-  // }, []);
-
   // scroll reload event
   useEffect(() => {
     const handleScroll = () => {

@@ -12,10 +12,9 @@ import {
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
 
 import { HouseRegisterValues } from "../../services/data";
-import { getUploadURL, uploadImage } from "../../services/api";
+import ImageCard from "../Card/ImageCard";
 
 const ImageForm = ({
   setUpdatedHouse,
@@ -26,190 +25,180 @@ const ImageForm = ({
 }) => {
   const {
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
+  const [isInit, setIsInit] = useState(true);
   const [isModify, setIsModify] = useState(false);
-  const [images, setImages] = useState([]);
-  const [uploadUrls, setUploadUrls] = useState([]);
-  const [imageUrls, setImageUrls] = useState([]);
-  const [imageBackUrls, setImageBackUrls] = useState([]);
 
-  const onEnter = (data) => {
-    console.log("check", data);
+  const [images, setImages] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
+
+  const onEnter = () => {
+    // console.log("check", data);
+    const data = images;
 
     let nextHouse = {};
+    let nextData = {};
     let isChange = false;
+
+    console.log("imgForm", data[0]);
+
     setUpdatedHouse((prevHouse) => {
       HouseRegisterValues.forEach((item) => {
-        if (data[item.eng]) {
-          if (data[item.eng] !== prevHouse[item.eng]) {
-            nextHouse[item.eng] = data[item.eng];
-            isChange = true;
-          } else {
-            nextHouse[item.eng] = prevHouse[item.eng];
-          }
+        if (item.eng === "Image" && data) {
+          nextHouse[item.eng] = imageUrls;
+          isChange = true;
         } else {
           nextHouse[item.eng] = prevHouse[item.eng];
         }
       });
       return nextHouse;
     });
+
+    setUpdatedData((prevData) => {
+      HouseRegisterValues.forEach((item) => {
+        if (item.eng === "Image" && data) {
+          nextData[item.eng] = data;
+        } else if (prevData[item.eng]) {
+          nextData[item.eng] = prevData[item.eng];
+        }
+      });
+      console.log("imgForm", nextData);
+
+      return nextData;
+    });
+
     if (isChange) {
       setIsModify(false);
     }
   };
 
   const onModify = () => {
+    setImageUrls(values);
     setIsModify(!isModify);
   };
 
-  const onDelete = (e) => {
-    const idx = e.currentTarget.getAttribute("idx");
-    // console.log("idx", idx);
+  // preview 이미지 setting
+  const handleImg = (_file) => {
+    const readerPromises = [];
+
+    const file = _file[0];
+    const reader = new FileReader();
+
+    readerPromises.push(
+      new Promise((resolve, reject) => {
+        reader.onload = () => {
+          resolve(reader.result);
+        };
+        reader.onerror = () => {
+          reject(reader.error);
+        };
+        reader.readAsDataURL(file);
+      })
+    );
+
+    Promise.all(readerPromises)
+      .then((results) => {
+        setImageUrls((imgUrls) => {
+          const nextUrls = [];
+          imgUrls.forEach((item, idx) => {
+            if (idx > 0) {
+              nextUrls.push(item);
+            }
+          });
+          const nextImgUrls = [...nextUrls, { url: results[0] }];
+          return nextImgUrls;
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-  const uploadImageMutation = useMutation(uploadImage, {
-    onSuccess: ({ result }) => {
-      setImageBackUrls((imgs) => {
-        const newImgBack = [];
-        imgs?.map((item) => {
-          newImgBack.push(item);
-        });
-        newImgBack.push({ url: result.variants[0] });
-        return newImgBack;
-      });
-      // console.log(watch());
-    },
-  });
-
-  const uploadURLMutation = useMutation(getUploadURL, {
-    onSuccess: (data) => {
-      setUploadUrls((imgs) => {
-        const newImgBack = [];
-        imgs?.map((item) => {
-          newImgBack.push(item);
-        });
-        newImgBack.push(data.uploadURL);
-        return newImgBack;
-      });
-    },
-  });
-
-  // 5개의 이미지 fileReader 로 값 변환 => imageUrls
   useEffect(() => {
-    if (images.length === 5) {
-      const readerPromises = [];
-
-      for (let i = 0; i < images.length; i++) {
-        const file = images[i][0];
-        const reader = new FileReader();
-
-        readerPromises.push(
-          new Promise((resolve, reject) => {
-            reader.onload = () => {
-              resolve(reader.result);
-            };
-            reader.onerror = () => {
-              reject(reader.error);
-            };
-            reader.readAsDataURL(file);
-          })
-        );
-      }
-
-      Promise.all(readerPromises)
-        .then((results) => {
-          setImageUrls((imgUrls) => {
-            const nextImgUrls = [...imgUrls, ...results];
-            return nextImgUrls;
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    if (values && isInit) {
+      setImageUrls(values);
+      setIsInit(false);
     }
-  }, [images]);
+  }, [values]);
 
-  // 이미지 fileReader 값을 저장할 5개의 url 만들기 => getUploadUrls mutate
   useEffect(() => {
-    for (let i = 0; i < images.length; i++) {
-      uploadURLMutation.mutate();
+    if (!isInit && imageUrls.length < 5) {
+      onModify();
     }
   }, [imageUrls]);
 
-  // uploadUrls & images => uploadUrls mutate
   useEffect(() => {
-    if (uploadUrls?.length === 5) {
-      for (let i = 0; i < 5; i++) {
-        uploadImageMutation.mutate({
-          uploadURL: uploadUrls[i],
-          file: images[i],
-        });
-      }
-    }
-  }, [uploadUrls]);
-
-  // uploadUrls Response => console.log
-  useEffect(() => {
-    if (imageBackUrls?.length === 5) {
-      console.log("back", imageBackUrls);
-    }
-  }, [imageBackUrls]);
+    console.log("update", images);
+  }, [images]);
 
   return (
     <>
       <FormLabel marginBottom="0px" w="70vw" fontWeight="600">
-        {label}( {images.length} / 5 )
+        <HStack alignItems="center">
+          <Text>
+            {label} ( {imageUrls.length} )
+          </Text>
+          <Text fontSize="12px">5개 필수</Text>
+        </HStack>
       </FormLabel>
-      {isModify ? (
-        <form onSubmit={handleSubmit(onEnter)}>
-          <FormControl isInvalid={errors.images} id="images">
-            <HStack w="70vw" justifyContent="space-between">
-              <Input
-                type="file"
-                multiple
-                onChange={(e) => {
-                  const files = e.target.files;
-                  // console.log(files);
-                  setImages((list) => {
-                    const imgs = [];
-                    list.map((item) => {
-                      imgs.push(item);
-                    });
-                    imgs.push(files);
-                    return imgs;
-                  });
-                }}
-              />
-              <Button type="submit">입력</Button>
-              <Button onClick={onModify}>취소</Button>
-            </HStack>
-          </FormControl>
-        </form>
-      ) : (
-        <VStack w="70vw">
+      <form onSubmit={handleSubmit(onEnter)}>
+        <FormControl isInvalid={errors.images} id={name}>
           <HStack w="70vw" justifyContent="space-between">
-            <HStack>
-              {values?.map((item, idx) => {
-                // console.log(item);
+            <Input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              multiple
+              onChange={(e) => {
+                const files = e.target.files;
+                console.log(files);
+                setImages((list) => {
+                  const imgs = [];
+                  list.map((item) => {
+                    imgs.push(item);
+                  });
+                  if (list.length === 5) imgs.pop(0);
+                  imgs.push(files[0]);
+                  return imgs;
+                });
+                handleImg(files);
+
+                // e.target.value = null;
+              }}
+              isDisabled={!isModify}
+            />
+            {isModify ? (
+              <HStack>
+                <Button type="submit">입력</Button>
+                <Button onClick={onModify}>취소</Button>
+              </HStack>
+            ) : (
+              <Button onClick={onModify}>수정</Button>
+            )}
+          </HStack>
+        </FormControl>
+      </form>
+      <VStack w="70vw">
+        <HStack w="70vw" justifyContent="space-between">
+          <HStack>
+            {imageUrls?.map((item, idx) => {
+              if (idx < 5) {
+                const url = item.url;
                 return (
-                  <Image
+                  <ImageCard
                     key={idx}
-                    src={item.url}
-                    w="6vw"
-                    h="4vh"
                     idx={idx}
-                    onClick={onDelete}
+                    src={url}
+                    setImageUrls={setImageUrls}
+                    setImages={setImages}
                   />
                 );
-              })}
-            </HStack>
-            <Button onClick={onModify}>수정</Button>
+              }
+            })}
           </HStack>
-        </VStack>
-      )}
+        </HStack>
+      </VStack>
     </>
   );
 };

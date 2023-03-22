@@ -22,7 +22,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { getHouse, putHouse } from "../../services/api";
+import {
+  getHouse,
+  putHouse,
+  getUploadURL,
+  uploadImage,
+} from "../../services/api";
 
 import SingleForm from "../../components/Form/SingleForm";
 import AddressSelectForm from "../../components/Form/AddressSelectForm";
@@ -41,6 +46,8 @@ const HouseEdit = () => {
   const [initHouse, setInitHouse] = useState(true);
   const [sellKind, setSellKind] = useState("");
   const [images, setImages] = useState([]);
+  const [uploadUrls, setUploadUrls] = useState([]);
+  const [imageBackUrls, setImageBackUrls] = useState([]);
   const [updatedHouse, setUpdatedHouse] = useState({});
   const [updatedData, setUpdatedData] = useState({});
 
@@ -64,8 +71,39 @@ const HouseEdit = () => {
 
   const onSubmit = () => {
     console.log(updatedData);
-    mutate({ id, updatedData });
+    if (updatedData?.Image) {
+      for (let i = 0; i < updatedData?.Image.length; i++) {
+        uploadURLMutation.mutate();
+      }
+    }
   };
+
+  const uploadImageMutation = useMutation(uploadImage, {
+    onSuccess: ({ result }) => {
+      setImageBackUrls((imgs) => {
+        const newImgBack = [];
+        imgs?.map((item) => {
+          newImgBack.push(item);
+        });
+        newImgBack.push({ url: result.variants[0] });
+        return newImgBack;
+      });
+      // console.log(watch());
+    },
+  });
+
+  const uploadURLMutation = useMutation(getUploadURL, {
+    onSuccess: (data) => {
+      setUploadUrls((imgs) => {
+        const newImgBack = [];
+        imgs?.map((item) => {
+          newImgBack.push(item);
+        });
+        newImgBack.push(data.uploadURL);
+        return newImgBack;
+      });
+    },
+  });
 
   useEffect(() => {
     if (house.data && initHouse) {
@@ -77,11 +115,31 @@ const HouseEdit = () => {
   }, [house]);
 
   // useEffect(() => {
-  //   console.log("house", updatedHouse);
-  // }, [updatedHouse]);
+  //   if (uploadUrls?.length === updatedData?.Image.length) {
+  //     for (let i = 0; i < updatedData?.Image.length; i++) {
+  //       setImages((imgs) => {
+  //         imgs.forEach((item) => {
+
+  //         })
+  //       })
+  //       uploadImageMutation.mutate({
+  //         uploadURL: uploadUrls[i],
+  //         file: updatedData?.Image[i],
+  //       });
+
+  //     }
+  //   }
+  // }, [uploadUrls]);
+
+  // 가공한 이미지가 5개가 되면 uploadUrl mutate
   useEffect(() => {
+    if (imageBackUrls?.length === updatedData?.Image?.length) {
+      // let processedData = getProcessedData(datas, imageBackUrls);
+      // mutate(processedData);
+      // mutate({ id, updatedData });
+    }
     console.log("data", updatedData);
-  }, [updatedData]);
+  }, [imageBackUrls, updatedData]);
 
   return (
     <VStack
@@ -110,7 +168,7 @@ const HouseEdit = () => {
             setUpdatedHouse={setUpdatedHouse}
             setUpdatedData={setUpdatedData}
             values={updatedHouse?.Image}
-            name="Image"
+            name="images"
             label="이미지"
           />
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
