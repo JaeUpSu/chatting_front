@@ -5,9 +5,7 @@ import {
   Input,
   HStack,
   Text,
-  FormErrorMessage,
   VStack,
-  Image,
 } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
@@ -18,7 +16,7 @@ import ImageCard from "../Card/ImageCard";
 
 const ImageForm = ({
   setUpdatedHouse,
-  setUpdatedData,
+  setUpdatedImage,
   values,
   name,
   label,
@@ -35,14 +33,10 @@ const ImageForm = ({
   const [imageUrls, setImageUrls] = useState([]);
 
   const onEnter = () => {
-    // console.log("check", data);
     const data = images;
 
     let nextHouse = {};
-    let nextData = {};
     let isChange = false;
-
-    console.log("imgForm", data[0]);
 
     setUpdatedHouse((prevHouse) => {
       HouseRegisterValues.forEach((item) => {
@@ -56,18 +50,7 @@ const ImageForm = ({
       return nextHouse;
     });
 
-    setUpdatedData((prevData) => {
-      HouseRegisterValues.forEach((item) => {
-        if (item.eng === "Image" && data) {
-          nextData[item.eng] = data;
-        } else if (prevData[item.eng]) {
-          nextData[item.eng] = prevData[item.eng];
-        }
-      });
-      console.log("imgForm", nextData);
-
-      return nextData;
-    });
+    setUpdatedImage(data);
 
     if (isChange) {
       setIsModify(false);
@@ -129,10 +112,6 @@ const ImageForm = ({
     }
   }, [imageUrls]);
 
-  useEffect(() => {
-    console.log("update", images);
-  }, [images]);
-
   return (
     <>
       <FormLabel marginBottom="0px" w="70vw" fontWeight="600">
@@ -152,7 +131,6 @@ const ImageForm = ({
               multiple
               onChange={(e) => {
                 const files = e.target.files;
-                console.log(files);
                 setImages((list) => {
                   const imgs = [];
                   list.map((item) => {

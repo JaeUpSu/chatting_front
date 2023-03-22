@@ -215,25 +215,19 @@ export const getHouse = ({ queryKey }) => {
 
 // 해당 집 등록하기
 export const postHouse = (house) => {
-  console.log("api", house);
-  console.log("api", house?.Image?.length, house?.Image?.length === 5);
-  if (house?.Image?.length === 5) {
-    return instance
-      .post(`houses/`, house, {
-        headers: {
-          "X-CSRFToken": Cookie.get("csrftoken") || "",
-        },
-      })
-      .then((response) => response.data);
-  } else {
-    alert("아");
-  }
+  return instance
+    .post(`houses/`, house, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
 };
 // 해당 집 수정하기
 export const putHouse = (house) => {
   console.log(house);
   return instance
-    .put(`houses/${house.id}`, house.updatedData, {
+    .put(`houses/${house.id}`, house.processData, {
       headers: {
         "X-CSRFToken": Cookie.get("csrftoken") || "",
       },
