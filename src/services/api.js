@@ -251,19 +251,17 @@ export const getWishLists = () =>
   instance.get(`wishlists/`).then((response) => response.data);
 
 export const setWishLists = (id) => {
-  if (id !== undefined) {
-    instance
-      .post(
-        `wishlists/`,
-        { house: id },
-        {
-          headers: {
-            "X-CSRFToken": Cookie.get("csrftoken") || "",
-          },
-        }
-      )
-      .then((response) => response.data);
-  }
+  return instance
+    .post(
+      `wishlists/`,
+      { house: id },
+      {
+        headers: {
+          "X-CSRFToken": Cookie.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((response) => response.data);
 };
 
 export const getHouseLists = () =>
@@ -280,3 +278,8 @@ export const editUser = (value) =>
       },
     })
     .then((response) => response.data);
+
+export const checkLiked = ({ queryKey }) => {
+  const [_, pk] = queryKey;
+  return instance.get(`wishlists/islike/${pk}`).then((res) => res.data);
+};
