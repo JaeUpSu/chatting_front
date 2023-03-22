@@ -36,17 +36,14 @@ import {
 import { getProcessedData } from "../../utils/getProcessedData";
 import { useNavigate } from "react-router-dom";
 import { validiate } from "../../services/validate";
+import ImageCard from "../../components/Card/ImageCard";
 
 const HouseSell = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    setValue,
     formState: { errors },
   } = useForm();
-
-  const fileInputRef = useRef();
 
   const [guIdx, setGuIdx] = useState(0);
   const [sellKind, setSellKind] = useState("");
@@ -54,6 +51,8 @@ const HouseSell = () => {
   const [uploadUrls, setUploadUrls] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const [imageBackUrls, setImageBackUrls] = useState([]);
+  const [datas, setDatas] = useState({});
+  const [isPost, setIsPost] = useState(false);
 
   const [isError, setError] = useState({
     title: null,
@@ -114,8 +113,12 @@ const HouseSell = () => {
   });
 
   const onSubmit = (formData) => {
-    let processedData = getProcessedData(formData, imageBackUrls);
-    mutate(processedData);
+    if (images.length === 5) {
+      setDatas(formData);
+      setIsPost(true);
+    } else {
+      alert("이미지 5개를 입력해야 등록가능합니다.");
+    }
   };
 
   const handleValidate = (event) => {
@@ -145,6 +148,37 @@ const HouseSell = () => {
     setSellKind(selectedSellKindVal);
   };
 
+  // preview 이미지 setting
+  const handleImg = (_file) => {
+    const readerPromises = [];
+
+    const file = _file[0];
+    const reader = new FileReader();
+
+    readerPromises.push(
+      new Promise((resolve, reject) => {
+        reader.onload = () => {
+          resolve(reader.result);
+        };
+        reader.onerror = () => {
+          reject(reader.error);
+        };
+        reader.readAsDataURL(file);
+      })
+    );
+
+    Promise.all(readerPromises)
+      .then((results) => {
+        setImageUrls((imgUrls) => {
+          const nextImgUrls = [...imgUrls, ...results];
+          return nextImgUrls;
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const uploadImageMutation = useMutation(uploadImage, {
     onSuccess: ({ result }) => {
       setImageBackUrls((imgs) => {
@@ -172,46 +206,16 @@ const HouseSell = () => {
     },
   });
 
+  // 이미지가 5개가 되면 getUploadUrl mutate
   useEffect(() => {
-    if (images.length === 5) {
-      const readerPromises = [];
-
+    if (imageUrls.length === 5) {
       for (let i = 0; i < images.length; i++) {
-        const file = images[i][0];
-        const reader = new FileReader();
-
-        readerPromises.push(
-          new Promise((resolve, reject) => {
-            reader.onload = () => {
-              resolve(reader.result);
-            };
-            reader.onerror = () => {
-              reject(reader.error);
-            };
-            reader.readAsDataURL(file);
-          })
-        );
+        uploadURLMutation.mutate();
       }
-
-      Promise.all(readerPromises)
-        .then((results) => {
-          setImageUrls((imgUrls) => {
-            const nextImgUrls = [...imgUrls, ...results];
-            return nextImgUrls;
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
     }
-  }, [images]);
+  }, [imageUrls, isPost]);
 
-  useEffect(() => {
-    for (let i = 0; i < images.length; i++) {
-      uploadURLMutation.mutate();
-    }
-  }, [imageUrls]);
-
+  // uploadUrls 가 5개가 만들어지면 images 첨부
   useEffect(() => {
     if (uploadUrls?.length === 5) {
       for (let i = 0; i < 5; i++) {
@@ -223,11 +227,13 @@ const HouseSell = () => {
     }
   }, [uploadUrls]);
 
+  // 가공한 이미지가 5개가 되면 uploadUrl mutate
   useEffect(() => {
-    if (imageBackUrls?.length === 5) {
-      console.log("back", imageBackUrls);
+    if (imageBackUrls.length === 5) {
+      let processedData = getProcessedData(datas, imageBackUrls);
+      mutate(processedData);
     }
-  }, [imageBackUrls]);
+  }, [imageBackUrls, datas]);
 
   return (
     <VStack>
@@ -245,6 +251,7 @@ const HouseSell = () => {
             <FormLabel fontWeight="600">제목</FormLabel>
             <Input
               type="text"
+              placeholder="제목을 입력해주세요"
               {...register("title", { required: true })}
               onChange={handleValidate}
             />
@@ -253,11 +260,17 @@ const HouseSell = () => {
             )}
           </FormControl>
           <FormControl isInvalid={errors.images} id="images">
-            <FormLabel fontWeight="600">
-              이미지 ( {images.length} / 5 ){" "}
+            <FormLabel>
+              <HStack alignItems="center">
+                <Text fontWeight="600"> 이미지 ( {images.length} )</Text>
+                <Text fontSize="12px" fontWeight="600">
+                  5개 필수
+                </Text>
+              </HStack>
             </FormLabel>{" "}
             <Input
               type="file"
+              accept=".jpg,.jpeg,.png"
               multiple
               onChange={(e) => {
                 const files = e.target.files;
@@ -270,12 +283,22 @@ const HouseSell = () => {
                   imgs.push(files);
                   return imgs;
                 });
+                handleImg(files);
               }}
+              isDisabled={images.length === 5 ? true : false}
             />
             <HStack>
               {imageUrls?.map((item, idx) => {
                 if (idx < 5) {
-                  return <Image key={idx} src={item} w="6vw" h="4vh" />;
+                  return (
+                    <ImageCard
+                      key={idx}
+                      idx={idx}
+                      src={item}
+                      setImageUrls={setImageUrls}
+                      setImages={setImages}
+                    />
+                  );
                 }
               })}
             </HStack>
@@ -328,6 +351,7 @@ const HouseSell = () => {
             <FormLabel fontWeight="600">상세주소</FormLabel>
             <Input
               type="text"
+              placeholder="상세주소를 입력해주세요"
               {...register("address", { required: true })}
               onChange={handleValidate}
             />
@@ -375,6 +399,8 @@ const HouseSell = () => {
               <FormLabel fontWeight="600">방 개수</FormLabel>
               <Input
                 type="number"
+                fontSize="12px"
+                placeholder="방 개수를 입력해주세요"
                 {...register("room", { required: true })}
                 onChange={handleValidate}
               />
@@ -386,6 +412,8 @@ const HouseSell = () => {
               <FormLabel fontWeight="600">화장실 개수</FormLabel>
               <Input
                 type="number"
+                fontSize="12px"
+                placeholder="화장실 개수를 입력해주세요"
                 {...register("toilet", { required: true })}
                 onChange={handleValidate}
               />
@@ -397,6 +425,8 @@ const HouseSell = () => {
               <FormLabel fontWeight="600">평수</FormLabel>
               <Input
                 type="number"
+                fontSize="12px"
+                placeholder="평수를 입력해주세요"
                 {...register("pyeongsu", { required: true })}
                 onChange={handleValidate}
               />
@@ -418,6 +448,8 @@ const HouseSell = () => {
               <FormLabel fontWeight="600">매매가</FormLabel>
               <Input
                 type="number"
+                fontSize="12px"
+                placeholder={sellKind == "SALE" ? "매매가를 입력해주세요" : ""}
                 {...register("sale", {
                   required: sellKind == "SALE" ? true : false,
                 })}
@@ -440,6 +472,12 @@ const HouseSell = () => {
               <FormLabel fontWeight="600">보증금</FormLabel>
               <Input
                 type="number"
+                fontSize="12px"
+                placeholder={
+                  sellKind == "CHARTER" || sellKind == "MONTHLY_RENT"
+                    ? "보증금을 입력해주세요"
+                    : ""
+                }
                 {...register("deposit", {
                   required:
                     sellKind == "CHARTER" || sellKind == "MONTHLY_RENT"
@@ -463,6 +501,10 @@ const HouseSell = () => {
               <FormLabel fontWeight="600">월세</FormLabel>
               <Input
                 type="number"
+                fontSize="12px"
+                placeholder={
+                  sellKind == "MONTHLY_RENT" ? "월세를 입력해주세요" : ""
+                }
                 {...register("monthly_rent", {
                   required: sellKind == "MONTHLY_RENT" ? true : false,
                 })}
@@ -480,6 +522,8 @@ const HouseSell = () => {
               <FormLabel fontWeight="600">관리비</FormLabel>
               <Input
                 type="number"
+                fontSize="12px"
+                placeholder="관리비를 입력해주세요"
                 {...register("maintenance_cost", { required: true })}
               />
               {isError["maintenance_cost"] && (
@@ -496,6 +540,7 @@ const HouseSell = () => {
             <FormLabel fontWeight="600">설명</FormLabel>
             <Textarea
               type="text"
+              placeholder="설명을 입력해주세요"
               {...register("description", { required: true })}
               onChange={handleValidate}
             />
