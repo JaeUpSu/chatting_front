@@ -11,7 +11,7 @@ export const getProcessedData = (data, images) => {
         } else {
           processedData[item.eng] = Number(data[item.eng]) * 10000;
         }
-      } else if (idx > 9 && idx < 14) {
+      } else if (idx > 9 && idx < 13) {
         processedData[item.eng] = Number(data[item.eng]);
       } else {
         processedData[item.eng] = data[item.eng];

@@ -42,13 +42,13 @@ const HouseEdit = () => {
   const [sellKind, setSellKind] = useState("");
   const [images, setImages] = useState([]);
   const [updatedHouse, setUpdatedHouse] = useState({});
+  const [updatedData, setUpdatedData] = useState({});
 
   const { mutate } = useMutation(putHouse, {
     onMutate: (d) => {
       console.log("update", d);
     },
     onSuccess: () => {
-      console.log("update house!");
       toast({
         title: "수정을 완료했습니다!",
         status: "success",
@@ -63,8 +63,8 @@ const HouseEdit = () => {
   });
 
   const onSubmit = () => {
-    console.log(updatedHouse);
-    mutate({ id, updatedHouse });
+    console.log(updatedData);
+    mutate({ id, updatedData });
   };
 
   useEffect(() => {
@@ -76,14 +76,17 @@ const HouseEdit = () => {
     }
   }, [house]);
 
+  // useEffect(() => {
+  //   console.log("house", updatedHouse);
+  // }, [updatedHouse]);
   useEffect(() => {
-    console.log("house", updatedHouse);
-  }, [updatedHouse]);
+    console.log("data", updatedData);
+  }, [updatedData]);
 
   return (
     <VStack
-      pt="40vh"
-      pb="5vh"
+      pt="30vh"
+      pb="10vh"
       borderWidth="1px"
       borderRadius="lg"
       overflowY="scroll"
@@ -98,12 +101,14 @@ const HouseEdit = () => {
           </Text>
           <SingleForm
             setUpdatedHouse={setUpdatedHouse}
+            setUpdatedData={setUpdatedData}
             value={updatedHouse?.title}
             name="title"
             label="제목"
           />
           <ImageForm
             setUpdatedHouse={setUpdatedHouse}
+            setUpdatedData={setUpdatedData}
             values={updatedHouse?.Image}
             name="Image"
             label="이미지"
@@ -111,6 +116,7 @@ const HouseEdit = () => {
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
           <AddressSelectForm
             setUpdatedHouse={setUpdatedHouse}
+            setUpdatedData={setUpdatedData}
             savedGu={updatedHouse?.gu}
             savedDong={updatedHouse?.dong}
           />
@@ -119,16 +125,19 @@ const HouseEdit = () => {
             value={updatedHouse?.address}
             name="address"
             label="상세주소"
+            setUpdatedData={setUpdatedData}
           />
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
           <KindSelectForm
             setUpdatedHouse={setUpdatedHouse}
+            setUpdatedData={setUpdatedData}
             setSellKind={setSellKind}
             sellKind={updatedHouse?.sell_kind}
             roomKind={updatedHouse?.room_kind}
           />
           <TripleForm
             setUpdatedHouse={setUpdatedHouse}
+            setUpdatedData={setUpdatedData}
             values={[
               updatedHouse?.room,
               updatedHouse?.toilet,
@@ -140,6 +149,7 @@ const HouseEdit = () => {
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
           <PriceForm
             setUpdatedHouse={setUpdatedHouse}
+            setUpdatedData={setUpdatedData}
             sellKind={sellKind}
             values={[
               updatedHouse?.sale,
@@ -157,18 +167,8 @@ const HouseEdit = () => {
             value={updatedHouse?.description}
             name="description"
             label="설명"
+            setUpdatedData={setUpdatedData}
           />
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-          <Text fontWeight="600" fontSize="23px" mb="20" w="70vw">
-            옵션
-          </Text>
-          <SingleForm
-            setUpdatedHouse={setUpdatedHouse}
-            value={updatedHouse?.distance_to_station}
-            name="distance_to_station"
-            label="역까지 거리"
-          />
-
           <Flex justifyContent="flex-end">
             <Button
               my="5"

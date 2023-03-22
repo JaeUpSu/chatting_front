@@ -17,7 +17,13 @@ import { useMutation } from "@tanstack/react-query";
 import { HouseRegisterValues } from "../../services/data";
 import { getUploadURL, uploadImage } from "../../services/api";
 
-const ImageForm = ({ setUpdatedHouse, values, name, label }) => {
+const ImageForm = ({
+  setUpdatedHouse,
+  setUpdatedData,
+  values,
+  name,
+  label,
+}) => {
   const {
     handleSubmit,
     watch,
@@ -61,7 +67,7 @@ const ImageForm = ({ setUpdatedHouse, values, name, label }) => {
 
   const onDelete = (e) => {
     const idx = e.currentTarget.getAttribute("idx");
-    console.log("idx", idx);
+    // console.log("idx", idx);
   };
 
   const uploadImageMutation = useMutation(uploadImage, {
@@ -74,7 +80,7 @@ const ImageForm = ({ setUpdatedHouse, values, name, label }) => {
         newImgBack.push({ url: result.variants[0] });
         return newImgBack;
       });
-      console.log(watch());
+      // console.log(watch());
     },
   });
 
@@ -166,7 +172,7 @@ const ImageForm = ({ setUpdatedHouse, values, name, label }) => {
                 multiple
                 onChange={(e) => {
                   const files = e.target.files;
-                  console.log(files);
+                  // console.log(files);
                   setImages((list) => {
                     const imgs = [];
                     list.map((item) => {
@@ -187,7 +193,7 @@ const ImageForm = ({ setUpdatedHouse, values, name, label }) => {
           <HStack w="70vw" justifyContent="space-between">
             <HStack>
               {values?.map((item, idx) => {
-                console.log(item);
+                // console.log(item);
                 return (
                   <Image
                     key={idx}

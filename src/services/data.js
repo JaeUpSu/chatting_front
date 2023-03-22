@@ -347,7 +347,20 @@ export const HouseRegisterValues = [
   { eng: "room", kor: "방 개수", isRequired: true },
   { eng: "toilet", kor: "화장실 개수", isRequired: true },
   { eng: "pyeongsu", kor: "평수", isRequired: true },
-  { eng: "distance_to_station", kor: "역까지 거리", isRequired: true },
   { eng: "description", kor: "설명", isRequired: true },
   { eng: "Image", kor: "이미지", isRequired: true },
+];
+
+export const ErrorCheckMenu = [
+  "title",
+  "images",
+  "address",
+  "room",
+  "toilet",
+  "pyeongsu",
+  "sale",
+  "deposit",
+  "monthly_rent",
+  "maintenance_cost",
+  "description",
 ];

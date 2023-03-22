@@ -15,7 +15,12 @@ import { useQuery } from "@tanstack/react-query";
 import { HouseRegisterValues } from "../../services/data";
 import { getDongList, getGuList } from "../../services/api";
 
-const AddressSelectForm = ({ setUpdatedHouse, savedGu, savedDong }) => {
+const AddressSelectForm = ({
+  setUpdatedHouse,
+  setUpdatedData,
+  savedGu,
+  savedDong,
+}) => {
   const {
     register,
     handleSubmit,
@@ -50,6 +55,7 @@ const AddressSelectForm = ({ setUpdatedHouse, savedGu, savedDong }) => {
   const onEnter = (data) => {
     console.log("check", data);
     let nextHouse = {};
+    let nextData = {};
     let isChange = false;
     setUpdatedHouse((prevHouse) => {
       HouseRegisterValues.forEach((item) => {
@@ -74,6 +80,25 @@ const AddressSelectForm = ({ setUpdatedHouse, savedGu, savedDong }) => {
       });
       return nextHouse;
     });
+
+    setUpdatedData((prevData) => {
+      HouseRegisterValues.forEach((item) => {
+        if (data[item.eng]) {
+          if (item.eng === "dong") {
+            const selectedDong = dongListData.data?.find(
+              (d) => d.name == data[item.eng]
+            );
+            nextData["dong"] = selectedDong;
+          } else {
+            nextData["gu"] = data["gu"];
+          }
+        } else if (prevData[item.eng]) {
+          nextData[item.eng] = prevData[item.eng];
+        }
+      });
+      return nextData;
+    });
+
     if (isChange) {
       setIsModify(false);
     }
