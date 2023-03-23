@@ -29,13 +29,15 @@ export default function RecentView() {
     <Flex wrap={"wrap"} h="60vh" width="75vw" overflowY="scroll">
       {data?.map((item, index) => {
         return (
-          <Card w="15vw" m="10px" overflow={"hidden"} ml="2rem">
+          <Card w="190px" m="10px" overflow={"hidden"} ml="2rem">
             <Link to={`/houseList/house/${item.recently_views.id}`}>
               <Image src={item.recently_views.thumnail} w="24.9rem" h="12rem" />
             </Link>
 
             <CardBody>
-              <Box fontWeight={600}>{item.recently_views.title}</Box>
+              <Box fontWeight={600} mb="1rem">
+                {item.recently_views.title}
+              </Box>
 
               <Flex fontSize={"sm"}>
                 <Text mr="0.5rem">

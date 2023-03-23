@@ -9,22 +9,16 @@ import "slick-carousel/slick/slick-theme.css";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { Link } from "react-router-dom";
 import { getSaleContents } from "./../../utils/getSaleContents";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { Card } from "@chakra-ui/react";
 
 const HouseImg = styled.img`
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
-  border-radius: 3%;
   width: 200px;
   height: 200px;
-  transition: transform 0.5s ease-in-out;
-`;
-
-const HouseWrap = styled.div`
+  position: relative;
+  margin-right: 4rem;
   border-radius: 3%;
-  max-width: 200px;
+  cursor: pointer;
+  transition: transform 0.5s ease-in-out;
 `;
 
 const SlideWrapper = styled.div`
@@ -64,7 +58,7 @@ const NextArrow = (props) => {
         display: "block",
         position: "absolute",
         top: "45%",
-        right: "7rem",
+        right: "5rem",
         zIndex: 1,
         width: "40px",
         height: "40px",
@@ -77,11 +71,11 @@ const RecentList = () => {
   const { error, data } = useQuery(["recently_views"], getHouseLists);
 
   if (error) {
-    return <SlideWrapper>Error...</SlideWrapper>;
+    return <div>에러가 발생했습니다.</div>;
   }
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <div>로딩 중입니다.</div>;
   }
 
   const settings = {
@@ -99,12 +93,20 @@ const RecentList = () => {
       <Slider {...settings}>
         {data &&
           data.map((item, index) => (
-            <HouseWrap key={index}>
+            <Card
+              key={index}
+              maxW="200px"
+              m="10px"
+              overflow={"hidden"}
+              ml="2rem"
+            >
               <Link to={`/houseList/house/${item.recently_views.id}`}>
                 <HouseImg src={item.recently_views.thumnail} />
               </Link>
 
-              <Text fontWeight={"600"}>{item.recently_views.title}</Text>
+              <Text fontWeight={"600"} mb="1rem">
+                {item.recently_views.title}
+              </Text>
               <Flex fontSize={"sm"}>
                 <Text mr="1rem">
                   {SellKindsToFront[item?.recently_views.sell_kind]}
@@ -113,7 +115,7 @@ const RecentList = () => {
               </Flex>
 
               <Flex>
-                <Text fontSize={"sm"} color={"#ff404c"}>
+                <Text fontSize={"sm"} color={"#ff404c"} mb="1rem">
                   {`${getSaleContents(
                     item.recently_views.sell_kind,
                     item.recently_views.deposit,
@@ -122,7 +124,7 @@ const RecentList = () => {
                   )}`}
                 </Text>
               </Flex>
-            </HouseWrap>
+            </Card>
           ))}
       </Slider>
     </SlideWrapper>

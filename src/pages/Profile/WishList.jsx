@@ -81,12 +81,14 @@ export default function WishList() {
       <Flex flexWrap={"wrap"}>
         {currentPageData?.map((item, index) => {
           return (
-            <Card w="15vw" m="10px" key={index} overflow={"hidden"} ml="2rem">
+            <Card w="190px" m="10px" key={index} overflow={"hidden"} ml="2rem">
               <Link to={`/houseList/house/${item.house.id}`}>
                 <Image src={item.house.thumnail} w="20rem" h="12rem" />
               </Link>
               <CardBody>
-                <Box fontWeight={600}>{item.house.title}</Box>
+                <Box fontWeight={600} mb="1rem">
+                  {item.house.title}
+                </Box>
                 <Flex fontSize={"sm"}>
                   <Text mr="0.5rem">
                     {RoomKindsToFront[item.house.room_kind]}
