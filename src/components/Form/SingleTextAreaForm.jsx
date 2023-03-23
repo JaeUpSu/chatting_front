@@ -3,6 +3,7 @@ import {
   FormControl,
   FormLabel,
   HStack,
+  ButtonGroup,
   Text,
   FormErrorMessage,
   VStack,
@@ -70,31 +71,37 @@ const SingleTextAreaForm = ({
 
   return (
     <>
-      <FormLabel marginBottom="0px" w="40vw" fontWeight="600">
+      <FormLabel marginBottom="0px" w="40vw" fontWeight="600" minW="450px">
         {label}
       </FormLabel>
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
-          <FormControl isInvalid={errors[name]} id={name} my="1" w="40vw">
-            <HStack>
+          <FormControl
+            isInvalid={errors[name]}
+            id={name}
+            my="1"
+            w="40vw"
+            minW="450px"
+          >
+            <VStack>
               <Textarea
                 type="text"
                 defaultValue={value}
                 {...register(name, { required: true })}
               />
-              <Button type="submit">입력</Button>
-              <Button onClick={onModify}>취소</Button>
-            </HStack>
+              <ButtonGroup justifyContent="flex-end" w="40vw" minW="450px">
+                <Button type="submit">입력</Button>
+                <Button onClick={onModify}>취소</Button>
+              </ButtonGroup>
+            </VStack>
             <FormErrorMessage>{`${label}을 적어주세요`}</FormErrorMessage>
           </FormControl>
         </form>
       ) : (
-        <VStack w="40vw">
-          <HStack w="40vw" justifyContent="space-between">
-            <Text w="70%">{value}</Text>
-            <Button onClick={onModify}>수정</Button>
-          </HStack>
-        </VStack>
+        <HStack w="40vw" minW="450px" justifyContent="space-between">
+          <Text w="70%">{value}</Text>
+          <Button onClick={onModify}>수정</Button>
+        </HStack>
       )}
     </>
   );
