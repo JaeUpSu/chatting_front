@@ -43,17 +43,19 @@ import {
 
 const HouseEdit = () => {
   const { id } = useParams();
-  const house = useQuery(["house", id], getHouse);
-  const navigate = useNavigate();
   const toast = useToast();
-  const [initHouse, setInitHouse] = useState(true);
-  const [sellKind, setSellKind] = useState("");
-  const [uploadUrls, setUploadUrls] = useState([]);
-  const [imageBackUrls, setImageBackUrls] = useState([]);
-  const [updatedHouse, setUpdatedHouse] = useState({});
-  const [updatedData, setUpdatedData] = useState({});
-  const [updatedImage, setUpdatedImage] = useState([]);
-  const [isUpdatedImage, setIsUpdatedImage] = useState([]);
+  const navigate = useNavigate();
+
+  const house = useQuery(["house", id], getHouse);
+
+  const [initHouse, setInitHouse] = useState(true); // 초기화
+  const [sellKind, setSellKind] = useState(""); // sell_kind 별 flag 를 만들기 위한 변수
+  const [uploadUrls, setUploadUrls] = useState([]); // Back 에서 만든 Image 를 저장할 url 리스트
+  const [imageBackUrls, setImageBackUrls] = useState([]); // Back 입력할 가공한 Image 리스트
+  const [updatedHouse, setUpdatedHouse] = useState({}); // 바뀐 데이터를 포함한 house data / display 용도
+  const [updatedData, setUpdatedData] = useState({}); // 바뀐 데이터만 저장한 리스트
+  const [updatedImage, setUpdatedImage] = useState([]); // 바뀐 이미지 저장 리스트
+  const [isUpdatedImage, setIsUpdatedImage] = useState([]); // 바뀐 이미지의 순서 저장 리스트
 
   // putHouse
   const { mutate } = useMutation(putHouse, {
@@ -73,6 +75,7 @@ const HouseEdit = () => {
 
   // putHouse 실행 버튼
   const onSubmit = () => {
+    // sell_kind 와 price match
     if (!matchSellKindPrice(updatedData, house?.data)) {
       alert(
         "\n매매를 선택하는 경우 매매가\n전세를 선택하는 경우 보증금\n월세를 선택하는 경우 월세/보증금\n\n필수로 적어주세요"

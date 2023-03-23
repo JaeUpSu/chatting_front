@@ -215,6 +215,17 @@ export const getOptionHouses = (params) => {
     });
 };
 
+// 해당 집 제거하기
+export const delHouse = (id) => {
+  return instance
+    .delete(`houses/${id}`, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
+};
+
 // 해당 집 가져오기
 export const getHouse = ({ queryKey }) => {
   const [_, id] = queryKey;
@@ -271,6 +282,13 @@ export const setWishLists = (id) => {
     )
     .then((response) => response.data);
 };
+
+export const getAllSellLists = () =>
+  instance.get(`users/selllist/all`).then((res) => res.data);
+export const getNotSellLists = () =>
+  instance.get(`users/selllist/notsell`).then((response) => response.data);
+export const getSellLists = () =>
+  instance.get(`users/selllist/sell`).then((response) => response.data);
 
 export const getHouseLists = () =>
   instance.get(`houselists/`).then((response) => response.data);
