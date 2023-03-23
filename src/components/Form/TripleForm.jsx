@@ -70,19 +70,14 @@ const TripleForm = ({
   };
 
   return (
-    <>
-      <FormLabel marginBottom="0px" w="70vw" fontWeight="600">
-        {`${labeles[0]} / ${labeles[1]} / ${labeles[2]}`}
-      </FormLabel>
+    <HStack w="40vw" alignItems="center">
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
-          <HStack w="70vw">
-            <FormControl
-              isInvalid={errors[names[0]]}
-              id={names[0]}
-              my="1"
-              w="18vw"
-            >
+          <HStack alignItems="center">
+            <FormControl isInvalid={errors[names[0]]} id={names[0]} my="1">
+              <FormLabel marginBottom="0px" fontWeight="600">
+                {labeles[0]}
+              </FormLabel>
               <Input
                 type="text"
                 defaultValue={values[0]}
@@ -90,12 +85,10 @@ const TripleForm = ({
               />
               <FormErrorMessage>{`${labeles[0]}을 적어주세요`}</FormErrorMessage>
             </FormControl>{" "}
-            <FormControl
-              isInvalid={errors[names[1]]}
-              id={names[1]}
-              my="1"
-              w="18vw"
-            >
+            <FormControl isInvalid={errors[names[1]]} id={names[1]} my="1">
+              <FormLabel marginBottom="0px" fontWeight="600">
+                {labeles[1]}
+              </FormLabel>
               <Input
                 type="text"
                 defaultValue={values[1]}
@@ -103,36 +96,63 @@ const TripleForm = ({
               />
               <FormErrorMessage>{`${labeles[1]}을 적어주세요`}</FormErrorMessage>
             </FormControl>{" "}
-            <FormControl
-              isInvalid={errors[names[2]]}
-              id={names[2]}
-              my="1"
-              w="34vw"
-            >
-              <HStack>
-                <Input
-                  type="text"
-                  defaultValue={values[2]}
-                  {...register(names[2], { required: true })}
-                />
-                <Button type="submit">입력</Button>
-                <Button onClick={onModify}>취소</Button>
-              </HStack>
+            <FormControl isInvalid={errors[names[2]]} id={names[2]} my="1">
+              <FormLabel marginBottom="0px" fontWeight="600">
+                {labeles[2]}
+              </FormLabel>
+              <Input
+                type="text"
+                defaultValue={values[2]}
+                {...register(names[2], { required: true })}
+              />
               <FormErrorMessage>{`${labeles[2]}을 적어주세요`}</FormErrorMessage>
             </FormControl>
+            <HStack alignItems="center">
+              <Button type="submit">입력</Button>
+              <Button onClick={onModify}>취소</Button>
+            </HStack>
           </HStack>
         </form>
       ) : (
-        <VStack w="70vw" h="5.3vh">
-          <HStack w="70vw" justifyContent="space-between">
-            <Text w="20%">{values[0]}</Text>
-            <Text w="20%">{values[1]}</Text>
-            <Text w="30%">{values[2]}</Text>
+        <VStack w="40vw" h="5.3vh">
+          <HStack w="40vw" justifyContent="space-between">
+            <Text
+              w="70%"
+              h="3.7vh"
+              pl="3"
+              border={"1px solid rgb(200,200,200, 0.3)"}
+              borderRadius="md"
+              lineHeight="10"
+            >
+              {values[0]}
+            </Text>
+
+            <Text
+              w="70%"
+              h="3.7vh"
+              pl="3"
+              border={"1px solid rgb(200,200,200, 0.3)"}
+              borderRadius="md"
+              lineHeight="10"
+            >
+              {values[1]}
+            </Text>
+
+            <Text
+              w="70%"
+              h="3.7vh"
+              pl="3"
+              border={"1px solid rgb(200,200,200, 0.3)"}
+              borderRadius="md"
+              lineHeight="10"
+            >
+              {values[2]}
+            </Text>
             <Button onClick={onModify}>수정</Button>
           </HStack>
         </VStack>
       )}
-    </>
+    </HStack>
   );
 };
 
