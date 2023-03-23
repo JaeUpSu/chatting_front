@@ -1,29 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { isLoggedInVar } from "../../apollo";
 import routes from "../../routes";
-import styled from "styled-components";
-import {
-  Avatar,
-  Box,
-  Button,
-  HStack,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Text,
-  useDisclosure,
-  VStack,
-} from "@chakra-ui/react";
+import { Avatar, HStack, Text, useDisclosure } from "@chakra-ui/react";
 
-// 없어질 예정
-import { faComment, faComments } from "@fortawesome/free-regular-svg-icons";
-import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import AddressMenu from "../Menu/AddressMenu";
-import OptionDropdown from "../Menu/OptionDropdown";
 import LoginModal from "../Modal/LoginModal";
 import useUser from "../../hooks/useUser";
 import UserInfoMenu from "../Menu/UserInfoMenu";
@@ -42,7 +21,9 @@ function Header() {
     onOpen: onLoginOpen,
   } = useDisclosure();
 
-  // const [userMenu, setUserMenu] = useState(false);
+  // useEffect(() => {
+  //   console.log("login", isLoggedIn);
+  // }, [isLoggedIn]);
 
   return (
     <HStack justifyContent={"space-between"} px={"7"} py={"4"}>

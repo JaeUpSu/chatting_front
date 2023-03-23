@@ -184,11 +184,17 @@ const ImageForm = ({
             />
             {isModify ? (
               <HStack>
-                <Button type="submit">변경</Button>
-                <Button onClick={onCancel}>취소</Button>
+                <Button type="submit" w="5vw">
+                  변경
+                </Button>
+                <Button onClick={onModify} w="5vw">
+                  취소
+                </Button>
               </HStack>
             ) : (
-              <Button onClick={onModify}>수정</Button>
+              <Button onClick={onModify} w="5.5vw">
+                수정
+              </Button>
             )}
           </HStack>
         </FormControl>

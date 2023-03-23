@@ -61,9 +61,9 @@ export default function SellAll() {
   const currentPageData = data?.results?.slice(startIdx, endIdx);
 
   return (
-    <>
+    <VStack pb="30">
       {!isLoading ? (
-        <VStack pb="10">
+        <VStack h="90vh">
           {currentPageData?.length < 1 ? (
             <Center h="100%" alignItems="center" fontWeight="600">
               비어있습니다.
@@ -71,7 +71,7 @@ export default function SellAll() {
           ) : (
             <>
               <Grid
-                w={"80vw"}
+                w={"90vw"}
                 px="5vw"
                 gridTemplateColumns={{
                   sm: "1fr",
@@ -107,6 +107,6 @@ export default function SellAll() {
       ) : (
         <Skeleton h={"100vh"} />
       )}
-    </>
+    </VStack>
   );
 }

@@ -90,8 +90,12 @@ const SingleTextAreaForm = ({
                 {...register(name, { required: true })}
               />
               <ButtonGroup justifyContent="flex-end" w="40vw" minW="450px">
-                <Button type="submit">입력</Button>
-                <Button onClick={onModify}>취소</Button>
+                <Button type="submit" w="5vw">
+                  입력
+                </Button>
+                <Button onClick={onModify} w="5vw">
+                  취소
+                </Button>
               </ButtonGroup>
             </VStack>
             <FormErrorMessage>{`${label}을 적어주세요`}</FormErrorMessage>
@@ -99,8 +103,12 @@ const SingleTextAreaForm = ({
         </form>
       ) : (
         <HStack w="40vw" minW="450px" justifyContent="space-between">
-          <Text w="70%">{value}</Text>
-          <Button onClick={onModify}>수정</Button>
+          <VStack justifyContent="flex-start">
+            <Text w="100%">{value}</Text>
+          </VStack>
+          <Button onClick={onModify} w="5.5vw">
+            수정
+          </Button>
         </HStack>
       )}
     </>
