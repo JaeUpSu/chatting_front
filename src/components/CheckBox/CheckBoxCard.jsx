@@ -50,9 +50,6 @@ function DataCheckBoxCard({ name, valueName, data }) {
   const onCheck = (e) => {
     const _value =
       e.currentTarget.children[0].children[0].getAttribute("value");
-    console.log(_value);
-    console.log(value);
-    console.log(getCheckboxProps());
     sessionStorage.setItem(valueName, value);
   };
 

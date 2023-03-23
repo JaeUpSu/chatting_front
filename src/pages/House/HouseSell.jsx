@@ -191,7 +191,6 @@ const HouseSell = () => {
         newImgBack.push({ url: result.variants[0] });
         return newImgBack;
       });
-      // console.log(watch());
     },
   });
 
@@ -233,7 +232,6 @@ const HouseSell = () => {
   useEffect(() => {
     if (imageBackUrls.length === 5) {
       let processedData = getProcessedData(datas, imageBackUrls);
-      console.log("processedData", processedData);
       mutate(processedData);
     }
   }, [imageBackUrls, datas]);

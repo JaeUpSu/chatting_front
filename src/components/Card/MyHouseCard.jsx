@@ -25,10 +25,6 @@ function MyHouseCard({
 }) {
   const navigation = useNavigate();
 
-  useEffect(() => {
-    console.log(title, title.length);
-  }, [title]);
-
   return (
     <Card
       w="100%"

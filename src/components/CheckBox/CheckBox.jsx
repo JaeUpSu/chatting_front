@@ -7,10 +7,7 @@ import {
 } from "@chakra-ui/react";
 function DataCheckBox({ name, data }) {
   const onOptionUpdate = (e) => {
-    console.log(e.target);
-    console.log(e.currentTarget);
     const { value } = e.currentTarget;
-    console.log(value);
   };
 
   return (
