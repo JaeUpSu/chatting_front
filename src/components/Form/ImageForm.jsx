@@ -152,7 +152,7 @@ const ImageForm = ({
             <Text fontSize="12px">5개 필수</Text>
           </HStack>
           <Text fontSize="12px">
-            {imgIdx > -1 ? `바꾸고 싶은 ${imgIdx + 1}번째 선택` : ""}
+            {imgIdx > -1 ? ` ${imgIdx + 1}번째 이미지 선택` : ""}
           </Text>
         </HStack>
       </FormLabel>

@@ -106,7 +106,6 @@ function PriceForm({
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
                 borderRadius="md"
-                lineHeight="10"
               >
                 {onPrice(values[0])}
               </Text>
@@ -145,7 +144,6 @@ function PriceForm({
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
                 borderRadius="md"
-                lineHeight="10"
               >
                 {onPrice(values[1])}
               </Text>
@@ -178,7 +176,6 @@ function PriceForm({
                   pl="3"
                   border={"1px solid rgb(200,200,200, 0.3)"}
                   borderRadius="md"
-                  lineHeight="10"
                 >
                   {onPrice(values[2])}
                 </Text>
@@ -202,7 +199,6 @@ function PriceForm({
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
                 borderRadius="md"
-                lineHeight="10"
               >
                 {onPrice(values[3])}
               </Text>

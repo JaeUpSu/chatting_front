@@ -99,7 +99,6 @@ export default function MyInfo() {
       alignItems={"center"}
       justifyContent="center"
       h="70vh"
-      overflowY="scroll"
       as="form"
       onSubmit={handleSubmit(onSubmit)}
     >
