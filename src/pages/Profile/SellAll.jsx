@@ -99,20 +99,19 @@ export default function SellAll() {
               );
             })}
           </Grid>
+          <PagenationBox>
+            <Pagination
+              activePage={page}
+              itemsCountPerPage={9}
+              totalItemsCount={data?.length ?? 0}
+              pageRangeDisplayed={5}
+              prevPageText="<"
+              nextPageText=">"
+              onChange={pageChange}
+            ></Pagination>
+          </PagenationBox>
         </>
       )}
-      <PagenationBox>
-        {/* 데이터 배열의 길이를 totalItemsCount로 설정 */}
-        <Pagination
-          activePage={page}
-          itemsCountPerPage={9}
-          totalItemsCount={data?.length ?? 0}
-          pageRangeDisplayed={5}
-          prevPageText="<"
-          nextPageText=">"
-          onChange={pageChange}
-        ></Pagination>
-      </PagenationBox>
     </VStack>
   );
 }
