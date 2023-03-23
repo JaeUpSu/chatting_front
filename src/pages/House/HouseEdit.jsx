@@ -36,6 +36,10 @@ import TripleForm from "../../components/Form/TripleForm";
 import PriceForm from "../../components/Form/PriceForm";
 import ImageForm from "../../components/Form/ImageForm";
 import SingleTextAreaForm from "../../components/Form/SingleTextAreaForm";
+import {
+  getMatchSellKindPrice,
+  matchSellKindPrice,
+} from "../../utils/matchSellKindPrice";
 
 const HouseEdit = () => {
   const { id } = useParams();
@@ -53,9 +57,6 @@ const HouseEdit = () => {
 
   // putHouse
   const { mutate } = useMutation(putHouse, {
-    onMutate: (d) => {
-      console.log("update", d);
-    },
     onSuccess: () => {
       toast({
         title: "수정을 완료했습니다!",
@@ -72,15 +73,16 @@ const HouseEdit = () => {
 
   // putHouse 실행 버튼
   const onSubmit = () => {
-    if (isUpdatedImage?.length > 0) {
-      console.log("checking", updatedImage, updatedData, isUpdatedImage);
-
+    if (!matchSellKindPrice(updatedData, house?.data)) {
+      alert(
+        "\n매매를 선택하는 경우 매매가\n전세를 선택하는 경우 보증금\n월세를 선택하는 경우 월세/보증금\n\n필수로 적어주세요"
+      );
+    } else if (isUpdatedImage?.length > 0) {
       for (let i = 0; i < isUpdatedImage?.length; i++) {
         uploadURLMutation.mutate();
       }
     } else {
-      console.log(updatedData);
-      const processData = updatedData;
+      const processData = getMatchSellKindPrice(updatedData, house?.data);
       mutate({ id, processData });
     }
   };
@@ -149,14 +151,14 @@ const HouseEdit = () => {
     ) {
       let imgs = updatedHouse?.Image;
       isUpdatedImage.forEach((item, idx) => {
-        console.log(item, imgs[item], imageBackUrls[idx]);
         imgs[item] = imageBackUrls[idx];
       });
-      console.log("lastImg", imgs);
-      const processData = { ...updatedData, Image: imgs };
+      const processData = {
+        ...getMatchSellKindPrice(updatedData, house?.data),
+        Image: imgs,
+      };
       mutate({ id, processData });
     }
-    // console.log("data", updatedData);
   }, [imageBackUrls, updatedImage]);
 
   return (
