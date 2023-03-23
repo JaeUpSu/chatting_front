@@ -3,23 +3,21 @@ import {
   FormControl,
   FormLabel,
   HStack,
-  ButtonGroup,
   Text,
+  Select,
   FormErrorMessage,
-  VStack,
-  Textarea,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { SellKindsToFront } from "../../services/data";
 import { HouseRegisterValues } from "../../services/data";
 
-const SingleTextAreaForm = ({
+const SellKindSelectForm = ({
   setUpdatedHouse,
   setUpdatedData,
-  value,
-  name,
-  label,
+  setSellKind,
+  sellKind,
 }) => {
   const {
     register,
@@ -29,9 +27,14 @@ const SingleTextAreaForm = ({
 
   const [isModify, setIsModify] = useState(false);
 
-  const onEnter = (data) => {
-    console.log("check", data);
+  const sellKindOptions = ["SALE", "CHARTER", "MONTHLY_RENT"].map(
+    (sellKind) => ({
+      value: sellKind,
+      label: SellKindsToFront[sellKind],
+    })
+  );
 
+  const onEnter = (data) => {
     let nextHouse = {};
     let nextData = {};
     let isChange = false;
@@ -50,6 +53,7 @@ const SingleTextAreaForm = ({
       });
       return nextHouse;
     });
+
     setUpdatedData((prevData) => {
       HouseRegisterValues.forEach((item) => {
         if (data[item.eng]) {
@@ -60,9 +64,15 @@ const SingleTextAreaForm = ({
       });
       return nextData;
     });
+
     if (isChange) {
       setIsModify(false);
     }
+  };
+
+  const handleSellKindSelectChange = (event) => {
+    const selectedSellKindVal = event.currentTarget.value;
+    setSellKind(selectedSellKindVal);
   };
 
   const onModify = () => {
@@ -71,35 +81,39 @@ const SingleTextAreaForm = ({
 
   return (
     <>
-      <FormLabel marginBottom="0px" w="40vw" fontWeight="600" minW="450px">
-        {label}
+      <FormLabel marginBottom="0" fontWeight="600" w="100%" my="2">
+        거래 종류
       </FormLabel>
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
           <FormControl
-            isInvalid={errors[name]}
-            id={name}
+            isInvalid={errors.sell_kind}
+            id="sell_kind"
             my="1"
             w="40vw"
-            minW="450px"
           >
-            <VStack>
-              <Textarea
-                type="text"
-                defaultValue={value}
-                {...register(name, { required: true })}
-              />
-              <ButtonGroup justifyContent="flex-end" w="40vw" minW="450px">
-                <Button type="submit">입력</Button>
-                <Button onClick={onModify}>취소</Button>
-              </ButtonGroup>
-            </VStack>
-            <FormErrorMessage>{`${label}을 적어주세요`}</FormErrorMessage>
+            <HStack>
+              <Select
+                {...register("sell_kind", { required: true })}
+                placeholder="거래 종류를 선택해주세요"
+                fontSize="14px"
+                onChange={handleSellKindSelectChange}
+              >
+                {sellKindOptions?.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </Select>
+              <Button type="submit">입력</Button>
+              <Button onClick={onModify}>취소</Button>
+            </HStack>
+            <FormErrorMessage>{`거래 종류를 선택해주세요`}</FormErrorMessage>
           </FormControl>
         </form>
       ) : (
-        <HStack w="40vw" minW="450px" justifyContent="space-between">
-          <Text w="70%">{value}</Text>
+        <HStack justifyContent="space-between" w="100%" my="4" h="5.3vh">
+          <Text>{sellKind ? SellKindsToFront[sellKind] : ""}</Text>
           <Button onClick={onModify}>수정</Button>
         </HStack>
       )}
@@ -107,4 +121,4 @@ const SingleTextAreaForm = ({
   );
 };
 
-export default SingleTextAreaForm;
+export default SellKindSelectForm;

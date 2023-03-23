@@ -7,6 +7,8 @@ import {
   Text,
   FormErrorMessage,
   VStack,
+  ButtonGroup,
+  Box,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -70,69 +72,91 @@ const TripleForm = ({
   };
 
   return (
-    <>
-      <FormLabel marginBottom="0px" w="70vw" fontWeight="600">
-        {`${labeles[0]} / ${labeles[1]} / ${labeles[2]}`}
-      </FormLabel>
-      {isModify ? (
-        <form onSubmit={handleSubmit(onEnter)}>
-          <HStack w="70vw">
-            <FormControl
-              isInvalid={errors[names[0]]}
-              id={names[0]}
-              my="1"
-              w="18vw"
-            >
+    <VStack w="40vw" alignItems="center" minW="450px">
+      <form onSubmit={handleSubmit(onEnter)}>
+        <HStack alignItems="center" w="40vw" minW="450px">
+          <FormControl isInvalid={errors[names[0]]} id={names[0]} my="1">
+            <FormLabel marginBottom="0px" fontWeight="600">
+              {labeles[0]}
+            </FormLabel>
+            {isModify ? (
               <Input
                 type="text"
                 defaultValue={values[0]}
                 {...register(names[0], { required: true })}
               />
-              <FormErrorMessage>{`${labeles[0]}을 적어주세요`}</FormErrorMessage>
-            </FormControl>{" "}
-            <FormControl
-              isInvalid={errors[names[1]]}
-              id={names[1]}
-              my="1"
-              w="18vw"
-            >
+            ) : (
+              <Text
+                h="3.7vh"
+                pl="3"
+                border={"1px solid rgb(200,200,200, 0.3)"}
+                borderRadius="md"
+                lineHeight="10"
+              >
+                {values[0]}
+              </Text>
+            )}
+            <FormErrorMessage>{`${labeles[0]}을 적어주세요`}</FormErrorMessage>
+          </FormControl>{" "}
+          <FormControl isInvalid={errors[names[1]]} id={names[1]} my="1">
+            <FormLabel marginBottom="0px" fontWeight="600">
+              {labeles[1]}
+            </FormLabel>
+            {isModify ? (
               <Input
                 type="text"
                 defaultValue={values[1]}
                 {...register(names[1], { required: true })}
               />
-              <FormErrorMessage>{`${labeles[1]}을 적어주세요`}</FormErrorMessage>
-            </FormControl>{" "}
-            <FormControl
-              isInvalid={errors[names[2]]}
-              id={names[2]}
-              my="1"
-              w="34vw"
-            >
-              <HStack>
-                <Input
-                  type="text"
-                  defaultValue={values[2]}
-                  {...register(names[2], { required: true })}
-                />
+            ) : (
+              <Text
+                h="3.7vh"
+                pl="3"
+                border={"1px solid rgb(200,200,200, 0.3)"}
+                borderRadius="md"
+                lineHeight="10"
+              >
+                {values[1]}
+              </Text>
+            )}
+            <FormErrorMessage>{`${labeles[1]}을 적어주세요`}</FormErrorMessage>
+          </FormControl>{" "}
+          <FormControl isInvalid={errors[names[2]]} id={names[2]} my="1">
+            <FormLabel marginBottom="0px" fontWeight="600">
+              {labeles[2]}
+            </FormLabel>
+            {isModify ? (
+              <Input
+                type="text"
+                defaultValue={values[2]}
+                {...register(names[2], { required: true })}
+              />
+            ) : (
+              <Text
+                h="3.7vh"
+                pl="3"
+                border={"1px solid rgb(200,200,200, 0.3)"}
+                borderRadius="md"
+                lineHeight="10"
+              >
+                {values[2]}
+              </Text>
+            )}
+            <FormErrorMessage>{`${labeles[2]}을 적어주세요`}</FormErrorMessage>
+          </FormControl>{" "}
+          <Box pt="6" justifyContent="flex-end" alignItems="flex-end">
+            {isModify ? (
+              <ButtonGroup>
                 <Button type="submit">입력</Button>
                 <Button onClick={onModify}>취소</Button>
-              </HStack>
-              <FormErrorMessage>{`${labeles[2]}을 적어주세요`}</FormErrorMessage>
-            </FormControl>
-          </HStack>
-        </form>
-      ) : (
-        <VStack w="70vw" h="5.3vh">
-          <HStack w="70vw" justifyContent="space-between">
-            <Text w="20%">{values[0]}</Text>
-            <Text w="20%">{values[1]}</Text>
-            <Text w="30%">{values[2]}</Text>
-            <Button onClick={onModify}>수정</Button>
-          </HStack>
-        </VStack>
-      )}
-    </>
+              </ButtonGroup>
+            ) : (
+              <Button onClick={onModify}>수정</Button>
+            )}
+          </Box>
+        </HStack>
+      </form>
+    </VStack>
   );
 };
 

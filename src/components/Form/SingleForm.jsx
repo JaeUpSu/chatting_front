@@ -70,14 +70,20 @@ const SingleForm = ({
   };
 
   return (
-    <>
-      <FormLabel marginBottom="0px" w="100%" fontWeight="600">
+    <VStack w="40vw" minW="450px">
+      <FormLabel marginBottom="0px" w="100%" fontWeight="600" minW="450px">
         {label}
       </FormLabel>
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
-          <FormControl isInvalid={errors[name]} id={name} my="1" w="70vw">
-            <HStack w="70vw" justifyContent="flex-start">
+          <FormControl
+            isInvalid={errors[name]}
+            id={name}
+            my="1"
+            w="40vw"
+            minW="450px"
+          >
+            <HStack justifyContent="flex-start">
               <Input
                 type="text"
                 defaultValue={value}
@@ -90,14 +96,12 @@ const SingleForm = ({
           </FormControl>
         </form>
       ) : (
-        <VStack w="70vw">
-          <HStack w="70vw" h="5.3vh" justifyContent="space-between">
-            <Text w="70%">{value}</Text>
-            <Button onClick={onModify}>수정</Button>
-          </HStack>
-        </VStack>
+        <HStack w="40vw" minW="450px" h="5.3vh" justifyContent="space-between">
+          <Text w="70%">{value}</Text>
+          <Button onClick={onModify}>수정</Button>
+        </HStack>
       )}
-    </>
+    </VStack>
   );
 };
 

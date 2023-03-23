@@ -1,4 +1,4 @@
-import { Center, Grid, GridItem, VStack } from "@chakra-ui/react";
+import { Center, Grid, GridItem, VStack, Skeleton } from "@chakra-ui/react";
 import { getAllSellLists } from "../../services/api";
 import { useQuery } from "@tanstack/react-query";
 import Pagination from "react-js-pagination";
@@ -50,10 +50,7 @@ const PagenationBox = styled.div`
 `;
 
 export default function SellAll() {
-  const { error, data, isLoading } = useQuery(
-    ["allSellHouse"],
-    getAllSellLists
-  );
+  const { data, isLoading } = useQuery(["allSellHouse"], getAllSellLists);
   const [page, setPage] = useState(1);
   const pageChange = (page) => {
     setPage(page);
@@ -63,56 +60,53 @@ export default function SellAll() {
   const endIdx = startIdx + 9;
   const currentPageData = data?.results?.slice(startIdx, endIdx);
 
-  if (error) {
-    return <div>에러가 발생했습니다.</div>;
-  }
-
-  if (!data) {
-    return <div>로딩 중입니다.</div>;
-  }
-
   return (
-    <VStack pb="10">
-      {!isLoading && currentPageData?.length < 1 ? (
-        <Center h="100%" alignItems="center" fontWeight="600">
-          비어있습니다.
-        </Center>
+    <>
+      {!isLoading ? (
+        <VStack pb="10">
+          {currentPageData?.length < 1 ? (
+            <Center h="100%" alignItems="center" fontWeight="600">
+              비어있습니다.
+            </Center>
+          ) : (
+            <>
+              <Grid
+                w={"80vw"}
+                px="5vw"
+                gridTemplateColumns={{
+                  sm: "1fr",
+                  md: "1fr 1fr",
+                  lg: "repeat(3, 1fr)",
+                  xl: "repeat(4, 1fr)",
+                }}
+                overflowY={"scroll"}
+                h="70vh"
+              >
+                {currentPageData?.map((item, idx) => {
+                  return (
+                    <GridItem key={idx}>
+                      <MyHouseCard key={idx} {...item} />
+                    </GridItem>
+                  );
+                })}
+              </Grid>
+              <PagenationBox>
+                <Pagination
+                  activePage={page}
+                  itemsCountPerPage={9}
+                  totalItemsCount={data?.length ?? 0}
+                  pageRangeDisplayed={5}
+                  prevPageText="<"
+                  nextPageText=">"
+                  onChange={pageChange}
+                ></Pagination>
+              </PagenationBox>
+            </>
+          )}
+        </VStack>
       ) : (
-        <>
-          <Grid
-            w={"80vw"}
-            px="5vw"
-            gridTemplateColumns={{
-              sm: "1fr",
-              md: "1fr 1fr",
-              lg: "repeat(3, 1fr)",
-              xl: "repeat(4, 1fr)",
-            }}
-            overflowY={"scroll"}
-            h="70vh"
-          >
-            {currentPageData?.map((item, idx) => {
-              return (
-                <GridItem key={idx}>
-                  <MyHouseCard key={idx} {...item} />
-                </GridItem>
-              );
-            })}
-          </Grid>
-        </>
+        <Skeleton h={"100vh"} />
       )}
-      <PagenationBox>
-        {/* 데이터 배열의 길이를 totalItemsCount로 설정 */}
-        <Pagination
-          activePage={page}
-          itemsCountPerPage={9}
-          totalItemsCount={data?.length ?? 0}
-          pageRangeDisplayed={5}
-          prevPageText="<"
-          nextPageText=">"
-          onChange={pageChange}
-        ></Pagination>
-      </PagenationBox>
-    </VStack>
+    </>
   );
 }

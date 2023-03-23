@@ -40,6 +40,8 @@ import {
   getMatchSellKindPrice,
   matchSellKindPrice,
 } from "../../utils/matchSellKindPrice";
+import RoomKindSelectForm from "../../components/Form/RoomKindSelectForm";
+import SellKindSelectForm from "../../components/Form/SellKindSelectForm";
 
 const HouseEdit = () => {
   const { id } = useParams();
@@ -165,21 +167,9 @@ const HouseEdit = () => {
   }, [imageBackUrls, updatedImage]);
 
   return (
-    <VStack
-      pt="30vh"
-      pb="10vh"
-      borderWidth="1px"
-      borderRadius="lg"
-      overflowY="scroll"
-      overflowX="hidden"
-      maxHeight="85vh"
-      justifyContent="center"
-    >
-      <Center>
+    <VStack h="90vh" overflowY="scroll" pb="10vh">
+      <Center pt="2vh">
         <VStack>
-          <Text fontWeight="600" fontSize="23px" mt="50px" w="70vw">
-            기본
-          </Text>
           <SingleForm
             setUpdatedHouse={setUpdatedHouse}
             setUpdatedData={setUpdatedData}
@@ -210,11 +200,10 @@ const HouseEdit = () => {
             setUpdatedData={setUpdatedData}
           />
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-          <KindSelectForm
+
+          <RoomKindSelectForm
             setUpdatedHouse={setUpdatedHouse}
             setUpdatedData={setUpdatedData}
-            setSellKind={setSellKind}
-            sellKind={updatedHouse?.sell_kind}
             roomKind={updatedHouse?.room_kind}
           />
           <TripleForm
@@ -229,6 +218,12 @@ const HouseEdit = () => {
             labeles={["방 개수", "화장실 개수", "평수"]}
           />
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
+          <SellKindSelectForm
+            setUpdatedHouse={setUpdatedHouse}
+            setUpdatedData={setUpdatedData}
+            setSellKind={setSellKind}
+            sellKind={updatedHouse?.sell_kind}
+          />
           <PriceForm
             setUpdatedHouse={setUpdatedHouse}
             setUpdatedData={setUpdatedData}
@@ -263,6 +258,18 @@ const HouseEdit = () => {
               onClick={onSubmit}
             >
               등록하기
+            </Button>
+
+            <Button
+              size="lg"
+              position={"fixed"}
+              bottom={5}
+              right={220}
+              isLoading={mutate.isLoading}
+              colorScheme="teal"
+              variant="solid"
+            >
+              Email
             </Button>
           </Flex>
         </VStack>

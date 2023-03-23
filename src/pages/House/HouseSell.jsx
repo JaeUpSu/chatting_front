@@ -221,8 +221,6 @@ const HouseSell = () => {
   useEffect(() => {
     if (uploadUrls?.length === 5) {
       for (let i = 0; i < 5; i++) {
-        console.log("registerUrl", uploadUrls[i]);
-        console.log("registerImg", images[i]);
         uploadImageMutation.mutate({
           uploadURL: uploadUrls[i],
           file: images[i],
@@ -244,7 +242,13 @@ const HouseSell = () => {
     <VStack h="100vh" overflowY="scroll" pb="5vh">
       <Center pt="2vh" pb="5vh">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl isInvalid={errors.title} id="title" my="5" w="40vw">
+          <FormControl
+            isInvalid={errors.title}
+            id="title"
+            my="5"
+            w="40vw"
+            minW="450px"
+          >
             <FormLabel>제목</FormLabel>
             <Input
               type="text"
@@ -256,7 +260,12 @@ const HouseSell = () => {
               <FormErrorMessage>{isError["title"]}</FormErrorMessage>
             )}
           </FormControl>
-          <FormControl isInvalid={errors.images} id="images" w="40vw">
+          <FormControl
+            isInvalid={errors.images}
+            id="images"
+            w="40vw"
+            minW="450px"
+          >
             <FormLabel>
               <HStack alignItems="center">
                 <Text> 이미지 ( {images.length} )</Text>
@@ -269,7 +278,6 @@ const HouseSell = () => {
               multiple
               onChange={(e) => {
                 const files = e.target.files;
-                console.log(files);
                 setImages((list) => {
                   const imgs = [];
                   list.map((item) => {
@@ -298,13 +306,13 @@ const HouseSell = () => {
               })}
             </HStack>
           </FormControl>
-          <HStack w="40vw" mt="3vw" justifyContent="space-between">
-            <FormControl id="si" my="1" w="12vw">
+          <HStack w="40vw" mt="3vw" justifyContent="space-between" minW="450px">
+            <FormControl id="si" my="1" w="17vw">
               <FormLabel>시</FormLabel>
               <Input fontSize="14px" defaultValue="서울" isDisabled={true} />
             </FormControl>
-            <FormControl isInvalid={errors.gu} id="gu" my="1" w="12vw">
-              <FormLabel fontWeight="600">구</FormLabel>
+            <FormControl isInvalid={errors.gu} id="gu" my="1" w="17vw">
+              <FormLabel>구</FormLabel>
               <Select
                 {...register("gu", { required: true })}
                 placeholder="구를 선택해주세요"
@@ -323,8 +331,8 @@ const HouseSell = () => {
               </Select>
               <FormErrorMessage>{`구를 선택해주세요`}</FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={errors.dong} id="dong" my="1" w="12vw">
-              <FormLabel fontWeight="600">동</FormLabel>
+            <FormControl isInvalid={errors.dong} id="dong" my="1" w="17vw">
+              <FormLabel>동</FormLabel>
               <Select
                 {...register("dong", { required: true })}
                 placeholder="동을 선택해주세요"
@@ -344,8 +352,14 @@ const HouseSell = () => {
               <FormErrorMessage>{`동을 선택해주세요`}</FormErrorMessage>
             </FormControl>
           </HStack>
-          <FormControl isInvalid={errors.address} id="address" my="3" w="40vw">
-            <FormLabel fontWeight="600">상세주소</FormLabel>
+          <FormControl
+            isInvalid={errors.address}
+            id="address"
+            my="3"
+            w="40vw"
+            minW="450px"
+          >
+            <FormLabel>상세주소</FormLabel>
             <Input
               type="text"
               placeholder="상세주소를 입력해주세요"
@@ -358,15 +372,17 @@ const HouseSell = () => {
           </FormControl>
           <Divider
             borderWidth="1.2px"
+            w="40vw"
+            minW="450px"
             my="5"
             borderColor="blackAlpha.400"
-            w="42vw"
           />
           <FormControl
             isInvalid={errors.sell_kind}
             id="sell_kind"
             my="6"
             w="40vw"
+            minW="450px"
           >
             <FormLabel>거래 종류</FormLabel>
             <Select
@@ -383,11 +399,11 @@ const HouseSell = () => {
             </Select>
             <FormErrorMessage>{`거래 종류를 선택해주세요`}</FormErrorMessage>
           </FormControl>
-          <Flex justifyContent="flex-end" w="40vw">
+          <Flex justifyContent="flex-end" w="40vw" minW="450px">
             <Text mb="3">(단위 : 만원)</Text>
           </Flex>
 
-          <HStack w="40vw">
+          <HStack w="40vw" minW="450px">
             <FormControl
               isInvalid={errors.sale}
               id="sale"
@@ -440,7 +456,7 @@ const HouseSell = () => {
               )}
             </FormControl>
           </HStack>
-          <HStack w="40vw">
+          <HStack w="40vw" minW="450px">
             <FormControl
               isInvalid={errors.monthly_rent}
               id="monthly_rent"
@@ -483,6 +499,7 @@ const HouseSell = () => {
             </FormControl>
           </HStack>
           <Divider
+            minW="450px"
             borderWidth="1.2px"
             my="5"
             borderColor="blackAlpha.400"
@@ -494,6 +511,7 @@ const HouseSell = () => {
             mt="2"
             mb="7"
             w="40vw"
+            minW="450px"
           >
             <FormLabel>방 종류</FormLabel>
             <Select
@@ -509,7 +527,7 @@ const HouseSell = () => {
             </Select>
             <FormErrorMessage>{`방 종류를 선택해주세요`}</FormErrorMessage>
           </FormControl>
-          <HStack w="40vw">
+          <HStack w="40vw" minW="450px">
             <FormControl isInvalid={errors.room} id="room" my="1">
               <FormLabel>방 개수</FormLabel>
               <Input
@@ -560,8 +578,15 @@ const HouseSell = () => {
             my="5"
             borderColor="blackAlpha.400"
             w="40vw"
+            minW="450px"
           />
-          <FormControl id="additionalOptions" mt="2" mb="7" w="45vw">
+          <FormControl
+            id="additionalOptions"
+            mt="2"
+            mb="7"
+            w="45vw"
+            minW="470px"
+          >
             <FormLabel>추가옵션</FormLabel>
             <CheckboxGroup colorScheme="green">
               {additionalOptions.map((item, idx) => {
@@ -596,8 +621,9 @@ const HouseSell = () => {
             my="5"
             borderColor="blackAlpha.400"
             w="40vw"
+            minW="450px"
           />
-          <FormControl id="safetyOptions" mt="2" mb="7" w="45vw">
+          <FormControl id="safetyOptions" mt="2" mb="7" w="45vw" minW="470px">
             <FormLabel>안전옵션</FormLabel>
             <CheckboxGroup colorScheme="green">
               {safetyOptions.map((item, idx) => {
@@ -632,6 +658,7 @@ const HouseSell = () => {
             id="description"
             my="1"
             w="40vw"
+            minW="450px"
           >
             <FormLabel>설명</FormLabel>
             <Textarea
@@ -644,7 +671,7 @@ const HouseSell = () => {
               <FormErrorMessage>{isError["description"]}</FormErrorMessage>
             )}
           </FormControl>
-          <Flex justifyContent="flex-end" w="40vw">
+          <Flex justifyContent="flex-end" w="40vw" minW="450px">
             <Button my="5" type="submit" isLoading={mutate.isLoading}>
               판매 등록
             </Button>

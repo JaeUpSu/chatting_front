@@ -27,7 +27,6 @@ const KindSelectForm = ({
     formState: { errors },
   } = useForm();
 
-  const [init, setInit] = useState(true);
   const [isModify, setIsModify] = useState(false);
 
   const roomKindOptions = [
@@ -47,7 +46,6 @@ const KindSelectForm = ({
   );
 
   const onEnter = (data) => {
-    console.log("check", data);
     let nextHouse = {};
     let nextData = {};
     let isChange = false;
@@ -99,12 +97,12 @@ const KindSelectForm = ({
       </FormLabel>
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
-          <HStack w="70vw" alignItems="center">
+          <HStack w="40vw" alignItems="center">
             <FormControl
               isInvalid={errors.room_kind}
               id="room_kind"
               my="1"
-              w="70vw"
+              w="40vw"
             >
               <Select
                 {...register("room_kind", { required: true })}
@@ -123,7 +121,7 @@ const KindSelectForm = ({
               isInvalid={errors.sell_kind}
               id="sell_kind"
               my="1"
-              w="70vw"
+              w="40vw"
             >
               <HStack>
                 <Select
