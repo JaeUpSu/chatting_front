@@ -9,6 +9,7 @@ import {
   VStack,
   ButtonGroup,
   Text,
+  Box,
 } from "@chakra-ui/react";
 
 import { useForm } from "react-hook-form";
@@ -80,11 +81,8 @@ function PriceForm({
 
   return (
     <>
-      <Flex justifyContent="flex-end" w="100%">
-        <Text>(만원)</Text>
-      </Flex>
       <form onSubmit={handleSubmit(onEnter)}>
-        <HStack w="40vw">
+        <HStack w="40vw" minW="450px">
           <FormControl
             isInvalid={errors[names[0]]}
             id={names[0]}
@@ -94,7 +92,7 @@ function PriceForm({
             <FormLabel fontWeight="600">{labeles[0]}</FormLabel>
             {isModify ? (
               <Input
-                w="70%"
+                w="100%"
                 type="number"
                 defaultValue={onPrice(Number(values[0] ? values[0] : 0))}
                 {...register(names[0], {
@@ -103,7 +101,7 @@ function PriceForm({
               />
             ) : (
               <Text
-                w="70%"
+                w="100%"
                 h="3.7vh"
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
@@ -130,7 +128,7 @@ function PriceForm({
             <FormLabel fontWeight="600">{labeles[1]}</FormLabel>
             {isModify ? (
               <Input
-                w="70%"
+                w="100%"
                 type="number"
                 defaultValue={onPrice(values[1])}
                 {...register(names[1], {
@@ -142,7 +140,7 @@ function PriceForm({
               />
             ) : (
               <Text
-                w="70%"
+                w="100%"
                 h="3.7vh"
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
@@ -166,7 +164,7 @@ function PriceForm({
             <HStack>
               {isModify ? (
                 <Input
-                  w="70%"
+                  w="100%"
                   type="number"
                   defaultValue={onPrice(values[2])}
                   {...register(names[2], {
@@ -175,7 +173,7 @@ function PriceForm({
                 />
               ) : (
                 <Text
-                  w="70%"
+                  w="100%"
                   h="3.7vh"
                   pl="3"
                   border={"1px solid rgb(200,200,200, 0.3)"}
@@ -192,14 +190,14 @@ function PriceForm({
             <FormLabel fontWeight="600">{labeles[3]}</FormLabel>
             {isModify ? (
               <Input
-                w="70%"
+                w="100%"
                 type="number"
                 defaultValue={onPrice(Number(values[3] ? values[3] : 0))}
                 {...register(names[3], { required: true })}
               />
             ) : (
               <Text
-                w="70%"
+                w="100%"
                 h="3.7vh"
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
@@ -211,16 +209,16 @@ function PriceForm({
             )}
             <FormErrorMessage>{`관리비를 입력하세요`}</FormErrorMessage>
           </FormControl>
-        </HStack>
-        <HStack w="100%" mt="1" mb="6" justifyContent="flex-end">
-          {isModify ? (
-            <ButtonGroup>
-              <Button type="submit">입력</Button>
-              <Button onClick={onModify}>취소</Button>
-            </ButtonGroup>
-          ) : (
-            <Button onClick={onModify}>수정</Button>
-          )}
+          <Box pt="8" justifyContent="flex-end" alignItems="flex-end">
+            {isModify ? (
+              <ButtonGroup>
+                <Button type="submit">입력</Button>
+                <Button onClick={onModify}>취소</Button>
+              </ButtonGroup>
+            ) : (
+              <Button onClick={onModify}>수정</Button>
+            )}
+          </Box>
         </HStack>
       </form>
     </>

@@ -142,8 +142,8 @@ const ImageForm = ({
   }, [imageUrls]);
 
   return (
-    <>
-      <FormLabel marginBottom="0px" w="40vw" fontWeight="600">
+    <VStack w="40vw" minW="450px">
+      <FormLabel marginBottom="0px" fontWeight="600" w="40vw" minW="450px">
         <HStack alignItems="center" justifyContent="space-between" w="80%">
           <HStack alignItems="center">
             <Text>
@@ -158,7 +158,7 @@ const ImageForm = ({
       </FormLabel>
       <form onSubmit={handleSubmit(onEnter)}>
         <FormControl isInvalid={errors.images} id={name}>
-          <HStack w="40vw" justifyContent="space-between">
+          <HStack justifyContent="space-between" w="40vw" minW="450px">
             <Input
               type="file"
               accept=".jpg,.jpeg,.png,.webp"
@@ -193,7 +193,7 @@ const ImageForm = ({
           </HStack>
         </FormControl>
       </form>
-      <VStack w="40vw">
+      <VStack w="40vw" minW="450px">
         <RadioImageSelector
           select={setImgIdx}
           images={imageUrls}
@@ -205,7 +205,7 @@ const ImageForm = ({
           </Text>
         )}
       </VStack>
-    </>
+    </VStack>
   );
 };
 

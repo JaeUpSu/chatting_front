@@ -170,9 +170,6 @@ const HouseEdit = () => {
     <VStack h="90vh" overflowY="scroll" pb="10vh">
       <Center pt="2vh">
         <VStack>
-          <Text fontWeight="600" fontSize="23px" mt="50px" w="40vw">
-            기본
-          </Text>
           <SingleForm
             setUpdatedHouse={setUpdatedHouse}
             setUpdatedData={setUpdatedData}
