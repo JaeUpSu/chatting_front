@@ -8,6 +8,7 @@ import {
   delHouse,
   makeChatRoom,
   setWishLists,
+  soldOutHouse,
 } from "../../services/api";
 
 import {
@@ -46,6 +47,7 @@ function House() {
     checkLiked
   );
   const [isLike, setIsLike] = useState(likeData?.result ?? true);
+  const [isSale, setIsSale] = useState(data?.is_sale ?? true);
   const queryClient = useQueryClient();
   const { userLoading, isLoggedIn } = useUser();
   const mutation = useMutation(makeChatRoom, {
@@ -60,10 +62,14 @@ function House() {
     },
   });
 
-  useDidMountEffect(() => {
-    setIsLike(likeData?.result);
-    console.log("check");
-  }, [likeLoading]);
+  const soldOutMutation = useMutation(soldOutHouse, {
+    onSuccess: () => {
+      queryClient.refetchQueries(["house", id], {
+        onSuccess: () => setIsSale(() => data?.is_sale),
+      });
+    },
+  });
+
   const likeMutation = useMutation(setWishLists, {
     onSuccess: () => {
       queryClient.refetchQueries(["isLiked", id], {
@@ -71,6 +77,12 @@ function House() {
       });
     },
   });
+  useDidMountEffect(() => {
+    setIsLike(likeData?.result);
+  }, [likeLoading]);
+  useDidMountEffect(() => {
+    setIsSale(data?.is_sale);
+  }, [isLoading]);
   const goChat = () => {
     if (!userLoading && isLoggedIn) {
       mutation.mutate(id);
@@ -91,7 +103,26 @@ function House() {
   const onDel = () => {
     delMutation.mutate(id);
   };
-  const onSoldOut = () => {};
+  const onSellStateChange = () => {
+    setIsSale(!isSale);
+    if (isSale) {
+      toast({
+        title: "판매 완료!",
+        status: "info",
+        duration: 2000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "판매 시작!",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+    const is_sale = !data?.is_sale;
+    soldOutMutation.mutate({ id, is_sale });
+  };
 
   const onLike = () => {
     setIsLike(!isLike);
@@ -238,13 +269,17 @@ function House() {
                     {data?.title}
                   </Heading>
                   <Text fontSize={"lg"} color="red.400" fontWeight={"bold"}>
-                    {data?.is_sale ? "판매중" : "판매 완료"}
+                    {!isLoading && isSale ? "판매중" : "판매 완료"}
                   </Text>
                 </HStack>
                 {data?.is_host ? (
                   <ButtonGroup gap={0}>
-                    <Button colorScheme="gray" size="md" onClick={onSoldOut}>
-                      판매 상태 변경
+                    <Button
+                      colorScheme="gray"
+                      size="md"
+                      onClick={onSellStateChange}
+                    >
+                      {!isLoading && isSale ? "판매종료" : "판매하기"}
                     </Button>
                     <Button colorScheme="gray" size="md" onClick={onEdit}>
                       수정하기

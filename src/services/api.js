@@ -250,8 +250,21 @@ export const putHouse = (house) => {
       headers: {
         "X-CSRFToken": Cookie.get("csrftoken") || "",
       },
-    })
-    .then((response) => console.log("data", response.data));
+    }).then((res)=>res.data)
+};
+// 해당 집 판매완료
+export const soldOutHouse = (house) => {
+  return instance
+    .put(
+      `houses/${house.id}`,
+      { is_sale: house.is_sale },
+      {
+        headers: {
+          "X-CSRFToken": Cookie.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((res) => res.data);
 };
 
 // 모든 구 가져오기
