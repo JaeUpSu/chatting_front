@@ -48,7 +48,12 @@ const HouseEdit = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
-  const house = useQuery(["house", id], getHouse);
+  const house = useQuery(["house", id], getHouse, {
+    retry: false,
+    refetchOnWindowFocus: false,
+    onError: (error) =>
+      error.response.status === 404 ? navigate("../errorpage") : null,
+  });
 
   const [initHouse, setInitHouse] = useState(true); // 초기화
   const [sellKind, setSellKind] = useState(""); // sell_kind 별 flag 를 만들기 위한 변수
@@ -170,13 +175,6 @@ const HouseEdit = () => {
     <VStack h="90vh" overflowY="scroll" pb="10vh">
       <Center pt="2vh">
         <VStack>
-          <SingleForm
-            setUpdatedHouse={setUpdatedHouse}
-            setUpdatedData={setUpdatedData}
-            value={updatedHouse?.title}
-            name="title"
-            label="제목"
-          />
           <ImageForm
             setUpdatedHouse={setUpdatedHouse}
             setUpdatedImage={setUpdatedImage}
@@ -184,6 +182,13 @@ const HouseEdit = () => {
             values={updatedHouse?.Image}
             name="images"
             label="이미지"
+          />
+          <SingleForm
+            setUpdatedHouse={setUpdatedHouse}
+            setUpdatedData={setUpdatedData}
+            value={updatedHouse?.title}
+            name="title"
+            label="제목"
           />
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
           <AddressSelectForm
@@ -257,7 +262,7 @@ const HouseEdit = () => {
               right={20}
               onClick={onSubmit}
             >
-              등록하기
+              업데이트
             </Button>
           </Flex>
         </VStack>

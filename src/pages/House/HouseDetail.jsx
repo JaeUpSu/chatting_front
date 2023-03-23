@@ -212,7 +212,7 @@ function House() {
                           data?.sale
                         )}`}
                         {" / "}
-                        관리비 월 {data?.maintenance_cost / 10000}만
+                        관리비 월 {Math.round(data?.maintenance_cost / 10000)}만
                       </Heading>
                       <HStack>
                         <VStack alignItems={"flex-start"} minW="80px">
@@ -307,7 +307,7 @@ function House() {
                   data?.sale
                 )}`}
                 {" / "}
-                관리비 월 {data?.maintenance_cost / 10000}만
+                관리비 월 {Math.round(data?.maintenance_cost / 10000)}만
               </Text>
               <Divider w={"100%"} />
 

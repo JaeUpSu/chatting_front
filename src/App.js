@@ -23,6 +23,7 @@ import SellAll from "./pages/Profile/SellAll";
 import NotSell from "./pages/Profile/NotSell";
 import Sell from "./pages/Profile/Sell";
 import NotFound from "./pages/NotFound";
+import Find from "./pages/Find/Find";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
           </Route>
           <Route path="sell" element={<HouseSell />} />
           <Route path="edit/:id" element={<HouseEdit />} />
+          <Route path="find/:type" element={<Find />} />
         </Route>
         <Route path={"*"} element={<NotFound />} />
       </Routes>

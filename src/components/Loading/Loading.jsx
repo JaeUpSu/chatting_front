@@ -8,7 +8,7 @@ const Loading = () => {
         thickness="4px"
         speed="0.65s"
         emptyColor="gray.200"
-        color="#00FFFF"
+        color={"red.200"}
         size="xl"
       />
     </Flex>
