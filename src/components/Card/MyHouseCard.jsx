@@ -7,7 +7,6 @@ import {
   VStack,
   HStack,
 } from "@chakra-ui/react";
-
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { RoomKindsToFront, SellKindsToFront } from "../../services/data";
@@ -31,19 +30,9 @@ function MyHouseCard({
     navigation(`house/${id}`);
   };
 
-  // useEffect(() => {
-  //   console.log({
-  //     thumnail,
-  //     sell_kind,
-  //     description,
-  //     room_kind,
-  //     id,
-  //     deposit,
-  //     monthly_rent,
-  //     sale,
-  //     is_sale,
-  //   });
-  // }, [address]);
+  useEffect(() => {
+    console.log(title, title.length);
+  }, [title]);
 
   return (
     <Card
@@ -71,40 +60,23 @@ function MyHouseCard({
               aspectRatio: "1 / 1",
             }}
           />
-          <VStack alignItems={"flex-start"}>
-            <Heading
-              size="sm"
-              fontSize="1.5em"
-              color="blackAlpha.800"
-              noOfLines={1}
-            >
-              <HStack>
-                <Text> {title}</Text>
-                <Text fontSize={"lg"} color="red.400" fontWeight={"bold"}>
-                  {is_sale ? "판매중" : "판매 완료"}
-                </Text>
-              </HStack>
-            </Heading>
-            <Text
-              h="auto"
-              color="blackAlpha.800"
-              fontSize="1.1em"
-              noOfLines={1}
-            >
-              {description?.length > 10
-                ? description.substring(0, 10) + "..."
-                : description}
-            </Text>
-            <VStack spacing={"0"} alignItems={"flex-start"}>
-              <HStack alignItems="center">
-                <Text color="blackAlpha.800" fontSize="1.1em" fontWeight="600">
-                  {`${RoomKindsToFront[room_kind]} ${SellKindsToFront[sell_kind]}`}
-                </Text>
-              </HStack>
-              <Text fontSize="1.1em" fontWeight="600">
-                {`${getSaleContents(sell_kind, deposit, monthly_rent, sale)}`}
+          <Heading fontSize="1.5em" color="blackAlpha.800" w="100%">
+            <HStack justifyContent="space-between" w="100%">
+              <Text>
+                {title?.length > 10 ? title.substring(0, 6) + "..." : title}
               </Text>
-            </VStack>
+              <Text fontSize={"lg"} color="red.400" fontWeight={"bold"}>
+                {is_sale ? "판매중" : "판매 완료"}
+              </Text>
+            </HStack>
+          </Heading>
+          <VStack alignItems={"flex-start"} width="100%">
+            <Text color="blackAlpha.800" fontSize="1.1em" fontWeight="600">
+              {`${RoomKindsToFront[room_kind]} ${SellKindsToFront[sell_kind]}`}
+            </Text>
+            <Text fontSize="1.1em" fontWeight="600">
+              {`${getSaleContents(sell_kind, deposit, monthly_rent, sale)}`}
+            </Text>
           </VStack>
         </VStack>
       </CardBody>

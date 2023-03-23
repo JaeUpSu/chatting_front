@@ -1,7 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { useReactiveVar } from "@apollo/client";
-import { isLoggedInVar } from "./apollo";
 import routes from "./routes";
 
 import Home from "./pages/Home/Home";
@@ -21,10 +19,12 @@ import WishList from "./pages/Profile/WishList";
 import RecentView from "./pages/Profile/RecentView";
 import SellHistory from "./pages/Profile/SellHistory";
 import HouseEdit from "./pages/House/HouseEdit";
+import SellAll from "./pages/Profile/SellAll";
+import NotSell from "./pages/Profile/NotSell";
+import Sell from "./pages/Profile/Sell";
 import NotFound from "./pages/NotFound";
 
 function App() {
-
   return (
     <Router>
       <Routes>
@@ -34,7 +34,11 @@ function App() {
             <Route path="" element={<MyInfo />} />
             <Route path="wishList" element={<WishList />} />
             <Route path="recentView" element={<RecentView />} />
-            <Route path="sellHistory" element={<SellHistory />} />
+            <Route path="sellHistory" element={<SellHistory />}>
+              <Route path="" element={<SellAll />} />
+              <Route path="sell" element={<Sell />} />
+              <Route path="notsell" element={<NotSell />} />
+            </Route>
           </Route>
           <Route path="chatlist" element={<ChatList />}>
             <Route path=":chatRoomPk" element={<Chat />} />
