@@ -111,8 +111,9 @@ export default function WishList() {
       </Flex>
       <PagenationBox>
         <Pagination
+        
           activePage={page}
-          itemsCountPerPage={12}
+          itemsCountPerPage={9}
           totalItemsCount={data?.length ?? 0}
           pageRangeDisplayed={5}
           prevPageText="<"
