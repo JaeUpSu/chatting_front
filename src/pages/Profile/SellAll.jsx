@@ -10,7 +10,7 @@ import { getAllSellLists } from "../../services/api";
 import { useQuery } from "@tanstack/react-query";
 import Pagination from "react-js-pagination";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MyHouseCard from "../../components/Card/MyHouseCard";
 
 const PagenationBox = styled.div`
@@ -57,22 +57,23 @@ const PagenationBox = styled.div`
 `;
 
 export default function SellAll() {
-  const { data, isLoading } = useQuery(["allSellHouse"], getAllSellLists);
   const [page, setPage] = useState(1);
+  const { data, isLoading } = useQuery(
+    ["allSellHouse", page ?? 0],
+    getAllSellLists
+  );
   const pageChange = (page) => {
     setPage(page);
   };
 
-  const startIdx = (page - 1) * 12;
-  const endIdx = startIdx + 12;
-  const currentPageData = data?.results?.slice(startIdx, endIdx);
+  const total = data?.count;
 
   return (
     <VStack>
       {!isLoading ? (
         <>
           <VStack h="68vh" overflowY={"scroll"}>
-            {currentPageData?.length < 1 ? (
+            {data?.results?.length < 1 ? (
               <Center h="100%" w="100%" alignItems="center" fontWeight="600">
                 비어있습니다.
               </Center>
@@ -87,7 +88,7 @@ export default function SellAll() {
                     xl: "repeat(4, 1fr)",
                   }}
                 >
-                  {currentPageData?.map((item, idx) => {
+                  {data?.results?.map((item, idx) => {
                     return (
                       <GridItem key={idx}>
                         <MyHouseCard key={idx} {...item} />
@@ -101,8 +102,8 @@ export default function SellAll() {
           <PagenationBox>
             <Pagination
               activePage={page}
-              itemsCountPerPage={12}
-              totalItemsCount={data?.results?.length ?? 0}
+              itemsCountPerPage={24}
+              totalItemsCount={total ?? 0}
               pageRangeDisplayed={5}
               prevPageText="<"
               nextPageText=">"
