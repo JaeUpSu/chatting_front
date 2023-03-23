@@ -89,7 +89,6 @@ const TripleForm = ({
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
                 borderRadius="md"
-                lineHeight="10"
               >
                 {values[0]}
               </Text>
@@ -112,7 +111,6 @@ const TripleForm = ({
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
                 borderRadius="md"
-                lineHeight="10"
               >
                 {values[1]}
               </Text>
@@ -135,7 +133,6 @@ const TripleForm = ({
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
                 borderRadius="md"
-                lineHeight="10"
               >
                 {values[2]}
               </Text>
