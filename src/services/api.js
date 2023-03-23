@@ -55,6 +55,30 @@ export const login = ({ username, password }) => {
     }
   );
 };
+export const findId = (data) =>
+  instance
+    .post("users/find/id", data, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
+export const findPassword = (data) =>
+  instance
+    .post("users/find/password", data, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
+export const newPassword = (data) =>
+  instance
+    .put("users/new-password", data, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
 export const changePassword = (data) =>
   instance
     .put("users/changepassword/", data, {
