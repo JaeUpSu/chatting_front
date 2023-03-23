@@ -68,10 +68,6 @@ export default function SellAll() {
   const endIdx = startIdx + 9;
   const currentPageData = data?.results?.slice(startIdx, endIdx);
 
-  useEffect(() => {
-    console.log("page", isLoading);
-  }, [data]);
-
   return (
     <VStack>
       {!isLoading ? (

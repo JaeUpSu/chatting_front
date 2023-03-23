@@ -79,7 +79,6 @@ function HouseCard({
     }
     setIsLike(!isLike);
     if (!userLoading && isLoggedIn && id > 0) {
-      console.log("checking");
       likeMutation.mutate(id);
     }
   };

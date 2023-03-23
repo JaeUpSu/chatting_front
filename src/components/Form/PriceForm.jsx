@@ -33,8 +33,6 @@ function PriceForm({
   const [isModify, setIsModify] = useState(false);
 
   const onEnter = (data) => {
-    console.log("check", data);
-
     let nextHouse = {};
     let nextData = {};
     let isChange = false;

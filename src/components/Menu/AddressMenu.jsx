@@ -89,7 +89,6 @@ function AddressMenu({ onUpdate }) {
   }, [addressList]);
 
   useEffect(() => {
-    console.log("address", address);
     onHouseList();
   }, [address]);
 

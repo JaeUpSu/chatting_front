@@ -53,13 +53,11 @@ const AddressSelectForm = ({
   };
 
   const onEnter = (data) => {
-    console.log("check", data);
     let nextHouse = {};
     let nextData = {};
     let isChange = false;
     setUpdatedHouse((prevHouse) => {
       HouseRegisterValues.forEach((item) => {
-        console.log(data);
         if (data[item.eng]) {
           if (data[item.eng] !== prevHouse[item.eng]) {
             if (item.eng === "dong") {
