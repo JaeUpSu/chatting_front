@@ -184,7 +184,9 @@ const ImageForm = ({
             />
             {isModify ? (
               <HStack>
-                <Button type="submit">변경</Button>
+                <Button type="submit" isDisabled={imgIdx < 0 && true}>
+                  변경
+                </Button>
                 <Button onClick={onCancel}>취소</Button>
               </HStack>
             ) : (

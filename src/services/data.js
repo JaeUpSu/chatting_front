@@ -364,3 +364,27 @@ export const ErrorCheckMenu = [
   "maintenance_cost",
   "description",
 ];
+
+export const additionalOptions = [
+  "싱크대",
+  "에어컨",
+  "신발장",
+  "세탁기",
+  "냉장고",
+  // "옷장",
+  "인덕션",
+  "침대",
+  "전자레인지",
+  "tv",
+  "wifi",
+  "컴퓨터",
+  "오븐",
+];
+export const safetyOptions = [
+  "공동현관",
+  "cctv",
+  "화재경보기",
+  "소화기",
+  "경비실",
+  "도어락",
+];

@@ -13,8 +13,8 @@ import {
   Divider,
   Flex,
   Text,
-  Image,
-  useColorModeValue,
+  CheckboxGroup,
+  Checkbox,
 } from "@chakra-ui/react";
 
 import { useEffect, useRef, useState } from "react";
@@ -31,6 +31,8 @@ import {
   ErrorCheckMenu,
   RoomKindsToFront,
   SellKindsToFront,
+  additionalOptions,
+  safetyOptions,
 } from "../../services/data";
 
 import { getProcessedData } from "../../utils/getProcessedData";
@@ -239,19 +241,11 @@ const HouseSell = () => {
   }, [imageBackUrls, datas]);
 
   return (
-    <VStack>
-      <Center
-        pb="5vh"
-        pt="50vh"
-        w="120vw"
-        borderWidth="1px"
-        borderRadius="lg"
-        overflowY="scroll"
-        maxHeight="90vh"
-      >
+    <VStack h="100vh" overflowY="scroll" pb="5vh">
+      <Center pt="2vh" pb="5vh">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl isInvalid={errors.title} id="title" my="1" w="70vw">
-            <FormLabel fontWeight="600">제목</FormLabel>
+          <FormControl isInvalid={errors.title} id="title" my="5" w="40vw">
+            <FormLabel>제목</FormLabel>
             <Input
               type="text"
               placeholder="제목을 입력해주세요"
@@ -262,13 +256,11 @@ const HouseSell = () => {
               <FormErrorMessage>{isError["title"]}</FormErrorMessage>
             )}
           </FormControl>
-          <FormControl isInvalid={errors.images} id="images">
+          <FormControl isInvalid={errors.images} id="images" w="40vw">
             <FormLabel>
               <HStack alignItems="center">
-                <Text fontWeight="600"> 이미지 ( {images.length} )</Text>
-                <Text fontSize="12px" fontWeight="600">
-                  5개 필수
-                </Text>
+                <Text> 이미지 ( {images.length} )</Text>
+                <Text fontSize="12px">5개 필수</Text>
               </HStack>
             </FormLabel>{" "}
             <Input
@@ -306,9 +298,12 @@ const HouseSell = () => {
               })}
             </HStack>
           </FormControl>
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-          <HStack w="70vw">
-            <FormControl isInvalid={errors.gu} id="gu" my="1">
+          <HStack w="40vw" mt="3vw" justifyContent="space-between">
+            <FormControl id="si" my="1" w="12vw">
+              <FormLabel>시</FormLabel>
+              <Input fontSize="14px" defaultValue="서울" isDisabled={true} />
+            </FormControl>
+            <FormControl isInvalid={errors.gu} id="gu" my="1" w="12vw">
               <FormLabel fontWeight="600">구</FormLabel>
               <Select
                 {...register("gu", { required: true })}
@@ -328,7 +323,7 @@ const HouseSell = () => {
               </Select>
               <FormErrorMessage>{`구를 선택해주세요`}</FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={errors.dong} id="dong" my="1">
+            <FormControl isInvalid={errors.dong} id="dong" my="1" w="12vw">
               <FormLabel fontWeight="600">동</FormLabel>
               <Select
                 {...register("dong", { required: true })}
@@ -349,8 +344,7 @@ const HouseSell = () => {
               <FormErrorMessage>{`동을 선택해주세요`}</FormErrorMessage>
             </FormControl>
           </HStack>
-
-          <FormControl isInvalid={errors.address} id="address" my="1">
+          <FormControl isInvalid={errors.address} id="address" my="3" w="40vw">
             <FormLabel fontWeight="600">상세주소</FormLabel>
             <Input
               type="text"
@@ -362,93 +356,45 @@ const HouseSell = () => {
               <FormErrorMessage>{isError["address"]}</FormErrorMessage>
             )}
           </FormControl>
+          <Divider
+            borderWidth="1.2px"
+            my="5"
+            borderColor="blackAlpha.400"
+            w="42vw"
+          />
+          <FormControl
+            isInvalid={errors.sell_kind}
+            id="sell_kind"
+            my="6"
+            w="40vw"
+          >
+            <FormLabel>거래 종류</FormLabel>
+            <Select
+              {...register("sell_kind", { required: true })}
+              placeholder="거래 종류를 선택해주세요"
+              fontSize="14px"
+              onChange={handleSellKindSelectChange}
+            >
+              {sellKindOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+            <FormErrorMessage>{`거래 종류를 선택해주세요`}</FormErrorMessage>
+          </FormControl>
+          <Flex justifyContent="flex-end" w="40vw">
+            <Text mb="3">(단위 : 만원)</Text>
+          </Flex>
 
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-          <HStack w="70vw">
-            <FormControl isInvalid={errors.room_kind} id="room_kind" my="1">
-              <FormLabel fontWeight="600">방 종류</FormLabel>
-              <Select
-                {...register("room_kind", { required: true })}
-                placeholder="방 종류를 선택해주세요"
-                fontSize="14px"
-              >
-                {roomKindOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
-              <FormErrorMessage>{`방 종류를 선택해주세요`}</FormErrorMessage>
-            </FormControl>
-            <FormControl isInvalid={errors.sell_kind} id="sell_kind" my="1">
-              <FormLabel fontWeight="600">거래 종류</FormLabel>
-              <Select
-                {...register("sell_kind", { required: true })}
-                placeholder="거래 종류를 선택해주세요"
-                fontSize="14px"
-                onChange={handleSellKindSelectChange}
-              >
-                {sellKindOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
-              <FormErrorMessage>{`거래 종류를 선택해주세요`}</FormErrorMessage>
-            </FormControl>
-          </HStack>
-          <HStack w="70vw">
-            <FormControl isInvalid={errors.room} id="room" my="1">
-              <FormLabel fontWeight="600">방 개수</FormLabel>
-              <Input
-                type="number"
-                fontSize="12px"
-                placeholder="방 개수를 입력해주세요"
-                {...register("room", { required: true })}
-                onChange={handleValidate}
-              />
-              {isError["room"] && (
-                <FormErrorMessage>{isError["room"]}</FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl isInvalid={errors.toilet} id="toilet" my="1">
-              <FormLabel fontWeight="600">화장실 개수</FormLabel>
-              <Input
-                type="number"
-                fontSize="12px"
-                placeholder="화장실 개수를 입력해주세요"
-                {...register("toilet", { required: true })}
-                onChange={handleValidate}
-              />
-              {isError["toilet"] && (
-                <FormErrorMessage>{isError["toilet"]}</FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl isInvalid={errors.pyeongsu} id="pyeongsu" my="1">
-              <FormLabel fontWeight="600">평수</FormLabel>
-              <Input
-                type="number"
-                fontSize="12px"
-                placeholder="평수를 입력해주세요"
-                {...register("pyeongsu", { required: true })}
-                onChange={handleValidate}
-              />
-              {isError["pyeongsu"] && (
-                <FormErrorMessage>{isError["pyeongsu"]}</FormErrorMessage>
-              )}
-            </FormControl>
-          </HStack>
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-
-          <Flex justifyContent="flex-end">(만원)</Flex>
-          <HStack>
+          <HStack w="40vw">
             <FormControl
               isInvalid={errors.sale}
               id="sale"
               my="1"
               isDisabled={sellKind == "SALE" ? false : true}
             >
-              <FormLabel fontWeight="600">매매가</FormLabel>
+              <FormLabel>매매가</FormLabel>
               <Input
                 type="number"
                 fontSize="12px"
@@ -472,7 +418,7 @@ const HouseSell = () => {
                   : true
               }
             >
-              <FormLabel fontWeight="600">보증금</FormLabel>
+              <FormLabel>보증금</FormLabel>
               <Input
                 type="number"
                 fontSize="12px"
@@ -494,14 +440,14 @@ const HouseSell = () => {
               )}
             </FormControl>
           </HStack>
-          <HStack>
+          <HStack w="40vw">
             <FormControl
               isInvalid={errors.monthly_rent}
               id="monthly_rent"
               my="1"
               isDisabled={sellKind == "MONTHLY_RENT" ? false : true}
             >
-              <FormLabel fontWeight="600">월세</FormLabel>
+              <FormLabel>월세</FormLabel>
               <Input
                 type="number"
                 fontSize="12px"
@@ -522,7 +468,7 @@ const HouseSell = () => {
               id="maintenance_cost"
               my="1"
             >
-              <FormLabel fontWeight="600">관리비</FormLabel>
+              <FormLabel>관리비</FormLabel>
               <Input
                 type="number"
                 fontSize="12px"
@@ -536,11 +482,158 @@ const HouseSell = () => {
               )}
             </FormControl>
           </HStack>
-
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-
-          <FormControl isInvalid={errors.description} id="description" my="1">
-            <FormLabel fontWeight="600">설명</FormLabel>
+          <Divider
+            borderWidth="1.2px"
+            my="5"
+            borderColor="blackAlpha.400"
+            w="40vw"
+          />
+          <FormControl
+            isInvalid={errors.room_kind}
+            id="room_kind"
+            mt="2"
+            mb="7"
+            w="40vw"
+          >
+            <FormLabel>방 종류</FormLabel>
+            <Select
+              {...register("room_kind", { required: true })}
+              placeholder="방 종류를 선택해주세요"
+              fontSize="14px"
+            >
+              {roomKindOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+            <FormErrorMessage>{`방 종류를 선택해주세요`}</FormErrorMessage>
+          </FormControl>
+          <HStack w="40vw">
+            <FormControl isInvalid={errors.room} id="room" my="1">
+              <FormLabel>방 개수</FormLabel>
+              <Input
+                type="number"
+                fontSize="12px"
+                placeholder="방 개수를 입력해주세요"
+                {...register("room", { required: true })}
+                onChange={handleValidate}
+              />
+              {isError["room"] && (
+                <FormErrorMessage>{isError["room"]}</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl
+              isInvalid={errors.toilet}
+              id="toilet"
+              my="1"
+              minW="120px"
+            >
+              <FormLabel>화장실 개수</FormLabel>
+              <Input
+                type="number"
+                fontSize="12px"
+                placeholder="화장실 개수를 입력해주세요"
+                {...register("toilet", { required: true })}
+                onChange={handleValidate}
+              />
+              {isError["toilet"] && (
+                <FormErrorMessage>{isError["toilet"]}</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl isInvalid={errors.pyeongsu} id="pyeongsu" my="1">
+              <FormLabel>평수</FormLabel>
+              <Input
+                type="number"
+                fontSize="12px"
+                placeholder="평수를 입력해주세요"
+                {...register("pyeongsu", { required: true })}
+                onChange={handleValidate}
+              />
+              {isError["pyeongsu"] && (
+                <FormErrorMessage>{isError["pyeongsu"]}</FormErrorMessage>
+              )}
+            </FormControl>
+          </HStack>
+          <Divider
+            borderWidth="1.2px"
+            my="5"
+            borderColor="blackAlpha.400"
+            w="40vw"
+          />
+          <FormControl id="additionalOptions" mt="2" mb="7" w="45vw">
+            <FormLabel>추가옵션</FormLabel>
+            <CheckboxGroup colorScheme="green">
+              {additionalOptions.map((item, idx) => {
+                if ((idx + 1) % 3 === 0) {
+                  return (
+                    <>
+                      <Checkbox
+                        key={idx}
+                        value={item}
+                        mx="3"
+                        w="13vw"
+                        h="5vh"
+                        minW="110px"
+                      >
+                        {item}
+                      </Checkbox>
+                      <br />
+                    </>
+                  );
+                } else {
+                  return (
+                    <Checkbox key={idx} mx="3" w="13vw" minW="110px" h="5vh">
+                      {item}
+                    </Checkbox>
+                  );
+                }
+              })}
+            </CheckboxGroup>
+          </FormControl>
+          <Divider
+            borderWidth="1.2px"
+            my="5"
+            borderColor="blackAlpha.400"
+            w="40vw"
+          />
+          <FormControl id="safetyOptions" mt="2" mb="7" w="45vw">
+            <FormLabel>안전옵션</FormLabel>
+            <CheckboxGroup colorScheme="green">
+              {safetyOptions.map((item, idx) => {
+                if ((idx + 1) % 3 === 0) {
+                  return (
+                    <>
+                      <Checkbox
+                        key={idx}
+                        value={item}
+                        mx="3"
+                        w="13vw"
+                        minW="110px"
+                        h="5vh"
+                      >
+                        {item}
+                      </Checkbox>
+                      <br />
+                    </>
+                  );
+                } else {
+                  return (
+                    <Checkbox key={idx} mx="3" minW="110px" w="13vw" h="5vh">
+                      {item}
+                    </Checkbox>
+                  );
+                }
+              })}
+            </CheckboxGroup>
+          </FormControl>
+          <FormControl
+            isInvalid={errors.description}
+            id="description"
+            my="1"
+            w="40vw"
+          >
+            <FormLabel>설명</FormLabel>
             <Textarea
               type="text"
               placeholder="설명을 입력해주세요"
@@ -551,7 +644,7 @@ const HouseSell = () => {
               <FormErrorMessage>{isError["description"]}</FormErrorMessage>
             )}
           </FormControl>
-          <Flex justifyContent="flex-end">
+          <Flex justifyContent="flex-end" w="40vw">
             <Button my="5" type="submit" isLoading={mutate.isLoading}>
               판매 등록
             </Button>
