@@ -222,8 +222,6 @@ const HouseSell = () => {
   useEffect(() => {
     if (uploadUrls?.length === 5) {
       for (let i = 0; i < 5; i++) {
-        console.log("registerUrl", uploadUrls[i]);
-        console.log("registerImg", images[i]);
         uploadImageMutation.mutate({
           uploadURL: uploadUrls[i],
           file: images[i],
@@ -243,9 +241,21 @@ const HouseSell = () => {
 
   return (
     <VStack h="100vh" overflowY="scroll" pb="5vh">
-      <Center p="10" pt="0">
-        <VStack spacing={"5"} as={"form"} onSubmit={handleSubmit(onSubmit)}>
-          <FormControl isInvalid={errors.images} id="images" w="100%">
+      <Center pt="2vh" pb="5vh">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl isInvalid={errors.title} id="title" my="5" w="40vw">
+            <FormLabel>제목</FormLabel>
+            <Input
+              type="text"
+              placeholder="제목을 입력해주세요"
+              {...register("title", { required: true })}
+              onChange={handleValidate}
+            />
+            {isError["title"] && (
+              <FormErrorMessage>{isError["title"]}</FormErrorMessage>
+            )}
+          </FormControl>
+          <FormControl isInvalid={errors.images} id="images" w="40vw">
             <FormLabel>
               <HStack alignItems="center">
                 <Text> 이미지 ( {images.length} )</Text>
@@ -258,7 +268,6 @@ const HouseSell = () => {
               multiple
               onChange={(e) => {
                 const files = e.target.files;
-                console.log(files);
                 setImages((list) => {
                   const imgs = [];
                   list.map((item) => {
@@ -287,24 +296,12 @@ const HouseSell = () => {
               })}
             </HStack>
           </FormControl>
-          <FormControl isInvalid={errors.title} id="title" my="5" w="100%">
-            <FormLabel>제목</FormLabel>
-            <Input
-              type="text"
-              placeholder="제목을 입력해주세요"
-              {...register("title", { required: true })}
-              onChange={handleValidate}
-            />
-            {isError["title"] && (
-              <FormErrorMessage>{isError["title"]}</FormErrorMessage>
-            )}
-          </FormControl>
-          <HStack w="100%" mt="3vw" justifyContent="space-between">
-            <FormControl id="si" my="1">
+          <HStack w="40vw" mt="3vw" justifyContent="space-between">
+            <FormControl id="si" my="1" w="12vw">
               <FormLabel>시</FormLabel>
               <Input fontSize="14px" defaultValue="서울" isDisabled={true} />
             </FormControl>
-            <FormControl isInvalid={errors.gu} id="gu" my="1">
+            <FormControl isInvalid={errors.gu} id="gu" my="1" w="12vw">
               <FormLabel fontWeight="600">구</FormLabel>
               <Select
                 {...register("gu", { required: true })}
@@ -324,7 +321,7 @@ const HouseSell = () => {
               </Select>
               <FormErrorMessage>{`구를 선택해주세요`}</FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={errors.dong} id="dong" my="1">
+            <FormControl isInvalid={errors.dong} id="dong" my="1" w="12vw">
               <FormLabel fontWeight="600">동</FormLabel>
               <Select
                 {...register("dong", { required: true })}
@@ -345,7 +342,7 @@ const HouseSell = () => {
               <FormErrorMessage>{`동을 선택해주세요`}</FormErrorMessage>
             </FormControl>
           </HStack>
-          <FormControl isInvalid={errors.address} id="address" w="100%">
+          <FormControl isInvalid={errors.address} id="address" my="3" w="40vw">
             <FormLabel fontWeight="600">상세주소</FormLabel>
             <Input
               type="text"
@@ -357,11 +354,17 @@ const HouseSell = () => {
               <FormErrorMessage>{isError["address"]}</FormErrorMessage>
             )}
           </FormControl>
+          <Divider
+            borderWidth="1.2px"
+            my="5"
+            borderColor="blackAlpha.400"
+            w="42vw"
+          />
           <FormControl
             isInvalid={errors.sell_kind}
             id="sell_kind"
             my="6"
-            w="100%"
+            w="40vw"
           >
             <FormLabel>거래 종류</FormLabel>
             <Select
@@ -378,7 +381,11 @@ const HouseSell = () => {
             </Select>
             <FormErrorMessage>{`거래 종류를 선택해주세요`}</FormErrorMessage>
           </FormControl>
-          <HStack w="100%">
+          <Flex justifyContent="flex-end" w="40vw">
+            <Text mb="3">(단위 : 만원)</Text>
+          </Flex>
+
+          <HStack w="40vw">
             <FormControl
               isInvalid={errors.sale}
               id="sale"
@@ -431,7 +438,7 @@ const HouseSell = () => {
               )}
             </FormControl>
           </HStack>
-          <HStack w={"100%"}>
+          <HStack w="40vw">
             <FormControl
               isInvalid={errors.monthly_rent}
               id="monthly_rent"
@@ -473,12 +480,18 @@ const HouseSell = () => {
               )}
             </FormControl>
           </HStack>
+          <Divider
+            borderWidth="1.2px"
+            my="5"
+            borderColor="blackAlpha.400"
+            w="40vw"
+          />
           <FormControl
             isInvalid={errors.room_kind}
             id="room_kind"
             mt="2"
             mb="7"
-            w="100%"
+            w="40vw"
           >
             <FormLabel>방 종류</FormLabel>
             <Select
@@ -494,7 +507,7 @@ const HouseSell = () => {
             </Select>
             <FormErrorMessage>{`방 종류를 선택해주세요`}</FormErrorMessage>
           </FormControl>
-          <HStack w="100%">
+          <HStack w="40vw">
             <FormControl isInvalid={errors.room} id="room" my="1">
               <FormLabel>방 개수</FormLabel>
               <Input
@@ -540,93 +553,101 @@ const HouseSell = () => {
               )}
             </FormControl>
           </HStack>
-          <Box>
-            <FormControl id="additionalOptions" mt="2" mb="7" w="45vw">
-              <FormLabel>추가옵션</FormLabel>
-              <CheckboxGroup colorScheme="teal">
-                <Grid
-                  gridTemplateColumns={{
-                    sm: "1fr 1fr",
-                    md: "1fr 1fr",
-                    lg: "repeat(3, 1fr)",
-                    xl: "repeat(4, 1fr)",
-                  }}
-                >
-                  {additionalOptions.map((item, idx) => {
-                    return (
-                      <>
-                        <Checkbox
-                          key={idx}
-                          value={item}
-                          // mx="3"
-                          // w="13vw"
-                          // h="5vh"
-                          // minW="110px"
-                        >
-                          {item}
-                        </Checkbox>
-                      </>
-                    );
-                  })}
-                </Grid>
-              </CheckboxGroup>
-            </FormControl>
-          </Box>
-          <Box>
-            <FormControl id="safetyOptions" mt="2" mb="7" w="45vw">
-              <FormLabel>안전옵션</FormLabel>
-              <CheckboxGroup colorScheme="green">
-                {safetyOptions.map((item, idx) => {
-                  if ((idx + 1) % 3 === 0) {
-                    return (
-                      <>
-                        <Checkbox
-                          key={idx}
-                          value={item}
-                          mx="3"
-                          w="13vw"
-                          minW="110px"
-                          h="5vh"
-                        >
-                          {item}
-                        </Checkbox>
-                        <br />
-                      </>
-                    );
-                  } else {
-                    return (
-                      <Checkbox key={idx} mx="3" minW="110px" w="13vw" h="5vh">
+          <Divider
+            borderWidth="1.2px"
+            my="5"
+            borderColor="blackAlpha.400"
+            w="40vw"
+          />
+          <FormControl id="additionalOptions" mt="2" mb="7" w="45vw">
+            <FormLabel>추가옵션</FormLabel>
+            <CheckboxGroup colorScheme="green">
+              {additionalOptions.map((item, idx) => {
+                if ((idx + 1) % 3 === 0) {
+                  return (
+                    <>
+                      <Checkbox
+                        key={idx}
+                        value={item}
+                        mx="3"
+                        w="13vw"
+                        h="5vh"
+                        minW="110px"
+                      >
                         {item}
                       </Checkbox>
-                    );
-                  }
-                })}
-              </CheckboxGroup>
-            </FormControl>
-            <FormControl
-              isInvalid={errors.description}
-              id="description"
-              my="1"
-              w="100%"
-            >
-              <FormLabel>설명</FormLabel>
-              <Textarea
-                type="text"
-                placeholder="설명을 입력해주세요"
-                {...register("description", { required: true })}
-                onChange={handleValidate}
-              />
-              {isError["description"] && (
-                <FormErrorMessage>{isError["description"]}</FormErrorMessage>
-              )}
-            </FormControl>
-            <Flex justifyContent="flex-end" w="100%">
-              <Button my="5" type="submit" isLoading={mutate.isLoading}>
-                판매 등록
-              </Button>
-            </Flex>
-          </Box>
-        </VStack>
+                      <br />
+                    </>
+                  );
+                } else {
+                  return (
+                    <Checkbox key={idx} mx="3" w="13vw" minW="110px" h="5vh">
+                      {item}
+                    </Checkbox>
+                  );
+                }
+              })}
+            </CheckboxGroup>
+          </FormControl>
+          <Divider
+            borderWidth="1.2px"
+            my="5"
+            borderColor="blackAlpha.400"
+            w="40vw"
+          />
+          <FormControl id="safetyOptions" mt="2" mb="7" w="45vw">
+            <FormLabel>안전옵션</FormLabel>
+            <CheckboxGroup colorScheme="green">
+              {safetyOptions.map((item, idx) => {
+                if ((idx + 1) % 3 === 0) {
+                  return (
+                    <>
+                      <Checkbox
+                        key={idx}
+                        value={item}
+                        mx="3"
+                        w="13vw"
+                        minW="110px"
+                        h="5vh"
+                      >
+                        {item}
+                      </Checkbox>
+                      <br />
+                    </>
+                  );
+                } else {
+                  return (
+                    <Checkbox key={idx} mx="3" minW="110px" w="13vw" h="5vh">
+                      {item}
+                    </Checkbox>
+                  );
+                }
+              })}
+            </CheckboxGroup>
+          </FormControl>
+          <FormControl
+            isInvalid={errors.description}
+            id="description"
+            my="1"
+            w="40vw"
+          >
+            <FormLabel>설명</FormLabel>
+            <Textarea
+              type="text"
+              placeholder="설명을 입력해주세요"
+              {...register("description", { required: true })}
+              onChange={handleValidate}
+            />
+            {isError["description"] && (
+              <FormErrorMessage>{isError["description"]}</FormErrorMessage>
+            )}
+          </FormControl>
+          <Flex justifyContent="flex-end" w="40vw">
+            <Button my="5" type="submit" isLoading={mutate.isLoading}>
+              판매 등록
+            </Button>
+          </Flex>
+        </form>
       </Center>
     </VStack>
   );

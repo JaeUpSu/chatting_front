@@ -10,17 +10,16 @@ import {
   MenuItem,
   MenuList,
   VStack,
-  Box,
-  useBreakpointValue,
 } from "@chakra-ui/react";
 import { HiChevronDown } from "react-icons/hi";
+import { SpinnerIcon } from "@chakra-ui/icons";
 import { BiRefresh } from "react-icons/bi";
 import styled from "styled-components";
 
 import { useEffect, useState, useRef } from "react";
 
 import { getBackOptions } from "../../utils/getBackOptions";
-import { getOptionHouses, getWishLists } from "../../services/api";
+import { getOptionHouses } from "../../services/api";
 import { getBackOrderBy } from "../../utils/getBackOrderBy";
 import { throttle } from "../../utils/throttle";
 
@@ -28,8 +27,7 @@ import useInfiniteScroll from "../../utils/useInfiniteScroll";
 import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
-import { getInitOrderBy, initParams } from "../../services/local";
-import { useQuery } from "@tanstack/react-query";
+import { getInitOrderBy } from "../../services/local";
 
 const TopBtn = styled.div`
   position: fixed;
@@ -54,7 +52,6 @@ const TopBtn = styled.div`
 function HouseList() {
   const scrollRef = useRef(null);
 
-  const [isInit, setIsInit] = useState(true);
   const [address, setAddress] = useState("");
   const [APIParams, setAPIParams] = useState({
     roomKind: sessionStorage.getItem("roomKind")
@@ -73,14 +70,8 @@ function HouseList() {
   const [orderBy, setOrderBy] = useState(getInitOrderBy(isSellKind));
   const [isLoading, setLoading] = useState(false);
 
-  const {
-    hasNextPage,
-    data,
-    totalCounts,
-    isFetching,
-    setFetching,
-    setBackParams,
-  } = useInfiniteScroll(getOptionHouses, { size: 24 });
+  const { data, totalCounts, isFetching, setFetching, setBackParams } =
+    useInfiniteScroll(getOptionHouses, { size: 24 });
 
   // orderBy rearrange
   const onOrderBy = (e) => {
@@ -170,7 +161,6 @@ function HouseList() {
   }, [APIParams]);
 
   useEffect(() => {
-    // sessionStorage.removeItem("sort_by");
     setOrderBy(getInitOrderBy(isSellKind));
   }, [isSellKind]);
 
@@ -197,11 +187,20 @@ function HouseList() {
               minW="250px"
               maxW="280px"
             >
-              {isLoading
-                ? "Loading..."
-                : totalCounts
-                ? `부동산 목록 ${totalCounts} 개`
-                : "비어있습니다"}
+              {isLoading ? (
+                <>
+                  Loading...
+                  <Button
+                    isLoading={isLoading}
+                    Icon={<SpinnerIcon boxSize={50} />}
+                    backgroundColor="transparent"
+                  />
+                </>
+              ) : totalCounts ? (
+                `부동산 목록 ${totalCounts} 개`
+              ) : (
+                "비어있습니다"
+              )}
             </Text>
             {isLoading ? (
               "Loading..."

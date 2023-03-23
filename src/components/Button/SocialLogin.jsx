@@ -22,7 +22,6 @@ const SocialLogin = () => {
   // redirect_uri=CALLBACK_URL
 
   const paramsNaver = new URLSearchParams(naverParams).toString();
-  console.log(paramsNaver);
 
   return (
     <VStack width={"100%"} spacing={"5"}>

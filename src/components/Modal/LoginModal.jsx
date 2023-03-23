@@ -49,9 +49,6 @@ export default function LoginModal({ isOpen, onClose }) {
   const toast = useToast();
   const queryClient = useQueryClient();
   const mutation = useMutation(login, {
-    onMutate: (data) => {
-      console.log("mutation starting");
-    },
     onSuccess: (data) => {
       toast({
         title: "Log In Success",
@@ -59,12 +56,20 @@ export default function LoginModal({ isOpen, onClose }) {
         status: "success",
         position: "top",
         isClosable: true,
+        duration: "1000",
       });
       onClose();
       reset();
       queryClient.refetchQueries(["me"]);
     },
     onError: () => {
+      toast({
+        title: "Log In Failed",
+        status: "warning",
+        position: "top",
+        isClosable: true,
+        duration: "1000",
+      });
       reset();
     },
   });
@@ -123,7 +128,7 @@ export default function LoginModal({ isOpen, onClose }) {
             </InputGroup>
             {mutation.isError ? (
               <Text color={textColor} textAlign={"center"}>
-                Username or Password are wrong.
+                아이디 또는 비밀번호가 잘못되었습니다.
               </Text>
             ) : null}
             <Button
@@ -136,6 +141,7 @@ export default function LoginModal({ isOpen, onClose }) {
                 backgroundColor: "#ff7982",
               }}
               width={"100%"}
+              isLoading={mutation.isLoading}
             >
               로그인
             </Button>
@@ -146,9 +152,13 @@ export default function LoginModal({ isOpen, onClose }) {
               w={"100%"}
               justifyContent={"center"}
             >
-              <Link>아이디 찾기</Link>
+              <Link to="/find/id" onClick={() => onClose()}>
+                아이디 찾기
+              </Link>
               <Text>|</Text>
-              <Link>비밀번호 찾기</Link>
+              <Link to="/find/password" onClick={() => onClose()}>
+                비밀번호 찾기
+              </Link>
               <Text>|</Text>
               <Link to={"/signup"} onClick={() => onClose()}>
                 회원가입
