@@ -1,120 +1,65 @@
-import { Center, Grid, GridItem } from "@chakra-ui/react";
-import { getAllSellLists } from "../../services/api";
-import { useQuery } from "@tanstack/react-query";
-import Pagination from "react-js-pagination";
-import styled from "styled-components";
-import { useState } from "react";
-import MyHouseCard from "../../components/Card/MyHouseCard";
-
-const SellListWrap = styled.div`
-  height: 80vh;
-  overflow-y: scroll;
-`;
-
-const PagenationBox = styled.div`
-  .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-  }
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  ul.pagination li {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    border: 1px solid #e2e2e2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1rem;
-  }
-  ul.pagination li:first-child {
-    border-radius: 5px 0 0 5px;
-  }
-  ul.pagination li:last-child {
-    border-radius: 0 5px 5px 0;
-  }
-  ul.pagination li a {
-    text-decoration: none;
-    color: #337ab7;
-    font-size: 1rem;
-  }
-  ul.pagination li.active a {
-    color: white;
-  }
-  ul.pagination li.active {
-    background-color: #337ab7;
-  }
-  ul.pagination li a:hover,
-  ul.pagination li a.active {
-    color: blue;
-  }
-`;
+import React from "react";
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 export default function SellHistory() {
-  const { error, data, isLoading } = useQuery(["sellHouse"], getAllSellLists);
-  const [page, setPage] = useState(1);
-  const pageChange = (page) => {
-    setPage(page);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const tabMap = {
+    "": 0,
+    sell: 1,
+    notsell: 2,
+  };
+  const selectedTabIndex = tabMap[pathname.split("/").slice(-1)[0]];
+  const changeTab = (index) => {
+    navigate(`./${Object.keys(tabMap)[index]}`);
   };
 
-  const startIdx = (page - 1) * 9;
-  const endIdx = startIdx + 9;
-  const currentPageData = data?.results?.slice(startIdx, endIdx);
-
-  if (error) {
-    return <div>에러가 발생했습니다.</div>;
-  }
-
-  if (!data) {
-    return <div>로딩 중입니다.</div>;
-  }
-
   return (
-    <SellListWrap w={"90vw"}>
-      {!isLoading && currentPageData?.length < 1 ? (
-        <Center h="100%" alignItems="center" fontWeight="600">
-          비어있습니다.
-        </Center>
-      ) : (
-        <>
-          <Grid
-            w={"80vw"}
-            px="5vw"
-            gridTemplateColumns={{
-              sm: "1fr",
-              md: "1fr 1fr",
-              lg: "repeat(3, 1fr)",
-              xl: "repeat(4, 1fr)",
-            }}
-            overflowY={"scroll"}
-            h="90vh"
-          >
-            {currentPageData?.map((item, idx) => {
-              return (
-                <GridItem key={idx}>
-                  <MyHouseCard key={idx} {...item} />
-                </GridItem>
-              );
-            })}
-          </Grid>
-          <PagenationBox>
-            {/* 데이터 배열의 길이를 totalItemsCount로 설정 */}
-            <Pagination
-              activePage={page}
-              itemsCountPerPage={9}
-              totalItemsCount={data?.length ?? 0}
-              pageRangeDisplayed={5}
-              prevPageText="<"
-              nextPageText=">"
-              onChange={pageChange}
-            ></Pagination>
-          </PagenationBox>
-        </>
-      )}
-    </SellListWrap>
+    <Tabs
+      isLazy
+      isFitted
+      variant="unstyled"
+      defaultIndex={selectedTabIndex}
+      onChange={changeTab}
+    >
+      <TabList borderTopRadius={"3xl"}>
+        <Tab
+          borderWidth="3px"
+          borderColor="white"
+          bg={"gray.200"}
+          _selected={{ color: "white", bg: "#ff535e" }}
+        >
+          모두보기
+        </Tab>
+        <Tab
+          borderWidth="3px"
+          borderColor="white"
+          bg={"gray.200"}
+          _selected={{ color: "white", bg: "#ff535e" }}
+        >
+          판매중
+        </Tab>
+        <Tab
+          borderWidth="3px"
+          borderColor="white"
+          bg={"gray.200"}
+          _selected={{ color: "white", bg: "#ff535e" }}
+        >
+          판매완료
+        </Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel>
+          <Outlet />
+        </TabPanel>
+        <TabPanel>
+          <Outlet />
+        </TabPanel>
+        <TabPanel>
+          <Outlet />
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
   );
 }
