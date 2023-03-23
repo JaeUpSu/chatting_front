@@ -11,7 +11,7 @@ import { useState } from "react";
 const WishListWrap = styled.div`
   height: 60vh;
   overflow-y: scroll;
-  margin-left: 3rem;
+  max-width: 75vw;
 `;
 
 const PagenationBox = styled.div`
@@ -64,8 +64,8 @@ export default function WishList() {
     setPage(page);
   };
 
-  const startIdx = (page - 1) * 9;
-  const endIdx = startIdx + 9;
+  const startIdx = (page - 1) * 12;
+  const endIdx = startIdx + 12;
   const currentPageData = data?.slice(startIdx, endIdx);
 
   if (error) {
@@ -81,20 +81,20 @@ export default function WishList() {
       <Flex flexWrap={"wrap"}>
         {currentPageData?.map((item, index) => {
           return (
-            <Card w="20vw" m="20px" key={index}>
+            <Card w="15vw" m="10px" key={index} overflow={"hidden"} ml="2rem">
               <Link to={`/houseList/house/${item.house.id}`}>
-                <Image src={item.house.thumnail} w="20rem" h="13rem" />
+                <Image src={item.house.thumnail} w="20rem" h="12rem" />
               </Link>
               <CardBody>
                 <Box fontWeight={600}>{item.house.title}</Box>
-                <Flex>
+                <Flex fontSize={"sm"}>
                   <Text mr="0.5rem">
                     {RoomKindsToFront[item.house.room_kind]}
                   </Text>
                   <Text>{SellKindsToFront[item.house.sell_kind]}</Text>
                 </Flex>
 
-                <Flex>
+                <Flex fontSize={"sm"} color={"#ff404c"}>
                   <Text>
                     {`${getSaleContents(
                       item.house.sell_kind,
@@ -110,10 +110,9 @@ export default function WishList() {
         })}
       </Flex>
       <PagenationBox>
-        {/* 데이터 배열의 길이를 totalItemsCount로 설정 */}
         <Pagination
           activePage={page}
-          itemsCountPerPage={9}
+          itemsCountPerPage={12}
           totalItemsCount={data?.length ?? 0}
           pageRangeDisplayed={5}
           prevPageText="<"

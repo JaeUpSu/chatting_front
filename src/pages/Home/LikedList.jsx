@@ -11,16 +11,18 @@ import { Link } from "react-router-dom";
 import { getSaleContents } from "../../utils/getSaleContents";
 
 const HouseImg = styled.img`
-  width: 200px;
-  height: 250px;
-  margin-right: 4rem;
+  position: relative;
   cursor: pointer;
+  overflow: hidden;
+  width: 200px;
+  height: 200px;
+  border-radius: 3%;
   transition: transform 0.5s ease-in-out;
 `;
 
-const FontFam = styled.p`
-  font-weight: 600;
-  margin-right: 10px;
+const HouseWrap = styled.div`
+  border-radius: 3%;
+  max-width: 200px;
 `;
 
 const SlideWrapper = styled.div`
@@ -39,8 +41,8 @@ const PrevArrow = (props) => {
         ...props.style,
         display: "block",
         position: "absolute",
-        top: "50%",
-        left: "1rem",
+        top: "45%",
+        left: "5rem",
         zIndex: 1,
         width: "40px",
         height: "40px",
@@ -59,8 +61,8 @@ const NextArrow = (props) => {
         ...props.style,
         display: "block",
         position: "absolute",
-        top: "50%",
-        right: "3rem",
+        top: "45%",
+        right: "7rem",
         zIndex: 1,
         width: "40px",
         height: "40px",
@@ -96,19 +98,19 @@ const LikedList = () => {
       <Slider {...settings}>
         {data &&
           data?.map((item, idx) => (
-            <div key={idx}>
+            <HouseWrap key={idx}>
               <Link to={`/houseList/house/${item.house.id}`}>
                 <HouseImg src={item.house.thumnail} />
               </Link>
 
-              <FontFam>{item.house.title}</FontFam>
-              <Flex>
-                <FontFam>{SellKindsToFront[item.house.sell_kind]}</FontFam>
-                <FontFam>{RoomKindsToFront[item.house.room_kind]}</FontFam>
+              <Text fontWeight={"600"}>{item.house.title}</Text>
+              <Flex fontSize={"sm"}>
+                <Text mr="1rem">{SellKindsToFront[item.house.sell_kind]}</Text>
+                <Text>{RoomKindsToFront[item.house.room_kind]}</Text>
               </Flex>
 
               <Flex>
-                <Text>
+                <Text fontSize={"sm"} color={"#ff404c"}>
                   {`${getSaleContents(
                     item.house.sell_kind,
                     item.house.deposit,
@@ -117,7 +119,7 @@ const LikedList = () => {
                   )}`}
                 </Text>
               </Flex>
-            </div>
+            </HouseWrap>
           ))}
       </Slider>
     </SlideWrapper>
