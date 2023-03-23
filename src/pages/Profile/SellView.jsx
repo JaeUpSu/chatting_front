@@ -66,7 +66,7 @@ const PagenationBox = styled.div`
 `;
 
 export default function SellHistory() {
-  const { error, data, isLoading } = useQuery(["house"], getSellLists);
+  const { error, data, isLoading } = useQuery(["sellHouse"], getSellLists);
   const [page, setPage] = useState(1);
   const pageChange = (page) => {
     setPage(page);
