@@ -11,18 +11,20 @@ import { Link } from "react-router-dom";
 import { getSaleContents } from "./../../utils/getSaleContents";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+
 const HouseImg = styled.img`
-  width: 200px;
-  height: 250px;
   position: relative;
-  margin-right: 4rem;
   cursor: pointer;
+  overflow: hidden;
+  border-radius: 3%;
+  width: 200px;
+  height: 200px;
   transition: transform 0.5s ease-in-out;
 `;
 
-const FontFam = styled.p`
-  font-weight: 600;
-  margin-right: 10px;
+const HouseWrap = styled.div`
+  border-radius: 3%;
+  max-width: 200px;
 `;
 
 const SlideWrapper = styled.div`
@@ -41,8 +43,8 @@ const PrevArrow = (props) => {
         ...props.style,
         display: "block",
         position: "absolute",
-        top: "50%",
-        left: "1rem",
+        top: "45%",
+        left: "5rem",
         zIndex: 1,
         width: "40px",
         height: "40px",
@@ -61,8 +63,8 @@ const NextArrow = (props) => {
         ...props.style,
         display: "block",
         position: "absolute",
-        top: "50%",
-        right: "3rem",
+        top: "45%",
+        right: "7rem",
         zIndex: 1,
         width: "40px",
         height: "40px",
@@ -75,11 +77,11 @@ const RecentList = () => {
   const { error, data } = useQuery(["recently_views"], getHouseLists);
 
   if (error) {
-    return <div>에러가 발생했습니다.</div>;
+    return <SlideWrapper>Error...</SlideWrapper>;
   }
 
   if (!data) {
-    return <div>로딩 중입니다.</div>;
+    return <div>Loading...</div>;
   }
 
   const settings = {
@@ -97,23 +99,21 @@ const RecentList = () => {
       <Slider {...settings}>
         {data &&
           data.map((item, index) => (
-            <div key={index}>
+            <HouseWrap key={index}>
               <Link to={`/houseList/house/${item.recently_views.id}`}>
                 <HouseImg src={item.recently_views.thumnail} />
               </Link>
 
-              <FontFam>{item.recently_views.title}</FontFam>
-              <Flex>
-                <FontFam>
+              <Text fontWeight={"600"}>{item.recently_views.title}</Text>
+              <Flex fontSize={"sm"}>
+                <Text mr="1rem">
                   {SellKindsToFront[item?.recently_views.sell_kind]}
-                </FontFam>
-                <FontFam>
-                  {RoomKindsToFront[item?.recently_views.room_kind]}
-                </FontFam>
+                </Text>
+                <Text>{RoomKindsToFront[item?.recently_views.room_kind]}</Text>
               </Flex>
 
               <Flex>
-                <Text>
+                <Text fontSize={"sm"} color={"#ff404c"}>
                   {`${getSaleContents(
                     item.recently_views.sell_kind,
                     item.recently_views.deposit,
@@ -122,7 +122,7 @@ const RecentList = () => {
                   )}`}
                 </Text>
               </Flex>
-            </div>
+            </HouseWrap>
           ))}
       </Slider>
     </SlideWrapper>
