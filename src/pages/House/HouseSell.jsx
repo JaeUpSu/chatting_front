@@ -13,8 +13,8 @@ import {
   Divider,
   Flex,
   Text,
-  Image,
-  useColorModeValue,
+  CheckboxGroup,
+  Checkbox,
 } from "@chakra-ui/react";
 
 import { useEffect, useRef, useState } from "react";
@@ -31,6 +31,8 @@ import {
   ErrorCheckMenu,
   RoomKindsToFront,
   SellKindsToFront,
+  additionalOptions,
+  safetyOptions,
 } from "../../services/data";
 
 import { getProcessedData } from "../../utils/getProcessedData";
@@ -239,16 +241,8 @@ const HouseSell = () => {
   }, [imageBackUrls, datas]);
 
   return (
-    <VStack>
-      <Center
-        pb="5vh"
-        pt="50vh"
-        w="120vw"
-        borderWidth="1px"
-        borderRadius="lg"
-        overflowY="scroll"
-        maxHeight="90vh"
-      >
+    <VStack h="100vh" overflowY="scroll" pb="5vh">
+      <Center py="5vh" w="120vw" borderWidth="1px" borderRadius="lg">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl isInvalid={errors.title} id="title" my="1" w="70vw">
             <FormLabel fontWeight="600">제목</FormLabel>
@@ -306,8 +300,11 @@ const HouseSell = () => {
               })}
             </HStack>
           </FormControl>
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-          <HStack w="70vw">
+          <HStack w="70vw" mt="2vw">
+            <FormControl id="si" my="1">
+              <FormLabel fontWeight="600">시</FormLabel>
+              <Input fontSize="14px" defaultValue="서울" isDisabled={true} />
+            </FormControl>
             <FormControl isInvalid={errors.gu} id="gu" my="1">
               <FormLabel fontWeight="600">구</FormLabel>
               <Select
@@ -349,7 +346,6 @@ const HouseSell = () => {
               <FormErrorMessage>{`동을 선택해주세요`}</FormErrorMessage>
             </FormControl>
           </HStack>
-
           <FormControl isInvalid={errors.address} id="address" my="1">
             <FormLabel fontWeight="600">상세주소</FormLabel>
             <Input
@@ -362,85 +358,31 @@ const HouseSell = () => {
               <FormErrorMessage>{isError["address"]}</FormErrorMessage>
             )}
           </FormControl>
-
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-          <HStack w="70vw">
-            <FormControl isInvalid={errors.room_kind} id="room_kind" my="1">
-              <FormLabel fontWeight="600">방 종류</FormLabel>
-              <Select
-                {...register("room_kind", { required: true })}
-                placeholder="방 종류를 선택해주세요"
-                fontSize="14px"
-              >
-                {roomKindOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
-              <FormErrorMessage>{`방 종류를 선택해주세요`}</FormErrorMessage>
-            </FormControl>
-            <FormControl isInvalid={errors.sell_kind} id="sell_kind" my="1">
+          <FormControl
+            isInvalid={errors.sell_kind}
+            id="sell_kind"
+            mt="6"
+            mb="10"
+          >
+            <HStack justifyContent="space-between">
               <FormLabel fontWeight="600">거래 종류</FormLabel>
-              <Select
-                {...register("sell_kind", { required: true })}
-                placeholder="거래 종류를 선택해주세요"
-                fontSize="14px"
-                onChange={handleSellKindSelectChange}
-              >
-                {sellKindOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
-              <FormErrorMessage>{`거래 종류를 선택해주세요`}</FormErrorMessage>
-            </FormControl>
-          </HStack>
-          <HStack w="70vw">
-            <FormControl isInvalid={errors.room} id="room" my="1">
-              <FormLabel fontWeight="600">방 개수</FormLabel>
-              <Input
-                type="number"
-                fontSize="12px"
-                placeholder="방 개수를 입력해주세요"
-                {...register("room", { required: true })}
-                onChange={handleValidate}
-              />
-              {isError["room"] && (
-                <FormErrorMessage>{isError["room"]}</FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl isInvalid={errors.toilet} id="toilet" my="1">
-              <FormLabel fontWeight="600">화장실 개수</FormLabel>
-              <Input
-                type="number"
-                fontSize="12px"
-                placeholder="화장실 개수를 입력해주세요"
-                {...register("toilet", { required: true })}
-                onChange={handleValidate}
-              />
-              {isError["toilet"] && (
-                <FormErrorMessage>{isError["toilet"]}</FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl isInvalid={errors.pyeongsu} id="pyeongsu" my="1">
-              <FormLabel fontWeight="600">평수</FormLabel>
-              <Input
-                type="number"
-                fontSize="12px"
-                placeholder="평수를 입력해주세요"
-                {...register("pyeongsu", { required: true })}
-                onChange={handleValidate}
-              />
-              {isError["pyeongsu"] && (
-                <FormErrorMessage>{isError["pyeongsu"]}</FormErrorMessage>
-              )}
-            </FormControl>
-          </HStack>
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-
-          <Flex justifyContent="flex-end">(만원)</Flex>
+              <Text>(만원)</Text>
+            </HStack>
+            <Select
+              {...register("sell_kind", { required: true })}
+              placeholder="거래 종류를 선택해주세요"
+              fontSize="14px"
+              onChange={handleSellKindSelectChange}
+            >
+              {sellKindOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+            <FormErrorMessage>{`거래 종류를 선택해주세요`}</FormErrorMessage>
+          </FormControl>
           <HStack>
             <FormControl
               isInvalid={errors.sale}
@@ -536,9 +478,130 @@ const HouseSell = () => {
               )}
             </FormControl>
           </HStack>
-
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-
+          <FormControl
+            isInvalid={errors.room_kind}
+            id="room_kind"
+            mt="2"
+            mb="7"
+          >
+            <FormLabel fontWeight="600">방 종류</FormLabel>
+            <Select
+              {...register("room_kind", { required: true })}
+              placeholder="방 종류를 선택해주세요"
+              fontSize="14px"
+            >
+              {roomKindOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+            <FormErrorMessage>{`방 종류를 선택해주세요`}</FormErrorMessage>
+          </FormControl>
+          <HStack w="70vw">
+            <FormControl isInvalid={errors.room} id="room" my="1">
+              <FormLabel fontWeight="600">방 개수</FormLabel>
+              <Input
+                type="number"
+                fontSize="12px"
+                placeholder="방 개수를 입력해주세요"
+                {...register("room", { required: true })}
+                onChange={handleValidate}
+              />
+              {isError["room"] && (
+                <FormErrorMessage>{isError["room"]}</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl isInvalid={errors.toilet} id="toilet" my="1">
+              <FormLabel fontWeight="600">화장실 개수</FormLabel>
+              <Input
+                type="number"
+                fontSize="12px"
+                placeholder="화장실 개수를 입력해주세요"
+                {...register("toilet", { required: true })}
+                onChange={handleValidate}
+              />
+              {isError["toilet"] && (
+                <FormErrorMessage>{isError["toilet"]}</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl isInvalid={errors.pyeongsu} id="pyeongsu" my="1">
+              <FormLabel fontWeight="600">평수</FormLabel>
+              <Input
+                type="number"
+                fontSize="12px"
+                placeholder="평수를 입력해주세요"
+                {...register("pyeongsu", { required: true })}
+                onChange={handleValidate}
+              />
+              {isError["pyeongsu"] && (
+                <FormErrorMessage>{isError["pyeongsu"]}</FormErrorMessage>
+              )}
+            </FormControl>
+          </HStack>
+          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
+          <FormControl id="additionalOptions" mt="2" mb="7">
+            <FormLabel fontWeight="600">옵션</FormLabel>
+            <CheckboxGroup colorScheme="green">
+              {additionalOptions.map((item, idx) => {
+                if ((idx + 1) % 3 === 0) {
+                  return (
+                    <>
+                      <Checkbox
+                        key={idx}
+                        value={item}
+                        mx="3"
+                        w="13vw"
+                        h="5vh"
+                        minW="110px"
+                      >
+                        {item}
+                      </Checkbox>
+                      <br />
+                    </>
+                  );
+                } else {
+                  return (
+                    <Checkbox key={idx} mx="3" w="13vw" minW="110px" h="5vh">
+                      {item}
+                    </Checkbox>
+                  );
+                }
+              })}
+            </CheckboxGroup>
+          </FormControl>
+          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
+          <FormControl id="additionalOptions" mt="2" mb="7">
+            <FormLabel fontWeight="600">옵션</FormLabel>
+            <CheckboxGroup colorScheme="green">
+              {safetyOptions.map((item, idx) => {
+                if ((idx + 1) % 3 === 0) {
+                  return (
+                    <>
+                      <Checkbox
+                        key={idx}
+                        value={item}
+                        mx="3"
+                        w="13vw"
+                        minW="110px"
+                        h="5vh"
+                      >
+                        {item}
+                      </Checkbox>
+                      <br />
+                    </>
+                  );
+                } else {
+                  return (
+                    <Checkbox key={idx} mx="3" minW="110px" w="13vw" h="5vh">
+                      {item}
+                    </Checkbox>
+                  );
+                }
+              })}
+            </CheckboxGroup>
+          </FormControl>
           <FormControl isInvalid={errors.description} id="description" my="1">
             <FormLabel fontWeight="600">설명</FormLabel>
             <Textarea

@@ -1,15 +1,25 @@
 import {
+  Box,
   Button,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Input,
+  Select,
+  Textarea,
   VStack,
   Center,
+  HStack,
   Divider,
   Flex,
   Text,
+  useColorModeValue,
+  Image,
   useToast,
 } from "@chakra-ui/react";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import {
@@ -48,7 +58,7 @@ const HouseEdit = () => {
   const [isUpdatedImage, setIsUpdatedImage] = useState([]); // 바뀐 이미지의 순서 저장 리스트
 
   // putHouse
-  const { mutate, isLoading } = useMutation(putHouse, {
+  const { mutate } = useMutation(putHouse, {
     onSuccess: () => {
       toast({
         title: "수정을 완료했습니다!",
@@ -252,7 +262,7 @@ const HouseEdit = () => {
               right={20}
               onClick={onSubmit}
             >
-              {mutate.isLoading ? "등록중..." : "등록하기"}
+              등록하기
             </Button>
           </Flex>
         </VStack>
