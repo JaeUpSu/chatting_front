@@ -10,10 +10,12 @@ import {
 } from "react-router-dom";
 import ProtectedPage from "../../components/auth/ProtectedPage";
 import OnlyMePage from "../../components/auth/OnlyMePage";
+import useUser from "../../hooks/useUser";
 
 function Profile() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { user, userLoading, isLoggedIn } = useUser();
   const tabMap = {
     "": 0,
     wishlist: 1,
@@ -62,14 +64,16 @@ function Profile() {
           >
             최근 본 방
           </Tab>
-          <Tab
-            m={"1px"}
-            borderTopRadius={"xl"}
-            bg={"gray.200"}
-            _selected={{ color: "white", bg: "#ff535e" }}
-          >
-            판매내역
-          </Tab>
+          {user?.is_host ? (
+            <Tab
+              m={"1px"}
+              borderTopRadius={"xl"}
+              bg={"gray.200"}
+              _selected={{ color: "white", bg: "#ff535e" }}
+            >
+              판매내역
+            </Tab>
+          ) : null}
         </TabList>
         <TabPanels>
           <TabPanel p="0px">
