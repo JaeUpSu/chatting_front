@@ -259,6 +259,18 @@ const HouseEdit = () => {
             >
               등록하기
             </Button>
+
+            <Button
+              size="lg"
+              position={"fixed"}
+              bottom={5}
+              right={220}
+              isLoading={mutate.isLoading}
+              colorScheme="teal"
+              variant="solid"
+            >
+              Email
+            </Button>
           </Flex>
         </VStack>
       </Center>
