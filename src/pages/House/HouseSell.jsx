@@ -305,11 +305,18 @@ const HouseSell = () => {
             </HStack>
           </FormControl>
           <HStack w="40vw" mt="3vw" justifyContent="space-between" minW="450px">
-            <FormControl id="si" my="1" w="17vw">
+            <FormControl id="si" my="1" w="17vw" 
+              minW="150px">
               <FormLabel>시</FormLabel>
               <Input fontSize="14px" defaultValue="서울" isDisabled={true} />
             </FormControl>
-            <FormControl isInvalid={errors.gu} id="gu" my="1" w="17vw">
+            <FormControl
+              isInvalid={errors.gu}
+              id="gu"
+              my="1"
+              w="17vw"
+              minW="150px"
+            >
               <FormLabel>구</FormLabel>
               <Select
                 {...register("gu", { required: true })}
@@ -329,7 +336,8 @@ const HouseSell = () => {
               </Select>
               <FormErrorMessage>{`구를 선택해주세요`}</FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={errors.dong} id="dong" my="1" w="17vw">
+            <FormControl isInvalid={errors.dong} id="dong" my="1" w="17vw" 
+              minW="150px">
               <FormLabel>동</FormLabel>
               <Select
                 {...register("dong", { required: true })}
