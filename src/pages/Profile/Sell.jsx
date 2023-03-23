@@ -64,8 +64,8 @@ export default function SellAll() {
     setPage(page);
   };
 
-  const startIdx = (page - 1) * 9;
-  const endIdx = startIdx + 9;
+  const startIdx = (page - 1) * 12;
+  const endIdx = startIdx + 12;
   const currentPageData = data?.results?.slice(startIdx, endIdx);
 
   return (
@@ -102,7 +102,7 @@ export default function SellAll() {
           <PagenationBox>
             <Pagination
               activePage={page}
-              itemsCountPerPage={9}
+              itemsCountPerPage={12}
               totalItemsCount={data?.results?.length ?? 0}
               pageRangeDisplayed={5}
               prevPageText="<"
