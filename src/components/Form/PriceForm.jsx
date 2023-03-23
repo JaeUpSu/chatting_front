@@ -80,12 +80,11 @@ function PriceForm({
 
   return (
     <>
-      <Flex justifyContent="space-between" w="100%">
-        <Text>가격</Text>
+      <Flex justifyContent="flex-end" w="100%">
         <Text>(만원)</Text>
       </Flex>
       <form onSubmit={handleSubmit(onEnter)}>
-        <HStack w="70vw">
+        <HStack w="40vw">
           <FormControl
             isInvalid={errors[names[0]]}
             id={names[0]}
@@ -93,22 +92,27 @@ function PriceForm({
             isDisabled={isModify ? (sellKind == "SALE" ? false : true) : true}
           >
             <FormLabel fontWeight="600">{labeles[0]}</FormLabel>
-            <HStack>
-              {isModify ? (
-                <Input
-                  w="70%"
-                  type="number"
-                  defaultValue={onPrice(Number(values[0] ? values[0] : 0))}
-                  {...register(names[0], {
-                    required: sellKind == "SALE" ? true : false,
-                  })}
-                />
-              ) : (
-                <Text w="70%" h="5.2vh">
-                  {onPrice(values[0])}
-                </Text>
-              )}
-            </HStack>
+            {isModify ? (
+              <Input
+                w="70%"
+                type="number"
+                defaultValue={onPrice(Number(values[0] ? values[0] : 0))}
+                {...register(names[0], {
+                  required: sellKind == "SALE" ? true : false,
+                })}
+              />
+            ) : (
+              <Text
+                w="70%"
+                h="3.7vh"
+                pl="3"
+                border={"1px solid rgb(200,200,200, 0.3)"}
+                borderRadius="md"
+                lineHeight="10"
+              >
+                {onPrice(values[0])}
+              </Text>
+            )}
             <FormErrorMessage>{`${names[0]}를 입력하세요`}</FormErrorMessage>
           </FormControl>
           <FormControl
@@ -124,29 +128,32 @@ function PriceForm({
             }
           >
             <FormLabel fontWeight="600">{labeles[1]}</FormLabel>
-            <HStack>
-              {isModify ? (
-                <Input
-                  w="70%"
-                  type="number"
-                  defaultValue={onPrice(values[1])}
-                  {...register(names[1], {
-                    required:
-                      sellKind == "CHARTER" || sellKind == "MONTHLY_RENT"
-                        ? true
-                        : false,
-                  })}
-                />
-              ) : (
-                <Text w="70%" h="5.2vh">
-                  {onPrice(values[1])}
-                </Text>
-              )}
-            </HStack>
+            {isModify ? (
+              <Input
+                w="70%"
+                type="number"
+                defaultValue={onPrice(values[1])}
+                {...register(names[1], {
+                  required:
+                    sellKind == "CHARTER" || sellKind == "MONTHLY_RENT"
+                      ? true
+                      : false,
+                })}
+              />
+            ) : (
+              <Text
+                w="70%"
+                h="3.7vh"
+                pl="3"
+                border={"1px solid rgb(200,200,200, 0.3)"}
+                borderRadius="md"
+                lineHeight="10"
+              >
+                {onPrice(values[1])}
+              </Text>
+            )}
             <FormErrorMessage>{`${labeles[1]}을 입력하세요`}</FormErrorMessage>
           </FormControl>
-        </HStack>
-        <HStack w="70vw">
           <FormControl
             isInvalid={errors[names[2]]}
             id={names[2]}
@@ -167,19 +174,21 @@ function PriceForm({
                   })}
                 />
               ) : (
-                <Text w="70%" h="5.2vh">
+                <Text
+                  w="70%"
+                  h="3.7vh"
+                  pl="3"
+                  border={"1px solid rgb(200,200,200, 0.3)"}
+                  borderRadius="md"
+                  lineHeight="10"
+                >
                   {onPrice(values[2])}
                 </Text>
               )}
             </HStack>
             <FormErrorMessage>{`${labeles[2]}를 입력하세요`}</FormErrorMessage>
           </FormControl>
-          <FormControl
-            isInvalid={errors[names[3]]}
-            id={names[3]}
-            my="1"
-            isDisabled={isModify ? false : true}
-          >
+          <FormControl isInvalid={errors[names[3]]} id={names[3]} my="1">
             <FormLabel fontWeight="600">{labeles[3]}</FormLabel>
             {isModify ? (
               <Input
@@ -189,14 +198,21 @@ function PriceForm({
                 {...register(names[3], { required: true })}
               />
             ) : (
-              <Text w="70%" h="5.2vh">
+              <Text
+                w="70%"
+                h="3.7vh"
+                pl="3"
+                border={"1px solid rgb(200,200,200, 0.3)"}
+                borderRadius="md"
+                lineHeight="10"
+              >
                 {onPrice(values[3])}
               </Text>
             )}
             <FormErrorMessage>{`관리비를 입력하세요`}</FormErrorMessage>
           </FormControl>
         </HStack>
-        <HStack w="100%" mt="4" mb="6" justifyContent="flex-end">
+        <HStack w="100%" mt="1" mb="6" justifyContent="flex-end">
           {isModify ? (
             <ButtonGroup>
               <Button type="submit">입력</Button>

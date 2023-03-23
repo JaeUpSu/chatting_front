@@ -143,7 +143,7 @@ const ImageForm = ({
 
   return (
     <>
-      <FormLabel marginBottom="0px" w="70vw" fontWeight="600">
+      <FormLabel marginBottom="0px" w="40vw" fontWeight="600">
         <HStack alignItems="center" justifyContent="space-between" w="80%">
           <HStack alignItems="center">
             <Text>
@@ -158,7 +158,7 @@ const ImageForm = ({
       </FormLabel>
       <form onSubmit={handleSubmit(onEnter)}>
         <FormControl isInvalid={errors.images} id={name}>
-          <HStack w="70vw" justifyContent="space-between">
+          <HStack w="40vw" justifyContent="space-between">
             <Input
               type="file"
               accept=".jpg,.jpeg,.png,.webp"
@@ -193,14 +193,14 @@ const ImageForm = ({
           </HStack>
         </FormControl>
       </form>
-      <VStack w="70vw">
+      <VStack w="40vw">
         <RadioImageSelector
           select={setImgIdx}
           images={imageUrls}
           isModify={isModify}
         />
         {(imgIdx < 0) & isModify && (
-          <Text w="70vw" color="red.400" fontSize="14px" fontWeight="600">
+          <Text w="40vw" color="red.400" fontSize="14px" fontWeight="600">
             바꿀 이미지를 선택해주세요.
           </Text>
         )}

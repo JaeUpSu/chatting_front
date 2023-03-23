@@ -5,7 +5,7 @@ const ImageCard = ({ imageUrl, idx, isSelected, onSelect, isModify }) => {
   return (
     <Tooltip label={isModify && "이미지 선택"}>
       <Button
-        w="12vw"
+        w="8vw"
         h="10vh"
         borderWidth="2px"
         borderRadius="lg"
@@ -15,7 +15,7 @@ const ImageCard = ({ imageUrl, idx, isSelected, onSelect, isModify }) => {
         boxShadow={isSelected ? "outline" : "none"}
         onClick={isModify ? () => onSelect(imageUrl, idx) : () => {}}
         _hover={{ backgroundColor: "rgb(20,20,20,0.1)" }}
-        sx={{ "&:focus": { outline: "none" } }}
+        sx={{ "&:focus": { outline: "none" }, aspectRatio: "1 / 1" }}
       />
     </Tooltip>
   );
@@ -30,7 +30,7 @@ const RadioImageSelector = ({ images, select, isModify }) => {
   };
 
   return (
-    <RadioGroup value={selectedImage} w="70vw">
+    <RadioGroup value={selectedImage} w="40vw">
       <Stack direction="row" spacing={2}>
         {images.map((imageUrl, idx) => (
           <ImageCard
