@@ -146,12 +146,18 @@ const TripleForm = ({
           </FormControl>{" "}
           <Box pt="6" justifyContent="flex-end" alignItems="flex-end">
             {isModify ? (
-              <ButtonGroup>
-                <Button type="submit">입력</Button>
-                <Button onClick={onModify}>취소</Button>
-              </ButtonGroup>
+              <HStack>
+                <Button type="submit" w="5vw">
+                  입력
+                </Button>
+                <Button onClick={onModify} w="5vw">
+                  취소
+                </Button>
+              </HStack>
             ) : (
-              <Button onClick={onModify}>수정</Button>
+              <Button onClick={onModify} w="5.5vw">
+                수정
+              </Button>
             )}
           </Box>
         </HStack>

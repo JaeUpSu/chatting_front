@@ -81,18 +81,13 @@ const SellKindSelectForm = ({
 
   return (
     <>
-      <FormLabel marginBottom="0" fontWeight="600" w="100%" my="2">
+      <FormLabel marginBottom="0" fontWeight="600" w="40vw" minW="450px" my="2">
         거래 종류
       </FormLabel>
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
-          <FormControl
-            isInvalid={errors.sell_kind}
-            id="sell_kind"
-            my="1"
-            w="40vw"
-          >
-            <HStack>
+          <FormControl isInvalid={errors.sell_kind} id="sell_kind" my="1">
+            <HStack w="40vw" minW="450px">
               <Select
                 {...register("sell_kind", { required: true })}
                 placeholder="거래 종류를 선택해주세요"
@@ -105,8 +100,14 @@ const SellKindSelectForm = ({
                   </option>
                 ))}
               </Select>
-              <Button type="submit">입력</Button>
-              <Button onClick={onModify}>취소</Button>
+              <HStack>
+                <Button type="submit" w="5vw">
+                  입력
+                </Button>
+                <Button onClick={onModify} w="5vw">
+                  취소
+                </Button>
+              </HStack>
             </HStack>
             <FormErrorMessage>{`거래 종류를 선택해주세요`}</FormErrorMessage>
           </FormControl>
@@ -114,7 +115,9 @@ const SellKindSelectForm = ({
       ) : (
         <HStack justifyContent="space-between" w="100%" my="4" h="5.3vh">
           <Text>{sellKind ? SellKindsToFront[sellKind] : ""}</Text>
-          <Button onClick={onModify}>수정</Button>
+          <Button onClick={onModify} w="5.5vw">
+            수정
+          </Button>
         </HStack>
       )}
     </>
