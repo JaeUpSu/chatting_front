@@ -240,12 +240,17 @@ const HouseSell = () => {
 
   return (
     <VStack h="100vh" overflowY="scroll" pb="5vh">
-      <Center pt="2vh" pb="5vh" minW="450px">
+      <Center pt="2vh" pb="5vh">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl isInvalid={errors.title} id="title" my="5">
+          <FormControl
+            isInvalid={errors.title}
+            id="title"
+            my="5"
+            w="40vw"
+            minW="450px"
+          >
             <FormLabel>제목</FormLabel>
             <Input
-              minW="450px"
               type="text"
               placeholder="제목을 입력해주세요"
               {...register("title", { required: true })}
@@ -367,10 +372,10 @@ const HouseSell = () => {
           </FormControl>
           <Divider
             borderWidth="1.2px"
+            w="40vw"
             minW="450px"
             my="5"
             borderColor="blackAlpha.400"
-            w="42vw"
           />
           <FormControl
             isInvalid={errors.sell_kind}
@@ -394,7 +399,7 @@ const HouseSell = () => {
             </Select>
             <FormErrorMessage>{`거래 종류를 선택해주세요`}</FormErrorMessage>
           </FormControl>
-          <Flex justifyContent="flex-end" w="40vw">
+          <Flex justifyContent="flex-end" w="40vw" minW="450px">
             <Text mb="3">(단위 : 만원)</Text>
           </Flex>
 
