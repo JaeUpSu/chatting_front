@@ -250,7 +250,8 @@ export const putHouse = (house) => {
       headers: {
         "X-CSRFToken": Cookie.get("csrftoken") || "",
       },
-    }).then((res)=>res.data)
+    })
+    .then((res) => res.data);
 };
 // 해당 집 판매완료
 export const soldOutHouse = (house) => {
