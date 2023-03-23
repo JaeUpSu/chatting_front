@@ -20,6 +20,8 @@ import MyInfo from "./pages/Profile/MyInfo";
 import WishList from "./pages/Profile/WishList";
 import RecentView from "./pages/Profile/RecentView";
 import SellHistory from "./pages/Profile/SellHistory";
+import SellView from "./pages/Profile/SellView";
+import NotSellView from "./pages/Profile/NotSellView";
 import HouseEdit from "./pages/House/HouseEdit";
 import NotFound from "./pages/NotFound";
 
@@ -36,7 +38,10 @@ function App() {
             <Route path="" element={<MyInfo />} />
             <Route path="wishList" element={<WishList />} />
             <Route path="recentView" element={<RecentView />} />
-            <Route path="sellHistory" element={<SellHistory />} />
+            <Route path="sellHistory" element={<SellHistory />}>
+              <Route path="" element={<SellView />} />
+              <Route path="notsell" element={<NotSellView />} />
+            </Route>
           </Route>
           <Route path="chatlist" element={<ChatList />}>
             <Route path=":chatRoomPk" element={<Chat />} />

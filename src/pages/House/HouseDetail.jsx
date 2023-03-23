@@ -1,26 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSaleContents } from "../../utils/getSaleContents";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   checkLiked,
   getHouse,
-  getWishLists,
+  delHouse,
   makeChatRoom,
   setWishLists,
 } from "../../services/api";
-
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import * as Solid from "@fortawesome/free-solid-svg-icons";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
   Box,
   Heading,
   Text,
-  List,
-  ListItem,
   Button,
   Grid,
   GridItem,
@@ -35,16 +28,11 @@ import {
   Card,
   CardBody,
   Stack,
-  CardFooter,
 } from "@chakra-ui/react";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import useUser from "../../hooks/useUser";
 import { useDidMountEffect } from "../../hooks/useDidMoutEffect";
-import { FaHeart, FaSink } from "react-icons/fa";
-import { TbAirConditioning } from "react-icons/tb";
-import { BiBed, BiCloset } from "react-icons/bi";
-import { GiConverseShoe, GiWashingMachine } from "react-icons/gi";
-import { CgSmartHomeRefrigerator } from "react-icons/cg";
+import { FaHeart } from "react-icons/fa";
 import RoomOption from "../../components/Badge/RoomOption";
 import SafetyOption from "../../components/Badge/SafetyOption";
 function House() {
@@ -65,6 +53,13 @@ function House() {
       navigate("/chatlist");
     },
   });
+
+  const delMutation = useMutation(delHouse, {
+    onSuccess: () => {
+      window.history.go(-1);
+    },
+  });
+
   useDidMountEffect(() => {
     setIsLike(likeData?.result);
     console.log("check");
@@ -93,10 +88,12 @@ function House() {
       navigate(`/edit/${id}`);
     }, 0);
   };
-  const onDel = () => {};
+  const onDel = () => {
+    delMutation.mutate(id);
+  };
   const onSoldOut = () => {};
 
-  const onLike = (event) => {
+  const onLike = () => {
     setIsLike(!isLike);
     if (!userLoading && isLoggedIn && id > 0) {
       likeMutation.mutate(id);
