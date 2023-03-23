@@ -10,6 +10,8 @@ import useUser from "../../hooks/useUser";
 const HomeWrapper = styled.div`
   overflow-y: scroll;
   height: 80vh;
+  margin: 0 auto;
+  max-width: 1370px;
 `;
 
 const HomeContainer = styled.div`
@@ -20,15 +22,8 @@ const HomeContainer = styled.div`
 
 const DivideLine = styled.div`
   border-top: 2px solid lightgray;
-  margin: 40px auto;
-  margin-bottom: 70px;
+  margin: 80px auto;
   width: 600px;
-`;
-
-const SlideWrapper = styled.div`
-  width: 1000px;
-  margin: 0 auto;
-  overflow: hidden;
 `;
 
 export default function Home() {
@@ -62,21 +57,17 @@ export default function Home() {
 
         {isLoggedIn ? (
           <HomeContainer>
-            <Text as="b" fontSize={"2xl"} ml="8rem">
+            <Text as="b" fontSize={"2xl"} ml="8rem" mb="2rem">
               최근 본 방
             </Text>
-            <SlideWrapper>
-              <RecentList />
-            </SlideWrapper>
+            <RecentList />
 
             <DivideLine />
 
-            <Text as="b" fontSize={"2xl"} ml="8rem">
+            <Text as="b" fontSize={"2xl"} ml="8rem" mb="2rem">
               찜한 방
             </Text>
-            <SlideWrapper>
-              <LikedList />
-            </SlideWrapper>
+            <LikedList />
           </HomeContainer>
         ) : null}
       </Box>
