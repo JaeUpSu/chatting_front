@@ -16,7 +16,6 @@ function ImageCard({ setImages, setImageUrls, src, idx }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onDelete = () => {
-    console.log("del", idx);
     setImages((imgs) => {
       const newImgs = [];
       imgs.forEach((item, _idx) => {
@@ -24,7 +23,6 @@ function ImageCard({ setImages, setImageUrls, src, idx }) {
           newImgs.push(item);
         }
       });
-      console.log("del", newImgs);
       return newImgs;
     });
 
@@ -43,7 +41,7 @@ function ImageCard({ setImages, setImageUrls, src, idx }) {
   return (
     <>
       <Tooltip label="Delete Click">
-        <Image src={src} w="13vw" h="8vh" cursor="pointer" onClick={onOpen} />
+        <Image src={src} w="11vw" h="7vh" cursor="pointer" onClick={onOpen} />
       </Tooltip>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

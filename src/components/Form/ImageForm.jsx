@@ -7,18 +7,17 @@ import {
   Text,
   FormErrorMessage,
   VStack,
-  Image,
 } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-
 import { HouseRegisterValues } from "../../services/data";
-import ImageCard from "../Card/ImageCard";
+import RadioImageSelector from "../Card/ImageRadioCard";
 
 const ImageForm = ({
   setUpdatedHouse,
-  setUpdatedData,
+  setUpdatedImage,
+  setUpdated,
   values,
   name,
   label,
@@ -31,23 +30,22 @@ const ImageForm = ({
   const [isInit, setIsInit] = useState(true);
   const [isModify, setIsModify] = useState(false);
 
-  const [images, setImages] = useState([]);
+  const [imgIdx, setImgIdx] = useState(-1);
+  const [imgIdxList, setImgIdxList] = useState([]);
+  const [images, setImages] = useState(new Array(5).fill(""));
   const [imageUrls, setImageUrls] = useState([]);
 
   const onEnter = () => {
-    // console.log("check", data);
     const data = images;
 
     let nextHouse = {};
-    let nextData = {};
     let isChange = false;
-
-    console.log("imgForm", data[0]);
 
     setUpdatedHouse((prevHouse) => {
       HouseRegisterValues.forEach((item) => {
         if (item.eng === "Image" && data) {
           nextHouse[item.eng] = imageUrls;
+          setUpdated(imgIdxList);
           isChange = true;
         } else {
           nextHouse[item.eng] = prevHouse[item.eng];
@@ -56,18 +54,7 @@ const ImageForm = ({
       return nextHouse;
     });
 
-    setUpdatedData((prevData) => {
-      HouseRegisterValues.forEach((item) => {
-        if (item.eng === "Image" && data) {
-          nextData[item.eng] = data;
-        } else if (prevData[item.eng]) {
-          nextData[item.eng] = prevData[item.eng];
-        }
-      });
-      console.log("imgForm", nextData);
-
-      return nextData;
-    });
+    setUpdatedImage(data);
 
     if (isChange) {
       setIsModify(false);
@@ -77,6 +64,11 @@ const ImageForm = ({
   const onModify = () => {
     setImageUrls(values);
     setIsModify(!isModify);
+  };
+
+  const onCancel = () => {
+    setImgIdx(-1);
+    onModify();
   };
 
   // preview 이미지 setting
@@ -103,12 +95,30 @@ const ImageForm = ({
         setImageUrls((imgUrls) => {
           const nextUrls = [];
           imgUrls.forEach((item, idx) => {
-            if (idx > 0) {
+            if (imgUrls.length == 5) {
+              if (idx == imgIdx) {
+                nextUrls[idx] = { url: results[0] };
+              } else {
+                nextUrls.push(item);
+              }
+            } else {
               nextUrls.push(item);
             }
           });
-          const nextImgUrls = [...nextUrls, { url: results[0] }];
-          return nextImgUrls;
+          setImgIdxList((list) => {
+            const newList = [];
+            if (list && list?.length > 0) {
+              if (list.find((i) => i !== imgIdx)) {
+                newList.push(imgIdx);
+                return [...list, ...newList];
+              }
+            } else {
+              newList.push(imgIdx);
+              return newList;
+            }
+          });
+          setImgIdx(-1);
+          return nextUrls;
         });
       })
       .catch((error) => {
@@ -116,6 +126,7 @@ const ImageForm = ({
       });
   };
 
+  // init
   useEffect(() => {
     if (values && isInit) {
       setImageUrls(values);
@@ -123,24 +134,26 @@ const ImageForm = ({
     }
   }, [values]);
 
+  // image 가 5 이하 일때 isModify => true
   useEffect(() => {
-    if (!isInit && imageUrls.length < 5) {
-      onModify();
+    if (!isInit && !isModify && imageUrls.length < 5) {
+      setIsModify(true);
     }
   }, [imageUrls]);
-
-  useEffect(() => {
-    console.log("update", images);
-  }, [images]);
 
   return (
     <>
       <FormLabel marginBottom="0px" w="70vw" fontWeight="600">
-        <HStack alignItems="center">
-          <Text>
-            {label} ( {imageUrls.length} )
+        <HStack alignItems="center" justifyContent="space-between" w="80%">
+          <HStack alignItems="center">
+            <Text>
+              {label} ( {imageUrls.length} )
+            </Text>
+            <Text fontSize="12px">5개 필수</Text>
+          </HStack>
+          <Text fontSize="12px">
+            {imgIdx > -1 ? `바꾸고 싶은 ${imgIdx + 1}번째 선택` : ""}
           </Text>
-          <Text fontSize="12px">5개 필수</Text>
         </HStack>
       </FormLabel>
       <form onSubmit={handleSubmit(onEnter)}>
@@ -148,30 +161,31 @@ const ImageForm = ({
           <HStack w="70vw" justifyContent="space-between">
             <Input
               type="file"
-              accept=".jpg,.jpeg,.png"
+              accept=".jpg,.jpeg,.png,.webp"
               multiple
               onChange={(e) => {
                 const files = e.target.files;
-                console.log(files);
+
                 setImages((list) => {
                   const imgs = [];
-                  list.map((item) => {
-                    imgs.push(item);
+                  list.map((item, idx) => {
+                    if (idx === imgIdx) {
+                      imgs.push(files);
+                    } else {
+                      imgs.push(item);
+                    }
                   });
-                  if (list.length === 5) imgs.pop(0);
-                  imgs.push(files[0]);
                   return imgs;
                 });
                 handleImg(files);
-
                 // e.target.value = null;
               }}
-              isDisabled={!isModify}
+              isDisabled={isModify ? (imgIdx < 0 ? true : false) : true}
             />
             {isModify ? (
               <HStack>
-                <Button type="submit">입력</Button>
-                <Button onClick={onModify}>취소</Button>
+                <Button type="submit">변경</Button>
+                <Button onClick={onCancel}>취소</Button>
               </HStack>
             ) : (
               <Button onClick={onModify}>수정</Button>
@@ -180,24 +194,16 @@ const ImageForm = ({
         </FormControl>
       </form>
       <VStack w="70vw">
-        <HStack w="70vw" justifyContent="space-between">
-          <HStack>
-            {imageUrls?.map((item, idx) => {
-              if (idx < 5) {
-                const url = item.url;
-                return (
-                  <ImageCard
-                    key={idx}
-                    idx={idx}
-                    src={url}
-                    setImageUrls={setImageUrls}
-                    setImages={setImages}
-                  />
-                );
-              }
-            })}
-          </HStack>
-        </HStack>
+        <RadioImageSelector
+          select={setImgIdx}
+          images={imageUrls}
+          isModify={isModify}
+        />
+        {(imgIdx < 0) & isModify && (
+          <Text w="70vw" color="red.400" fontSize="14px" fontWeight="600">
+            바꿀 이미지를 선택해주세요.
+          </Text>
+        )}
       </VStack>
     </>
   );

@@ -237,9 +237,6 @@ function HouseList() {
             w={"100vw"}
             pl="5vw"
             pr="5vw"
-            // mt="0.2%"
-            // maxH="30vh"
-            // rowGap={3}
             gridTemplateColumns={{
               sm: "1fr",
               md: "1fr 1fr",
@@ -247,22 +244,8 @@ function HouseList() {
               xl: "repeat(4, 1fr)",
             }}
             ref={scrollRef}
-            // overflowX="hidden"
             overflowY={"scroll"}
-            // sx={{
-            //   "&::-webkit-scrollbar": {
-            //     width: "15px",
-            //   },
-            //   "&::-webkit-scrollbar-track": {
-            //     width: "12px",
-            //     background: "rgb(55,55,55,0.1)",
-            //   },
-            //   "&::-webkit-scrollbar-thumb": {
-            //     background: "rgb(55,55,55,0.5)",
-            //     borderRadius: "20px",
-            //   },
             h="100%"
-            // }}
           >
             {data?.map((item, idx) => {
               return (

@@ -36,25 +36,29 @@ import TripleForm from "../../components/Form/TripleForm";
 import PriceForm from "../../components/Form/PriceForm";
 import ImageForm from "../../components/Form/ImageForm";
 import SingleTextAreaForm from "../../components/Form/SingleTextAreaForm";
+import {
+  getMatchSellKindPrice,
+  matchSellKindPrice,
+} from "../../utils/matchSellKindPrice";
 
 const HouseEdit = () => {
   const { id } = useParams();
-  const house = useQuery(["house", id], getHouse);
-  const navigate = useNavigate();
   const toast = useToast();
+  const navigate = useNavigate();
 
-  const [initHouse, setInitHouse] = useState(true);
-  const [sellKind, setSellKind] = useState("");
-  const [images, setImages] = useState([]);
-  const [uploadUrls, setUploadUrls] = useState([]);
-  const [imageBackUrls, setImageBackUrls] = useState([]);
-  const [updatedHouse, setUpdatedHouse] = useState({});
-  const [updatedData, setUpdatedData] = useState({});
+  const house = useQuery(["house", id], getHouse);
 
+  const [initHouse, setInitHouse] = useState(true); // 초기화
+  const [sellKind, setSellKind] = useState(""); // sell_kind 별 flag 를 만들기 위한 변수
+  const [uploadUrls, setUploadUrls] = useState([]); // Back 에서 만든 Image 를 저장할 url 리스트
+  const [imageBackUrls, setImageBackUrls] = useState([]); // Back 입력할 가공한 Image 리스트
+  const [updatedHouse, setUpdatedHouse] = useState({}); // 바뀐 데이터를 포함한 house data / display 용도
+  const [updatedData, setUpdatedData] = useState({}); // 바뀐 데이터만 저장한 리스트
+  const [updatedImage, setUpdatedImage] = useState([]); // 바뀐 이미지 저장 리스트
+  const [isUpdatedImage, setIsUpdatedImage] = useState([]); // 바뀐 이미지의 순서 저장 리스트
+
+  // putHouse
   const { mutate } = useMutation(putHouse, {
-    onMutate: (d) => {
-      console.log("update", d);
-    },
     onSuccess: () => {
       toast({
         title: "수정을 완료했습니다!",
@@ -69,15 +73,24 @@ const HouseEdit = () => {
     },
   });
 
+  // putHouse 실행 버튼
   const onSubmit = () => {
-    console.log(updatedData);
-    if (updatedData?.Image) {
-      for (let i = 0; i < updatedData?.Image.length; i++) {
+    // sell_kind 와 price match
+    if (!matchSellKindPrice(updatedData, house?.data)) {
+      alert(
+        "\n매매를 선택하는 경우 매매가\n전세를 선택하는 경우 보증금\n월세를 선택하는 경우 월세/보증금\n\n필수로 적어주세요"
+      );
+    } else if (isUpdatedImage?.length > 0) {
+      for (let i = 0; i < isUpdatedImage?.length; i++) {
         uploadURLMutation.mutate();
       }
+    } else {
+      const processData = getMatchSellKindPrice(updatedData, house?.data);
+      mutate({ id, processData });
     }
   };
 
+  // url 에 image 넣기 mutate => uploadImage
   const uploadImageMutation = useMutation(uploadImage, {
     onSuccess: ({ result }) => {
       setImageBackUrls((imgs) => {
@@ -88,10 +101,12 @@ const HouseEdit = () => {
         newImgBack.push({ url: result.variants[0] });
         return newImgBack;
       });
-      // console.log(watch());
     },
+    onMutate: (d) => {},
+    onError: (e) => {},
   });
 
+  // updatedImage 개수만큼 mutate => getUploadUrl
   const uploadURLMutation = useMutation(getUploadURL, {
     onSuccess: (data) => {
       setUploadUrls((imgs) => {
@@ -103,43 +118,51 @@ const HouseEdit = () => {
         return newImgBack;
       });
     },
+    onMutate: (d) => {},
+    onError: (e) => {},
   });
 
+  // 초기화
   useEffect(() => {
     if (house.data && initHouse) {
-      console.log("init", house);
       setSellKind(house.data?.sell_kind);
       setUpdatedHouse(house.data);
       setInitHouse(false);
     }
   }, [house]);
 
-  // useEffect(() => {
-  //   if (uploadUrls?.length === updatedData?.Image.length) {
-  //     for (let i = 0; i < updatedData?.Image.length; i++) {
-  //       setImages((imgs) => {
-  //         imgs.forEach((item) => {
-
-  //         })
-  //       })
-  //       uploadImageMutation.mutate({
-  //         uploadURL: uploadUrls[i],
-  //         file: updatedData?.Image[i],
-  //       });
-
-  //     }
-  //   }
-  // }, [uploadUrls]);
-
-  // 가공한 이미지가 5개가 되면 uploadUrl mutate
+  // isUpdatedImage 개수만큼 uploadUrls 에 uploadImage mutate
   useEffect(() => {
-    if (imageBackUrls?.length === updatedData?.Image?.length) {
-      // let processedData = getProcessedData(datas, imageBackUrls);
-      // mutate(processedData);
-      // mutate({ id, updatedData });
+    if (
+      uploadUrls?.length === isUpdatedImage?.length &&
+      uploadUrls?.length > 0
+    ) {
+      for (let i = 0; i < isUpdatedImage?.length; i++) {
+        uploadImageMutation.mutate({
+          uploadURL: uploadUrls[i],
+          file: updatedImage[isUpdatedImage[i]],
+        });
+      }
     }
-    console.log("data", updatedData);
-  }, [imageBackUrls, updatedData]);
+  }, [uploadUrls]);
+
+  // 가공한 이미지가 5개가 되면 putHouse mutate
+  useEffect(() => {
+    if (
+      imageBackUrls?.length === isUpdatedImage?.length &&
+      isUpdatedImage?.length > 0
+    ) {
+      let imgs = updatedHouse?.Image;
+      isUpdatedImage.forEach((item, idx) => {
+        imgs[item] = imageBackUrls[idx];
+      });
+      const processData = {
+        ...getMatchSellKindPrice(updatedData, house?.data),
+        Image: imgs,
+      };
+      mutate({ id, processData });
+    }
+  }, [imageBackUrls, updatedImage]);
 
   return (
     <VStack
@@ -166,7 +189,8 @@ const HouseEdit = () => {
           />
           <ImageForm
             setUpdatedHouse={setUpdatedHouse}
-            setUpdatedData={setUpdatedData}
+            setUpdatedImage={setUpdatedImage}
+            setUpdated={setIsUpdatedImage}
             values={updatedHouse?.Image}
             name="images"
             label="이미지"

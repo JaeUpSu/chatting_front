@@ -55,6 +55,14 @@ export const login = ({ username, password }) => {
     }
   );
 };
+export const changePassword = (data) =>
+  instance
+    .put("users/changepassword/", data, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((res) => res.status);
 
 // 로그아웃
 export const logout = () =>
@@ -207,6 +215,17 @@ export const getOptionHouses = (params) => {
     });
 };
 
+// 해당 집 제거하기
+export const delHouse = (id) => {
+  return instance
+    .delete(`houses/${id}`, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
+};
+
 // 해당 집 가져오기
 export const getHouse = ({ queryKey }) => {
   const [_, id] = queryKey;
@@ -215,30 +234,38 @@ export const getHouse = ({ queryKey }) => {
 
 // 해당 집 등록하기
 export const postHouse = (house) => {
-  console.log("api", house);
-  console.log("api", house?.Image?.length, house?.Image?.length === 5);
-  if (house?.Image?.length === 5) {
-    return instance
-      .post(`houses/`, house, {
-        headers: {
-          "X-CSRFToken": Cookie.get("csrftoken") || "",
-        },
-      })
-      .then((response) => response.data);
-  } else {
-    alert("아");
-  }
+  return instance
+    .post(`houses/`, house, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
 };
 // 해당 집 수정하기
 export const putHouse = (house) => {
   console.log(house);
   return instance
-    .put(`houses/${house.id}`, house.updatedData, {
+    .put(`houses/${house.id}`, house.processData, {
       headers: {
         "X-CSRFToken": Cookie.get("csrftoken") || "",
       },
     })
-    .then((response) => console.log("data", response.data));
+    .then((res) => res.data);
+};
+// 해당 집 판매완료
+export const soldOutHouse = (house) => {
+  return instance
+    .put(
+      `houses/${house.id}`,
+      { is_sale: house.is_sale },
+      {
+        headers: {
+          "X-CSRFToken": Cookie.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((res) => res.data);
 };
 
 // 모든 구 가져오기
@@ -257,20 +284,25 @@ export const getWishLists = () =>
   instance.get(`wishlists/`).then((response) => response.data);
 
 export const setWishLists = (id) => {
-  if (id !== undefined) {
-    instance
-      .post(
-        `wishlists/`,
-        { house: id },
-        {
-          headers: {
-            "X-CSRFToken": Cookie.get("csrftoken") || "",
-          },
-        }
-      )
-      .then((response) => response.data);
-  }
+  return instance
+    .post(
+      `wishlists/`,
+      { house: id },
+      {
+        headers: {
+          "X-CSRFToken": Cookie.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((response) => response.data);
 };
+
+export const getAllSellLists = () =>
+  instance.get(`users/selllist/all`).then((res) => res.data);
+export const getNotSellLists = () =>
+  instance.get(`users/selllist/notsell`).then((response) => response.data);
+export const getSellLists = () =>
+  instance.get(`users/selllist/sell`).then((response) => response.data);
 
 export const getHouseLists = () =>
   instance.get(`houselists/`).then((response) => response.data);
@@ -286,3 +318,8 @@ export const editUser = (value) =>
       },
     })
     .then((response) => response.data);
+
+export const checkLiked = ({ queryKey }) => {
+  const [_, pk] = queryKey;
+  return instance.get(`wishlists/islike/${pk}`).then((res) => res.data);
+};

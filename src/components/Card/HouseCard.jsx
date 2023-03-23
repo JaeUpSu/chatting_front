@@ -44,13 +44,12 @@ function HouseCard({
   deposit,
   monthly_rent,
   sale,
+  is_liked,
 }) {
   const navigation = useNavigate();
   const toast = useToast();
   const { userLoading, isLoggedIn } = useUser();
-  const [isLike, setIsLike] = useState(false);
-  const [isLikeInit, setIsLikeInit] = useState(true);
-  const wishlists = useQuery(["wish"], getWishLists);
+  const [isLike, setIsLike] = useState(is_liked && is_liked);
 
   const likeMutation = useMutation(setWishLists, {
     onMutate: () => {
@@ -88,18 +87,6 @@ function HouseCard({
   const onHouseDetail = () => {
     navigation(`house/${id}`);
   };
-
-  useEffect(() => {
-    if (isLikeInit && wishlists.data !== undefined) {
-      const savedLike = wishlists.data?.find((item) => {
-        if (item.house === Number(id)) {
-          return true;
-        }
-      });
-      setIsLike(savedLike);
-      setIsLikeInit(false);
-    }
-  }, [wishlists]);
 
   return (
     <Card

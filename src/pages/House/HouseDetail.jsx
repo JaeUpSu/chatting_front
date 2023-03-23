@@ -1,25 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSaleContents } from "../../utils/getSaleContents";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  checkLiked,
   getHouse,
-  getWishLists,
+  delHouse,
   makeChatRoom,
   setWishLists,
+  soldOutHouse,
 } from "../../services/api";
-
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import * as Solid from "@fortawesome/free-solid-svg-icons";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
   Box,
   Heading,
   Text,
-  List,
-  ListItem,
   Button,
   Grid,
   GridItem,
@@ -28,41 +23,68 @@ import {
   useToast,
   Skeleton,
   ButtonGroup,
+  Image,
+  VStack,
+  Divider,
+  Card,
+  CardBody,
+  Stack,
 } from "@chakra-ui/react";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import useUser from "../../hooks/useUser";
 import { useDidMountEffect } from "../../hooks/useDidMoutEffect";
-
+import { FaHeart } from "react-icons/fa";
+import RoomOption from "../../components/Badge/RoomOption";
+import SafetyOption from "../../components/Badge/SafetyOption";
 function House() {
   const params = useParams();
   const id = params.houseId;
-
   const toast = useToast();
   const navigate = useNavigate();
-
-  const [isLikeInit, setIsLikeInit] = useState(true);
-  const [isLike, setIsLike] = useState(false);
   const { data, isLoading } = useQuery(["house", id], getHouse);
-  const wishlists = useQuery(["wish"], getWishLists);
-
-  const user = useUser();
+  const { data: likeData, isLoading: likeLoading } = useQuery(
+    ["isLiked", id],
+    checkLiked
+  );
+  const [isLike, setIsLike] = useState(likeData?.result ?? true);
+  const [isSale, setIsSale] = useState(data?.is_sale ?? true);
+  const queryClient = useQueryClient();
+  const { userLoading, isLoggedIn } = useUser();
   const mutation = useMutation(makeChatRoom, {
     onSuccess: () => {
       navigate("/chatlist");
     },
   });
 
-  const likeMutation = useMutation(setWishLists, {
-    onMutate: () => {
-      console.log("like mutation");
-    },
+  const delMutation = useMutation(delHouse, {
     onSuccess: () => {
-      console.log(isLike ? `like house ${id}` : `like cancel house ${id}`);
+      window.history.go(-1);
     },
   });
 
+  const soldOutMutation = useMutation(soldOutHouse, {
+    onSuccess: () => {
+      queryClient.refetchQueries(["house", id], {
+        onSuccess: () => setIsSale(() => data?.is_sale),
+      });
+    },
+  });
+
+  const likeMutation = useMutation(setWishLists, {
+    onSuccess: () => {
+      queryClient.refetchQueries(["isLiked", id], {
+        onSuccess: () => setIsLike(() => likeData.result),
+      });
+    },
+  });
+  useDidMountEffect(() => {
+    setIsLike(likeData?.result);
+  }, [likeLoading]);
+  useDidMountEffect(() => {
+    setIsSale(data?.is_sale);
+  }, [isLoading]);
   const goChat = () => {
-    if (!user.userLoading && user.isLoggedIn) {
+    if (!userLoading && isLoggedIn) {
       mutation.mutate(id);
     } else {
       toast({
@@ -79,189 +101,250 @@ function House() {
     }, 0);
   };
   const onDel = () => {
-    console.log("Delete House");
+    delMutation.mutate(id);
   };
-  const onSoldOut = () => {
-    console.log("SoldOut House");
-  };
-
-  const onLike = () => {
-    if (isLike) {
+  const onSellStateChange = () => {
+    setIsSale(!isSale);
+    if (isSale) {
       toast({
-        title: "좋아요 -1",
-        status: "warning",
+        title: "판매 완료!",
+        status: "info",
         duration: 2000,
         isClosable: true,
       });
     } else {
       toast({
-        title: "좋아요 +1",
+        title: "판매 시작!",
         status: "success",
         duration: 2000,
         isClosable: true,
       });
     }
+    const is_sale = !data?.is_sale;
+    soldOutMutation.mutate({ id, is_sale });
+  };
+
+  const onLike = () => {
     setIsLike(!isLike);
-    console.log("detail", !user.userLoading && user.isLoggedIn, id);
-    if (!user.userLoading && user.isLoggedIn && id > 0) {
+    if (!userLoading && isLoggedIn && id > 0) {
       likeMutation.mutate(id);
     }
   };
 
-  useEffect(() => {
-    if (isLikeInit && wishlists.data !== undefined) {
-      console.log(isLikeInit, wishlists);
-      const savedLike = wishlists.data?.find((item) => {
-        if (item.house === Number(id)) {
-          return true;
-        }
-      });
-      setIsLike(savedLike);
-      setIsLikeInit(false);
-    }
-  }, [wishlists]);
-
   return (
     <>
-      <Box
-        overflowY="scroll"
-        overflowX="hidden"
-        h="90vh"
-        scrollbarWidth="thin"
-        display="flex"
-        flexDirection="column"
-        px="5vw"
-      >
-        <Center>
-          <Grid
-            mt="3vh"
-            templateRows="repeat(2, 1fr)"
-            templateColumns="repeat(5, 1fr)"
-            gap={2}
-          >
-            {data?.Image.map((item, idx) => {
-              return (
-                <GridItem
-                  key={idx}
-                  rowSpan={idx == 0 ? 2 : 1}
-                  colSpan={idx == 0 ? 0 : 2}
-                >
-                  <Box
-                    w={idx > 0 ? "20vw" : "50vw"}
-                    h={idx > 0 ? "25vh" : "50vh"}
-                    backgroundImage={`url(${item.url})`}
-                    backgroundSize="cover"
-                    backgroundPosition="center"
-                    borderLeftRadius={idx == 0 ? "20px" : "0px"}
-                    borderTopRightRadius={
-                      (idx > 0) & (idx == 2) ? "20px" : "0px"
-                    }
-                    borderBottomRightRadius={
-                      (idx > 0) & (idx == 4) ? "20px" : "0px"
-                    }
-                    boxShadow="0px 4px 4px -3px black"
-                    border="2px solid white"
-                  />
-                </GridItem>
-              );
-            })}
-          </Grid>
-        </Center>
-
-        <Center>
-          <Box w="100%" h="100px" mt="40px">
-            <Heading
-              as="h1"
-              fontSize="3xl"
-              mb="4"
-              display="flex"
-              alignItems="center"
+      {!isLoading ? (
+        <Box
+          overflowY="scroll"
+          overflowX="hidden"
+          scrollbarWidth="thin"
+          h={"85vh"}
+          display="flex"
+          flexDirection="column"
+          px="5vw"
+        >
+          <Center m={"3vw"} mb="0">
+            <Grid
+              width={"90%"}
+              borderRadius={"30px"}
+              overflow="hidden"
+              // mt="3vh"
+              templateRows="repeat(2, 1fr)"
+              templateColumns="repeat(4, 1fr)"
             >
-              <HStack w={"100vw"}>
-                <Text>{`${data?.address} ${data?.title}`}</Text>
-                {!user.userLoading && user.isLoggedIn ? (
-                  <FontAwesomeIcon
-                    size="sm"
-                    color="red"
-                    icon={isLike ? Solid.faHeart : faHeart}
-                    onClick={onLike}
-                    cursor="pointer"
-                  />
-                ) : (
-                  ""
-                )}
-                <Text fontSize="21" px="5vw">
-                  방문자수 {data?.visited}
-                </Text>
-              </HStack>{" "}
-            </Heading>
-            <Text mb="6" fontSize="22">
-              {`${getSaleContents(
-                data?.sell_kind,
-                data?.deposit,
-                data?.monthly_rent,
-                data?.sale
-              )}`}
-              {" / "}
-              관리비 월 {data?.maintenance_cost / 10000}만
-            </Text>
-            <Text fontSize="22" mb="20px">
-              {data?.description}
-            </Text>
-            <Heading as="h1" fontSize="3xl" mb="4">
-              상세정보
-            </Heading>
-            <List mb="4" fontSize="17">
-              <ListItem>판매 : {SellKindsToFront[data?.sell_kind]}</ListItem>
-              <ListItem>동네 : {data?.dong.name}</ListItem>
-              <ListItem>방종류 : {RoomKindsToFront[data?.room_kind]}</ListItem>
-              <ListItem>전용면적 : {data?.pyeongsu} 평</ListItem>
-              <ListItem>방 수 : {data?.room}개 </ListItem>
-              <ListItem> 화장실 수 : {data?.toilet}개</ListItem>
-            </List>
+              {data?.Image.map((item, idx) => {
+                return (
+                  <GridItem
+                    colSpan={idx === 0 ? 2 : 1}
+                    rowSpan={idx === 0 ? 2 : 1}
+                    key={idx}
+                    p={"0.5"}
+                    height={idx === 0 ? "60vh" : "30vh"}
+                    position="relative"
+                  >
+                    {!userLoading && isLoggedIn && idx === 2 ? (
+                      <Box
+                        position={"absolute"}
+                        right="6"
+                        top={"5"}
+                        onClick={onLike}
+                        cursor={"pointer"}
+                        color={isLike ? "red" : "white"}
+                      >
+                        <FaHeart size={"25"} />
+                      </Box>
+                    ) : (
+                      ""
+                    )}
+                    <Image src={item.url} w="100%" h="100%" />
+                  </GridItem>
+                );
+              })}
+            </Grid>
+          </Center>
 
-            <Heading as="h1" fontSize="3xl" mb="4">
-              옵션
-            </Heading>
-            <List mb="4" fontSize="17" spacing={5}>
-              <ListItem>에어컨 / 세탁기 / 옷장 / 냉장고 / 인덕션</ListItem>
-            </List>
-
-            <Heading as="h1" fontSize="3xl" mb="4">
-              보안/안전시설
-            </Heading>
-            <List mb="4" fontSize="17">
-              <ListItem>
-                비디오폰 / 공동현관 / CCTV / 카드키 / 화재경보기
-              </ListItem>
-            </List>
-            {data?.is_host ? (
-              <ButtonGroup position={"fixed"} bottom={10} right={10} gap={5}>
-                <Button colorScheme="orange" size="lg" onClick={onSoldOut}>
-                  판매완료
-                </Button>
-                <Button colorScheme="blackAlpha" size="lg" onClick={onEdit}>
-                  수정하기
-                </Button>
-                <Button colorScheme="green" size="lg" onClick={onDel}>
-                  삭제하기
-                </Button>
-              </ButtonGroup>
-            ) : (
-              <Button
-                colorScheme="red"
-                size="lg"
-                position={"fixed"}
-                bottom={10}
-                right={10}
-                onClick={goChat}
+          <VStack ml="3vw" spacing="10" position={"relative"} mt="3vw">
+            {!data?.is_host ? (
+              <Box
+                position={"absolute"}
+                zIndex={"10"}
+                right={"15%"}
+                top={"10"}
+                boxShadow="2xl"
               >
-                채팅하기
-              </Button>
-            )}
-          </Box>
-        </Center>
-      </Box>
+                <Card maxW="md" p={"5"} pl="10" pr="10">
+                  <CardBody>
+                    <Stack spacing="5">
+                      <VStack
+                        alignItems="flex-start"
+                        justifyContent={"space-between"}
+                      >
+                        <Heading>{SellKindsToFront[data?.sell_kind]}</Heading>
+                        <Text fontSize={"sm"} as="span">
+                          조회수 {data?.visited}{" "}
+                        </Text>
+                      </VStack>
+                      <Heading size="md">
+                        {`${getSaleContents(
+                          data?.sell_kind,
+                          data?.deposit,
+                          data?.monthly_rent,
+                          data?.sale
+                        )}`}
+                        {" / "}
+                        관리비 월 {data?.maintenance_cost / 10000}만
+                      </Heading>
+                      <HStack>
+                        <VStack alignItems={"flex-start"} minW="80px">
+                          <Text fontWeight={"bold"}> 방 종류 </Text>
+                          <Text fontWeight={"bold"}> 전용 면적 </Text>
+                          <Text fontWeight={"bold"}>방 </Text>
+                          <Text fontWeight={"bold"}>화장실 </Text>
+                        </VStack>
+                        <VStack alignItems={"flex-start"}>
+                          <Text>{RoomKindsToFront[data?.room_kind]}</Text>
+                          <Text>{data?.pyeongsu} 평</Text>
+                          <Text>{data?.room} 개</Text>
+                          <Text>{data?.toilet} 개</Text>
+                        </VStack>
+                      </HStack>
+                      <Divider />
+                      <Text color="black" fontSize="lg">
+                        {data?.host.name}{" "}
+                        <Text as="span" fontWeight="bold">
+                          공인중개사
+                        </Text>
+                      </Text>
+                    </Stack>
+                  </CardBody>
+                  <Button
+                    variant="solid"
+                    size="lg"
+                    w={"100%"}
+                    colorScheme="red"
+                    bgColor={"#ff404c"}
+                    onClick={goChat}
+                    // mt="5"
+                    mb={"5"}
+                  >
+                    채팅하기
+                  </Button>
+                </Card>
+              </Box>
+            ) : null}
+            <VStack
+              w="90%"
+              alignItems={"flex-start"}
+              spacing="5"
+              position={"absolute"}
+            >
+              <HStack justifyContent={"space-between"} width="95%">
+                <HStack alignItems={"flex-end"}>
+                  <Heading
+                    fontWeight={"normal"}
+                    fontSize="3xl"
+                    display="flex"
+                    alignItems="center"
+                  >
+                    {data?.title}
+                  </Heading>
+                  <Text fontSize={"lg"} color="red.400" fontWeight={"bold"}>
+                    {!isLoading && isSale ? "판매중" : "판매 완료"}
+                  </Text>
+                </HStack>
+                {data?.is_host ? (
+                  <ButtonGroup gap={0}>
+                    <Button
+                      colorScheme="gray"
+                      size="md"
+                      onClick={onSellStateChange}
+                    >
+                      {!isLoading && isSale ? "판매종료" : "판매하기"}
+                    </Button>
+                    <Button colorScheme="gray" size="md" onClick={onEdit}>
+                      수정하기
+                    </Button>
+                    <Button colorScheme="gray" size="md" onClick={onDel}>
+                      삭제하기
+                    </Button>
+                  </ButtonGroup>
+                ) : null}
+              </HStack>
+              <Text fontSize={"lg"}>
+                서울시 {data?.gu} {data?.dong.name} {data?.address}
+              </Text>
+              <Divider w={"100%"} />
+
+              <Text fontSize="2xl">
+                {RoomKindsToFront[data?.room_kind]}{" "}
+                {SellKindsToFront[data?.sell_kind]}{" "}
+              </Text>
+              <Text fontSize="xl">
+                {`${getSaleContents(
+                  data?.sell_kind,
+                  data?.deposit,
+                  data?.monthly_rent,
+                  data?.sale
+                )}`}
+                {" / "}
+                관리비 월 {data?.maintenance_cost / 10000}만
+              </Text>
+              <Divider w={"100%"} />
+
+              <Text fontSize="2xl">옵션</Text>
+              <HStack mb="4" fontSize="17" spacing={5}>
+                {["에어컨", "tv", "전자레인지"].map((value, idx) => {
+                  return <RoomOption type={value} key={idx} />;
+                })}
+              </HStack>
+
+              <Divider w={"100%"} />
+
+              <Text fontSize="2xl">보안</Text>
+              <HStack mb="4" fontSize="17" spacing={5}>
+                {["cctv", "화재경보기", "공동현관"].map((value, idx) => {
+                  return <SafetyOption type={value} key={idx} />;
+                })}
+              </HStack>
+
+              <Divider w={"100%"} />
+
+              <Text fontSize="2xl">소개</Text>
+              <Text
+                fontSize="lg"
+                bg="rgb(233,239,244)"
+                borderRadius="md"
+                p={"5"}
+                w="100%"
+              >
+                {data?.description}
+              </Text>
+            </VStack>
+          </VStack>
+        </Box>
+      ) : (
+        <Skeleton h={"100vh"} />
+      )}
     </>
   );
 }
