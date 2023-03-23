@@ -41,7 +41,7 @@ function ImageCard({ setImages, setImageUrls, src, idx }) {
   return (
     <>
       <Tooltip label="Delete Click">
-        <Image src={src} w="13vw" h="8vh" cursor="pointer" onClick={onOpen} />
+        <Image src={src} w="11vw" h="7vh" cursor="pointer" onClick={onOpen} />
       </Tooltip>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
