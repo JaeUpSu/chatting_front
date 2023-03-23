@@ -32,7 +32,8 @@ function Profile() {
         isLazy
         isFitted
         variant="unstyled"
-        mt="45px"
+        mt="4vh"
+        justifyContent="center"
         defaultIndex={selectedTabIndex}
         onChange={changeTab}
       >
@@ -71,16 +72,16 @@ function Profile() {
           </Tab>
         </TabList>
         <TabPanels>
-          <TabPanel>
+          <TabPanel p="0px">
             <Outlet />
           </TabPanel>
-          <TabPanel>
+          <TabPanel p="0px">
             <Outlet />
           </TabPanel>
-          <TabPanel>
+          <TabPanel p="0px">
             <Outlet />
           </TabPanel>
-          <TabPanel>
+          <TabPanel p="0px">
             <Outlet />
           </TabPanel>
         </TabPanels>

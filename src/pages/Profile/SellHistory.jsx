@@ -19,11 +19,13 @@ export default function SellHistory() {
     <Tabs
       isLazy
       isFitted
+      w="79vw"
+      p="2"
       variant="unstyled"
       defaultIndex={selectedTabIndex}
       onChange={changeTab}
     >
-      <TabList borderTopRadius={"3xl"}>
+      <TabList borderTopRadius={"3xl"} w="100%">
         <Tab
           borderWidth="3px"
           borderColor="white"
@@ -50,13 +52,13 @@ export default function SellHistory() {
         </Tab>
       </TabList>
       <TabPanels>
-        <TabPanel>
+        <TabPanel p="2px">
           <Outlet />
         </TabPanel>
-        <TabPanel>
+        <TabPanel p="2px">
           <Outlet />
         </TabPanel>
-        <TabPanel>
+        <TabPanel p="2px">
           <Outlet />
         </TabPanel>
       </TabPanels>

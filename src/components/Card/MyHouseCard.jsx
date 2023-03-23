@@ -55,10 +55,10 @@ function MyHouseCard({
                 aspectRatio: "1 / 1",
               }}
             />
-            <Heading fontSize="1.5em" color="blackAlpha.800" w="100%">
+            <Heading fontSize="1.4em" color="blackAlpha.800" w="100%">
               <HStack justifyContent="space-between" w="100%">
                 <Text>
-                  {title?.length > 10 ? title.substring(0, 6) + "..." : title}
+                  {title?.length > 7 ? title.substring(0, 6) + "..." : title}
                 </Text>
                 <Text fontSize={"lg"} color="red.400" fontWeight={"bold"}>
                   {is_sale ? "판매중" : "판매 완료"}

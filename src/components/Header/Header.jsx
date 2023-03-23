@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import routes from "../../routes";
 import { Avatar, HStack, Text, useDisclosure } from "@chakra-ui/react";
@@ -20,10 +19,6 @@ function Header() {
     onClose: onLoginClose,
     onOpen: onLoginOpen,
   } = useDisclosure();
-
-  // useEffect(() => {
-  //   console.log("login", isLoggedIn);
-  // }, [isLoggedIn]);
 
   return (
     <HStack justifyContent={"space-between"} px={"7"} py={"4"}>

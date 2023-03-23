@@ -112,7 +112,7 @@ export default function WishList() {
       <PagenationBox>
         {/* 데이터 배열의 길이를 totalItemsCount로 설정 */}
         <Pagination
-          activePage={page}
+          activePage={1}
           itemsCountPerPage={9}
           totalItemsCount={data?.length ?? 0}
           pageRangeDisplayed={5}
