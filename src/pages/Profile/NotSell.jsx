@@ -83,6 +83,7 @@ export default function SellAll() {
                   columnGap="8"
                   py="7"
                   px="3"
+                  w="100%"
                 >
                   {data?.results?.map((item, idx) => {
                     return (
