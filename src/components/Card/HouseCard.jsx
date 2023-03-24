@@ -38,13 +38,15 @@ function HouseCard({
   thumnail,
   address,
   sell_kind,
-  description,
   room_kind,
   id,
   deposit,
   monthly_rent,
   sale,
   is_liked,
+  title,
+  gu,
+  dong,
 }) {
   const navigation = useNavigate();
   const toast = useToast();
@@ -131,7 +133,7 @@ function HouseCard({
               ""
             )}
           </Box>
-          <VStack alignItems={"flex-start"}>
+          <VStack alignItems={"flex-start"} pl="3">
               {/* <Box w="22vw"> */}
             <Heading
               size="sm"
@@ -139,15 +141,10 @@ function HouseCard({
               color="blackAlpha.800"
               noOfLines={1}
             >
-              {address}
+              {title}
             </Heading>
-            <Text
-              h="auto"
-              color="blackAlpha.800"
-              fontSize="1.1em"
-              noOfLines={1}
-            >
-              {description}
+            <Text h="auto" color="blackAlpha.800" fontSize="1rem" noOfLines={1}>
+              서울 {gu} {dong}
             </Text>
             <VStack spacing={"0"} alignItems={"flex-start"}>
               <HStack alignItems="center">
@@ -155,7 +152,7 @@ function HouseCard({
                   {`${RoomKindsToFront[room_kind]} ${SellKindsToFront[sell_kind]}`}
                 </Text>
               </HStack>
-              <Text fontSize="1.1em" fontWeight="600">
+              <Text fontSize="1.1em" fontWeight="600" color={"#ff404c"}>
                 {`${getSaleContents(sell_kind, deposit, monthly_rent, sale)}`}
               </Text>
             </VStack>

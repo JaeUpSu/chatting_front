@@ -10,8 +10,8 @@ export default function SafetyOption({ type }) {
   const option = {
     공동현관: <BsBuildingFillLock size={"40"} />,
     cctv: <BiCctv size="40" />,
-    화재경보기: <RiAlarmWarningLine size="40" />,
-    소화기: <FaFireExtinguisher size="40" />,
+    일산화탄소경보기: <RiAlarmWarningLine size="40" />,
+    화재경보기: <FaFireExtinguisher size="40" />,
     경비실: <GiStaticGuard size="40" />,
     도어락: <BsHouseLockFill size="40" />,
   };
@@ -19,8 +19,8 @@ export default function SafetyOption({ type }) {
 
   return (
     <VStack>
-      {option[type]}
-      <Text>{type}</Text>
+      {option[type?.name.replace(" ", "")]}
+      <Text>{type?.name}</Text>
     </VStack>
   );
 }

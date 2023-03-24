@@ -130,7 +130,6 @@ function House() {
       likeMutation.mutate(id);
     }
   };
-
   return (
     <>
       {!isLoading ? (
@@ -183,28 +182,25 @@ function House() {
             </Grid>
           </Center>
 
-          <VStack ml="3vw" spacing="10" position={"relative"} mt="3vw">
+          <VStack ml="5.1vw" spacing="10" position={"relative"} mt="3vw">
             {!data?.is_host ? (
               <Box
                 position={"absolute"}
                 zIndex={"10"}
-                right={"15%"}
+                right={"10%"}
                 top={"10"}
-                boxShadow="2xl"
+                boxShadow="md"
               >
                 <Card maxW="md" p={"5"} pl="10" pr="10">
                   <CardBody>
                     <Stack spacing="5">
-                      <VStack
-                        alignItems="flex-start"
-                        justifyContent={"space-between"}
-                      >
+                      <VStack alignItems="flex-start" spacing="5">
                         <Heading>{SellKindsToFront[data?.sell_kind]}</Heading>
-                        <Text fontSize={"sm"} as="span">
+                        <Text pl={"1"} fontSize={"sm"} as="span">
                           조회수 {data?.visited}{" "}
                         </Text>
                       </VStack>
-                      <Heading size="md">
+                      <Heading size="md" color={"#ff404c"}>
                         {`${getSaleContents(
                           data?.sell_kind,
                           data?.deposit,
@@ -255,14 +251,14 @@ function House() {
             <VStack
               w="90%"
               alignItems={"flex-start"}
-              spacing="5"
+              spacing="7"
               position={"absolute"}
             >
               <HStack justifyContent={"space-between"} width="95%">
                 <HStack alignItems={"flex-end"}>
                   <Heading
-                    fontWeight={"normal"}
-                    fontSize="3xl"
+                    fontWeight={"semibold"}
+                    fontSize="2xl"
                     display="flex"
                     alignItems="center"
                   >
@@ -293,13 +289,13 @@ function House() {
               <Text fontSize={"lg"}>
                 서울시 {data?.gu} {data?.dong.name} {data?.address}
               </Text>
-              <Divider w={"100%"} />
+              <Divider w={"95%"} />
 
-              <Text fontSize="2xl">
+              <Text fontSize="xl" fontWeight={"semibold"}>
                 {RoomKindsToFront[data?.room_kind]}{" "}
                 {SellKindsToFront[data?.sell_kind]}{" "}
               </Text>
-              <Text fontSize="xl">
+              <Text fontSize="lg">
                 {`${getSaleContents(
                   data?.sell_kind,
                   data?.deposit,
@@ -309,33 +305,57 @@ function House() {
                 {" / "}
                 관리비 월 {Math.round(data?.maintenance_cost / 10000)}만
               </Text>
-              <Divider w={"100%"} />
+              <Divider w={"95%"} />
+              <Text fontSize="xl" fontWeight={"semibold"}>
+                상세 정보
+              </Text>
+              <HStack>
+                <VStack alignItems={"flex-start"} minW="80px">
+                  <Text fontWeight={"bold"}> 방 종류 </Text>
+                  <Text fontWeight={"bold"}> 전용 면적 </Text>
+                  <Text fontWeight={"bold"}>방 </Text>
+                  <Text fontWeight={"bold"}>화장실 </Text>
+                </VStack>
+                <VStack alignItems={"flex-start"}>
+                  <Text>{RoomKindsToFront[data?.room_kind]}</Text>
+                  <Text>{data?.pyeongsu} 평</Text>
+                  <Text>{data?.room} 개</Text>
+                  <Text>{data?.toilet} 개</Text>
+                </VStack>
+              </HStack>
+              <Divider w={"95%"} />
 
-              <Text fontSize="2xl">옵션</Text>
-              <HStack mb="4" fontSize="17" spacing={5}>
-                {["에어컨", "tv", "전자레인지"].map((value, idx) => {
+              <Text fontSize="xl" fontWeight={"semibold"}>
+                옵션
+              </Text>
+              <HStack mb="4" fontSize="12" spacing={3}>
+                {data?.option.map((value, idx) => {
                   return <RoomOption type={value} key={idx} />;
                 })}
               </HStack>
 
-              <Divider w={"100%"} />
+              <Divider w={"95%"} />
 
-              <Text fontSize="2xl">보안</Text>
-              <HStack mb="4" fontSize="17" spacing={5}>
-                {["cctv", "화재경보기", "공동현관"].map((value, idx) => {
+              <Text fontSize="xl" fontWeight={"semibold"}>
+                보안
+              </Text>
+              <HStack mb="4" fontSize="12" spacing={5}>
+                {data?.Safetyoption.map((value, idx) => {
                   return <SafetyOption type={value} key={idx} />;
                 })}
               </HStack>
 
-              <Divider w={"100%"} />
+              <Divider w={"95%"} />
 
-              <Text fontSize="2xl">소개</Text>
+              <Text fontSize="xl" fontWeight={"semibold"}>
+                소개
+              </Text>
               <Text
                 fontSize="lg"
                 bg="rgb(233,239,244)"
                 borderRadius="md"
                 p={"5"}
-                w="100%"
+                w="95%"
               >
                 {data?.description}
               </Text>

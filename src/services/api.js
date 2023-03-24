@@ -364,3 +364,6 @@ export const checkLiked = ({ queryKey }) => {
   const [_, pk] = queryKey;
   return instance.get(`wishlists/islike/${pk}`).then((res) => res.data);
 };
+
+export const getTopViewHouse = () =>
+  instance.get("houses/topview").then((res) => res.data);
