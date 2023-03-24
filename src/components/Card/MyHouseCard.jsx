@@ -16,6 +16,7 @@ function MyHouseCard({
 }) {
   return (
     <Card
+      h="100%"
       w="100%"
       boxShadow="md"
       _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}

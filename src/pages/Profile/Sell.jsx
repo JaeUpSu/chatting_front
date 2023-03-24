@@ -86,11 +86,12 @@ export default function SellAll() {
                   gap="2"
                   columnGap="8"
                   py="7"
+                  px="3"
                 >
                   {data?.results?.map((item, idx) => {
                     return (
                       <GridItem key={idx}>
-                        <MyHouseCard key={idx} {...item} />
+                        <MyHouseCard {...item} />
                       </GridItem>
                     );
                   })}
