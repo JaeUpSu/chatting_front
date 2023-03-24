@@ -51,15 +51,13 @@ function ImageCard({ setImages, setImageUrls, src, idx }) {
           onClick={onOpen}
         />
       </Tooltip>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} w="45vw">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader color="red.400">BangSam</ModalHeader>
           <ModalCloseButton />
-          <ModalBody w="55vw">
-            <Center>
-              <Image src={src} maxW="40vw" maxH="30vh" />
-            </Center>
+          <ModalBody w="100%" display="flex" justifyContent="center">
+            <Image src={src} maxW="30vw" maxH="30vh" />
           </ModalBody>
 
           <ModalFooter>

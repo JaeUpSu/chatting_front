@@ -1,8 +1,8 @@
 import { Flex, Text } from "@chakra-ui/layout";
 import { Card, Box } from "@chakra-ui/react";
-import styled from "styled-components";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
+import styled from "styled-components";
 import { getHouseLists } from "./../../services/api";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { Link } from "react-router-dom";

@@ -1,6 +1,7 @@
 import { HouseRegisterValues } from "../services/data";
+import { getOptionFormat } from "./getOptionFormat";
 
-export const getProcessedData = (data, images) => {
+export const getProcessedData = (data, images, addition, safety) => {
   let processedData = {};
 
   HouseRegisterValues.forEach((item, idx) => {
@@ -19,6 +20,12 @@ export const getProcessedData = (data, images) => {
     }
     if (item.eng === "Image") {
       processedData["Image"] = images;
+    }
+    if (addition.length > 0) {
+      processedData["option"] = getOptionFormat(addition);
+    }
+    if (safety.length > 0) {
+      processedData["Safetyoption"] = getOptionFormat(safety);
     }
   });
   return processedData;

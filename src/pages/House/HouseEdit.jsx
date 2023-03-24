@@ -1,20 +1,9 @@
 import {
-  Box,
   Button,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Input,
-  Select,
-  Textarea,
   VStack,
   Center,
-  HStack,
   Divider,
   Flex,
-  Text,
-  useColorModeValue,
-  Image,
   useToast,
 } from "@chakra-ui/react";
 
@@ -27,11 +16,13 @@ import {
   putHouse,
   getUploadURL,
   uploadImage,
+  getAdditionalOptions,
+  getSafetyOptions,
 } from "../../services/api";
 
 import SingleForm from "../../components/Form/SingleForm";
 import AddressSelectForm from "../../components/Form/AddressSelectForm";
-import KindSelectForm from "../../components/Form/KindSelectForm";
+import CheckboxForm from "../../components/Form/CheckboxForm";
 import TripleForm from "../../components/Form/TripleForm";
 import PriceForm from "../../components/Form/PriceForm";
 import ImageForm from "../../components/Form/ImageForm";
@@ -242,6 +233,26 @@ const HouseEdit = () => {
             names={["sale", "deposit", "monthly_rent", "maintenance_cost"]}
             labeles={["매매가", "보증금", "월세", "관리비"]}
           />
+          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
+
+          <CheckboxForm
+            setUpdatedHouse={setUpdatedHouse}
+            setUpdatedData={setUpdatedData}
+            values={updatedHouse?.option}
+            name="option"
+            label="추가 옵션"
+            api={getAdditionalOptions}
+          />
+          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
+          <CheckboxForm
+            setUpdatedHouse={setUpdatedHouse}
+            setUpdatedData={setUpdatedData}
+            values={updatedHouse?.Safetyoption}
+            name="Safetyoption"
+            label="안전 옵션"
+            api={getSafetyOptions}
+          />
+
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
 
           <SingleTextAreaForm
