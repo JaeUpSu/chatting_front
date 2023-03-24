@@ -1,4 +1,4 @@
-import { Flex, Box, Text } from "@chakra-ui/react";
+import { Flex, Box, Text, Heading, Container, VStack } from "@chakra-ui/react";
 import React, { useState } from "react";
 import styled from "styled-components";
 import IconBtns from "./IconBtns";
@@ -6,6 +6,7 @@ import RecentList from "./RecentList";
 import LikedList from "./LikedList";
 import routes from "../../routes";
 import useUser from "../../hooks/useUser";
+import TopViewList from "./TopViewList";
 
 const HomeWrapper = styled.div`
   overflow-y: scroll;
@@ -69,7 +70,11 @@ export default function Home() {
             </Text>
             <LikedList />
           </HomeContainer>
-        ) : null}
+        ) : (
+          <HomeContainer>
+            <TopViewList />
+          </HomeContainer>
+        )}
       </Box>
     </HomeWrapper>
   );

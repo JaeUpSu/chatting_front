@@ -1,7 +1,7 @@
 import { Flex, Text } from "@chakra-ui/layout";
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
+import { useQuery } from "@tanstack/react-query";
 import { getHouseLists } from "./../../services/api";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
