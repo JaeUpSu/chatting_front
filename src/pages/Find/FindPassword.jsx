@@ -14,6 +14,8 @@ import {
   InputRightAddon,
   InputAddon,
   InputLeftAddon,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
@@ -104,36 +106,61 @@ export default function FindPassword() {
         <Heading as="h2" size="lg" mb={4}>
           비밀번호 찾기
         </Heading>
-        <Input
-          isDisabled={password}
-          type="text"
-          {...register("id", { required: true })}
-          placeholder="아이디을 입력하세요"
-        />
-        <Input
-          isDisabled={password}
-          type="text"
-          {...register("name", { required: true })}
-          placeholder="이름을 입력하세요"
-        />
-        <Input
-          isDisabled={password}
-          type="email"
-          {...register("email", { required: true })}
-          placeholder="이메일을 입력하세요"
-        />
-        <Input
-          isDisabled={password}
-          type="number"
-          {...register("phone_number", { required: true })}
-          placeholder="전화번호를 입력하세요"
-        />
+
+        <FormControl id="id">
+          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
+            ID
+          </FormLabel>
+          <Input
+            isDisabled={password}
+            type="text"
+            {...register("id", { required: true })}
+            placeholder="아이디을 입력하세요"
+          />
+        </FormControl>
+
+        <FormControl id="name">
+          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
+            이름
+          </FormLabel>
+          <Input
+            isDisabled={password}
+            type="text"
+            {...register("name", { required: true })}
+            placeholder="이름을 입력하세요"
+          />
+        </FormControl>
+
+        <FormControl id="email">
+          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
+            이메일
+          </FormLabel>
+          <Input
+            isDisabled={password}
+            type="email"
+            {...register("email", { required: true })}
+            placeholder="이메일을 입력하세요"
+          />
+        </FormControl>
+
+        <FormControl id="phone_number">
+          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
+            전화번호
+          </FormLabel>
+          <Input
+            isDisabled={password}
+            type="number"
+            {...register("phone_number", { required: true })}
+            placeholder="전화번호를 입력하세요"
+          />
+        </FormControl>
         {!password ? (
           <VStack w={"100%"}>
             <Button
               type="submit"
               w={"100%"}
-              colorScheme="blue"
+              backgroundColor="#ff404c"
+              color="white"
               isLoading={mutation.isLoading}
             >
               비밀번호 찾기
@@ -180,7 +207,8 @@ export default function FindPassword() {
             <Button
               type="submit"
               w={"100%"}
-              colorScheme="blue"
+              backgroundColor="#ff404c"
+              color="white"
               isLoading={newPasswordMutation.isLoading}
             >
               비밀번호 재설정

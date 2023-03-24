@@ -150,9 +150,9 @@ export const initParams = () => {
 
 export const getInitOrderBy = (sellKindFlag) => {
   let initOrderBy = [];
-  const ordersFront = ["최근순", "조회순", "낮은가격순"];
+  const ordersFront = ["최신순", "조회순", "낮은가격순"];
   const orders = {
-    lastest: "최근순",
+    lastest: "최신순",
     visited: "조회순",
     row_price: "낮은가격순",
   };
