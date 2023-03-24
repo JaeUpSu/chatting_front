@@ -1,11 +1,19 @@
 // front => ["a","b",..]
 // back => [{name:"a"},{name:"b"},..]
-export const getProcessOptions = (front, back) => {
+export const getProcessOptionsToBack = (front, back) => {
   const processOptions = [];
-  back.forEach((b) => {
-    if (!front.includes(b.name)) {
+  front.forEach((f) => {
+    if (!back.includes({ name: f })) {
       processOptions.push({ name: f });
     }
   });
   return [...processOptions, ...back];
+};
+
+export const getProcessOptionsToFront = (back) => {
+  const processOptions = [];
+  back.forEach((b) => {
+    processOptions.push(b.name);
+  });
+  return processOptions;
 };
