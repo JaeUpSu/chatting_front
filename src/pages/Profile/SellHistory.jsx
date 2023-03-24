@@ -45,6 +45,7 @@ export default function SellHistory() {
             mt="3vh"
             w="8vw"
             h="20vh"
+            minW="55px"
             flexDirection="column"
             borderTopRadius={"3xl"}
             justifyContent="space-between"
@@ -52,6 +53,11 @@ export default function SellHistory() {
             <Tab
               borderColor="white"
               borderRadius="7px"
+              fontSize={{
+                sm: "sm",
+                md: "md",
+                lg: "lg",
+              }}
               bg={"gray.200"}
               _selected={{ color: "white", bg: "#ff535e" }}
             >
@@ -60,6 +66,11 @@ export default function SellHistory() {
             <Tab
               borderColor="white"
               borderRadius="7px"
+              fontSize={{
+                sm: "sm",
+                md: "md",
+                lg: "lg",
+              }}
               mt="2vh"
               bg={"gray.200"}
               _selected={{ color: "white", bg: "#ff535e" }}
@@ -69,6 +80,11 @@ export default function SellHistory() {
             <Tab
               borderColor="white"
               borderRadius="7px"
+              fontSize={{
+                sm: "sm",
+                md: "md",
+                lg: "lg",
+              }}
               mt="2vh"
               bg={"gray.200"}
               _selected={{ color: "white", bg: "#ff535e" }}
