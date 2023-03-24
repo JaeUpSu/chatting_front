@@ -18,22 +18,22 @@ import {
   Grid,
 } from "@chakra-ui/react";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import {
   getDongList,
   getGuList,
   postHouse,
   getUploadURL,
   uploadImage,
+  getAdditionalOptions,
+  getSafetyOptions,
 } from "../../services/api";
 import {
   ErrorCheckMenu,
   RoomKindsToFront,
   SellKindsToFront,
-  additionalOptions,
-  safetyOptions,
 } from "../../services/data";
 
 import { getProcessedData } from "../../utils/getProcessedData";
@@ -73,6 +73,11 @@ const HouseSell = () => {
 
   const guListData = useQuery(["gulist"], getGuList);
   const dongListData = useQuery(["donglist", guIdx], getDongList);
+  const additionalOptionsData = useQuery(
+    ["additionalOptions"],
+    getAdditionalOptions
+  );
+  const safetyOptionsData = useQuery(["safetyOptions"], getSafetyOptions);
 
   const roomKindOptions = [
     "ONE_ROOM",
@@ -560,19 +565,19 @@ const HouseSell = () => {
           <FormControl id="additionalOptions" mt="2" mb="7" w="45vw">
             <FormLabel>추가옵션</FormLabel>
             <CheckboxGroup colorScheme="green">
-              {additionalOptions.map((item, idx) => {
+              {additionalOptionsData?.data?.map((item, idx) => {
                 if ((idx + 1) % 3 === 0) {
                   return (
                     <>
                       <Checkbox
                         key={idx}
-                        value={item}
+                        value={item.name}
                         mx="3"
                         w="13vw"
                         h="5vh"
                         minW="110px"
                       >
-                        {item}
+                        {item.name}
                       </Checkbox>
                       <br />
                     </>
@@ -580,7 +585,7 @@ const HouseSell = () => {
                 } else {
                   return (
                     <Checkbox key={idx} mx="3" w="13vw" minW="110px" h="5vh">
-                      {item}
+                      {item.name}
                     </Checkbox>
                   );
                 }
@@ -596,19 +601,20 @@ const HouseSell = () => {
           <FormControl id="safetyOptions" mt="2" mb="7" w="45vw">
             <FormLabel>안전옵션</FormLabel>
             <CheckboxGroup colorScheme="green">
-              {safetyOptions.map((item, idx) => {
+              {safetyOptionsData?.data?.map((item, idx) => {
+                console.log(item);
                 if ((idx + 1) % 3 === 0) {
                   return (
                     <>
                       <Checkbox
                         key={idx}
-                        value={item}
+                        value={item.name}
                         mx="3"
                         w="13vw"
                         minW="110px"
                         h="5vh"
                       >
-                        {item}
+                        {item.name}
                       </Checkbox>
                       <br />
                     </>
@@ -616,7 +622,7 @@ const HouseSell = () => {
                 } else {
                   return (
                     <Checkbox key={idx} mx="3" minW="110px" w="13vw" h="5vh">
-                      {item}
+                      {item.name}
                     </Checkbox>
                   );
                 }

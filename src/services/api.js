@@ -345,6 +345,12 @@ export const getHouseLists = () =>
 export const getChatRoomList = () =>
   instance.get("chatlist/").then((res) => res.data);
 
+export const getAdditionalOptions = () =>
+  instance.get(`houses/options`).then((response) => response.data);
+
+export const getSafetyOptions = () =>
+  instance.get("houses/safety-options").then((res) => res.data);
+
 export const editUser = (value) =>
   instance
     .put("users/me/", value, {
