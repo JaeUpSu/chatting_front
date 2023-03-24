@@ -349,6 +349,8 @@ export const HouseRegisterValues = [
   { eng: "pyeongsu", kor: "평수", isRequired: true },
   { eng: "description", kor: "설명", isRequired: true },
   { eng: "Image", kor: "이미지", isRequired: true },
+  { eng: "additionalOptions", kor: "추가옵션", isRequired: false },
+  { eng: "safetyOptions", kor: "안전옵션", isRequired: false },
 ];
 
 export const ErrorCheckMenu = [

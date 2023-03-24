@@ -1,6 +1,6 @@
 import { HouseRegisterValues } from "../services/data";
 
-export const getProcessedData = (data, images) => {
+export const getProcessedData = (data, images, addition, safety) => {
   let processedData = {};
 
   HouseRegisterValues.forEach((item, idx) => {
@@ -19,6 +19,20 @@ export const getProcessedData = (data, images) => {
     }
     if (item.eng === "Image") {
       processedData["Image"] = images;
+    }
+    if (addition.length > 0) {
+      const processedAddition = [];
+      addition.forEach((item) => {
+        processedAddition.push({ name: item });
+      });
+      processedData["option"] = processedAddition;
+    }
+    if (safety.length > 0) {
+      const processedSafety = [];
+      safety.forEach((item) => {
+        processedSafety.push({ name: item });
+      });
+      processedData["Safetyoption"] = processedSafety;
     }
   });
   return processedData;
