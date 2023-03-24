@@ -22,7 +22,7 @@ const HomeContainer = styled.div`
 
 const DivideLine = styled.div`
   border-top: 2px solid lightgray;
-  margin: 80px auto;
+  margin: 70px auto;
   width: 600px;
 `;
 

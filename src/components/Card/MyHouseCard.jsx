@@ -1,13 +1,4 @@
-import {
-  Card,
-  Box,
-  CardBody,
-  Text,
-  Heading,
-  VStack,
-  HStack,
-} from "@chakra-ui/react";
-import { useEffect } from "react";
+import { Card, Box, CardBody, Text, Heading, VStack } from "@chakra-ui/react";
 import { useNavigate, Link } from "react-router-dom";
 import { RoomKindsToFront, SellKindsToFront } from "../../services/data";
 import { getSaleContents } from "../../utils/getSaleContents";
@@ -23,12 +14,10 @@ function MyHouseCard({
   sale,
   is_sale,
 }) {
-  const navigation = useNavigate();
-
   return (
     <Card
       w="100%"
-      boxShadow="0px"
+      boxShadow="md"
       _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}
     >
       <Link to={`/houseList/house/${id}`}>
@@ -38,7 +27,7 @@ function MyHouseCard({
           justifyContent={"center"}
           cursor="pointer"
         >
-          <VStack w={"100%"} alignItems="flex-start" spacing={"5"}>
+          <VStack w={"100%"} alignItems="flex-start" spacing={"2"}>
             <Box
               backgroundImage={thumnail}
               backgroundSize="cover"
@@ -50,24 +39,22 @@ function MyHouseCard({
               css={{
                 aspectRatio: "1 / 1",
               }}
-            />
-            <Heading fontSize="1.4em" color="blackAlpha.800" w="100%">
-              <HStack justifyContent="space-between" w="100%">
-                <Text>
-                  {title?.length > 7 ? title.substring(0, 6) + "..." : title}
-                </Text>
-                <Text fontSize={"lg"} color="red.400" fontWeight={"bold"}>
-                  {is_sale ? "판매중" : "판매 완료"}
-                </Text>
-              </HStack>
-            </Heading>
-            <VStack alignItems={"flex-start"} width="100%">
-              <Text color="blackAlpha.800" fontSize="1.1em" fontWeight="600">
-                {`${RoomKindsToFront[room_kind]} ${SellKindsToFront[sell_kind]}`}
+            />{" "}
+            <VStack alignItems="flex-start" pl="3" pt="4">
+              <Heading fontSize={"x-large"} color="blackAlpha.800">
+                {title}
+              </Heading>
+              <Text fontSize={"md"} color="red.400" fontWeight={"bold"} pt="2">
+                {is_sale ? "판매중" : "판매 완료"}
               </Text>
-              <Text fontSize="1.1em" fontWeight="600">
-                {`${getSaleContents(sell_kind, deposit, monthly_rent, sale)}`}
-              </Text>
+              <VStack alignItems={"flex-start"}>
+                <Text color="blackAlpha.800" fontSize="md" fontWeight="600">
+                  {`${RoomKindsToFront[room_kind]} ${SellKindsToFront[sell_kind]}`}
+                </Text>
+                <Text fontSize="md" fontWeight="600">
+                  {`${getSaleContents(sell_kind, deposit, monthly_rent, sale)}`}
+                </Text>
+              </VStack>
             </VStack>
           </VStack>
         </CardBody>

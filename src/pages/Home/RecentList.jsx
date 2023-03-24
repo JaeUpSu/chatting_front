@@ -9,14 +9,13 @@ import "slick-carousel/slick/slick-theme.css";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { Link } from "react-router-dom";
 import { getSaleContents } from "./../../utils/getSaleContents";
-import { Card } from "@chakra-ui/react";
+import { Card, Box } from "@chakra-ui/react";
 
 const HouseImg = styled.img`
   width: 200px;
   height: 200px;
   position: relative;
   margin-right: 4rem;
-  border-radius: 3%;
   cursor: pointer;
   transition: transform 0.5s ease-in-out;
 `;
@@ -37,8 +36,8 @@ const PrevArrow = (props) => {
         ...props.style,
         display: "block",
         position: "absolute",
-        top: "45%",
-        left: "5rem",
+        top: "40%",
+        left: "4rem",
         zIndex: 1,
         width: "40px",
         height: "40px",
@@ -57,8 +56,7 @@ const NextArrow = (props) => {
         ...props.style,
         display: "block",
         position: "absolute",
-        top: "45%",
-        right: "5rem",
+        right: "10rem",
         zIndex: 1,
         width: "40px",
         height: "40px",
@@ -66,7 +64,6 @@ const NextArrow = (props) => {
     />
   );
 };
-
 const RecentList = () => {
   const { error, data } = useQuery(["recently_views"], getHouseLists);
 
@@ -85,7 +82,7 @@ const RecentList = () => {
     slidesToShow: data && data.length < 4 ? data && data.length : 4,
     slidesToScroll: 2,
     prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
+    NextArrow: <NextArrow />,
   };
 
   return (
@@ -99,31 +96,35 @@ const RecentList = () => {
               m="10px"
               overflow={"hidden"}
               ml="2rem"
+              borderRadius={"5%"}
             >
               <Link to={`/houseList/house/${item.recently_views.id}`}>
                 <HouseImg src={item.recently_views.thumnail} />
               </Link>
-
-              <Text fontWeight={"600"} mb="1rem">
-                {item.recently_views.title}
-              </Text>
-              <Flex fontSize={"sm"}>
-                <Text mr="1rem">
-                  {SellKindsToFront[item?.recently_views.sell_kind]}
+              <Box m="1rem">
+                <Text fontWeight={"600"} mt="0.5rem" mb="0.5rem">
+                  {item.recently_views.title}
                 </Text>
-                <Text>{RoomKindsToFront[item?.recently_views.room_kind]}</Text>
-              </Flex>
+                <Flex fontSize={"sm"} marginBottom="2px">
+                  <Text mr="1rem">
+                    {SellKindsToFront[item?.recently_views.sell_kind]}
+                  </Text>
+                  <Text>
+                    {RoomKindsToFront[item?.recently_views.room_kind]}
+                  </Text>
+                </Flex>
 
-              <Flex>
-                <Text fontSize={"sm"} color={"#ff404c"} mb="1rem">
-                  {`${getSaleContents(
-                    item.recently_views.sell_kind,
-                    item.recently_views.deposit,
-                    item.recently_views.monthly_rent,
-                    item.recently_views.sale
-                  )}`}
-                </Text>
-              </Flex>
+                <Flex>
+                  <Text fontSize={"sm"} color={"#ff404c"} mb="1rem">
+                    {`${getSaleContents(
+                      item.recently_views.sell_kind,
+                      item.recently_views.deposit,
+                      item.recently_views.monthly_rent,
+                      item.recently_views.sale
+                    )}`}
+                  </Text>
+                </Flex>
+              </Box>
             </Card>
           ))}
       </Slider>

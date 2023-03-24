@@ -1,4 +1,4 @@
-import { Flex, Text, Card } from "@chakra-ui/react";
+import { Flex, Text, Card, Box } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
@@ -16,7 +16,6 @@ const HouseImg = styled.img`
   overflow: hidden;
   width: 200px;
   height: 200px;
-  border-radius: 3%;
   transition: transform 0.5s ease-in-out;
 `;
 
@@ -36,8 +35,8 @@ const PrevArrow = (props) => {
         ...props.style,
         display: "block",
         position: "absolute",
-        top: "45%",
-        left: "5rem",
+        top: "40%",
+        left: "4rem",
         zIndex: 1,
         width: "40px",
         height: "40px",
@@ -56,7 +55,7 @@ const NextArrow = (props) => {
         ...props.style,
         display: "block",
         position: "absolute",
-        top: "45%",
+        top: "40%",
         right: "5rem",
         zIndex: 1,
         width: "40px",
@@ -93,29 +92,39 @@ const LikedList = () => {
       <Slider {...settings}>
         {data &&
           data?.map((item, idx) => (
-            <Card key={idx} maxW="200px" m="10px" overflow={"hidden"} ml="2rem">
+            <Card
+              key={idx}
+              maxW="200px"
+              m="10px"
+              overflow={"hidden"}
+              ml="2rem"
+              borderRadius={"5%"}
+            >
               <Link to={`/houseList/house/${item.house.id}`}>
                 <HouseImg src={item.house.thumnail} />
               </Link>
-
-              <Text fontWeight={"600"} mb="1rem">
-                {item.house.title}
-              </Text>
-              <Flex fontSize={"sm"}>
-                <Text mr="1rem">{SellKindsToFront[item.house.sell_kind]}</Text>
-                <Text>{RoomKindsToFront[item.house.room_kind]}</Text>
-              </Flex>
-
-              <Flex>
-                <Text fontSize={"sm"} mb="1rem" color={"#ff404c"}>
-                  {`${getSaleContents(
-                    item.house.sell_kind,
-                    item.house.deposit,
-                    item.house.monthly_rent,
-                    item.house.sale
-                  )}`}
+              <Box m="1rem">
+                <Text fontWeight={"600"} mt="0.5rem" mb="0.5rem">
+                  {item.house.title}
                 </Text>
-              </Flex>
+                <Flex fontSize={"sm"}>
+                  <Text mr="1rem" marginBottom="2px">
+                    {SellKindsToFront[item.house.sell_kind]}
+                  </Text>
+                  <Text>{RoomKindsToFront[item.house.room_kind]}</Text>
+                </Flex>
+
+                <Flex>
+                  <Text fontSize={"sm"} mb="1rem" color={"#ff404c"}>
+                    {`${getSaleContents(
+                      item.house.sell_kind,
+                      item.house.deposit,
+                      item.house.monthly_rent,
+                      item.house.sale
+                    )}`}
+                  </Text>
+                </Flex>
+              </Box>
             </Card>
           ))}
       </Slider>

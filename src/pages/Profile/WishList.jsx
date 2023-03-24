@@ -68,14 +68,6 @@ export default function WishList() {
   const endIdx = startIdx + 12;
   const currentPageData = data?.slice(startIdx, endIdx);
 
-  if (error) {
-    return <div>에러가 발생했습니다.</div>;
-  }
-
-  if (!data) {
-    return <div>로딩 중입니다.</div>;
-  }
-
   return (
     <WishListWrap>
       <Flex flexWrap={"wrap"}>
@@ -113,7 +105,6 @@ export default function WishList() {
       </Flex>
       <PagenationBox>
         <Pagination
-        
           activePage={page}
           itemsCountPerPage={9}
           totalItemsCount={data?.length ?? 0}
