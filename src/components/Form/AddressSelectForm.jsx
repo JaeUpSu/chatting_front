@@ -53,13 +53,11 @@ const AddressSelectForm = ({
   };
 
   const onEnter = (data) => {
-    console.log("check", data);
     let nextHouse = {};
     let nextData = {};
     let isChange = false;
     setUpdatedHouse((prevHouse) => {
       HouseRegisterValues.forEach((item) => {
-        console.log(data);
         if (data[item.eng]) {
           if (data[item.eng] !== prevHouse[item.eng]) {
             if (item.eng === "dong") {
@@ -123,8 +121,8 @@ const AddressSelectForm = ({
       </FormLabel>
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
-          <HStack w="70vw">
-            <FormControl isInvalid={errors.gu} id="gu" my="1" w="70vw">
+          <HStack w="40vw" minW="450px">
+            <FormControl isInvalid={errors.gu} id="gu" my="1">
               <Select
                 {...register("gu", { required: true })}
                 placeholder="구를 선택해주세요"
@@ -143,29 +141,33 @@ const AddressSelectForm = ({
               </Select>
               <FormErrorMessage>{`구를 선택해주세요`}</FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={errors.dong} id="dong" my="1" w="70vw">
-              <HStack>
-                <Select
-                  {...register("dong", { required: true })}
-                  placeholder="동을 선택해주세요"
-                  fontSize="14px"
-                  isDisabled={guIdx > 0 ? false : true}
-                >
-                  {dongList?.map((option) => (
-                    <option
-                      key={option.value}
-                      index={option.index}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </option>
-                  ))}
-                </Select>
-                <Button type="submit">입력</Button>
-                <Button onClick={onModify}>취소</Button>
-              </HStack>
+            <FormControl isInvalid={errors.dong} id="dong" my="1">
+              <Select
+                {...register("dong", { required: true })}
+                placeholder="동을 선택해주세요"
+                fontSize="14px"
+                isDisabled={guIdx > 0 ? false : true}
+              >
+                {dongList?.map((option) => (
+                  <option
+                    key={option.value}
+                    index={option.index}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </Select>
               <FormErrorMessage>{`동을 선택해주세요`}</FormErrorMessage>
             </FormControl>
+            <HStack>
+              <Button type="submit" w="5vw">
+                입력
+              </Button>
+              <Button onClick={onModify} w="5vw">
+                취소
+              </Button>
+            </HStack>
           </HStack>
         </form>
       ) : (
@@ -173,7 +175,9 @@ const AddressSelectForm = ({
           <VStack justifyContent="flex-start" w="100%">
             <Text w="100%">{`서울 ${savedGu} ${savedDong?.name}`}</Text>
           </VStack>
-          <Button onClick={onModify}>수정</Button>
+          <Button onClick={onModify} w="5.5vw">
+            수정
+          </Button>
         </HStack>
       )}
     </>

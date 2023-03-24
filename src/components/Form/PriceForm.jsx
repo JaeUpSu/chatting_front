@@ -33,8 +33,6 @@ function PriceForm({
   const [isModify, setIsModify] = useState(false);
 
   const onEnter = (data) => {
-    console.log("check", data);
-
     let nextHouse = {};
     let nextData = {};
     let isChange = false;
@@ -106,7 +104,6 @@ function PriceForm({
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
                 borderRadius="md"
-                lineHeight="10"
               >
                 {onPrice(values[0])}
               </Text>
@@ -145,7 +142,6 @@ function PriceForm({
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
                 borderRadius="md"
-                lineHeight="10"
               >
                 {onPrice(values[1])}
               </Text>
@@ -178,7 +174,6 @@ function PriceForm({
                   pl="3"
                   border={"1px solid rgb(200,200,200, 0.3)"}
                   borderRadius="md"
-                  lineHeight="10"
                 >
                   {onPrice(values[2])}
                 </Text>
@@ -202,7 +197,6 @@ function PriceForm({
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
                 borderRadius="md"
-                lineHeight="10"
               >
                 {onPrice(values[3])}
               </Text>
@@ -211,12 +205,18 @@ function PriceForm({
           </FormControl>
           <Box pt="8" justifyContent="flex-end" alignItems="flex-end">
             {isModify ? (
-              <ButtonGroup>
-                <Button type="submit">입력</Button>
-                <Button onClick={onModify}>취소</Button>
-              </ButtonGroup>
+              <HStack>
+                <Button type="submit" w="5vw">
+                  입력
+                </Button>
+                <Button onClick={onModify} w="5vw">
+                  취소
+                </Button>
+              </HStack>
             ) : (
-              <Button onClick={onModify}>수정</Button>
+              <Button onClick={onModify} w="5.5vw">
+                수정
+              </Button>
             )}
           </Box>
         </HStack>

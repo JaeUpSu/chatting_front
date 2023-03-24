@@ -152,7 +152,7 @@ const ImageForm = ({
             <Text fontSize="12px">5개 필수</Text>
           </HStack>
           <Text fontSize="12px">
-            {imgIdx > -1 ? `바꾸고 싶은 ${imgIdx + 1}번째 선택` : ""}
+            {imgIdx > -1 ? ` ${imgIdx + 1}번째 이미지 선택` : ""}
           </Text>
         </HStack>
       </FormLabel>
@@ -184,11 +184,17 @@ const ImageForm = ({
             />
             {isModify ? (
               <HStack>
-                <Button type="submit">변경</Button>
-                <Button onClick={onCancel}>취소</Button>
+                <Button type="submit" w="5vw">
+                  변경
+                </Button>
+                <Button onClick={onModify} w="5vw">
+                  취소
+                </Button>
               </HStack>
             ) : (
-              <Button onClick={onModify}>수정</Button>
+              <Button onClick={onModify} w="5.5vw">
+                수정
+              </Button>
             )}
           </HStack>
         </FormControl>

@@ -7,9 +7,7 @@ import {
 } from "@chakra-ui/react";
 function DataRadio({ name, data }) {
   const onSelect = (e) => {
-    console.log(e.currentTarget);
     const { value } = e.currentTarget;
-    console.log("value => " + value);
   };
 
   return (

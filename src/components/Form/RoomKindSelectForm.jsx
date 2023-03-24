@@ -72,37 +72,43 @@ const RoomKindSelectForm = ({ setUpdatedHouse, setUpdatedData, roomKind }) => {
 
   return (
     <>
-      <FormLabel marginBottom="0" fontWeight="600" w="100%" my="2">
+      <FormLabel marginBottom="0" fontWeight="600" w="40vw" minW="450px" my="2">
         방 종류
       </FormLabel>
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
-          <FormControl
-            isInvalid={errors.room_kind}
-            id="room_kind"
-            my="1"
-            w="40vw"
-          >
-            <Select
-              {...register("room_kind", { required: true })}
-              placeholder="방 종류를 선택해주세요"
-              fontSize="14px"
-            >
-              {roomKindOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </Select>
+          <FormControl isInvalid={errors.room_kind} id="room_kind" my="1">
+            <HStack w="40vw" minW="450px" justifyContent="space-between">
+              <Select
+                {...register("room_kind", { required: true })}
+                placeholder="방 종류를 선택해주세요"
+                fontSize="14px"
+              >
+                {roomKindOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </Select>
+              <HStack>
+                <Button type="submit" w="5vw">
+                  입력
+                </Button>
+                <Button onClick={onModify} w="5vw">
+                  취소
+                </Button>
+              </HStack>
+            </HStack>
+
             <FormErrorMessage>{`방 종류를 선택해주세요`}</FormErrorMessage>
-            <Button type="submit">입력</Button>
-            <Button onClick={onModify}>취소</Button>
           </FormControl>
         </form>
       ) : (
         <HStack justifyContent="space-between" w="100%" my="4" h="5.3vh">
           <Text>{roomKind ? RoomKindsToFront[roomKind] : ""}</Text>
-          <Button onClick={onModify}>수정</Button>
+          <Button onClick={onModify} w="5.5vw">
+            수정
+          </Button>
         </HStack>
       )}
     </>

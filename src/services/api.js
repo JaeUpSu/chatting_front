@@ -55,6 +55,30 @@ export const login = ({ username, password }) => {
     }
   );
 };
+export const findId = (data) =>
+  instance
+    .post("users/find/id", data, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
+export const findPassword = (data) =>
+  instance
+    .post("users/find/password", data, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
+export const newPassword = (data) =>
+  instance
+    .put("users/new-password", data, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
 export const changePassword = (data) =>
   instance
     .put("users/changepassword/", data, {
@@ -297,13 +321,24 @@ export const setWishLists = (id) => {
     .then((response) => response.data);
 };
 
-export const getAllSellLists = () =>
-  instance.get(`users/selllist/all`).then((res) => res.data);
-export const getNotSellLists = () =>
-  instance.get(`users/selllist/notsell`).then((response) => response.data);
-export const getSellLists = () =>
-  instance.get(`users/selllist/sell`).then((response) => response.data);
-
+export const getAllSellLists = ({ queryKey }) => {
+  const [_, page] = queryKey;
+  return instance
+    .get(`users/selllist/all?page=${page}`)
+    .then((res) => res.data);
+};
+export const getNotSellLists = ({ queryKey }) => {
+  const [_, page] = queryKey;
+  return instance
+    .get(`users/selllist/notsell?page=${page}`)
+    .then((response) => response.data);
+};
+export const getSellLists = ({ queryKey }) => {
+  const [_, page] = queryKey;
+  return instance
+    .get(`users/selllist/sell?page=${page}`)
+    .then((response) => response.data);
+};
 export const getHouseLists = () =>
   instance.get(`houselists/`).then((response) => response.data);
 

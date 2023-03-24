@@ -31,8 +31,6 @@ const TripleForm = ({
   const [isModify, setIsModify] = useState(false);
 
   const onEnter = (data) => {
-    console.log("check", data);
-
     let nextHouse = {};
     let nextData = {};
     let isChange = false;
@@ -91,7 +89,6 @@ const TripleForm = ({
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
                 borderRadius="md"
-                lineHeight="10"
               >
                 {values[0]}
               </Text>
@@ -114,7 +111,6 @@ const TripleForm = ({
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
                 borderRadius="md"
-                lineHeight="10"
               >
                 {values[1]}
               </Text>
@@ -137,7 +133,6 @@ const TripleForm = ({
                 pl="3"
                 border={"1px solid rgb(200,200,200, 0.3)"}
                 borderRadius="md"
-                lineHeight="10"
               >
                 {values[2]}
               </Text>
@@ -146,12 +141,18 @@ const TripleForm = ({
           </FormControl>{" "}
           <Box pt="6" justifyContent="flex-end" alignItems="flex-end">
             {isModify ? (
-              <ButtonGroup>
-                <Button type="submit">입력</Button>
-                <Button onClick={onModify}>취소</Button>
-              </ButtonGroup>
+              <HStack>
+                <Button type="submit" w="5vw">
+                  입력
+                </Button>
+                <Button onClick={onModify} w="5vw">
+                  취소
+                </Button>
+              </HStack>
             ) : (
-              <Button onClick={onModify}>수정</Button>
+              <Button onClick={onModify} w="5.5vw">
+                수정
+              </Button>
             )}
           </Box>
         </HStack>

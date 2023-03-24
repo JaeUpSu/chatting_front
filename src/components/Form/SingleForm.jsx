@@ -29,8 +29,6 @@ const SingleForm = ({
   const [isModify, setIsModify] = useState(false);
 
   const onEnter = (data) => {
-    console.log("check", data);
-
     let nextHouse = {};
     let nextData = {};
     let isChange = false;
@@ -89,16 +87,26 @@ const SingleForm = ({
                 defaultValue={value}
                 {...register(name, { required: true })}
               />
-              <Button type="submit">입력</Button>
-              <Button onClick={onModify}>취소</Button>
+              <HStack>
+                <Button type="submit" w="5vw">
+                  입력
+                </Button>
+                <Button onClick={onModify} w="5vw">
+                  취소
+                </Button>
+              </HStack>
             </HStack>
             <FormErrorMessage>{`${label}을 적어주세요`}</FormErrorMessage>
           </FormControl>
         </form>
       ) : (
         <HStack w="40vw" minW="450px" h="5.3vh" justifyContent="space-between">
-          <Text w="70%">{value}</Text>
-          <Button onClick={onModify}>수정</Button>
+          <VStack justifyContent="flex-start" w="100%">
+            <Text w="100%">{value}</Text>
+          </VStack>
+          <Button onClick={onModify} w="5.5vw">
+            수정
+          </Button>
         </HStack>
       )}
     </VStack>

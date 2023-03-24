@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  ButtonGroup,
   Flex,
   Grid,
   Heading,
@@ -18,7 +19,7 @@ import { useForm } from "react-hook-form";
 import ChangePasswordModal from "../../components/Modal/ChangePasswordModal";
 import useUser from "../../hooks/useUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { editUser } from "../../services/api";
+import { editUser, getUploadURL, uploadImage } from "../../services/api";
 import { FaComment } from "react-icons/fa";
 
 export default function MyInfo() {
@@ -32,15 +33,49 @@ export default function MyInfo() {
   const [editedValue, setEditedValue] = useState("");
   const queryClient = useQueryClient();
   const toast = useToast();
-
   const toastId = useRef();
-  const mutation = useMutation(editUser, {
+
+  const uploadImageMutation = useMutation(uploadImage, {
+    onMutate: () => {
+      toastId.current = toast({
+        title: "업로드 중",
+        status: "loading",
+        position: "top",
+        isClosable: true,
+      });
+    },
+    onSuccess: ({ result }) => {
+      setValue("avatar", result.variants[0]);
+      mutation.mutate({ avatar: watch("avatar") });
+      // watch("avatar") = result.variants;
+    },
+  });
+  const uploadURLMutation = useMutation(getUploadURL, {
     onMutate: () => {
       toastId.current = toast({
         title: "수정 중",
         status: "loading",
+        duration: "3000",
         position: "top",
+        isClosable: true,
       });
+    },
+    onSuccess: (data) => {
+      uploadImageMutation.mutate({
+        uploadURL: data.uploadURL,
+        file: watch("avatar"),
+      });
+    },
+  });
+  const mutation = useMutation(editUser, {
+    onMutate: () => {
+      if (editedField !== "avatar") {
+        toastId.current = toast({
+          title: "수정 중",
+          status: "loading",
+          position: "top",
+        });
+      }
     },
     onSuccess: () => {
       queryClient.refetchQueries(["me"]);
@@ -52,11 +87,15 @@ export default function MyInfo() {
           isClosable: true,
         });
       }
+      setEditedField(null);
+      setEditedValue("");
+      reset();
     },
-    onError: () => {
+    onError: (e) => {
       if (toastId.current) {
         toast.update(toastId.current, {
           title: "수정 실패",
+          description: e.response.data[editedField],
           status: "error",
           position: "top",
           isClosable: true,
@@ -70,27 +109,31 @@ export default function MyInfo() {
     reset();
   };
 
-  const handleSaveButtonClick = () => {
-    onSubmit(editedField, watch(editedField));
-    setEditedField(null);
-    setEditedValue("");
-    reset();
-  };
-
   const handleCancelButtonClick = () => {
+    if (editedField === "avatar") {
+      setAvatar(user?.avatar);
+    }
     setEditedField(null);
     setEditedValue("");
     reset();
   };
-
-  const { register, handleSubmit, reset, watch } = useForm();
-  const onSubmit = (type, value) => {
-    let object = {};
-    object[type] = value;
-    mutation.mutate(object);
+  const [avatar, setAvatar] = useState(user?.avatar);
+  const { register, handleSubmit, reset, watch, setValue } = useForm();
+  const onSubmit = (data) => {
+    if (editedField !== "avatar") {
+      mutation.mutate(data);
+    } else {
+      uploadURLMutation.mutate();
+    }
   };
-  const editProfile = () => {
-    console.log(1);
+
+  const handleAvatarChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatar(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -99,25 +142,55 @@ export default function MyInfo() {
       alignItems={"center"}
       justifyContent="center"
       h="70vh"
-      overflowY="scroll"
       as="form"
       onSubmit={handleSubmit(onSubmit)}
     >
       <Grid templateColumns={{ lg: "1fr 1fr", sm: "1fr" }} w={"100%"}>
         <VStack alignItems={"center"} justifyContent="center" spacing={"5"}>
-          <Avatar boxSize={"xs"} src={user?.avatar} />
+          <Avatar boxSize={"xs"} src={avatar} />
           <VStack spacing={"5"}>
-            <Heading size={"md"}>{user?.name}</Heading>
-            <Button size={"sm"} onClick={editProfile}>
-              Edit Profile
-            </Button>
+            <Heading size={"md"} noOfLines="1">
+              {user?.name}
+            </Heading>
+            {editedField === "avatar" ? (
+              <VStack>
+                <Input
+                  type="file"
+                  {...register("avatar", { required: true })}
+                  onChange={handleAvatarChange}
+                />
+                <HStack>
+                  <Button
+                    type="submit"
+                    size={"sm"}
+                    isLoading={
+                      mutation.isLoading ||
+                      uploadImageMutation.isLoading ||
+                      uploadURLMutation.isLoading
+                    }
+                  >
+                    저장
+                  </Button>
+                  <Button size={"sm"} onClick={handleCancelButtonClick}>
+                    취소
+                  </Button>
+                </HStack>
+              </VStack>
+            ) : (
+              <Button
+                size={"sm"}
+                onClick={() => handleEditButtonClick("avatar")}
+              >
+                프로필 사진 수정
+              </Button>
+            )}
           </VStack>
         </VStack>
         <VStack h={"60vh"} justifyContent={"center"} spacing={"10"} pr="20">
           <VStack w={"100%"} mt="10">
             <HStack justifyContent={"space-between"} w={"100%"}>
               <HStack spacing={"5"}>
-                <Text minW={16} fontWeight={"bold"}>
+                <Text minW={16} fontWeight={"bold"} noOfLines="1">
                   아이디{" "}
                 </Text>
                 <Text>
@@ -168,7 +241,7 @@ export default function MyInfo() {
 
             <HStack justifyContent={"space-between"} w={"100%"}>
               <HStack spacing={"5"}>
-                <Text minW={16} fontWeight={"semibold"}>
+                <Text minW={16} fontWeight={"semibold"} noOfLines="1">
                   이름
                 </Text>
                 {editedField === "name" ? (
@@ -182,7 +255,7 @@ export default function MyInfo() {
                   <Button
                     type="submit"
                     size={"sm"}
-                    onClick={handleSaveButtonClick}
+                    isLoading={mutation.isLoading}
                   >
                     저장
                   </Button>
@@ -215,7 +288,7 @@ export default function MyInfo() {
                   <Button
                     type="submit"
                     size={"sm"}
-                    onClick={handleSaveButtonClick}
+                    isLoading={mutation.isLoading}
                   >
                     저장
                   </Button>
@@ -234,7 +307,7 @@ export default function MyInfo() {
             </HStack>
             <HStack justifyContent={"space-between"} w={"100%"}>
               <HStack spacing={"5"}>
-                <Text minW={16} fontWeight={"semibold"}>
+                <Text minW={16} fontWeight={"semibold"} noOfLines="1">
                   이메일
                 </Text>
                 {editedField === "email" ? (
@@ -248,7 +321,7 @@ export default function MyInfo() {
                   <Button
                     type="submit"
                     size={"sm"}
-                    onClick={handleSaveButtonClick}
+                    isLoading={mutation.isLoading}
                   >
                     저장
                   </Button>
@@ -273,19 +346,47 @@ export default function MyInfo() {
             spacing={5}
             pb={{ sm: 20, md: 0 }}
           >
-            <HStack spacing={"5"}>
+            <HStack spacing={"5"} justifyContent="space-between" w="100%">
               <Heading size={"md"}>자기소개</Heading>
-              <Button boxSize={"7"} fontSize={"sm"}>
-                편집
-              </Button>
+              {editedField === "desc" ? (
+                <ButtonGroup>
+                  <Button
+                    type="submit"
+                    size={"sm"}
+                    fontSize={"sm"}
+                    isLoading={mutation.isLoading}
+                  >
+                    저장
+                  </Button>
+                  <Button
+                    size={"sm"}
+                    fontSize={"sm"}
+                    onClick={handleCancelButtonClick}
+                  >
+                    취소
+                  </Button>
+                </ButtonGroup>
+              ) : (
+                <Button
+                  size={"sm"}
+                  fontSize={"sm"}
+                  onClick={() => handleEditButtonClick("desc")}
+                >
+                  수정
+                </Button>
+              )}
             </HStack>
-            <Textarea
-              variant={"filled"}
-              // isDisabled
-              placeholder="Enter your text here"
-              resize="vertical"
-              h="32"
-            />
+            {editedField === "desc" ? (
+              <Textarea
+                {...register("desc")}
+                variant={"filled"}
+                placeholder="Enter your text here"
+                resize="vertical"
+                h="32"
+              />
+            ) : (
+              <Text noOfLines={4}>{user?.desc ?? "자기소개가 없습니다"}</Text>
+            )}
           </VStack>
         </VStack>
       </Grid>

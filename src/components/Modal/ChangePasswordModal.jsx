@@ -10,6 +10,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Text,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -81,6 +82,11 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                 />
               </InputGroup>
             </VStack>
+            {mutation.isError ? (
+              <Text color={"red.400"} textAlign={"center"}>
+                비밀번호를 다시 확인하세요.
+              </Text>
+            ) : null}
             <Button
               onClick={handleSubmit(onSubmit)}
               mt="4"
@@ -90,6 +96,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                 backgroundColor: "#ff7982",
               }}
               width={"100%"}
+              isLoading={mutation.isLoading}
             >
               비밀번호 수정
             </Button>

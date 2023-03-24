@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useUser from "../../hooks/useUser";
+import Loading from "../Loading/Loading";
 
 // 로그인 여부 체크용
 export default function ProtectedPage({ children }) {
@@ -9,9 +10,13 @@ export default function ProtectedPage({ children }) {
   useEffect(() => {
     if (!userLoading) {
       if (!isLoggedIn) {
-        navigate("/");
+        navigate("/errorpage");
       }
     }
   }, [userLoading, isLoggedIn, navigate]);
-  return <>{children}</>;
+  if (!userLoading) {
+    return <>{children}</>;
+  } else {
+    return <Loading />;
+  }
 }
