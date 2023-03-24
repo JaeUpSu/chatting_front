@@ -1,15 +1,15 @@
 import { Flex, Text } from "@chakra-ui/layout";
+import { Card, Box } from "@chakra-ui/react";
+import styled from "styled-components";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import styled from "styled-components";
 import { getHouseLists } from "./../../services/api";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { Link } from "react-router-dom";
 import { getSaleContents } from "./../../utils/getSaleContents";
-import { Card, Box } from "@chakra-ui/react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const HouseImg = styled.img`
   width: 200px;
@@ -36,11 +36,12 @@ const PrevArrow = (props) => {
         ...props.style,
         display: "block",
         position: "absolute",
+        border: "none",
+        background: "transparent",
+        color: "transparent",
         top: "40%",
-        left: "4rem",
         zIndex: 1,
-        width: "40px",
-        height: "40px",
+        left: "7rem",
       }}
     />
   );
@@ -56,14 +57,17 @@ const NextArrow = (props) => {
         ...props.style,
         display: "block",
         position: "absolute",
-        right: "10rem",
+        border: "none",
+        background: "transparent",
+        color: "transparent",
+        top: "40%",
+        left: "54rem",
         zIndex: 1,
-        width: "40px",
-        height: "40px",
       }}
     />
   );
 };
+
 const RecentList = () => {
   const { error, data } = useQuery(["recently_views"], getHouseLists);
 
@@ -82,7 +86,7 @@ const RecentList = () => {
     slidesToShow: data && data.length < 4 ? data && data.length : 4,
     slidesToScroll: 2,
     prevArrow: <PrevArrow />,
-    NextArrow: <NextArrow />,
+    nextArrow: <NextArrow />,
   };
 
   return (

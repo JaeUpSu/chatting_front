@@ -1,5 +1,5 @@
-import { Flex, Text, Card, Box } from "@chakra-ui/react";
 import React from "react";
+import { Flex, Text, Card, Box } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { getWishLists } from "../../services/api";
@@ -66,17 +66,7 @@ const NextArrow = (props) => {
     />
   );
 };
-
-const LikedList = () => {
-  const { error, data } = useQuery(["house"], getWishLists);
-  if (error) {
-    return <div>에러가 발생했습니다.</div>;
-  }
-
-  if (!data) {
-    return <div>로딩 중입니다.</div>;
-  }
-
+function Topview() {
   const settings = {
     dots: false,
     infinite: data && data.length < 4 ? false : true,
@@ -88,50 +78,11 @@ const LikedList = () => {
     autoplay: true,
     autoplaySpeed: 4000,
   };
-
   return (
     <SlideWrapper>
-      <Slider {...settings}>
-        {data &&
-          data?.map((item, idx) => (
-            <Card
-              key={idx}
-              maxW="200px"
-              m="10px"
-              overflow={"hidden"}
-              ml="2rem"
-              borderRadius={"5%"}
-            >
-              <Link to={`/houseList/house/${item.house.id}`}>
-                <HouseImg src={item.house.thumnail} />
-              </Link>
-              <Box m="1rem">
-                <Text fontWeight={"600"} mt="0.5rem" mb="0.5rem">
-                  {item.house.title}
-                </Text>
-                <Flex fontSize={"sm"}>
-                  <Text mr="1rem" marginBottom="2px">
-                    {SellKindsToFront[item.house.sell_kind]}
-                  </Text>
-                  <Text>{RoomKindsToFront[item.house.room_kind]}</Text>
-                </Flex>
-
-                <Flex>
-                  <Text fontSize={"sm"} mb="1rem" color={"#ff404c"}>
-                    {`${getSaleContents(
-                      item.house.sell_kind,
-                      item.house.deposit,
-                      item.house.monthly_rent,
-                      item.house.sale
-                    )}`}
-                  </Text>
-                </Flex>
-              </Box>
-            </Card>
-          ))}
-      </Slider>
+      <Slider {...settings}></Slider>
     </SlideWrapper>
   );
-};
+}
 
-export default LikedList;
+export default Topview;

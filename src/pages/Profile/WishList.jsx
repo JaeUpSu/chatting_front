@@ -1,4 +1,14 @@
-import { Card, CardBody, Image, Flex, Text, Box } from "@chakra-ui/react";
+import {
+  Card,
+  CardBody,
+  Image,
+  Flex,
+  Text,
+  Box,
+  Grid,
+  GridItem,
+  VStack,
+} from "@chakra-ui/react";
 import { getWishLists } from "../../services/api";
 import { useQuery } from "@tanstack/react-query";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
@@ -11,7 +21,7 @@ import { useState } from "react";
 const WishListWrap = styled.div`
   height: 60vh;
   overflow-y: scroll;
-  max-width: 75vw;
+  max-width: 100%;
 `;
 
 const PagenationBox = styled.div`
@@ -58,7 +68,7 @@ const PagenationBox = styled.div`
 `;
 
 export default function WishList() {
-  const { error, data } = useQuery(["house"], getWishLists);
+  const { isLoading, data } = useQuery(["house"], getWishLists);
   const [page, setPage] = useState(1);
   const pageChange = (page) => {
     setPage(page);
@@ -70,50 +80,65 @@ export default function WishList() {
 
   return (
     <WishListWrap>
-      <Flex flexWrap={"wrap"}>
-        {currentPageData?.map((item, index) => {
-          return (
-            <Card w="190px" m="10px" key={index} overflow={"hidden"} ml="2rem">
-              <Link to={`/houseList/house/${item.house.id}`}>
-                <Image src={item.house.thumnail} w="20rem" h="12rem" />
-              </Link>
-              <CardBody>
-                <Box fontWeight={600} mb="1rem">
-                  {item.house.title}
-                </Box>
-                <Flex fontSize={"sm"}>
-                  <Text mr="0.5rem">
-                    {RoomKindsToFront[item.house.room_kind]}
-                  </Text>
-                  <Text>{SellKindsToFront[item.house.sell_kind]}</Text>
-                </Flex>
+      <VStack>
+        <Grid
+          gridTemplateColumns={{
+            sm: "1fr",
+            md: "1fr 1fr",
+            lg: "repeat(3, 1fr)",
+            xl: "repeat(4, 1fr)",
+          }}
+          gap="2"
+          columnGap="8"
+          py="7"
+        >
+          {currentPageData?.map((item, index) => {
+            return (
+              <GridItem key={index}>
+                <Card w="200px" h="330px" m="10px" overflow={"hidden"}>
+                  <Link to={`/houseList/house/${item.house.id}`}>
+                    <Image src={item.house.thumnail} w="20rem" h="12rem" />
+                  </Link>
+                  <CardBody>
+                    <Box fontWeight={600} mb="1rem">
+                      {item.house.title}
+                    </Box>
+                    <Flex fontSize={"sm"}>
+                      <Text mr="0.5rem">
+                        {RoomKindsToFront[item.house.room_kind]}
+                      </Text>
+                      <Text>{SellKindsToFront[item.house.sell_kind]}</Text>
+                    </Flex>
 
-                <Flex fontSize={"sm"} color={"#ff404c"}>
-                  <Text>
-                    {`${getSaleContents(
-                      item.house.sell_kind,
-                      item.house.deposit,
-                      item.house.monthly_rent,
-                      item.house.sale
-                    )}`}
-                  </Text>
-                </Flex>
-              </CardBody>
-            </Card>
-          );
-        })}
-      </Flex>
-      <PagenationBox>
-        <Pagination
-          activePage={page}
-          itemsCountPerPage={9}
-          totalItemsCount={data?.length ?? 0}
-          pageRangeDisplayed={5}
-          prevPageText="<"
-          nextPageText=">"
-          onChange={pageChange}
-        ></Pagination>
-      </PagenationBox>
+                    <Flex fontSize={"sm"} color={"#ff404c"}>
+                      <Text>
+                        {`${getSaleContents(
+                          item.house.sell_kind,
+                          item.house.deposit,
+                          item.house.monthly_rent,
+                          item.house.sale
+                        )}`}
+                      </Text>
+                    </Flex>
+                  </CardBody>
+                </Card>
+              </GridItem>
+            );
+          })}
+        </Grid>
+
+        <PagenationBox>
+          <Pagination
+            activePage={page}
+            itemsCountPerPage={9}
+            totalItemsCount={data?.length ?? 0}
+            pageRangeDisplayed={5}
+            prevPageText="<"
+            nextPageText=">"
+            onChange={pageChange}
+          ></Pagination>
+        </PagenationBox>
+      </VStack>
     </WishListWrap>
   );
 }
