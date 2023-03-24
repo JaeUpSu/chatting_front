@@ -56,6 +56,8 @@ const HouseSell = () => {
   const [imageBackUrls, setImageBackUrls] = useState([]);
   const [datas, setDatas] = useState({});
   const [isPost, setIsPost] = useState(false);
+  const [addition, setAddition] = useState([]);
+  const [safety, setSafety] = useState([]);
 
   const [isError, setError] = useState({
     title: null,
@@ -112,7 +114,6 @@ const HouseSell = () => {
     onMutate: (d) => console.log("1", d),
     onSuccess: ({ id }) => {
       navigate(`../houseList/house/${id}`);
-
       console.log("created house!");
     },
     onError: () => {
@@ -237,7 +238,12 @@ const HouseSell = () => {
   // 가공한 이미지가 5개가 되면 uploadUrl mutate
   useEffect(() => {
     if (imageBackUrls.length === 5) {
-      let processedData = getProcessedData(datas, imageBackUrls);
+      let processedData = getProcessedData(
+        datas,
+        imageBackUrls,
+        addition,
+        safety
+      );
       mutate(processedData);
     }
   }, [imageBackUrls, datas]);
@@ -564,31 +570,24 @@ const HouseSell = () => {
           />
           <FormControl id="additionalOptions" mt="2" mb="7" w="45vw">
             <FormLabel>추가옵션</FormLabel>
-            <CheckboxGroup colorScheme="green">
+            <CheckboxGroup
+              colorScheme="green"
+              value={addition}
+              onChange={(values) => setAddition(values)}
+            >
               {additionalOptionsData?.data?.map((item, idx) => {
-                if ((idx + 1) % 3 === 0) {
-                  return (
-                    <>
-                      <Checkbox
-                        key={idx}
-                        value={item.name}
-                        mx="3"
-                        w="13vw"
-                        h="5vh"
-                        minW="110px"
-                      >
-                        {item.name}
-                      </Checkbox>
-                      <br />
-                    </>
-                  );
-                } else {
-                  return (
-                    <Checkbox key={idx} mx="3" w="13vw" minW="110px" h="5vh">
-                      {item.name}
-                    </Checkbox>
-                  );
-                }
+                return (
+                  <Checkbox
+                    key={idx}
+                    value={item.name}
+                    mx="3"
+                    w="13vw"
+                    minW="110px"
+                    h="5vh"
+                  >
+                    {item.name}
+                  </Checkbox>
+                );
               })}
             </CheckboxGroup>
           </FormControl>
@@ -600,32 +599,24 @@ const HouseSell = () => {
           />
           <FormControl id="safetyOptions" mt="2" mb="7" w="45vw">
             <FormLabel>안전옵션</FormLabel>
-            <CheckboxGroup colorScheme="green">
+            <CheckboxGroup
+              colorScheme="green"
+              value={safety}
+              onChange={(values) => setSafety(values)}
+            >
               {safetyOptionsData?.data?.map((item, idx) => {
-                console.log(item);
-                if ((idx + 1) % 3 === 0) {
-                  return (
-                    <>
-                      <Checkbox
-                        key={idx}
-                        value={item.name}
-                        mx="3"
-                        w="13vw"
-                        minW="110px"
-                        h="5vh"
-                      >
-                        {item.name}
-                      </Checkbox>
-                      <br />
-                    </>
-                  );
-                } else {
-                  return (
-                    <Checkbox key={idx} mx="3" minW="110px" w="13vw" h="5vh">
-                      {item.name}
-                    </Checkbox>
-                  );
-                }
+                return (
+                  <Checkbox
+                    key={idx}
+                    value={item.name}
+                    mx="3"
+                    minW="110px"
+                    w="13vw"
+                    h="5vh"
+                  >
+                    {item.name}
+                  </Checkbox>
+                );
               })}
             </CheckboxGroup>
           </FormControl>
