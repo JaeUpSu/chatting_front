@@ -1,4 +1,5 @@
 import { HouseRegisterValues } from "../services/data";
+import { getOptionFormat } from "./getOptionFormat";
 
 export const getProcessedData = (data, images, addition, safety) => {
   let processedData = {};
@@ -21,18 +22,10 @@ export const getProcessedData = (data, images, addition, safety) => {
       processedData["Image"] = images;
     }
     if (addition.length > 0) {
-      const processedAddition = [];
-      addition.forEach((item) => {
-        processedAddition.push({ name: item });
-      });
-      processedData["option"] = processedAddition;
+      processedData["option"] = getOptionFormat(addition);
     }
     if (safety.length > 0) {
-      const processedSafety = [];
-      safety.forEach((item) => {
-        processedSafety.push({ name: item });
-      });
-      processedData["Safetyoption"] = processedSafety;
+      processedData["Safetyoption"] = getOptionFormat(safety);
     }
   });
   return processedData;
