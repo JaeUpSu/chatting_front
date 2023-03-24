@@ -72,7 +72,7 @@ export default function SellAll() {
     <VStack>
       {!isLoading ? (
         <>
-          <VStack h="68vh" overflowY={"scroll"}>
+          <VStack w="100%" h="68vh" overflowY={"scroll"}>
             {data?.results?.length < 1 ? (
               <Center h="100%" w="100%" alignItems="center" fontWeight="600">
                 비어있습니다.
@@ -80,13 +80,15 @@ export default function SellAll() {
             ) : (
               <>
                 <Grid
-                  w="75vw"
                   gridTemplateColumns={{
                     sm: "1fr",
                     md: "1fr 1fr",
                     lg: "repeat(3, 1fr)",
                     xl: "repeat(4, 1fr)",
                   }}
+                  gap="2"
+                  columnGap="8"
+                  py="7"
                 >
                   {data?.results?.map((item, idx) => {
                     return (

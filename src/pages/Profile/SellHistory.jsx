@@ -1,5 +1,13 @@
 import React from "react";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import {
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  HStack,
+  Flex,
+} from "@chakra-ui/react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 export default function SellHistory() {
@@ -19,49 +27,68 @@ export default function SellHistory() {
     <Tabs
       isLazy
       isFitted
-      w="79vw"
-      p="2"
       variant="unstyled"
-      defaultIndex={selectedTabIndex}
       onChange={changeTab}
+      defaultIndex={selectedTabIndex}
     >
-      <TabList borderTopRadius={"3xl"} w="100%">
-        <Tab
-          borderWidth="3px"
-          borderColor="white"
-          bg={"gray.200"}
-          _selected={{ color: "white", bg: "#ff535e" }}
+      <HStack alignItems="flex-start">
+        <Flex
+          h="74vh"
+          w="15vw"
+          backgroundColor="rgb(233,239,244,0.5)"
+          borderRadius="md"
+          alignItems="flex-start"
+          justifyContent="center"
+          p="1"
         >
-          모두보기
-        </Tab>
-        <Tab
-          borderWidth="3px"
-          borderColor="white"
-          bg={"gray.200"}
-          _selected={{ color: "white", bg: "#ff535e" }}
-        >
-          판매중
-        </Tab>
-        <Tab
-          borderWidth="3px"
-          borderColor="white"
-          bg={"gray.200"}
-          _selected={{ color: "white", bg: "#ff535e" }}
-        >
-          판매완료
-        </Tab>
-      </TabList>
-      <TabPanels>
-        <TabPanel p="2px">
-          <Outlet />
-        </TabPanel>
-        <TabPanel p="2px">
-          <Outlet />
-        </TabPanel>
-        <TabPanel p="2px">
-          <Outlet />
-        </TabPanel>
-      </TabPanels>
+          <TabList
+            mt="3vh"
+            w="8vw"
+            h="20vh"
+            flexDirection="column"
+            borderTopRadius={"3xl"}
+            justifyContent="space-between"
+          >
+            <Tab
+              borderColor="white"
+              borderRadius="7px"
+              bg={"gray.200"}
+              _selected={{ color: "white", bg: "#ff535e" }}
+            >
+              All
+            </Tab>
+            <Tab
+              borderColor="white"
+              borderRadius="7px"
+              mt="2vh"
+              bg={"gray.200"}
+              _selected={{ color: "white", bg: "#ff535e" }}
+            >
+              Selling
+            </Tab>
+            <Tab
+              borderColor="white"
+              borderRadius="7px"
+              mt="2vh"
+              bg={"gray.200"}
+              _selected={{ color: "white", bg: "#ff535e" }}
+            >
+              SoldOut
+            </Tab>
+          </TabList>
+        </Flex>
+        <TabPanels>
+          <TabPanel p="2px">
+            <Outlet />
+          </TabPanel>
+          <TabPanel p="2px">
+            <Outlet />
+          </TabPanel>
+          <TabPanel p="2px">
+            <Outlet />
+          </TabPanel>
+        </TabPanels>
+      </HStack>
     </Tabs>
   );
 }
