@@ -1,35 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { getHouseLists } from "../../services/api";
 import styled from "styled-components";
-import {
-  VStack,
-  Card,
-  CardBody,
-  Image,
-  Flex,
-  Text,
-  Box,
-  CardFooter,
-} from "@chakra-ui/react";
+import { Card, CardBody, Image, Flex, Text, Box } from "@chakra-ui/react";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { getSaleContents } from "../../utils/getSaleContents";
 import { Link } from "react-router-dom";
 
 export default function RecentView() {
-  const { error, data } = useQuery(["recently_views"], getHouseLists);
-  if (error) {
-    return <div>Error...</div>;
-  }
-
-  if (!data) {
-    return <div>Loading...</div>;
-  }
+  const { data } = useQuery(["recently_views"], getHouseLists);
 
   return (
     <Flex wrap={"wrap"} h="60vh" width="75vw" overflowY="scroll">
       {data?.map((item, index) => {
         return (
-          <Card w="15vw" m="10px" overflow={"hidden"} ml="2rem">
+          <Card key={index} w="15vw" m="10px" overflow={"hidden"} ml="2rem">
             <Link to={`/houseList/house/${item.recently_views.id}`}>
               <Image src={item.recently_views.thumnail} w="24.9rem" h="12rem" />
             </Link>
