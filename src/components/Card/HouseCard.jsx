@@ -134,7 +134,6 @@ function HouseCard({
             )}
           </Box>
           <VStack alignItems={"flex-start"} pl="3">
-              {/* <Box w="22vw"> */}
             <Heading
               size="sm"
               fontSize="1.5em"
@@ -144,7 +143,7 @@ function HouseCard({
               {title}
             </Heading>
             <Text h="auto" color="blackAlpha.800" fontSize="1rem" noOfLines={1}>
-              서울 {gu} {dong}
+              서울 {gu} {dong.name}
             </Text>
             <VStack spacing={"0"} alignItems={"flex-start"}>
               <HStack alignItems="center">

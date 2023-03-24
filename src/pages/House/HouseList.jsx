@@ -192,7 +192,7 @@ function HouseList() {
                   Loading...
                   <Button
                     isLoading={isLoading}
-                    Icon={<SpinnerIcon boxSize={50} />}
+                    icon={<SpinnerIcon boxSize={50} />}
                     backgroundColor="transparent"
                   />
                 </>
@@ -254,7 +254,7 @@ function HouseList() {
                   alignItems={"center"}
                   justifyContent="center"
                 >
-                  <HouseCard key={idx} {...item} />
+                  <HouseCard {...item} />
                 </GridItem>
               );
             })}

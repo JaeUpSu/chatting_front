@@ -235,7 +235,7 @@ const HouseEdit = () => {
           />
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
 
-          {/* <CheckboxForm
+          <CheckboxForm
             setUpdatedHouse={setUpdatedHouse}
             setUpdatedData={setUpdatedData}
             values={updatedHouse?.option}
@@ -251,7 +251,7 @@ const HouseEdit = () => {
             name="Safetyoption"
             label="안전 옵션"
             api={getSafetyOptions}
-          /> */}
+          />
 
           <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
 
