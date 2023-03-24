@@ -1,47 +1,79 @@
 import { useQuery } from "@tanstack/react-query";
 import { getHouseLists } from "../../services/api";
-import styled from "styled-components";
-import { Card, CardBody, Image, Flex, Text, Box } from "@chakra-ui/react";
+import {
+  Card,
+  CardBody,
+  Image,
+  Flex,
+  Grid,
+  GridItem,
+  Text,
+  Box,
+  Center,
+  VStack,
+} from "@chakra-ui/react";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { getSaleContents } from "../../utils/getSaleContents";
 import { Link } from "react-router-dom";
 
 export default function RecentView() {
-  const { data } = useQuery(["recently_views"], getHouseLists);
+  const { isLoading, data } = useQuery(["recently_views"], getHouseLists);
 
   return (
-    <Flex wrap={"wrap"} h="60vh" width="75vw" overflowY="scroll">
-      {data?.map((item, index) => {
-        return (
-          <Card key={index} w="15vw" m="10px" overflow={"hidden"} ml="2rem">
-            <Link to={`/houseList/house/${item.recently_views.id}`}>
-              <Image src={item.recently_views.thumnail} w="24.9rem" h="12rem" />
-            </Link>
+    <VStack wrap={"wrap"} h="60vh" maxW="100%" overflowY="scroll">
+      <Grid
+        gridTemplateColumns={{
+          sm: "1fr",
+          md: "1fr 1fr",
+          lg: "repeat(3, 1fr)",
+          xl: "repeat(4, 1fr)",
+        }}
+        gap="2"
+        columnGap="8"
+        py="7"
+      >
+        {data?.map((item, index) => {
+          return (
+            <GridItem key={index}>
+              <Card w="200px" h="330px" m="10px" overflow={"hidden"}>
+                <Link to={`/houseList/house/${item.recently_views.id}`}>
+                  <Image
+                    src={item.recently_views.thumnail}
+                    w="24.9rem"
+                    h="12rem"
+                  />
+                </Link>
 
-            <CardBody>
-              <Box fontWeight={600}>{item.recently_views.title}</Box>
+                <CardBody>
+                  <Box fontWeight={600} mb="1rem">
+                    {item.recently_views.title}
+                  </Box>
 
-              <Flex fontSize={"sm"}>
-                <Text mr="0.5rem">
-                  {RoomKindsToFront[item.recently_views.room_kind]}
-                </Text>
-                <Text>{SellKindsToFront[item.recently_views.sell_kind]}</Text>
-              </Flex>
+                  <Flex fontSize={"sm"}>
+                    <Text mr="0.5rem">
+                      {RoomKindsToFront[item.recently_views.room_kind]}
+                    </Text>
+                    <Text>
+                      {SellKindsToFront[item.recently_views.sell_kind]}
+                    </Text>
+                  </Flex>
 
-              <Flex fontSize={"sm"} color={"#ff404c"}>
-                <Text>
-                  {`${getSaleContents(
-                    item.recently_views.sell_kind,
-                    item.recently_views.deposit,
-                    item.recently_views.monthly_rent,
-                    item.recently_views.sale
-                  )}`}
-                </Text>
-              </Flex>
-            </CardBody>
-          </Card>
-        );
-      })}
-    </Flex>
+                  <Flex fontSize={"sm"} color={"#ff404c"}>
+                    <Text>
+                      {`${getSaleContents(
+                        item.recently_views.sell_kind,
+                        item.recently_views.deposit,
+                        item.recently_views.monthly_rent,
+                        item.recently_views.sale
+                      )}`}
+                    </Text>
+                  </Flex>
+                </CardBody>
+              </Card>
+            </GridItem>
+          );
+        })}
+      </Grid>
+    </VStack>
   );
 }
