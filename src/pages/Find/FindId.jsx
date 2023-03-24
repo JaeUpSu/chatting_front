@@ -9,6 +9,8 @@ import {
   Container,
   VStack,
   useToast,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
@@ -38,29 +40,46 @@ export default function FindId() {
   };
   return (
     <Container p={4} as="form" onSubmit={handleSubmit(onSubmit)}>
-      <VStack spacing={10}>
+      <VStack spacing={8}>
         <Heading as="h2" size="lg" mb={4}>
           아이디 찾기
         </Heading>
-        <Input
-          type="text"
-          {...register("name", { required: true })}
-          placeholder="이름을 입력하세요"
-        />
-        <Input
-          type="email"
-          {...register("email", { required: true })}
-          placeholder="이메일을 입력하세요"
-        />
-        <Input
-          type="number"
-          {...register("phone_number", { required: true })}
-          placeholder="전화번호를 입력하세요"
-        />
+        <FormControl id="name">
+          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
+            이름
+          </FormLabel>
+          <Input
+            type="text"
+            {...register("name", { required: true })}
+            placeholder="이름을 입력하세요"
+          />
+        </FormControl>
+        <FormControl id="email">
+          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
+            이메일
+          </FormLabel>
+          <Input
+            type="email"
+            {...register("email", { required: true })}
+            placeholder="이메일을 입력하세요"
+          />
+        </FormControl>
+
+        <FormControl id="phone_number">
+          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
+            전화번호
+          </FormLabel>
+          <Input
+            type="number"
+            {...register("phone_number", { required: true })}
+            placeholder="전화번호를 입력하세요"
+          />
+        </FormControl>
         <Button
           type="submit"
           w={"100%"}
-          colorScheme="blue"
+          backgroundColor="#ff404c"
+          color="white"
           isLoading={mutation.isLoading}
         >
           아이디 찾기

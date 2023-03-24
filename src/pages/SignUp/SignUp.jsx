@@ -116,25 +116,42 @@ export default function SignUp() {
     <Container display={"flex"} justifyContent={"center"}>
       <VStack
         as={"form"}
-        mt={"3"}
         onSubmit={handleSubmit(onSubmit)}
-        spacing={2}
+        spacing={4}
         alignItems={"flex-start"}
-        w={"33vw"}
+        w={{
+          sm: "60vw",
+          md: "45vw",
+          lg: "40vw",
+          xl: "35vw",
+        }}
       >
-        <HStack alignItems={"flex-end"} spacing="5" mb={"5"}>
+        <VStack alignItems={"center"} spacing="5" mb={"2"} w="100%">
           <Avatar size={"xl"} src={avatar} border={"1px solid gray"} />
-          <FormControl>
-            <FormLabel>사진 업로드</FormLabel>
-            <Input
-              type="file"
-              {...register("avatar")}
-              onChange={handleAvatarChange}
-            />
+          <FormControl w="100%">
+            <HStack>
+              <FormLabel
+                color="blackAlpha.700"
+                fontWeight="semibold"
+                w="40%"
+                m="0px"
+              >
+                사진 업로드
+              </FormLabel>
+              <Input
+                m="0px"
+                w="100%"
+                type="file"
+                {...register("avatar")}
+                onChange={handleAvatarChange}
+              />
+            </HStack>
           </FormControl>
-        </HStack>
+        </VStack>
         <FormControl isRequired>
-          <FormLabel>ID</FormLabel>
+          <FormLabel color="blackAlpha.700" fontWeight="semibold">
+            ID
+          </FormLabel>
           <Flex align="center">
             <Input {...register("username", { required: true })} />
             {/* <Button ml="3" colorScheme="red">
@@ -148,7 +165,9 @@ export default function SignUp() {
           )}
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>비밀번호</FormLabel>
+          <FormLabel color="blackAlpha.700" fontWeight="semibold">
+            비밀번호
+          </FormLabel>
           <Flex align="center">
             <Input
               type="password"
@@ -166,7 +185,9 @@ export default function SignUp() {
         </FormControl>
 
         <FormControl isRequired>
-          <FormLabel>이름</FormLabel>
+          <FormLabel color="blackAlpha.700" fontWeight="semibold">
+            이름
+          </FormLabel>
           <Input type="text" {...register("name", { required: true })} />
           {errors.name && (
             <Text fontSize="xs" color="red.500">
@@ -176,7 +197,9 @@ export default function SignUp() {
         </FormControl>
 
         <FormControl isRequired>
-          <FormLabel>전화번호</FormLabel>
+          <FormLabel color="blackAlpha.700" fontWeight="semibold">
+            전화번호
+          </FormLabel>
           <Input
             type={"number"}
             {...register("phone_number", { required: true })}
@@ -189,7 +212,7 @@ export default function SignUp() {
         </FormControl>
 
         <FormControl id="email" isRequired>
-          <FormLabel>이메일주소</FormLabel>
+          <FormLabel fontWeight="semibold">이메일주소</FormLabel>
           <Input
             {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
           />
@@ -202,7 +225,9 @@ export default function SignUp() {
 
         <FormControl isRequired>
           <HStack alignItems={"flex-start"}>
-            <FormLabel>성별</FormLabel>
+            <FormLabel color="blackAlpha.700" fontWeight="semibold">
+              성별
+            </FormLabel>
             <RadioGroup>
               <Radio {...register("gender")} mr={5} value="male">
                 남
@@ -219,7 +244,7 @@ export default function SignUp() {
           )}
         </FormControl>
         <Checkbox {...register("isHost")} mr={"10"}>
-          공인중개사입니다.
+          공인중개사
         </Checkbox>
 
         <Button
@@ -229,11 +254,12 @@ export default function SignUp() {
             validateCheckMutation.isLoading ||
             signUpMutation.isLoading
           }
-          colorScheme="blue"
+          backgroundColor="#ff404c"
+          color="white"
           type="submit"
           width={"100%"}
         >
-          Submit
+          가입하기
         </Button>
       </VStack>
     </Container>
