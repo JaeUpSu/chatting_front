@@ -175,7 +175,7 @@ function HouseList() {
             <AddressMenu onUpdate={setAddress} />
             <HouseOptMenu onUpdate={setAPIParams} />
           </HStack>
-          <Button size="sm" onClick={onInitOptions}>
+          <Button size="sm" minW="4.5vw" onClick={onInitOptions}>
             초기화
           </Button>
         </HStack>

@@ -18,6 +18,7 @@ import useUser from "../../hooks/useUser";
 import { setWishLists } from "../../services/api";
 import { getSaleContents } from "../../utils/getSaleContents";
 import { RoomKindsToFront, SellKindsToFront } from "../../services/data";
+import styles from "../../styles/HouseList.module.css";
 
 function HouseCard({
   thumnail,
@@ -52,14 +53,14 @@ function HouseCard({
       toast({
         title: "좋아요 -1",
         status: "warning",
-        duration: 2000,
+        duration: 1500,
         isClosable: true,
       });
     } else {
       toast({
         title: "좋아요 +1",
         status: "success",
-        duration: 2000,
+        duration: 1500,
         isClosable: true,
       });
     }
@@ -77,7 +78,7 @@ function HouseCard({
     <Card
       w="100%"
       boxShadow="0px"
-      _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}
+      _hover={{ backgroundColor: "rgb(210,210,210,0.1)" }}
       display={"flex"}
       alignItems="center"
       justifyContent={"center"}
@@ -110,6 +111,11 @@ function HouseCard({
                 mt="4"
                 mr="4"
                 color={isLike ? "red" : "white"}
+                className={
+                  isLike
+                    ? styles.heart_animation
+                    : styles.reverse_heart_animation
+                }
               >
                 <FaHeart size={"25"} />
               </Box>
