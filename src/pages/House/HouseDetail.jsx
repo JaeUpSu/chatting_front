@@ -276,12 +276,15 @@ function House() {
             spacing="7"
             position={"absolute"}
           >
-            <HStack justifyContent={"space-between"} width="95%">
-              <HStack alignItems={"flex-end"}>
+            <HStack w={"95%"} rowGap="4" justifyContent={"space-between"}>
+              <HStack alignItems={"flex-end"} flexWrap="wrap">
                 {data ? (
                   <Heading
                     fontWeight={"semibold"}
-                    fontSize="2xl"
+                    fontSize={{
+                      sm: "xl",
+                      md: "2xl",
+                    }}
                     display="flex"
                     alignItems="center"
                   >
@@ -299,7 +302,15 @@ function House() {
                     loading.....
                   </Skeleton>
                 )}
-                <Text fontSize={"lg"} color="red.400" fontWeight={"bold"}>
+                <Text
+                  fontSize={{
+                    xs: "sm",
+                    sm: "md",
+                    md: "xl",
+                  }}
+                  color="red.400"
+                  fontWeight={"bold"}
+                >
                   {!isLoading ? (
                     isSale ? (
                       "판매중"
@@ -319,18 +330,38 @@ function House() {
                 </Text>
               </HStack>
               {data?.is_host ? (
-                <ButtonGroup gap={0}>
+                <ButtonGroup>
                   <Button
                     colorScheme="gray"
-                    size="md"
+                    size={{
+                      sm: "xs",
+                      md: "sm",
+                      lg: "md",
+                    }}
                     onClick={onSellStateChange}
                   >
                     {!isLoading && isSale ? "판매종료" : "판매하기"}
                   </Button>
-                  <Button colorScheme="gray" size="md" onClick={onEdit}>
+                  <Button
+                    colorScheme="gray"
+                    size={{
+                      sm: "xs",
+                      md: "sm",
+                      lg: "md",
+                    }}
+                    onClick={onEdit}
+                  >
                     수정하기
                   </Button>
-                  <Button colorScheme="gray" size="md" onClick={onDel}>
+                  <Button
+                    colorScheme="gray"
+                    size={{
+                      sm: "xs",
+                      md: "sm",
+                      lg: "md",
+                    }}
+                    onClick={onDel}
+                  >
                     삭제하기
                   </Button>
                 </ButtonGroup>
