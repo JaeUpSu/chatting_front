@@ -18,7 +18,7 @@ import { getPriceDisplay } from "../../utils/getPriceDisplay";
 
 import OptionRangeSlider from "../Slider/RangeSlider";
 import DataRadioCard from "../Radio/RadioCard";
-import PricesMenu from "./PricesMenu";
+import PricesMenu from "../Menu/PricesMenu";
 
 function HouseOptMenu({ onUpdate }) {
   const [selectedOpts, setSelectedOpts] = useState(new Array(5).fill("전체"));
@@ -131,7 +131,7 @@ function HouseOptMenu({ onUpdate }) {
                   p="15px"
                   rightIcon={<IoIosArrowDown />}
                 >
-                  {item.kor}
+                  {item.kor + ` ${getPriceDisplay(prices[0])}`}
                 </MenuButton>
                 <MenuList py="20px" px="50px">
                   <OptionRangeSlider

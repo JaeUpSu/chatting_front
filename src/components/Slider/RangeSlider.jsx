@@ -44,7 +44,6 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
           return price;
         }
       });
-
       return newPrices;
     });
   }, [range]);
@@ -88,9 +87,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
         step={1}
         w="450px"
         onChange={handleChange}
-        // position="relative"
       >
-        {" "}
         {labels.map((item, idx) => {
           return (
             <RangeSliderMark key={idx} value={idx * 10} mt="16px" w="100%">
@@ -107,26 +104,16 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
           boxSize={5}
           index={0}
           bg="red.400"
-          // border="2px solid black"
           mr={`20px`}
-        >
-          {/* <Box color="red.700" position="absolute" left={0} fontWeight="600">
-            min
-          </Box> */}
-        </RangeSliderThumb>
+        />
         <RangeSliderThumb
           min={values[0] ? values[1] + 10 : 10}
           value={values[0] ? values[1] : 30}
           boxSize={5}
           index={1}
           bg="red.400"
-          // border="2px solid black"
           ml={`20px`}
-        >
-          {/* <Box color="red.700" position="absolute" left={0} fontWeight="600">
-            max
-          </Box> */}
-        </RangeSliderThumb>
+        />
       </RangeSlider>
     </Box>
   );
