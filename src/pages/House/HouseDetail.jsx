@@ -149,7 +149,6 @@ function House() {
             width={"90%"}
             overflow="hidden"
             borderRadius={"30px"}
-            boxShadow="md"
             templateColumns={{
               sm: "repeat(2,1fr)",
               lg: "repeat(4,1fr)",
