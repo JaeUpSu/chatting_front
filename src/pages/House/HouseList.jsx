@@ -22,7 +22,6 @@ import { getInitOrderBy } from "../../services/local";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
 import { throttle } from "../../utils/throttle";
-import { isInitHouseList } from "../../utils/isInitHouseList";
 import { getBackOptions } from "../../utils/getBackOptions";
 import { getBackOrderBy } from "../../utils/getBackOrderBy";
 
@@ -30,7 +29,6 @@ import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
 
-import Loading from "../../components/Loading/Loading";
 import LoadingHouseCard from "../../components/Loading/LoadingHouseCard";
 
 const TopBtn = styled.div`
@@ -70,6 +68,7 @@ function HouseList() {
     depositRange: [0, 30],
     monthlyRentRange: [0, 30],
   });
+  const [isFirst, setFirst] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [isSellKind, setIsSellKind] = useState(false);
   const [orderBy, setOrderBy] = useState(getInitOrderBy(isSellKind));
@@ -177,7 +176,6 @@ function HouseList() {
             <HouseOptMenu onUpdate={setAPIParams} />
           </HStack>
           <Button size="sm" onClick={onInitOptions}>
-            {" "}
             초기화
           </Button>
         </HStack>
@@ -234,7 +232,6 @@ function HouseList() {
             ) : null}
           </HStack>
         </HStack>
-
         {!isLoading ? (
           totalCounts ? (
             <Grid
