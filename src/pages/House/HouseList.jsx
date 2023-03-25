@@ -15,7 +15,7 @@ import {
 import { SpinnerIcon } from "@chakra-ui/icons";
 import { HiChevronDown } from "react-icons/hi";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useLayoutEffect } from "react";
 
 import { getOptionHouses } from "../../services/api";
 import { getInitOrderBy } from "../../services/local";
@@ -69,6 +69,7 @@ function HouseList() {
     depositRange: [0, 30],
     monthlyRentRange: [0, 30],
   });
+  const [isInit, setIsInit] = useState(true);
   const [isLoading, setLoading] = useState(false);
   const [isSellKind, setIsSellKind] = useState(false);
   const [orderBy, setOrderBy] = useState(getInitOrderBy(isSellKind));
@@ -108,6 +109,8 @@ function HouseList() {
 
   // scroll reload event
   useEffect(() => {
+    if (isInit) setIsInit(false);
+
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
 
@@ -232,41 +235,39 @@ function HouseList() {
             ) : null}
           </HStack>
         </HStack>
-        {!isLoading ? (
-          totalCounts ? (
-            <Grid
-              w={"100vw"}
-              pl="5vw"
-              pr="5vw"
-              gridTemplateColumns={{
-                sm: "1fr",
-                md: "1fr 1fr",
-                lg: "repeat(3, 1fr)",
-                xl: "repeat(4, 1fr)",
-              }}
-              ref={scrollRef}
-              overflowY={"scroll"}
-              h="100%"
-            >
-              {data?.map((item, idx) => {
-                return (
-                  <GridItem key={idx}>
-                    <HouseCard {...item} />
-                  </GridItem>
-                );
-              })}
-            </Grid>
-          ) : (
-            <Flex
-              alignItems="center"
-              justifyContent="center"
-              height="65vh"
-              fontWeight="600"
-              ref={scrollRef}
-            >
-              해당 옵션을 가진 제품은 없습니다.
-            </Flex>
-          )
+        {totalCounts > 0 ? (
+          <Grid
+            w={"100vw"}
+            pl="5vw"
+            pr="5vw"
+            gridTemplateColumns={{
+              sm: "1fr",
+              md: "1fr 1fr",
+              lg: "repeat(3, 1fr)",
+              xl: "repeat(4, 1fr)",
+            }}
+            ref={scrollRef}
+            overflowY={"scroll"}
+            h="100%"
+          >
+            {data?.map((item, idx) => {
+              return (
+                <GridItem key={idx}>
+                  <HouseCard {...item} />
+                </GridItem>
+              );
+            })}
+          </Grid>
+        ) : totalCounts == 0 ? (
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            height="65vh"
+            fontWeight="600"
+            ref={scrollRef}
+          >
+            해당 옵션을 가진 제품은 없습니다.
+          </Flex>
         ) : (
           <Grid
             w={"100vw"}
