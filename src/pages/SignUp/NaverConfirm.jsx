@@ -37,14 +37,13 @@ export default function NaverConfirm() {
       queryClient.refetchQueries(["me"]);
       navigate("/");
     },
-    onError: (error) => {
+    onError: () => {
       if (toastId.current) {
         toast.update(toastId.current, {
           title: "Log In failed",
           status: "error",
           position: "top",
         });
-        // navigate("/");
       }
     },
   });
@@ -58,17 +57,6 @@ export default function NaverConfirm() {
       if (state === "OzCoding") {
         mutation.mutate(data);
       }
-      // const status_code = await githubLogin(code);
-      // if (status_code === 200) {
-      //   await queryClient.refetchQueries(["me"]);
-      //   toast({
-      //     title: "Log In Success",
-      //     description: `Welcome GitHub Login!`,
-      //     status: "success",
-      //     position: "top",
-      //   });
-      //   navigate("/");
-      // }
     }
   };
   useEffect(() => {

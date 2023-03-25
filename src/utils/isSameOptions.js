@@ -1,5 +1,3 @@
-// front => ["a","b",..]
-// back => [{name:"a"},{name:"b"},..]
 export const isSameOptions = (front, back) => {
   let flag = true;
   if (front.length !== back.length) return false;

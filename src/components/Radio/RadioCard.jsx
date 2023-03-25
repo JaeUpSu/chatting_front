@@ -1,16 +1,5 @@
-import {
-  Flex,
-  HStack,
-  Box,
-  useRadio,
-  useRadioGroup,
-  Text,
-  Center,
-} from "@chakra-ui/react";
-
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import { Flex, Box, useRadio, useRadioGroup } from "@chakra-ui/react";
 
 import { optionsMenu } from "../../services/data";
 
@@ -49,8 +38,6 @@ function RadioCard({ name, radio, onSelect }) {
         {...checkbox}
         backgroundColor="rgb(233,239,244)"
         cursor="pointer"
-        // borderWidth="2px"
-        // borderColor="red.200"
         fontWeight="600"
         borderRadius="md"
         _checked={{
@@ -90,13 +77,9 @@ function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
   });
 
   const group = getRootProps();
-  const radio = getRadioProps();
 
   return (
     <Flex direction="column" w="100%">
-      {/* <Text fontWeight="bold" mb="10px">
-        {name}
-      </Text> */}
       <Flex
         {...group}
         flexWrap="wrap"
@@ -104,9 +87,8 @@ function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
         justifyContent="flex-start"
         w="100%"
       >
-        {data.map((value, idx) => {
+        {data.map((value) => {
           const radio = getRadioProps({ value });
-
           return (
             <RadioCard
               key={value}

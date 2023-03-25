@@ -14,5 +14,3 @@ export const getAddressByUrl = (url) => {
   });
   return newAddress;
 };
-
-// metropolitan=8&gugunsi=2&ebmyeondong=-1

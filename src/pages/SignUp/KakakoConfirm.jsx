@@ -36,7 +36,7 @@ export default function KakaoConfirm() {
       queryClient.refetchQueries(["me"]);
       navigate("/");
     },
-    onError: (error) => {
+    onError: () => {
       if (toastId.current) {
         toast.update(toastId.current, {
           title: "Log In failed",
@@ -51,18 +51,6 @@ export default function KakaoConfirm() {
     const code = params.get("code");
     if (code) {
       mutation.mutate(code);
-
-      // const status_code = await kakaoLogin(code);
-      // if (status_code === 200) {
-      //   toast({
-      //     title: "Log In Success",
-      //     description: `Welcome Kakao Login!`,
-      //     status: "success",
-      //     position: "top",
-      //   });
-      //   queryClient.refetchQueries(["me"]);
-      //   navigate("/");
-      // }
     } else {
       navigate("/");
     }

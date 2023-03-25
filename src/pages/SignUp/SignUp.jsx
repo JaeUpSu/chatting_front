@@ -70,7 +70,6 @@ export default function SignUp() {
     onSuccess: ({ result }) => {
       setValue("avatar", result.variants[0]);
       signUpMutation.mutate(watch());
-      // watch("avatar") = result.variants;
     },
   });
   const uploadURLMutation = useMutation(getUploadURL, {

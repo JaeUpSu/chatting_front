@@ -6,7 +6,7 @@ import { throttle } from "../utils/throttle";
 
 const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   const [page, setPage] = useState(1);
-  const [totalCounts, setTotalCounts] = useState(1);
+  const [totalCounts, setTotalCounts] = useState(-1);
   const [data, setData] = useState([]);
   const [isFetching, setFetching] = useState(false);
   const [hasNextPage, setNextPage] = useState(true);

@@ -30,7 +30,6 @@ export default function RoomOption({ type }) {
     가스레인지: <GiBurningEmbers size="40" />,
     오븐: <GiChickenOven size="40" />,
   };
-  //   const Aircon = () => <TbAirConditioning size={"40"} />;
   return (
     <VStack>
       {option[type?.name.replace(" ", "")]}

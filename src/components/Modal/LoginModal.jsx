@@ -25,20 +25,6 @@ import { login } from "../../services/api";
 import SocialLogin from "../Button/SocialLogin";
 
 export default function LoginModal({ isOpen, onClose }) {
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-  // const onChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
-  //   const { name, value } = event.currentTarget;
-  //   if (name === "username") {
-  //     setUsername(value);
-  //   } else if (name === "password") {
-  //     setPassword(value);
-  //   }
-  // };
-  // const onSubmit = (event: React.SyntheticEvent<HTMLDivElement>) => {
-  //   event.preventDefault();
-  //   console.log(username, password);
-  // };
   const textColor = useColorModeValue("red.500", "red.200");
   const {
     register,
@@ -49,7 +35,7 @@ export default function LoginModal({ isOpen, onClose }) {
   const toast = useToast();
   const queryClient = useQueryClient();
   const mutation = useMutation(login, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         title: "Log In Success",
         description: `Welcome!`,
@@ -76,9 +62,6 @@ export default function LoginModal({ isOpen, onClose }) {
   const onSubmit = ({ username, password }) => {
     mutation.mutate({ username, password });
   };
-  // watch()  == username, password
-  // handleSubmit() -> event.preventDefault(), validate data
-  // formstate() -> 에러 확인 가능
   return (
     <Modal motionPreset={"scale"} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

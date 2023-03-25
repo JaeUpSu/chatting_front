@@ -109,11 +109,9 @@ function AddressMenu({ onUpdate }) {
         minWidth: "250px",
         cursor: "pointer",
         transform: "translateX(20px)",
-        // border: "2px solid black",
         backgroundColor: "rgb(233,239,244)",
         borderRadius: "10px",
         padding: "5px",
-        // marginRight: "50px",
       }}
     >
       <Flex

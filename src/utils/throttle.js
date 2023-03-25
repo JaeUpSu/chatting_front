@@ -27,21 +27,6 @@ export const throttle = (handler, timeout = 500) => {
   };
 };
 
-// setTimeout 보다 실행시간 보장(Animbation Frames 에서 처리되어서)
-// const throttleByAnimtaionFrame = (handler) => {
-//   let ticking = false;
-
-//   return function (...args) {
-//     if (!ticking) {
-//       window.requestAnimationFrame(() => {
-//         handler.apply(this, args);
-//         ticking = false;
-//       });
-//       ticking = true;
-//     }
-//   };
-// };
-
 // 이벤트가 발생할 때
 // requestAnimationFrame 콜백이 Animation Frame으로 들어감
 // 그리고 실제로 처리되기 전까지 ticking은 true

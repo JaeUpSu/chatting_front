@@ -44,7 +44,6 @@ export default function SellHistory() {
           <TabList
             mt="3vh"
             w="8vw"
-            // minW="340px"
             h="20vh"
             minW="55px"
             flexDirection="column"
