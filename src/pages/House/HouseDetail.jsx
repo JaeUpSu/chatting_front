@@ -30,12 +30,15 @@ import {
   CardBody,
   Stack,
 } from "@chakra-ui/react";
-import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
+import { FaHeart } from "react-icons/fa";
+import styles from "../../styles/HouseList.module.css";
+
 import useUser from "../../hooks/useUser";
 import { useDidMountEffect } from "../../hooks/useDidMoutEffect";
-import { FaHeart } from "react-icons/fa";
+
 import RoomOption from "../../components/Badge/RoomOption";
 import SafetyOption from "../../components/Badge/SafetyOption";
+import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 function House() {
   const params = useParams();
   const id = params.houseId;
@@ -144,30 +147,38 @@ function House() {
         <Center m={"3vw"} mb="0">
           <Grid
             width={"90%"}
-            borderRadius={"30px"}
             overflow="hidden"
-            templateRows="repeat(2, 1fr)"
-            templateColumns="repeat(4, 1fr)"
+            borderRadius={"30px"}
+            boxShadow="md"
+            templateColumns={{
+              sm: "repeat(2,1fr)",
+              lg: "repeat(4,1fr)",
+            }}
           >
             {!isLoading
               ? data?.Image.map((item, idx) => {
                   return (
                     <GridItem
+                      key={idx}
+                      position="relative"
                       colSpan={idx === 0 ? 2 : 1}
                       rowSpan={idx === 0 ? 2 : 1}
-                      key={idx}
-                      p={"0.5"}
+                      border="1px solid transparent"
                       height={idx === 0 ? "60vh" : "30vh"}
-                      position="relative"
                     >
-                      {!userLoading && isLoggedIn && idx === 2 ? (
+                      {!userLoading && isLoggedIn && idx === 0 ? (
                         <Box
-                          position={"absolute"}
-                          right="6"
-                          top={"5"}
+                          top="5"
+                          left="6"
                           onClick={onLike}
-                          cursor={"pointer"}
+                          cursor="pointer"
+                          position="absolute"
                           color={isLike ? "red" : "white"}
+                          className={
+                            isLike
+                              ? styles.heart_animation
+                              : styles.reverse_heart_animation
+                          }
                         >
                           <FaHeart size={"25"} />
                         </Box>
@@ -181,12 +192,12 @@ function House() {
               : Array.from({ length: 5 }).map((v, idx) => {
                   return (
                     <GridItem
-                      colSpan={idx === 0 ? 2 : 1}
-                      rowSpan={idx === 0 ? 2 : 1}
                       key={idx}
                       p={"0.5"}
-                      height={idx === 0 ? "60vh" : "30vh"}
                       position="relative"
+                      colSpan={idx === 0 ? 2 : 1}
+                      rowSpan={idx === 0 ? 2 : 1}
+                      height={idx === 0 ? "60vh" : "30vh"}
                     >
                       <Skeleton w="100%" h="100%" />
                     </GridItem>
@@ -194,7 +205,6 @@ function House() {
                 })}
           </Grid>
         </Center>
-
         <VStack ml="5.1vw" spacing="10" position={"relative"} mt="3vw">
           {!isLoading && !data?.is_host ? (
             <Box
