@@ -294,12 +294,6 @@ export const backParamsRangeList = [
   },
 ];
 
-export const filterMenu = [
-  // { eng: "toilet_counts", kor: "화장실" },
-  // { eng: "room_counts", kor: "방" },
-  // { eng: "isStationArea", kor: "역세권" },
-];
-
 export const Prices = [
   { name: "전체", list: [] },
   { name: "매매", list: ["priceRange"] },

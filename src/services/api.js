@@ -24,12 +24,6 @@ export const kakaoLogin = (code) =>
       }
     )
     .then((response) => {
-      // const sessionid = response.config.headers.get("sessionid");
-      // console.log(Cookie.get("csrftoken"));
-      // Cookie.set("csrftoken", csftToken);
-      // console.log(Cookie.get("csrftoken"));
-
-      // Cookie.set("sessionid", sessionid);
       return response.status;
     });
 export const naverLogin = ({ code, state }) =>
@@ -135,7 +129,6 @@ export const signUpUser = ({
   instance
     .post(
       `users/signup/`,
-      // { username, password, email, name, currency, gender, language },
       {
         username,
         password,
@@ -163,7 +156,6 @@ export const validateCheck = (
   return instance
     .post(
       `users/check-validate/`,
-      // { username, password, email, name, currency, gender, language },
       {
         username,
         password,

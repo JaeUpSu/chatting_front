@@ -7,8 +7,6 @@ import {
   Flex,
 } from "@chakra-ui/react";
 
-import { useEffect } from "react";
-
 function CheckBoxCard(props) {
   const { getCheckboxProps, getInputProps } = useCheckbox(props);
 
@@ -41,8 +39,6 @@ function CheckBoxCard(props) {
   );
 }
 function DataCheckBoxCard({ name, valueName, data }) {
-  // const _data = sessionStorage.getItem(valueName);
-
   const { value, getCheckboxProps } = useCheckboxGroup({
     defaultValue: `${data[0]}`.split(","),
   });

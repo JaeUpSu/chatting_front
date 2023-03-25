@@ -47,7 +47,6 @@ export default function MyInfo() {
     onSuccess: ({ result }) => {
       setValue("avatar", result.variants[0]);
       mutation.mutate({ avatar: watch("avatar") });
-      // watch("avatar") = result.variants;
     },
   });
   const uploadURLMutation = useMutation(getUploadURL, {
@@ -212,7 +211,6 @@ export default function MyInfo() {
                       color={"rgb(49,22,22)"}
                       p={2}
                       ml="3"
-                      // color="yellow"
                       bg={"rgb(255,255,12)"}
                     >
                       Kakao 로그인 계정

@@ -146,7 +146,6 @@ function House() {
             width={"90%"}
             borderRadius={"30px"}
             overflow="hidden"
-            // mt="3vh"
             templateRows="repeat(2, 1fr)"
             templateColumns="repeat(4, 1fr)"
           >
@@ -254,7 +253,6 @@ function House() {
                   colorScheme="red"
                   bgColor={"#ff404c"}
                   onClick={goChat}
-                  // mt="5"
                   mb={"5"}
                 >
                   채팅하기

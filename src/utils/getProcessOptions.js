@@ -1,5 +1,3 @@
-// front => ["a","b",..]
-// back => [{name:"a"},{name:"b"},..]
 export const getProcessOptionsToBack = (front) => {
   const processOptions = [];
   front.forEach((f) => {

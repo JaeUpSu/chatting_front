@@ -174,7 +174,6 @@ const ImageForm = ({
                   return imgs;
                 });
                 handleImg(files);
-                // e.target.value = null;
               }}
               isDisabled={isModify ? (imgIdx < 0 ? true : false) : true}
             />

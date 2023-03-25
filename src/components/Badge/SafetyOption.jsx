@@ -15,7 +15,6 @@ export default function SafetyOption({ type }) {
     경비실: <GiStaticGuard size="40" />,
     도어락: <BsHouseLockFill size="40" />,
   };
-  //   const Aircon = () => <TbAirConditioning size={"40"} />;
 
   return (
     <VStack>

@@ -90,7 +90,6 @@ function OptionDropdown() {
                       name={op.kor}
                       valueName={op.eng}
                       data={options[op.eng]}
-                      // defaultData={}
                     />
                   </GridItem>
                 );

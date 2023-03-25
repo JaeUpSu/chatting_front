@@ -189,7 +189,7 @@ function HouseList() {
               minW="250px"
               maxW="280px"
             >
-              {isLoading ? (
+              {totalCounts < 0 || isLoading ? (
                 <>
                   Loading...
                   <Button
