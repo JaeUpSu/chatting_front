@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import {
   Grid,
   GridItem,
@@ -11,23 +12,26 @@ import {
   MenuList,
   VStack,
 } from "@chakra-ui/react";
-import { HiChevronDown } from "react-icons/hi";
 import { SpinnerIcon } from "@chakra-ui/icons";
-import { BiRefresh } from "react-icons/bi";
-import styled from "styled-components";
+import { HiChevronDown } from "react-icons/hi";
 
 import { useEffect, useState, useRef } from "react";
 
-import { getBackOptions } from "../../utils/getBackOptions";
 import { getOptionHouses } from "../../services/api";
-import { getBackOrderBy } from "../../utils/getBackOrderBy";
-import { throttle } from "../../utils/throttle";
+import { getInitOrderBy } from "../../services/local";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
-import useInfiniteScroll from "../../utils/useInfiniteScroll";
+import { throttle } from "../../utils/throttle";
+import { isInitHouseList } from "../../utils/isInitHouseList";
+import { getBackOptions } from "../../utils/getBackOptions";
+import { getBackOrderBy } from "../../utils/getBackOrderBy";
+
 import HouseCard from "../../components/Card/HouseCard";
 import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
-import { getInitOrderBy } from "../../services/local";
+
+import Loading from "../../components/Loading/Loading";
+import LoadingHouseCard from "../../components/Loading/LoadingHouseCard";
 
 const TopBtn = styled.div`
   position: fixed;
@@ -66,9 +70,9 @@ function HouseList() {
     depositRange: [0, 30],
     monthlyRentRange: [0, 30],
   });
+  const [isLoading, setLoading] = useState(false);
   const [isSellKind, setIsSellKind] = useState(false);
   const [orderBy, setOrderBy] = useState(getInitOrderBy(isSellKind));
-  const [isLoading, setLoading] = useState(false);
 
   const { data, totalCounts, isFetching, setFetching, setBackParams } =
     useInfiniteScroll(getOptionHouses, { size: 24 });
@@ -231,7 +235,42 @@ function HouseList() {
           </HStack>
         </HStack>
 
-        {totalCounts ? (
+        {!isLoading ? (
+          totalCounts ? (
+            <Grid
+              w={"100vw"}
+              pl="5vw"
+              pr="5vw"
+              gridTemplateColumns={{
+                sm: "1fr",
+                md: "1fr 1fr",
+                lg: "repeat(3, 1fr)",
+                xl: "repeat(4, 1fr)",
+              }}
+              ref={scrollRef}
+              overflowY={"scroll"}
+              h="100%"
+            >
+              {data?.map((item, idx) => {
+                return (
+                  <GridItem key={idx}>
+                    <HouseCard {...item} />
+                  </GridItem>
+                );
+              })}
+            </Grid>
+          ) : (
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              height="65vh"
+              fontWeight="600"
+              ref={scrollRef}
+            >
+              해당 옵션을 가진 제품은 없습니다.
+            </Flex>
+          )
+        ) : (
           <Grid
             w={"100vw"}
             pl="5vw"
@@ -246,7 +285,7 @@ function HouseList() {
             overflowY={"scroll"}
             h="100%"
           >
-            {data?.map((item, idx) => {
+            {Array.from({ length: 8 }).map((idx) => {
               return (
                 <GridItem
                   key={idx}
@@ -254,21 +293,11 @@ function HouseList() {
                   alignItems={"center"}
                   justifyContent="center"
                 >
-                  <HouseCard {...item} />
+                  <LoadingHouseCard />
                 </GridItem>
               );
             })}
           </Grid>
-        ) : (
-          <Flex
-            alignItems="center"
-            justifyContent="center"
-            height="65vh"
-            fontWeight="600"
-            ref={scrollRef}
-          >
-            해당 옵션을 가진 제품은 없습니다.
-          </Flex>
         )}
       </VStack>
       <TopBtn onClick={onTop}>&uarr;</TopBtn>

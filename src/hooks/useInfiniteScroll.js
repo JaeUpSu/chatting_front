@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { initParams } from "../services/local";
-import { getBackOptions } from "./getBackOptions";
+import { getBackOptions } from "../utils/getBackOptions";
 
-import { throttle } from "./throttle";
+import { throttle } from "../utils/throttle";
 
 const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   const [page, setPage] = useState(1);
