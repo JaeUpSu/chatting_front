@@ -31,9 +31,9 @@ const ImageForm = ({
   const [isModify, setIsModify] = useState(false);
 
   const [imgIdx, setImgIdx] = useState(-1);
+  const [imageUrls, setImageUrls] = useState([]);
   const [imgIdxList, setImgIdxList] = useState([]);
   const [images, setImages] = useState(new Array(5).fill(""));
-  const [imageUrls, setImageUrls] = useState([]);
 
   const onEnter = () => {
     const data = images;
@@ -43,7 +43,7 @@ const ImageForm = ({
 
     setUpdatedHouse((prevHouse) => {
       HouseRegisterValues.forEach((item) => {
-        if (item.eng === "Image" && data) {
+        if (item.eng === "Image" && data.find((d) => d !== "")) {
           nextHouse[item.eng] = imageUrls;
           setUpdated(imgIdxList);
           isChange = true;
@@ -57,6 +57,7 @@ const ImageForm = ({
     setUpdatedImage(data);
 
     if (isChange) {
+      console.log("checking");
       setIsModify(false);
     }
   };
@@ -64,11 +65,6 @@ const ImageForm = ({
   const onModify = () => {
     setImageUrls(values);
     setIsModify(!isModify);
-  };
-
-  const onCancel = () => {
-    setImgIdx(-1);
-    onModify();
   };
 
   // preview 이미지 setting
@@ -206,7 +202,7 @@ const ImageForm = ({
           isModify={isModify}
         />
         {(imgIdx < 0) & isModify && (
-          <Text w="40vw" color="red.400" fontSize="14px" fontWeight="600">
+          <Text w="100%" color="red.400" fontSize="14px" fontWeight="600">
             바꿀 이미지를 선택해주세요.
           </Text>
         )}

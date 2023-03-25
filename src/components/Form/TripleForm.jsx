@@ -1,18 +1,18 @@
 import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  HStack,
-  Text,
-  FormErrorMessage,
-  VStack,
-  ButtonGroup,
   Box,
+  Text,
+  Input,
+  Button,
+  HStack,
+  VStack,
+  FormLabel,
+  FormControl,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+
 import { HouseRegisterValues } from "../../services/data";
 
 const TripleForm = ({
@@ -34,6 +34,7 @@ const TripleForm = ({
     let nextHouse = {};
     let nextData = {};
     let isChange = false;
+
     setUpdatedHouse((prevHouse) => {
       HouseRegisterValues.forEach((item) => {
         if (data[item.eng]) {

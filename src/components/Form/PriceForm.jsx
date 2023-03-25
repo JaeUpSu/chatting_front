@@ -32,14 +32,31 @@ function PriceForm({
 
   const [isModify, setIsModify] = useState(false);
 
+  const compareData = (origin, data) => {
+    let flag = true;
+
+    if (origin == 0 && data) {
+      flag = false;
+    } else if (origin > 0 && data) {
+      if (origin !== data * 10000) {
+        flag = false;
+      }
+    } else if (origin > 0 && !data) {
+      flag = false;
+    }
+
+    return flag;
+  };
+
   const onEnter = (data) => {
     let nextHouse = {};
     let nextData = {};
     let isChange = false;
+
     setUpdatedHouse((prevHouse) => {
       HouseRegisterValues.forEach((item) => {
         if (data[item.eng]) {
-          if (data[item.eng] !== prevHouse[item.eng]) {
+          if (compareData(data[item.eng], prevHouse[item.eng])) {
             nextHouse[item.eng] = Number(data[item.eng]) * 10000;
             isChange = true;
           } else {

@@ -4,15 +4,13 @@ import {
   VStack,
   FormLabel,
   FormControl,
-  FormErrorMessage,
   Checkbox,
   CheckboxGroup,
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
 
-import { useForm } from "react-hook-form";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { HouseRegisterValues } from "../../services/data";
 import { isSameOptions } from "../../utils/isSameOptions";
@@ -29,11 +27,6 @@ const CheckboxForm = ({
   label,
   api,
 }) => {
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
   const [options, setOptions] = useState([]);
   const [isInit, setIsInit] = useState(true);
   const [isModify, setIsModify] = useState(false);
@@ -48,17 +41,15 @@ const CheckboxForm = ({
     setUpdatedHouse((prevHouse) => {
       HouseRegisterValues.forEach((item) => {
         if (item.eng == name) {
-          // console.log("checking", options);
           if (prevHouse[item.eng]) {
             if (!isSameOptions(options, prevHouse[item.eng])) {
-              nextHouse[item.eng] = getProcessOptionsToBack(
-                options,
-                prevHouse[item.eng]
-              );
+              nextHouse[item.eng] = getProcessOptionsToBack(options);
               isChange = true;
+            } else {
+              nextHouse[item.eng] = prevHouse[item.eng];
             }
           } else {
-            nextHouse[item.eng] = getProcessOptionsToBack(options, []);
+            nextHouse[item.eng] = getProcessOptionsToBack(options);
             isChange = true;
           }
         } else {
@@ -67,7 +58,7 @@ const CheckboxForm = ({
       });
       return nextHouse;
     });
-    // console.log(options);
+
     setUpdatedData((prevData) => {
       HouseRegisterValues.forEach((item) => {
         if (item.eng === name) {
@@ -78,7 +69,6 @@ const CheckboxForm = ({
       });
       return nextData;
     });
-
     if (isChange) {
       setIsModify(false);
     }
@@ -100,14 +90,8 @@ const CheckboxForm = ({
       <FormLabel marginBottom="0px" w="100%" fontWeight="600" minW="450px">
         {label}
       </FormLabel>
-      <form onSubmit={handleSubmit(onEnter)}>
-        <FormControl
-          isInvalid={errors[name]}
-          id={name}
-          my="1"
-          w="40vw"
-          minW="450px"
-        >
+      <form>
+        <FormControl id={name} my="1" w="40vw" minW="450px">
           <FormControl id={`${name}`} mt="2" mb="7" w="45vw">
             <CheckboxGroup
               colorScheme="green"
@@ -134,7 +118,7 @@ const CheckboxForm = ({
 
           {isModify ? (
             <HStack w="100%" justifyContent="flex-end">
-              <Button type="submit" w="5vw">
+              <Button onClick={onEnter} w="5vw">
                 입력
               </Button>
               <Button onClick={onModify} w="5vw">
