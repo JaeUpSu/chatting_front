@@ -22,6 +22,7 @@ import { getInitOrderBy } from "../../services/local";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
 import { throttle } from "../../utils/throttle";
+
 import { getBackOptions } from "../../utils/getBackOptions";
 import { getBackOrderBy } from "../../utils/getBackOrderBy";
 
@@ -68,7 +69,6 @@ function HouseList() {
     depositRange: [0, 30],
     monthlyRentRange: [0, 30],
   });
-  const [isFirst, setFirst] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [isSellKind, setIsSellKind] = useState(false);
   const [orderBy, setOrderBy] = useState(getInitOrderBy(isSellKind));
