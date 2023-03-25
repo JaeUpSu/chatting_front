@@ -5,40 +5,24 @@ import {
   Text,
   Heading,
   VStack,
-  IconButton,
-  Button,
   HStack,
   useToast,
 } from "@chakra-ui/react";
-
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { RoomKindsToFront, SellKindsToFront } from "../../services/data";
-import { getSaleContents } from "../../utils/getSaleContents";
-import styled from "styled-components";
-import { useQuery, useMutation } from "@tanstack/react-query";
-
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import * as Solid from "@fortawesome/free-solid-svg-icons";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getWishLists, setWishLists } from "../../services/api";
-import useUser from "../../hooks/useUser";
 import { FaHeart } from "react-icons/fa";
-import { AiOutlineHeart } from "react-icons/ai";
 
-const BoxAction = styled.div`
-  background-color: transparent;
-  position: absolute;
-  right: 2vw;
-  top: 2vw;
-`;
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+
+import useUser from "../../hooks/useUser";
+import { setWishLists } from "../../services/api";
+import { getSaleContents } from "../../utils/getSaleContents";
+import { RoomKindsToFront, SellKindsToFront } from "../../services/data";
 
 function HouseCard({
   thumnail,
-  address,
-  sell_kind,
   room_kind,
+  sell_kind,
   id,
   deposit,
   monthly_rent,

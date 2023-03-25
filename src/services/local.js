@@ -151,18 +151,13 @@ export const initParams = () => {
 export const getInitOrderBy = (sellKindFlag) => {
   let initOrderBy = [];
   const ordersFront = ["최신순", "조회순", "낮은가격순"];
-  const orders = {
-    lastest: "최신순",
-    visited: "조회순",
-    row_price: "낮은가격순",
-  };
 
   if (sellKindFlag) {
-    ordersFront.forEach((item, idx) => {
+    ordersFront.forEach((item) => {
       initOrderBy.push(item);
     });
   } else {
-    ordersFront.forEach((item, idx) => {
+    ordersFront.forEach((item) => {
       if (item !== "낮은가격순") {
         initOrderBy.push(item);
       }
