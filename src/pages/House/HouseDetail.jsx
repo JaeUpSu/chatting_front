@@ -144,7 +144,7 @@ function House() {
         flexDirection="column"
         px="5vw"
       >
-        <Center m={"3vw"} mb="0">
+        <Center mx={"3vw"} my="3vh" mb="0">
           <Grid
             width={"90%"}
             overflow="hidden"
@@ -163,7 +163,7 @@ function House() {
                       position="relative"
                       colSpan={idx === 0 ? 2 : 1}
                       rowSpan={idx === 0 ? 2 : 1}
-                      border="1px solid transparent"
+                      border="4px solid transparent"
                       height={idx === 0 ? "60vh" : "30vh"}
                     >
                       {!userLoading && isLoggedIn && idx === 0 ? (
@@ -319,7 +319,7 @@ function House() {
                     )
                   ) : (
                     <Skeleton
-                      mt="2"
+                      mt="10"
                       fontWeight={"semibold"}
                       fontSize={"lg"}
                       variant={"text"}
