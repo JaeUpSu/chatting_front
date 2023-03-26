@@ -49,7 +49,7 @@ function House() {
     ["isLiked", id],
     checkLiked
   );
-  const [isLike, setIsLike] = useState(likeData?.result ?? true);
+  const [isLike, setIsLike] = useState(likeData?.result ?? false);
   const [isSale, setIsSale] = useState(data?.is_sale ?? true);
   const queryClient = useQueryClient();
   const { userLoading, isLoggedIn } = useUser();

@@ -16,6 +16,7 @@ import {
   CheckboxGroup,
   Checkbox,
   Grid,
+  useToast,
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
@@ -42,6 +43,7 @@ import { validiate } from "../../services/validate";
 import ImageCard from "../../components/Card/ImageCard";
 
 const HouseSell = () => {
+  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -111,13 +113,46 @@ const HouseSell = () => {
 
   const navigate = useNavigate();
   const { mutate } = useMutation(postHouse, {
-    onMutate: (d) => console.log("1", d),
+    onMutate: (d) => {
+      toast({
+        title: `[${d.title}]    등록중...`,
+        status: "info",
+        duration: 6000,
+        isClosable: true,
+      });
+    },
     onSuccess: ({ id }) => {
       navigate(`../houseList/house/${id}`);
       console.log("created house!");
     },
     onError: () => {
       console.log("failed to create house!");
+    },
+  });
+
+  const uploadImageMutation = useMutation(uploadImage, {
+    onSuccess: ({ result }) => {
+      setImageBackUrls((imgs) => {
+        const newImgBack = [];
+        imgs?.map((item) => {
+          newImgBack.push(item);
+        });
+        newImgBack.push({ url: result.variants[0] });
+        return newImgBack;
+      });
+    },
+  });
+
+  const uploadURLMutation = useMutation(getUploadURL, {
+    onSuccess: (data) => {
+      setUploadUrls((imgs) => {
+        const newImgBack = [];
+        imgs?.map((item) => {
+          newImgBack.push(item);
+        });
+        newImgBack.push(data.uploadURL);
+        return newImgBack;
+      });
     },
   });
 
@@ -187,32 +222,6 @@ const HouseSell = () => {
         console.error(error);
       });
   };
-
-  const uploadImageMutation = useMutation(uploadImage, {
-    onSuccess: ({ result }) => {
-      setImageBackUrls((imgs) => {
-        const newImgBack = [];
-        imgs?.map((item) => {
-          newImgBack.push(item);
-        });
-        newImgBack.push({ url: result.variants[0] });
-        return newImgBack;
-      });
-    },
-  });
-
-  const uploadURLMutation = useMutation(getUploadURL, {
-    onSuccess: (data) => {
-      setUploadUrls((imgs) => {
-        const newImgBack = [];
-        imgs?.map((item) => {
-          newImgBack.push(item);
-        });
-        newImgBack.push(data.uploadURL);
-        return newImgBack;
-      });
-    },
-  });
 
   // 이미지가 5개가 되면 getUploadUrl mutate
   useEffect(() => {
