@@ -57,6 +57,14 @@ const HouseEdit = () => {
 
   // putHouse
   const { mutate } = useMutation(putHouse, {
+    onMutate: () => {
+      toast({
+        title: "수정중...",
+        status: "info",
+        duration: 2000,
+        isClosable: true,
+      });
+    },
     onSuccess: () => {
       toast({
         title: "수정을 완료했습니다!",
