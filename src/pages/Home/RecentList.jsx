@@ -10,63 +10,14 @@ import { getSaleContents } from "./../../utils/getSaleContents";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-const HouseImg = styled.img`
-  width: 200px;
-  height: 200px;
-  position: relative;
-  margin-right: 4rem;
-  cursor: pointer;
-  transition: transform 0.5s ease-in-out;
-`;
+import { PrevArrow } from "./../../components/Arrows/PrevArrow";
+import { NextArrow } from "./../../components/Arrows/NextArrows";
 
 const SlideWrapper = styled.div`
   width: 1000px;
   margin: 0 auto;
   overflow: hidden;
 `;
-
-const PrevArrow = (props) => {
-  const { className, onClick } = props;
-  return (
-    <div
-      className={className}
-      onClick={onClick}
-      style={{
-        ...props.style,
-        display: "block",
-        position: "absolute",
-        border: "none",
-        background: "transparent",
-        color: "transparent",
-        top: "40%",
-        zIndex: 1,
-        left: "7rem",
-      }}
-    />
-  );
-};
-
-const NextArrow = (props) => {
-  const { className, onClick } = props;
-  return (
-    <div
-      className={className}
-      onClick={onClick}
-      style={{
-        ...props.style,
-        display: "block",
-        position: "absolute",
-        border: "none",
-        background: "transparent",
-        color: "transparent",
-        top: "40%",
-        left: "54rem",
-        zIndex: 1,
-      }}
-    />
-  );
-};
 
 const RecentList = () => {
   const { error, data } = useQuery(["recently_views"], getHouseLists);

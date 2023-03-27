@@ -31,8 +31,8 @@ export default function WishList() {
   const currentPageData = data?.slice(startIdx, endIdx);
 
   return (
-    <VStack height="60vh" overflowY="scroll" sx={scrollbarStyle}>
-      <VStack>
+    <VStack>
+      <VStack height="60vh" overflowY="scroll" sx={scrollbarStyle}>
         <Grid
           gridTemplateColumns={{
             sm: "1fr",
@@ -52,15 +52,14 @@ export default function WishList() {
             );
           })}
         </Grid>
-
-        <PaginationCont
-          activePage={page}
-          itemsCountPerPage={9}
-          totalItemsCount={data?.length ?? 0}
-          pageRangeDisplayed={5}
-          onChange={pageChange}
-        />
       </VStack>
+      <PaginationCont
+        activePage={page}
+        itemsCountPerPage={9}
+        totalItemsCount={data?.length ?? 0}
+        pageRangeDisplayed={5}
+        onChange={pageChange}
+      />
     </VStack>
   );
 }

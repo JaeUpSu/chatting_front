@@ -32,8 +32,8 @@ export default function Home() {
       sx={scrollbarStyle}
     >
       <Box>
-        <Flex mt="2rem" mb="5rem">
-          {/* <IconBtns /> */}
+        <Flex mt="2rem" mb="3rem">
+          <IconBtns />
         </Flex>
 
         {isLoggedIn ? (
