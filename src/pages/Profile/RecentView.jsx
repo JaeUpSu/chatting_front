@@ -15,12 +15,13 @@ import {
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { getSaleContents } from "../../utils/getSaleContents";
 import { Link } from "react-router-dom";
+import scrollbarStyle from "../../styles/scroll_bar";
 
 export default function RecentView() {
   const { isLoading, data } = useQuery(["recently_views"], getHouseLists);
 
   return (
-    <VStack wrap={"wrap"} h="60vh" maxW="100%" overflowY="scroll">
+    <VStack wrap={"wrap"} height="60vh" overflowY="scroll" sx={scrollbarStyle}>
       <Grid
         gridTemplateColumns={{
           sm: "1fr",

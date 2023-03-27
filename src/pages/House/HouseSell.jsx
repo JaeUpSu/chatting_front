@@ -41,6 +41,7 @@ import { getProcessedData } from "../../utils/getProcessedData";
 import { useNavigate } from "react-router-dom";
 import { validiate } from "../../services/validate";
 import ImageCard from "../../components/Card/ImageCard";
+import scrollbarStyle from "../../styles/scroll_bar";
 
 const HouseSell = () => {
   const toast = useToast();
@@ -258,7 +259,7 @@ const HouseSell = () => {
   }, [imageBackUrls, datas]);
 
   return (
-    <VStack h="100vh" overflowY="scroll" pb="5vh">
+    <VStack h="100vh" overflowY="scroll" pb="5vh" sx={scrollbarStyle}>
       <Center pt="2vh" pb="5vh">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl isInvalid={errors.title} id="title" my="5" w="40vw">

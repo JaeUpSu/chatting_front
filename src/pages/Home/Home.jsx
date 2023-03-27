@@ -7,6 +7,7 @@ import LikedList from "./LikedList";
 import routes from "../../routes";
 import useUser from "../../hooks/useUser";
 import TopViewList from "./TopViewList";
+import scrollbarStyle from "../../styles/scroll_bar";
 
 const HomeWrapper = styled.div`
   overflow-y: scroll;
@@ -31,7 +32,12 @@ export default function Home() {
   const { isLoggedIn } = useUser();
 
   return (
-    <HomeWrapper>
+    <Box
+      overflowY="scroll"
+      overflowX="hidden"
+      height="80vh"
+      sx={scrollbarStyle}
+    >
       <Box>
         <Flex justify={"space-around"} mt="3rem" ml="3rem" flexWrap={"wrap"}>
           <IconBtns src="https://cdn-icons-png.flaticon.com/128/2417/2417733.png">
@@ -76,6 +82,6 @@ export default function Home() {
           </HomeContainer>
         )}
       </Box>
-    </HomeWrapper>
+    </Box>
   );
 }

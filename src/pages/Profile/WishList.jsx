@@ -17,12 +17,7 @@ import styled from "styled-components";
 import { getSaleContents } from "../../utils/getSaleContents";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-
-const WishListWrap = styled.div`
-  height: 60vh;
-  overflow-y: scroll;
-  max-width: 100%;
-`;
+import scrollbarStyle from "../../styles/scroll_bar";
 
 const PagenationBox = styled.div`
   .pagination {
@@ -79,7 +74,7 @@ export default function WishList() {
   const currentPageData = data?.slice(startIdx, endIdx);
 
   return (
-    <WishListWrap>
+    <VStack height="60vh" overflowY="scroll" sx={scrollbarStyle}>
       <VStack>
         <Grid
           gridTemplateColumns={{
@@ -144,6 +139,6 @@ export default function WishList() {
           ></Pagination>
         </PagenationBox>
       </VStack>
-    </WishListWrap>
+    </VStack>
   );
 }

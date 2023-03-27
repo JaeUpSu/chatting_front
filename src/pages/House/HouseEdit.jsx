@@ -33,6 +33,7 @@ import {
 } from "../../utils/matchSellKindPrice";
 import RoomKindSelectForm from "../../components/Form/RoomKindSelectForm";
 import SellKindSelectForm from "../../components/Form/SellKindSelectForm";
+import scrollbarStyle from "../../styles/scroll_bar";
 
 const HouseEdit = () => {
   const { id } = useParams();
@@ -171,7 +172,7 @@ const HouseEdit = () => {
   }, [imageBackUrls, updatedImage]);
 
   return (
-    <VStack h="90vh" overflowY="scroll" pb="10vh">
+    <VStack h="90vh" overflowY="scroll" pb="10vh" sx={scrollbarStyle}>
       <Center pt="2vh">
         <VStack>
           <ImageForm
