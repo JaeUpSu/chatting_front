@@ -161,7 +161,7 @@ const HouseEdit = () => {
         imgs[item] = imageBackUrls[idx];
       });
       const processData = {
-        ...getMatchSellKindPrice(updatedData, data),
+        ...getMatchSellKindPrice(updatedData),
         Image: imgs,
       };
       mutate({ id, processData });
