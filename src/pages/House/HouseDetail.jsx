@@ -175,7 +175,7 @@ function House() {
                           onClick={onLike}
                           cursor="pointer"
                           position="absolute"
-                          color={isLike ? "red" : "white"}
+                          color={isLike ? "red" : "rgb(205,205,205,0.6)"}
                           className={
                             isLike
                               ? styles.heart_animation

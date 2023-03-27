@@ -110,7 +110,7 @@ function HouseCard({
                 float="right"
                 mt="4"
                 mr="4"
-                color={isLike ? "red" : "white"}
+                color={isLike ? "red" : "rgb(205,205,205,0.6)"}
                 className={
                   isLike
                     ? styles.heart_animation

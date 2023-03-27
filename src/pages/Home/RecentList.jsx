@@ -57,7 +57,7 @@ const NextArrow = (props) => {
         ...props.style,
         display: "block",
         position: "absolute",
-        border: "none",
+        border: "1px solid black",
         background: "transparent",
         color: "transparent",
         top: "40%",
