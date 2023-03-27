@@ -30,7 +30,7 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   useEffect(() => {
     const handleScroll = throttle(() => {
       const { scrollTop, offsetHeight } = document.documentElement;
-      if (window.innerHeight + scrollTop + 1 >= offsetHeight) {
+      if (window.innerHeight + scrollTop >= offsetHeight * 0.7) {
         setFetching(true);
       }
     });

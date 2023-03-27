@@ -115,7 +115,7 @@ function HouseList() {
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
 
-      if (scrollTop + clientHeight >= scrollHeight - 1) {
+      if (scrollTop + clientHeight >= scrollHeight * 0.7) {
         setFetching(true);
         setLoading(true);
       }
