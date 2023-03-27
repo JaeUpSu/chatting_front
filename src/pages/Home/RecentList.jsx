@@ -1,8 +1,8 @@
-import { Flex, Text } from "@chakra-ui/layout";
-import { Card, Box } from "@chakra-ui/react";
+import { Flex, Text, VStack, Heading } from "@chakra-ui/layout";
+import { Card, Box, CardBody } from "@chakra-ui/react";
+import styled from "styled-components";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import styled from "styled-components";
 import { getHouseLists } from "./../../services/api";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { Link } from "react-router-dom";
@@ -87,6 +87,23 @@ const RecentList = () => {
     slidesToScroll: 2,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
+    responsive: [
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
@@ -96,39 +113,57 @@ const RecentList = () => {
           data.map((item, index) => (
             <Card
               key={index}
-              maxW="200px"
-              m="10px"
-              overflow={"hidden"}
-              ml="2rem"
-              borderRadius={"5%"}
+              mr="10px"
+              h="60%"
+              w="60%"
+              boxShadow="md"
+              _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}
             >
               <Link to={`/houseList/house/${item.recently_views.id}`}>
-                <HouseImg src={item.recently_views.thumnail} />
+                <CardBody
+                  display={"flex"}
+                  alignItems="center"
+                  justifyContent={"center"}
+                  cursor="pointer"
+                >
+                  <VStack w={"100%"} alignItems="flex-start" spacing={"2"}>
+                    {" "}
+                    <Box
+                      backgroundImage={item.recently_views.thumnail}
+                      backgroundSize="cover"
+                      backgroundRepeat="no-repeat"
+                      backgroundPosition="center"
+                      width="100%"
+                      alt="house"
+                      borderRadius="lg"
+                      css={{
+                        aspectRatio: "1 / 1",
+                      }}
+                    />
+                    <Heading fontSize={"x-large"} color="blackAlpha.800">
+                      {item.recently_views.title}
+                    </Heading>
+                    <Flex fontSize={"md"} fontWeight="600">
+                      <Text mr="1rem">
+                        {SellKindsToFront[item?.recently_views.sell_kind]}
+                      </Text>
+                      <Text>
+                        {RoomKindsToFront[item?.recently_views.room_kind]}
+                      </Text>
+                    </Flex>
+                    <Flex>
+                      <Text fontSize={"md"} color={"#ff404c"} mb="1rem">
+                        {`${getSaleContents(
+                          item.recently_views.sell_kind,
+                          item.recently_views.deposit,
+                          item.recently_views.monthly_rent,
+                          item.recently_views.sale
+                        )}`}
+                      </Text>
+                    </Flex>
+                  </VStack>
+                </CardBody>
               </Link>
-              <Box m="1rem">
-                <Text fontWeight={"600"} mt="0.5rem" mb="0.5rem">
-                  {item.recently_views.title}
-                </Text>
-                <Flex fontSize={"sm"} marginBottom="2px">
-                  <Text mr="1rem">
-                    {SellKindsToFront[item?.recently_views.sell_kind]}
-                  </Text>
-                  <Text>
-                    {RoomKindsToFront[item?.recently_views.room_kind]}
-                  </Text>
-                </Flex>
-
-                <Flex>
-                  <Text fontSize={"sm"} color={"#ff404c"} mb="1rem">
-                    {`${getSaleContents(
-                      item.recently_views.sell_kind,
-                      item.recently_views.deposit,
-                      item.recently_views.monthly_rent,
-                      item.recently_views.sale
-                    )}`}
-                  </Text>
-                </Flex>
-              </Box>
             </Card>
           ))}
       </Slider>

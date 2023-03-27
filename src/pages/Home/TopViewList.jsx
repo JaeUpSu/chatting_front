@@ -1,5 +1,13 @@
 import React from "react";
-import { Flex, Text, Card, Box } from "@chakra-ui/react";
+import {
+  Flex,
+  Text,
+  Card,
+  Box,
+  Heading,
+  CardBody,
+  VStack,
+} from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { getTopViewHouse } from "../../services/api";
 import styled from "styled-components";
@@ -85,36 +93,56 @@ function TopViewList() {
         {data?.map((item, index) => (
           <Card
             key={index}
-            maxW="200px"
-            m="10px"
-            overflow={"hidden"}
-            ml="2rem"
-            borderRadius={"5%"}
-            border={"1px solid blue"}
+            mr="10px"
+            h="60%"
+            w="60%"
+            boxShadow="md"
+            _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}
           >
             <Link to={`/houseList/house/${item.id}`}>
-              <HouseImg src={item.thumnail} />
+              <CardBody
+                display={"flex"}
+                alignItems="center"
+                justifyContent={"center"}
+                cursor="pointer"
+              >
+                <VStack w={"100%"} alignItems="flex-start" spacing={"2"}>
+                  <Box
+                    backgroundImage={item.thumnail}
+                    backgroundSize="cover"
+                    backgroundRepeat="no-repeat"
+                    backgroundPosition="center"
+                    width="100%"
+                    alt="house"
+                    borderRadius="lg"
+                    css={{
+                      aspectRatio: "1 / 1",
+                    }}
+                  />
+                  <Heading
+                    fontSize={"x-large"}
+                    color="blackAlpha.800"
+                    overflow={"hidden"}
+                  >
+                    {item.title}
+                  </Heading>
+                  <Flex fontSize={"md"} fontWeight="600">
+                    <Text mr="1rem">{SellKindsToFront[item?.sell_kind]}</Text>
+                    <Text>{RoomKindsToFront[item?.room_kind]}</Text>
+                  </Flex>
+                  <Flex>
+                    <Text fontSize={"md"} color={"#ff404c"} mb="1rem">
+                      {`${getSaleContents(
+                        item.sell_kind,
+                        item.deposit,
+                        item.monthly_rent,
+                        item.sale
+                      )}`}
+                    </Text>
+                  </Flex>
+                </VStack>
+              </CardBody>
             </Link>
-            <Box m="1rem">
-              <Text fontWeight={"600"} mt="0.5rem" mb="0.5rem">
-                {item.title}
-              </Text>
-              <Flex fontSize={"sm"} marginBottom="2px">
-                <Text mr="1rem">{SellKindsToFront[item?.sell_kind]}</Text>
-                <Text>{RoomKindsToFront[item?.room_kind]}</Text>
-              </Flex>
-
-              <Flex>
-                <Text fontSize={"sm"} color={"#ff404c"} mb="1rem">
-                  {`${getSaleContents(
-                    item.sell_kind,
-                    item.deposit,
-                    item.monthly_rent,
-                    item.sale
-                  )}`}
-                </Text>
-              </Flex>
-            </Box>
           </Card>
         ))}
       </Slider>
