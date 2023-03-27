@@ -29,11 +29,11 @@ const SlideWrapper = styled.div`
 const LikedList = () => {
   const { error, data } = useQuery(["house"], getWishLists);
   if (error) {
-    return <div>에러가 발생했습니다.</div>;
+    return <SlideWrapper>에러가 발생했습니다.</SlideWrapper>;
   }
 
   if (!data) {
-    return <div>로딩 중입니다.</div>;
+    return <SlideWrapper>로딩 중입니다.</SlideWrapper>;
   }
 
   const settings = {
@@ -70,13 +70,7 @@ const LikedList = () => {
       <Slider {...settings}>
         {data &&
           data?.map((item, idx) => (
-            <Card
-              key={idx}
-              h="60%"
-              w="60%"
-              boxShadow="md"
-              _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}
-            >
+            <Card key={idx} h="60%" w="60%">
               <Link to={`/houseList/house/${item.house.id}`}>
                 <CardBody
                   display={"flex"}

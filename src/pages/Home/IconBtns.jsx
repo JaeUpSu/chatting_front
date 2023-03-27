@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const IconName = styled.p`
-  font-weight: 600;
-  font-family: "Nanum Gothic";
-  font-size: 20px;
-  text-align: center;
+const IconBtn = styled.div`
+  cursor: pointer;
+  display: flex;
 `;
 
-const IconBtns = ({ children }) => {
+const IconName = styled.p`
+  font-weight: 600;
+  margin-left: 5px;
+`;
+
+const IconBtns = ({ icon, children }) => {
   const navigate = useNavigate();
 
   const onHosuseList = () => {
@@ -25,9 +28,10 @@ const IconBtns = ({ children }) => {
   }, [children]);
 
   return (
-    <div>
-      <IconName onClick={onHosuseList}>{children}</IconName>
-    </div>
+    <IconBtn onClick={onHosuseList}>
+      {icon}
+      <IconName>{children}</IconName>
+    </IconBtn>
   );
 };
 
