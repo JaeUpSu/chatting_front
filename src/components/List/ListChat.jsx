@@ -43,12 +43,11 @@ export default function ListChat({
       p="5"
       borderRadius={"md"}
       borderWidth="1px"
-      borderColor={chatRoomPk != id ? "gray.200" : "blue.200"}
+      borderColor={chatRoomPk != id ? "gray.200" : "red.200"}
       onClick={() => handleChatClick(id)}
       justifyContent="space-evenly"
       alignItems={"flex-end"}
       // w="100%"
-      overflowX={"scroll"}
     >
       <Stack
         direction={{ lg: "row", md: "column" }}
@@ -68,8 +67,9 @@ export default function ListChat({
             h={"5"}
             alignItems={"flex-start"}
           >
+            <Text>{house.title} 문의하기</Text>
+
             <Heading size="sm">
-              {users[0]?.name} 님과의 채팅방
               {unread_messages !== 0 ? (
                 <Text ml={"3"} as={"span"} color="red.300">
                   {" "}
@@ -87,7 +87,9 @@ export default function ListChat({
         </VStack>
       </Stack>
       <VStack w="lg" alignItems={"flex-end"}>
-        <Text>{house.title}</Text>
+        <Text color={chatRoomPk != id ? "gray.400" : "red.400"}>
+          {users[0]?.name} 님 &rarr;{" "}
+        </Text>
         <Button onClick={onDelete}>삭제하기</Button>
       </VStack>
     </HStack>

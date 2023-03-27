@@ -25,6 +25,7 @@ import ChatMessage from "../../components/Card/ChatMessage";
 import IconBtns from "../Home/IconBtns";
 import { FaArrowLeft } from "react-icons/fa";
 import ProtectedPage from "../../components/auth/ProtectedPage";
+import Loading from "../../components/Loading/Loading";
 const ChatRoom = () => {
   const { register, handleSubmit, watch, setValue } = useForm();
   const [messages, setMessages] = useState([]);
@@ -51,7 +52,7 @@ const ChatRoom = () => {
     }
   }, [read, sender]);
 
-  useEffect(() => {
+  useDidMountEffect(() => {
     {
       socketRef.current?.readyState
         ? setServerConnect(true)
@@ -99,9 +100,9 @@ const ChatRoom = () => {
     };
 
     // Clean up
-    return () => {
-      socketRef.current?.close();
-    };
+    // return () => {
+    // socketRef.current?.close();
+    // };
   }, [chatRoomPk]);
 
   const { isLoading, data } = useQuery([`chatList`, chatRoomPk], getChatList, {
@@ -110,7 +111,6 @@ const ChatRoom = () => {
   });
 
   useEffect(() => {
-    console.log(1);
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
@@ -205,6 +205,12 @@ const ChatRoom = () => {
           </VStack>
         </VStack>
       </ProtectedPage>
+    );
+  } else {
+    return (
+      <Box>
+        <Loading />
+      </Box>
     );
   }
 };

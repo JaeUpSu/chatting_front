@@ -16,6 +16,7 @@ import {
   InputLeftAddon,
   FormControl,
   FormLabel,
+  HStack,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
@@ -101,14 +102,19 @@ export default function FindPassword() {
     mutation.mutate(data);
   };
   return (
-    <Container as="form" onSubmit={handleSubmit(onSubmit)}>
-      <VStack spacing={8}>
-        <Heading as="h2" size="lg" mb={4}>
+    <Container
+      as="form"
+      onSubmit={handleSubmit(onSubmit)}
+      overflowY="scroll"
+      h={"80vh"}
+    >
+      <VStack spacing={5}>
+        <Heading size="lg" mb={0}>
           비밀번호 찾기
         </Heading>
 
         <FormControl id="id">
-          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
+          <FormLabel mb="1" fontWeight="semibold" color="blackAlpha.700">
             ID
           </FormLabel>
           <Input
@@ -119,20 +125,18 @@ export default function FindPassword() {
           />
         </FormControl>
 
-        <FormControl id="name">
-          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
-            이름
-          </FormLabel>
+        <HStack id="name">
+          <Text></Text>
           <Input
             isDisabled={password}
             type="text"
             {...register("name", { required: true })}
             placeholder="이름을 입력하세요"
           />
-        </FormControl>
+        </HStack>
 
         <FormControl id="email">
-          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
+          <FormLabel mb="1" fontWeight="semibold" color="blackAlpha.700">
             이메일
           </FormLabel>
           <Input
@@ -144,7 +148,7 @@ export default function FindPassword() {
         </FormControl>
 
         <FormControl id="phone_number">
-          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
+          <FormLabel mb="1" fontWeight="semibold" color="blackAlpha.700">
             전화번호
           </FormLabel>
           <Input
@@ -167,7 +171,7 @@ export default function FindPassword() {
             </Button>
           </VStack>
         ) : (
-          <VStack spacing={"8"} w={"100%"}>
+          <VStack spacing={"5"} w={"100%"} alignItems="flex-start">
             <InputGroup>
               <Input
                 {...register("password", { required: true })}

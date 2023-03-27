@@ -56,8 +56,12 @@ function House() {
   const queryClient = useQueryClient();
   const { userLoading, isLoggedIn } = useUser();
   const mutation = useMutation(makeChatRoom, {
-    onSuccess: () => {
-      navigate("/chatlist");
+    onSuccess: (d) => {
+      if (d.id) {
+        navigate(`/chatlist/${d.id}`);
+      } else {
+        navigate("/chatlist");
+      }
     },
   });
 
