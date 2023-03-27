@@ -42,7 +42,7 @@ import { useNavigate } from "react-router-dom";
 import { validiate } from "../../services/validate";
 import ImageCard from "../../components/Card/ImageCard";
 import scrollbarStyle from "../../styles/scroll_bar";
-import { getSellMatchSellKindPrice } from "../../utils/matchSellKindPrice";
+import { getMatchSellKindPrice } from "../../utils/matchSellKindPrice";
 
 const HouseSell = () => {
   const toast = useToast();
@@ -251,7 +251,7 @@ const HouseSell = () => {
   useEffect(() => {
     if (imageBackUrls.length === 5) {
       let processedData = getProcessedData(
-        getSellMatchSellKindPrice(datas),
+        getMatchSellKindPrice(datas),
         imageBackUrls,
         addition,
         safety
