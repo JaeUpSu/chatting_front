@@ -25,7 +25,7 @@ export default function ChatList() {
   const { user } = useUser();
   useEffect(() => {
     if (user) {
-      const socketUrl = `wss://bangsam.onrender.com/notifications?user=${user.id}`;
+      const socketUrl = `wss://backend.bangsam.site/notifications?user=${user.id}`;
       socketRef.current = new WebSocket(socketUrl);
       setSocket(socketRef.current);
 
