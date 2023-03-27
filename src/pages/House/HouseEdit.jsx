@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import {
