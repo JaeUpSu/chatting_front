@@ -95,22 +95,27 @@ export default function WishList() {
           {currentPageData?.map((item, index) => {
             return (
               <GridItem key={index}>
-                <Card w="200px" h="330px" m="10px" overflow={"hidden"}>
+                <Card w="230px" h="350px" m="10px" overflow={"hidden"}>
                   <Link to={`/houseList/house/${item.house.id}`}>
                     <Image src={item.house.thumnail} w="20rem" h="12rem" />
                   </Link>
                   <CardBody>
-                    <Box fontWeight={600} mb="1rem">
+                    <Box
+                      fontWeight={600}
+                      mb="0.7rem"
+                      fontSize={"x-large"}
+                      color="blackAlpha.800"
+                    >
                       {item.house.title}
                     </Box>
-                    <Flex fontSize={"sm"}>
+                    <Flex fontSize={"md"} fontWeight="600">
                       <Text mr="0.5rem">
                         {RoomKindsToFront[item.house.room_kind]}
                       </Text>
                       <Text>{SellKindsToFront[item.house.sell_kind]}</Text>
                     </Flex>
 
-                    <Flex fontSize={"sm"} color={"#ff404c"}>
+                    <Flex color={"#ff404c"} fontSize={"md"} fontWeight="600">
                       <Text>
                         {`${getSaleContents(
                           item.house.sell_kind,

@@ -72,7 +72,7 @@ function TopViewList() {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: data && data.length < 4 ? data && data.length : 4,
+    slidesToShow: 4,
     slidesToScroll: 2,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,

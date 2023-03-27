@@ -35,7 +35,7 @@ export default function RecentView() {
         {data?.map((item, index) => {
           return (
             <GridItem key={index}>
-              <Card w="200px" h="330px" m="10px" overflow={"hidden"}>
+              <Card w="230px" h="350px" m="10px" overflow={"hidden"}>
                 <Link to={`/houseList/house/${item.recently_views.id}`}>
                   <Image
                     src={item.recently_views.thumnail}
@@ -45,11 +45,16 @@ export default function RecentView() {
                 </Link>
 
                 <CardBody>
-                  <Box fontWeight={600} mb="1rem">
+                  <Box
+                    fontWeight={600}
+                    mb="0.7rem"
+                    fontSize={"x-large"}
+                    color="blackAlpha.800"
+                  >
                     {item.recently_views.title}
                   </Box>
 
-                  <Flex fontSize={"sm"}>
+                  <Flex fontSize={"md"} fontWeight="600">
                     <Text mr="0.5rem">
                       {RoomKindsToFront[item.recently_views.room_kind]}
                     </Text>
@@ -58,7 +63,12 @@ export default function RecentView() {
                     </Text>
                   </Flex>
 
-                  <Flex fontSize={"sm"} color={"#ff404c"}>
+                  <Flex
+                    fontSize={"md"}
+                    color={"#ff404c"}
+                    fontWeight={"bold"}
+                    mb="1rem"
+                  >
                     <Text>
                       {`${getSaleContents(
                         item.recently_views.sell_kind,
