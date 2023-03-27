@@ -102,7 +102,7 @@ const LikedList = () => {
                       {item.house.title}
                     </Heading>
 
-                    <Flex fontSize={"md"}>
+                    <Flex fontSize={"md"} fontWeight="bold">
                       <Text mr="1rem" marginBottom="2px">
                         {SellKindsToFront[item.house.sell_kind]}
                       </Text>

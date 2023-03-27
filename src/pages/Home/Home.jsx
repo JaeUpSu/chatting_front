@@ -1,7 +1,7 @@
 import { Flex, Box, Text } from "@chakra-ui/react";
 import React from "react";
 import styled from "styled-components";
-import IconBtns from "./IconBtns";
+import LandingPage from "./LandingPage";
 import RecentList from "./RecentList";
 import LikedList from "./LikedList";
 import useUser from "../../hooks/useUser";
@@ -32,7 +32,7 @@ export default function Home() {
     >
       <Box>
         <Flex mt="2rem" mb="3rem">
-          <IconBtns />
+          <LandingPage />
         </Flex>
 
         {isLoggedIn ? (

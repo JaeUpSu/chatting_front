@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import routes from "../../routes";
-import { Avatar, HStack, Text, useDisclosure } from "@chakra-ui/react";
-
+import { Avatar, HStack, Text, useDisclosure, Flex } from "@chakra-ui/react";
+import IconBtns from "../../pages/Home/IconBtns";
 import LoginModal from "../Modal/LoginModal";
 import useUser from "../../hooks/useUser";
 import UserInfoMenu from "../Menu/UserInfoMenu";
@@ -25,6 +25,19 @@ function Header() {
       <Text onClick={onHome} fontSize="2xl" color={"#ff404c"} cursor="pointer">
         BangSam
       </Text>
+      <HStack></HStack>
+      <HStack></HStack>
+      <HStack></HStack>
+      <HStack></HStack>
+      <HStack></HStack>
+      <HStack spacing="40px">
+        <IconBtns>아파트</IconBtns>
+        <IconBtns>빌라</IconBtns>
+        <IconBtns>오피스텔</IconBtns>
+        <IconBtns>원룸</IconBtns>
+        <IconBtns>주택</IconBtns>
+        <IconBtns>쉐어하우스</IconBtns>
+      </HStack>
       {!isLoggedIn && !userLoading ? (
         <Avatar onClick={() => onLoginOpen()} />
       ) : (
