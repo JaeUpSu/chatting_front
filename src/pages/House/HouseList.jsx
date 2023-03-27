@@ -21,7 +21,7 @@ import { getOptionHouses } from "../../services/api";
 import { getInitOrderBy } from "../../services/local";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
-import { throttle } from "../../utils/throttle";
+import { throttle, throttleByAnimtaionFrame } from "../../utils/throttle";
 
 import { getBackOptions } from "../../utils/getBackOptions";
 import { getBackOrderBy } from "../../utils/getBackOrderBy";
@@ -121,7 +121,7 @@ function HouseList() {
       }
     };
 
-    const throttleScrollHandler = throttle(handleScroll);
+    const throttleScrollHandler = throttleByAnimtaionFrame(handleScroll);
 
     scrollRef.current.addEventListener("scroll", throttleScrollHandler);
     scrollRef.current.addEventListener("beforeunload", () => {
