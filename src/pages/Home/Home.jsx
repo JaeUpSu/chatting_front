@@ -13,9 +13,11 @@ import {
   MdOutlineVilla,
   MdOutlineBedroomChild,
 } from "react-icons/md";
-import { HiOutlineOfficeBuilding } from "react-icons/hi";
-import { BiHomeHeart } from "react-icons/bi";
+import { HiBuildingOffice } from "react-icons/hi";
 import { TbCampfire } from "react-icons/tb";
+import { FaBed } from "react-icons/fa";
+import { GiFamilyHouse } from "react-icons/gi";
+import { BsFillBuildingsFill, BsFillHousesFill } from "react-icons/bs";
 
 const HomeContainer = styled.div`
   display: flex;
@@ -45,13 +47,11 @@ export default function Home() {
         </Helmet>{" "}
         <Flex mt="2rem" mb="3rem" justify={"space-around"}>
           <IconBtns icon={<MdApartment size={40} />}>아파트</IconBtns>
-          <IconBtns icon={<MdOutlineVilla size={40} />}>빌라</IconBtns>
-          <IconBtns icon={<HiOutlineOfficeBuilding size={40} />}>
-            오피스텔
-          </IconBtns>
-          <IconBtns icon={<MdOutlineBedroomChild size={40} />}>원룸</IconBtns>
-          <IconBtns icon={<BiHomeHeart size={40} />}>주택</IconBtns>
-          <IconBtns icon={<TbCampfire size={40} />}>쉐어하우스</IconBtns>
+          <IconBtns icon={<BsFillBuildingsFill size={40} />}>빌라</IconBtns>
+          <IconBtns icon={<HiBuildingOffice size={40} />}>오피스텔</IconBtns>
+          <IconBtns icon={<FaBed size={40} />}>원룸</IconBtns>
+          <IconBtns icon={<GiFamilyHouse size={40} />}>주택</IconBtns>
+          <IconBtns icon={<BsFillHousesFill size={40} />}>쉐어하우스</IconBtns>
         </Flex>
         <TopViewList />
         {isLoggedIn ? (
