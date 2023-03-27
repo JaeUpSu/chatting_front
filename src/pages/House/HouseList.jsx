@@ -22,7 +22,6 @@ import { getInitOrderBy } from "../../services/local";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
 import { throttle } from "../../utils/throttle";
-
 import { getBackOptions } from "../../utils/getBackOptions";
 import { getBackOrderBy } from "../../utils/getBackOrderBy";
 
@@ -76,8 +75,14 @@ function HouseList() {
   const [isSellKind, setIsSellKind] = useState(false);
   const [orderBy, setOrderBy] = useState(getInitOrderBy(isSellKind));
 
-  const { data, totalCounts, isFetching, setFetching, setBackParams } =
-    useInfiniteScroll(getOptionHouses, { size: 24 });
+  const {
+    hasNextPage,
+    data,
+    totalCounts,
+    isFetching,
+    setFetching,
+    setBackParams,
+  } = useInfiniteScroll(getOptionHouses, { size: 24 });
 
   // orderBy rearrange
   const onOrderBy = (e) => {
@@ -124,6 +129,7 @@ function HouseList() {
 
     const throttleScrollHandler = throttle(handleScroll);
 
+
     scrollRef.current.addEventListener("scroll", throttleScrollHandler);
     scrollRef.current.addEventListener("beforeunload", () => {
       return () =>
@@ -133,7 +139,9 @@ function HouseList() {
 
   // loading set
   useEffect(() => {
-    setLoading(isFetching);
+    if (hasNextPage) {
+      setLoading(isFetching);
+    }
   }, [isFetching]);
 
   // orderBy => params

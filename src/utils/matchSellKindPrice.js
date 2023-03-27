@@ -3,12 +3,43 @@ import { HouseRegisterValues } from "../services/data";
 const priceMenu = ["sale", "deposit", "monthly_rent"];
 
 // 필요없는 가격 없애기
-export const getMatchSellKindPrice = (nextData, prevData) => {
+export const getMatchSellKindPrice = (nextData) => {
   // 갱신 데이터에 sell_kind 없을때
   if (!nextData["sell_kind"]) {
     return nextData;
   }
 
+  let processedData = {};
+
+  HouseRegisterValues.forEach((item) => {
+    if (
+      nextData[item.eng] &&
+      item.eng !== "sale" &&
+      item.eng !== "monthly_rent" &&
+      item.eng !== "monthly_rent"
+    ) {
+      processedData[item.eng] = nextData[item.eng];
+    }
+  });
+
+  // sell_kind 별 price 값 추가
+  if (nextData["sell_kind"] == "SALE" && nextData["sale"]) {
+    processedData["sale"] = nextData["sale"];
+  } else if (nextData["sell_kind"] == "CHARTER" && nextData["deposit"]) {
+    processedData["deposit"] = nextData["deposit"];
+  } else if (
+    nextData["sell_kind"] == "MONTHLY_RENT" &&
+    nextData["monthly_rent"]
+  ) {
+    processedData["monthly_rent"] = nextData["monthly_rent"];
+    if (nextData["deposit"]) {
+      processedData["deposit"] = nextData["deposit"];
+    }
+  }
+  return processedData;
+};
+
+export const getSellMatchSellKindPrice = (nextData) => {
   let processedData = {};
 
   HouseRegisterValues.forEach((item) => {
