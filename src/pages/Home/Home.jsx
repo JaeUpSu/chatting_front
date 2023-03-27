@@ -35,7 +35,9 @@ export default function Home() {
         <Flex mt="2rem" mb="3rem">
           <IconBtns />
         </Flex>
-
+        <Helmet>
+          <title>BANGSAM</title>
+        </Helmet>{" "}
         {isLoggedIn ? (
           <HomeContainer>
             <Text as="b" fontSize={"2xl"} ml="8rem" mb="2rem">

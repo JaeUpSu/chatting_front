@@ -20,7 +20,8 @@ import ChangePasswordModal from "../../components/Modal/ChangePasswordModal";
 import useUser from "../../hooks/useUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editUser, getUploadURL, uploadImage } from "../../services/api";
-import { FaComment } from "react-icons/fa";
+import { Helmet } from "react-helmet";
+import scrollbarStyle from "../../styles/scroll_bar";
 
 export default function MyInfo() {
   const { user } = useUser();
@@ -137,14 +138,18 @@ export default function MyInfo() {
 
   return (
     <Box
-      mt={"10"}
-      alignItems={"center"}
-      justifyContent="center"
       h="70vh"
       as="form"
+      pt={"10"}
       overflowY="scroll"
+      alignItems={"center"}
+      justifyContent="center"
+      sx={scrollbarStyle}
       onSubmit={handleSubmit(onSubmit)}
     >
+      <Helmet>
+        <title>{`${user?.name} - BANGSAM`}</title>
+      </Helmet>
       <Grid templateColumns={{ lg: "1fr 1fr", sm: "1fr" }} w={"100%"}>
         <VStack alignItems={"center"} justifyContent="center" spacing={"5"}>
           <Avatar boxSize={"xs"} src={avatar} />

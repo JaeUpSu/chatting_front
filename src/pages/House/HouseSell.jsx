@@ -43,6 +43,7 @@ import { validiate } from "../../services/validate";
 import ImageCard from "../../components/Card/ImageCard";
 import scrollbarStyle from "../../styles/scroll_bar";
 import { getMatchSellKindPrice } from "../../utils/matchSellKindPrice";
+import Helmet from "react-helmet";
 
 const HouseSell = () => {
   const toast = useToast();
@@ -262,6 +263,9 @@ const HouseSell = () => {
 
   return (
     <VStack h="100vh" overflowY="scroll" pb="5vh" sx={scrollbarStyle}>
+      <Helmet>
+        <title>{`판매하기 - BANGSAM`}</title>
+      </Helmet>
       <Center pt="2vh" pb="5vh">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl isInvalid={errors.title} id="title" my="5" w="40vw">

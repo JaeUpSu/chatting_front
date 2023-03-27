@@ -129,7 +129,6 @@ function HouseList() {
 
     const throttleScrollHandler = throttle(handleScroll);
 
-
     scrollRef.current.addEventListener("scroll", throttleScrollHandler);
     scrollRef.current.addEventListener("beforeunload", () => {
       return () =>
@@ -184,7 +183,7 @@ function HouseList() {
     <>
       <VStack h={"100vh"} pb="10vh">
         <Helmet>
-          <title>BangSam</title>
+          <title>부동산 - BANGSAM</title>
         </Helmet>
         <HStack spacing={"5"} w="100vw" pl={"5%"} pr={"5%"} pb={5} pt={2}>
           <HStack spacing={"10"}>
