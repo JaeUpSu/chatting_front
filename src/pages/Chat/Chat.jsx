@@ -70,7 +70,7 @@ const ChatRoom = () => {
   useEffect(() => {
     // Connect to the WebSocket server
     socketRef.current = new WebSocket(
-      `wss://bangsam.onrender.com/ws/${chatRoomPk}`
+      `wss://backend.bangsam.site/ws/${chatRoomPk}`
     );
     setSocket(socketRef.current);
 
