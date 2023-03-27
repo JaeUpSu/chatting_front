@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { initParams } from "../services/local";
 import { getBackOptions } from "../utils/getBackOptions";
 
-import { throttle } from "../utils/throttle";
+import { throttle, throttleByAnimtaionFrame } from "../utils/throttle";
 
 const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   const [page, setPage] = useState(1);
@@ -20,6 +20,7 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
       setPage(data.pageNumber + 1);
       setNextPage(!data.isLastPage);
       setFetching(false);
+      console.log(page, "fetching");
       onSuccess?.();
     } catch (err) {
       console.log("execute - err", err);
@@ -28,7 +29,7 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
   }, [page]);
 
   useEffect(() => {
-    const handleScroll = throttle(() => {
+    const handleScroll = throttleByAnimtaionFrame(() => {
       const { scrollTop, offsetHeight } = document.documentElement;
       if (window.innerHeight + scrollTop >= offsetHeight * 0.7) {
         setFetching(true);
