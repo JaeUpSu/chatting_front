@@ -5,6 +5,7 @@ import Pagination from "react-js-pagination";
 import styled from "styled-components";
 import { useState } from "react";
 import MyHouseCard from "../../components/Card/MyHouseCard";
+import scrollbarStyle from "../../styles/scroll_bar";
 
 const PagenationBox = styled.div`
   .pagination {
@@ -65,7 +66,7 @@ export default function SellAll() {
     <VStack>
       {!isLoading ? (
         <>
-          <VStack w="100%" h="68vh" overflowY={"scroll"}>
+          <VStack w="100%" h="68vh" overflowY={"scroll"} sx={scrollbarStyle}>
             {data?.results?.length < 1 ? (
               <Center h="100%" w="100%" alignItems="center" fontWeight="600">
                 비어있습니다.

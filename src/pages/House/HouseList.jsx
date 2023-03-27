@@ -31,6 +31,7 @@ import AddressMenu from "../../components/Menu/AddressMenu";
 import HouseOptMenu from "../../components/Menu/HouseOptMenu";
 
 import LoadingHouseCard from "../../components/Loading/LoadingHouseCard";
+import scrollbarStyle from "../../styles/scroll_bar";
 
 const TopBtn = styled.div`
   position: fixed;
@@ -249,6 +250,7 @@ function HouseList() {
             ref={scrollRef}
             overflowY={"scroll"}
             h="100%"
+            sx={scrollbarStyle}
           >
             {data?.map((item, idx) => {
               return (
@@ -273,6 +275,7 @@ function HouseList() {
             w={"100vw"}
             pl="5vw"
             pr="5vw"
+            sx={scrollbarStyle}
             gridTemplateColumns={{
               sm: "1fr",
               md: "1fr 1fr",
