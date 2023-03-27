@@ -3,7 +3,10 @@ import Cookie from "js-cookie";
 
 // 객체 만들기
 const instance = axios.create({
-  baseURL: "/api/v1",
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? "/api/v1"
+      : "https://backend.bangsam.site/api/v1",
   withCredentials: true,
 });
 
