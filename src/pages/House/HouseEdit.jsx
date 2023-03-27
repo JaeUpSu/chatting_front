@@ -110,8 +110,6 @@ const HouseEdit = () => {
         return newImgBack;
       });
     },
-    onMutate: (d) => {},
-    onError: (e) => {},
   });
 
   // updatedImage 개수만큼 mutate => getUploadUrl
@@ -126,8 +124,6 @@ const HouseEdit = () => {
         return newImgBack;
       });
     },
-    onMutate: (d) => {},
-    onError: (e) => {},
   });
 
   // 초기화
