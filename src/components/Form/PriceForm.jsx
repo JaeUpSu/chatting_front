@@ -35,16 +35,16 @@ function PriceForm({
   const compareData = (origin, data) => {
     let flag = true;
 
-    if (origin == 0 && data) {
+    const newData = data * 10000;
+    if (newData == 0 && origin) {
       flag = false;
-    } else if (origin > 0 && data) {
-      if (origin !== data * 10000) {
+    } else if (newData > 0 && origin) {
+      if (newData !== origin) {
         flag = false;
       }
-    } else if (origin > 0 && !data) {
+    } else if (newData > 0 && !origin) {
       flag = false;
     }
-
     return flag;
   };
 
@@ -56,9 +56,9 @@ function PriceForm({
     setUpdatedHouse((prevHouse) => {
       HouseRegisterValues.forEach((item) => {
         if (data[item.eng]) {
-          if (compareData(data[item.eng], prevHouse[item.eng])) {
-            nextHouse[item.eng] = Number(data[item.eng]) * 10000;
+          if (!compareData(prevHouse[item.eng], data[item.eng])) {
             isChange = true;
+            nextHouse[item.eng] = Number(data[item.eng]) * 10000;
           } else {
             nextHouse[item.eng] = prevHouse[item.eng];
           }

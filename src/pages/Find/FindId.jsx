@@ -15,6 +15,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { findId } from "../../services/api";
+import Helmet from "react-helmet";
 
 export default function FindId() {
   const { register, handleSubmit, reset } = useForm();
@@ -40,6 +41,9 @@ export default function FindId() {
   };
   return (
     <Container p={4} as="form" onSubmit={handleSubmit(onSubmit)}>
+      <Helmet>
+        <title>{`아이디 찾기 - BANGSAM`}</title>
+      </Helmet>
       <VStack spacing={8}>
         <Heading as="h2" size="lg" mb={4}>
           아이디 찾기

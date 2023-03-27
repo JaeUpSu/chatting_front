@@ -10,15 +10,8 @@ import { getSaleContents } from "./../../utils/getSaleContents";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-const HouseImg = styled.img`
-  width: 200px;
-  height: 200px;
-  position: relative;
-  margin-right: 4rem;
-  cursor: pointer;
-  transition: transform 0.5s ease-in-out;
-`;
+import { PrevArrow } from "./../../components/Arrows/PrevArrow";
+import { NextArrow } from "./../../components/Arrows/NextArrows";
 
 const SlideWrapper = styled.div`
   width: 1000px;
@@ -26,57 +19,15 @@ const SlideWrapper = styled.div`
   overflow: hidden;
 `;
 
-const PrevArrow = (props) => {
-  const { className, onClick } = props;
-  return (
-    <div
-      className={className}
-      onClick={onClick}
-      style={{
-        ...props.style,
-        display: "block",
-        position: "absolute",
-        border: "none",
-        background: "transparent",
-        color: "transparent",
-        top: "40%",
-        zIndex: 1,
-        left: "7rem",
-      }}
-    />
-  );
-};
-
-const NextArrow = (props) => {
-  const { className, onClick } = props;
-  return (
-    <div
-      className={className}
-      onClick={onClick}
-      style={{
-        ...props.style,
-        display: "block",
-        position: "absolute",
-        border: "none",
-        background: "transparent",
-        color: "transparent",
-        top: "40%",
-        left: "54rem",
-        zIndex: 1,
-      }}
-    />
-  );
-};
-
 const RecentList = () => {
   const { error, data } = useQuery(["recently_views"], getHouseLists);
 
   if (error) {
-    return <div>에러가 발생했습니다.</div>;
+    return <SlideWrapper>에러가 발생했습니다.</SlideWrapper>;
   }
 
   if (!data) {
-    return <div>로딩 중입니다.</div>;
+    return <SlideWrapper>로딩 중입니다.</SlideWrapper>;
   }
 
   const settings = {
@@ -111,14 +62,7 @@ const RecentList = () => {
       <Slider {...settings}>
         {data &&
           data.map((item, index) => (
-            <Card
-              key={index}
-              mr="10px"
-              h="60%"
-              w="60%"
-              boxShadow="md"
-              _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}
-            >
+            <Card key={index} mr="10px" h="60%" w="60%">
               <Link to={`/houseList/house/${item.recently_views.id}`}>
                 <CardBody
                   display={"flex"}

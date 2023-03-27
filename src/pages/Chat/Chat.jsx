@@ -131,7 +131,7 @@ const ChatRoom = () => {
     return (
       <ProtectedPage>
         <Helmet>
-          <title>BangSam 채팅</title>
+          <title>{`채팅하기 - BangSam `}</title>
         </Helmet>
         <VStack
           as={"form"}

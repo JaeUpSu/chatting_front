@@ -9,8 +9,12 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import useUser from "../../hooks/useUser";
+import Helmet from "react-helmet";
 
 export default function SellHistory() {
+  const { user } = useUser();
+
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const tabMap = {
@@ -31,6 +35,9 @@ export default function SellHistory() {
       onChange={changeTab}
       defaultIndex={selectedTabIndex}
     >
+      <Helmet>
+        <title>{`판매내역 ${user?.name} - BANGSAM`}</title>
+      </Helmet>
       <HStack alignItems="flex-start">
         <Flex
           h="74vh"

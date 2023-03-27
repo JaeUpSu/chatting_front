@@ -28,7 +28,7 @@ function AddressMenu({ onUpdate }) {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [guIdx, setGuIdx] = useState(0);
+  const [guIdx, setGuIdx] = useState(1);
 
   const [btnIdx, setBtnIdx] = useState(1);
   const [address, setAddress] = useState(

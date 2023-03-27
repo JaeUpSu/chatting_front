@@ -17,15 +17,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { Link } from "react-router-dom";
 import { getSaleContents } from "../../utils/getSaleContents";
-
-const HouseImg = styled.img`
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
-  width: 200px;
-  height: 200px;
-  transition: transform 0.5s ease-in-out;
-`;
+import { PrevArrow } from "./../../components/Arrows/PrevArrow";
+import { NextArrow } from "./../../components/Arrows/NextArrows";
 
 const SlideWrapper = styled.div`
   width: 1000px;
@@ -33,56 +26,14 @@ const SlideWrapper = styled.div`
   overflow: hidden;
 `;
 
-const PrevArrow = (props) => {
-  const { className, onClick } = props;
-  return (
-    <div
-      className={className}
-      onClick={onClick}
-      style={{
-        ...props.style,
-        display: "block",
-        position: "absolute",
-        border: "none",
-        background: "transparent",
-        color: "transparent",
-        top: "40%",
-        zIndex: 1,
-        left: "7rem",
-      }}
-    />
-  );
-};
-
-const NextArrow = (props) => {
-  const { className, onClick } = props;
-  return (
-    <div
-      className={className}
-      onClick={onClick}
-      style={{
-        ...props.style,
-        display: "block",
-        position: "absolute",
-        border: "none",
-        background: "transparent",
-        color: "transparent",
-        top: "40%",
-        left: "54rem",
-        zIndex: 1,
-      }}
-    />
-  );
-};
-
 const LikedList = () => {
   const { error, data } = useQuery(["house"], getWishLists);
   if (error) {
-    return <div>에러가 발생했습니다.</div>;
+    return <SlideWrapper>에러가 발생했습니다.</SlideWrapper>;
   }
 
   if (!data) {
-    return <div>로딩 중입니다.</div>;
+    return <SlideWrapper>로딩 중입니다.</SlideWrapper>;
   }
 
   const settings = {
@@ -119,13 +70,7 @@ const LikedList = () => {
       <Slider {...settings}>
         {data &&
           data?.map((item, idx) => (
-            <Card
-              key={idx}
-              h="60%"
-              w="60%"
-              boxShadow="md"
-              _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}
-            >
+            <Card key={idx} h="60%" w="60%">
               <Link to={`/houseList/house/${item.house.id}`}>
                 <CardBody
                   display={"flex"}
@@ -151,7 +96,7 @@ const LikedList = () => {
                       {item.house.title}
                     </Heading>
 
-                    <Flex fontSize={"md"}>
+                    <Flex fontSize={"md"} fontWeight="bold">
                       <Text mr="1rem" marginBottom="2px">
                         {SellKindsToFront[item.house.sell_kind]}
                       </Text>
