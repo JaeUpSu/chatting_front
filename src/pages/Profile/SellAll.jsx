@@ -13,6 +13,8 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import MyHouseCard from "../../components/Card/MyHouseCard";
 
+import scrollbarStyle from "../../styles/scroll_bar";
+
 const PagenationBox = styled.div`
   .pagination {
     margin-top: 1vh;
@@ -72,7 +74,7 @@ export default function SellAll() {
     <VStack>
       {!isLoading ? (
         <>
-          <VStack w="100%" h="68vh" overflowY={"scroll"}>
+          <VStack w="100%" h="68vh" overflowY={"scroll"} sx={scrollbarStyle}>
             {data?.results?.length < 1 ? (
               <Center h="100%" w="100%" alignItems="center" fontWeight="600">
                 비어있습니다.
@@ -90,7 +92,7 @@ export default function SellAll() {
                   columnGap="8"
                   py="7"
                   px="3"
-                  w="100%"
+                  w="95%"
                 >
                   {data?.results?.map((item, idx) => {
                     return (

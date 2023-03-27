@@ -39,6 +39,8 @@ import { useDidMountEffect } from "../../hooks/useDidMoutEffect";
 import RoomOption from "../../components/Badge/RoomOption";
 import SafetyOption from "../../components/Badge/SafetyOption";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
+import scrollbarStyle from "../../styles/scroll_bar";
+
 function House() {
   const params = useParams();
   const id = params.houseId;
@@ -143,6 +145,7 @@ function House() {
         display="flex"
         flexDirection="column"
         px="5vw"
+        sx={scrollbarStyle}
       >
         <Center mx={"3vw"} my="3vh" mb="0">
           <Grid
@@ -192,7 +195,7 @@ function House() {
                   return (
                     <GridItem
                       key={idx}
-                      p={"0.5"}
+                      border="4px solid transparent"
                       position="relative"
                       colSpan={idx === 0 ? 2 : 1}
                       rowSpan={idx === 0 ? 2 : 1}
