@@ -66,7 +66,12 @@ function UserInfoMenu({ user }) {
   return (
     <Menu>
       <MenuButton>
-        <Avatar src={user?.avatar} name={user?.name} size="md">
+        <Avatar
+          cursor={"pointer"}
+          src={user?.avatar}
+          name={user?.name}
+          size="md"
+        >
           <AvatarBadge boxSize="1.2rem" bg="green.500" />
         </Avatar>
       </MenuButton>

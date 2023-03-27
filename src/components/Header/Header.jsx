@@ -26,7 +26,7 @@ function Header() {
         BangSam
       </Text>
       {!isLoggedIn && !userLoading ? (
-        <Avatar onClick={() => onLoginOpen()} />
+        <Avatar cursor={"pointer"} onClick={() => onLoginOpen()} />
       ) : (
         <UserInfoMenu user={user} />
       )}

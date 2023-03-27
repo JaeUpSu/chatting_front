@@ -39,14 +39,14 @@ function TopViewList() {
   const { isLoading, data } = useQuery(["TopViewHouse"], getTopViewHouse);
   const settings = {
     dots: false,
+    autoplay: true,
     infinite: false,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 2,
+    autoplaySpeed: 4000,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
-    autoplay: true,
-    autoplaySpeed: 4000,
   };
   return (
     <SlideWrapper>
