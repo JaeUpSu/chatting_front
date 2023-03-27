@@ -27,6 +27,32 @@ export const throttle = (handler, timeout = 500) => {
   };
 };
 
+export const throttleTwo = (handler, delay = 500) => {
+  let lastCallTime = 0;
+  let scheduled = false;
+  let timeoutId;
+
+  return function (...args) {
+    const currentTime = Date.now();
+    const timeSinceLastCall = currentTime - lastCallTime;
+
+    if (!scheduled) {
+      scheduled = true;
+      timeoutId = setTimeout(() => {
+        handler.apply(this, args);
+        lastCallTime = Date.now();
+        scheduled = false;
+      }, delay - timeSinceLastCall);
+    }
+
+    if (timeSinceLastCall >= delay) {
+      clearTimeout(timeoutId);
+      handler.apply(this, args);
+      lastCallTime = currentTime;
+    }
+  };
+};
+
 // 이벤트가 발생할 때
 // requestAnimationFrame 콜백이 Animation Frame으로 들어감
 // 그리고 실제로 처리되기 전까지 ticking은 true
