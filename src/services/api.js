@@ -6,7 +6,7 @@ const instance = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
       ? "/api/v1"
-      : "https://backend.bangsam.site/",
+      : "https://backend.bangsam.site/api/v1",
   withCredentials: true,
 });
 
