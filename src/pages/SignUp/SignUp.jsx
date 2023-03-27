@@ -16,6 +16,8 @@ import {
   HStack,
   Flex,
   useToast,
+  Grid,
+  Divider,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import {
@@ -98,6 +100,7 @@ export default function SignUp() {
   });
   const onSubmit = (data) => {
     if (avatar) {
+      data.avatar = "";
       validateCheckMutation.mutate(data);
     } else {
       signUpMutation.mutate(data);
@@ -112,43 +115,43 @@ export default function SignUp() {
     reader.readAsDataURL(file);
   };
   return (
-    <Box w={"100%"}>
-      <Container display={"flex"} justifyContent={"center"}>
-        <VStack
-          as={"form"}
-          onSubmit={handleSubmit(onSubmit)}
-          spacing={4}
-          alignItems={"center"}
-          w={{
-            sm: "60vw",
-            md: "45vw",
-            lg: "40vw",
-            xl: "35vw",
-          }}
-          h="80vh"
-        >
-          <VStack alignItems={"center"} spacing="5" mb={"2"} w="100%">
-            <Avatar size={"xl"} src={avatar} border={"1px solid gray"} />
-            <FormControl w="100%">
-              <HStack>
-                <FormLabel
-                  color="blackAlpha.700"
-                  fontWeight="semibold"
-                  w="40%"
-                  m="0px"
-                >
-                  사진 업로드
-                </FormLabel>
-                <Input
-                  m="0px"
-                  w="100%"
-                  type="file"
-                  {...register("avatar")}
-                  onChange={handleAvatarChange}
-                />
-              </HStack>
-            </FormControl>
-          </VStack>
+    <Grid gridTemplateColumns={"1fr 0.01fr 1fr"} mt={"10"}>
+      <VStack
+        alignItems={"center"}
+        spacing="5"
+        mb={"2"}
+        w="100%"
+        justifyContent="center"
+      >
+        <VStack w="50%" spacing={20} justifyContent="center">
+          <Avatar boxSize={"2xs"} src={avatar} />
+          <FormControl w="100%">
+            <VStack alignItems={"center"}>
+              <FormLabel color="blackAlpha.700" fontWeight="semibold" m="0px">
+                사진 업로드
+              </FormLabel>
+              <Input
+                m="0px"
+                w="100%"
+                type="file"
+                {...register("avatar")}
+                onChange={handleAvatarChange}
+              />
+            </VStack>
+          </FormControl>
+        </VStack>
+      </VStack>
+      <Box borderLeft={"1px solid gray"} />
+      <VStack
+        as={"form"}
+        onSubmit={handleSubmit(onSubmit)}
+        spacing={4}
+        alignItems={"center"}
+        // border="1px solid blue"
+        justifyContent="center"
+        w={"100%"}
+      >
+        <VStack w={"60%"}>
           <FormControl isRequired>
             <FormLabel color="blackAlpha.700" fontWeight="semibold">
               ID
@@ -215,7 +218,10 @@ export default function SignUp() {
           <FormControl id="email" isRequired>
             <FormLabel fontWeight="semibold">이메일주소</FormLabel>
             <Input
-              {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+              {...register("email", {
+                required: true,
+                pattern: /^\S+@\S+$/i,
+              })}
             />
             {errors.email && (
               <Text fontSize="xs" color="red.500">
@@ -256,6 +262,7 @@ export default function SignUp() {
               signUpMutation.isLoading
             }
             backgroundColor="#ff404c"
+            colorScheme="red"
             color="white"
             type="submit"
             width={"100%"}
@@ -263,7 +270,7 @@ export default function SignUp() {
             가입하기
           </Button>
         </VStack>
-      </Container>
-    </Box>
+      </VStack>
+    </Grid>
   );
 }

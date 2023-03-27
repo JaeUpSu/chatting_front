@@ -40,6 +40,7 @@ import RoomOption from "../../components/Badge/RoomOption";
 import SafetyOption from "../../components/Badge/SafetyOption";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import scrollbarStyle from "../../styles/scroll_bar";
+import { Helmet } from "react-helmet";
 
 function House() {
   const params = useParams();
@@ -151,6 +152,10 @@ function House() {
         px="5vw"
         sx={scrollbarStyle}
       >
+        <Helmet>
+          <title>{data ? data.title : "Loading..."}</title>
+        </Helmet>
+
         <Center mx={"3vw"} my="3vh" mb="0">
           <Grid
             width={"90%"}
@@ -270,6 +275,7 @@ function House() {
                   bgColor={"#ff404c"}
                   onClick={goChat}
                   mb={"5"}
+                  // isLoading={mutation.isLoading}
                 >
                   채팅하기
                 </Button>

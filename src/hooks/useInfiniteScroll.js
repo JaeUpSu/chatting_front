@@ -20,10 +20,8 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
       setPage(data.pageNumber + 1);
       setNextPage(!data.isLastPage);
       setFetching(false);
-      console.log(page, "fetching");
       onSuccess?.();
     } catch (err) {
-      console.log("execute - err", err);
       onError?.(err);
     }
   }, [page]);
