@@ -35,6 +35,7 @@ import RoomKindSelectForm from "../../components/Form/RoomKindSelectForm";
 import SellKindSelectForm from "../../components/Form/SellKindSelectForm";
 import scrollbarStyle from "../../styles/scroll_bar";
 import Loading from "../../components/Loading/Loading";
+import Helmet from "react-helmet";
 
 const HouseEdit = () => {
   const { id } = useParams();
@@ -172,6 +173,9 @@ const HouseEdit = () => {
     <>
       {!isLoading ? (
         <VStack h="90vh" overflowY="scroll" pb="10vh" sx={scrollbarStyle}>
+          <Helmet>
+            <title>{`수정하기 ${updatedHouse?.title} - BANGSAM`}</title>
+          </Helmet>
           <Center pt="2vh">
             <VStack>
               <ImageForm

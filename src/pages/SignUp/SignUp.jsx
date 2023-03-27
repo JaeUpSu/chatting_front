@@ -29,6 +29,7 @@ import {
 } from "../../services/api";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import Helmet from "react-helmet";
 
 export default function SignUp() {
   const toast = useToast();
@@ -123,6 +124,10 @@ export default function SignUp() {
         w="100%"
         justifyContent="center"
       >
+        <Helmet>
+          <title>{`가입하기- BANGSAM`}</title>
+        </Helmet>
+
         <VStack w="50%" spacing={20} justifyContent="center">
           <Avatar boxSize={"2xs"} src={avatar} />
           <FormControl w="100%">

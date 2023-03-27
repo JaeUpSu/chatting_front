@@ -52,7 +52,9 @@ export default function Home() {
           <IconBtns icon={<BiHomeHeart size={40} />}>주택</IconBtns>
           <IconBtns icon={<TbCampfire size={40} />}>쉐어하우스</IconBtns>
         </Flex>
-
+        <Helmet>
+          <title>BANGSAM</title>
+        </Helmet>{" "}
         {isLoggedIn ? (
           <HomeContainer>
             <Text as="b" fontSize={"2xl"} ml="8rem" mb="2rem">

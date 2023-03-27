@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import { GiHumanCannonball } from "react-icons/gi";
 import { BsFillPersonVcardFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
+import Helmet from "react-helmet";
 
 export default function FindPassword() {
   const { register, handleSubmit, reset } = useForm();
@@ -107,9 +108,12 @@ export default function FindPassword() {
     <Container
       as="form"
       onSubmit={handleSubmit(onSubmit)}
-      overflowY="scroll"
-      h={"80vh"}
+      // overflowY="scroll"
+      // h={"80vh"}
     >
+      <Helmet>
+        <title>{`비밀번호 찾기- BANGSAM`}</title>
+      </Helmet>
       <VStack spacing={6}>
         <Heading size="lg" mb={0}>
           비밀번호 찾기

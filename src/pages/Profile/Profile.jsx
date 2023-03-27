@@ -19,8 +19,8 @@ function Profile() {
   const { user, userLoading, isLoggedIn } = useUser();
   const tabMap = {
     "": 0,
-    wishlist: 1,
-    recentView: 2,
+    recentView: 1,
+    wishlist: 2,
     sellHistory: 3,
   };
   const selectedTabIndex = tabMap[pathname.split("/").slice(-1)[0]];
@@ -58,7 +58,7 @@ function Profile() {
             bg={"gray.200"}
             _selected={{ color: "white", bg: "#ff535e" }}
           >
-            찜한 방
+            최근 본 방
           </Tab>
           <Tab
             m={"1px"}
@@ -66,7 +66,7 @@ function Profile() {
             bg={"gray.200"}
             _selected={{ color: "white", bg: "#ff535e" }}
           >
-            최근 본 방
+            찜한 방
           </Tab>
           {user?.is_host ? (
             <Tab

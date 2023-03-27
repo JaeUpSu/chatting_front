@@ -7,6 +7,7 @@ import { getChatRoomList } from "../../services/api";
 import ListChat from "../../components/List/ListChat";
 import useUser from "../../hooks/useUser";
 import scrollbarStyle from "../../styles/scroll_bar";
+import Helmet from "react-helmet";
 
 export default function ChatList() {
   const [chatRoomList, setChatRoomList] = useState([]);
@@ -69,6 +70,9 @@ export default function ChatList() {
   }, [userLoading, chatRoomList, user, roomPk]);
   return (
     <ProtectedPage>
+      <Helmet>
+        <title>{`채팅하기 - BANGSAM`}</title>
+      </Helmet>
       <Container
         overflowY={{ sm: "scroll", md: "visible" }}
         h={"80vh"}
