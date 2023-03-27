@@ -23,11 +23,11 @@ const RecentList = () => {
   const { error, data } = useQuery(["recently_views"], getHouseLists);
 
   if (error) {
-    return <div>에러가 발생했습니다.</div>;
+    return <SlideWrapper>에러가 발생했습니다.</SlideWrapper>;
   }
 
   if (!data) {
-    return <div>로딩 중입니다.</div>;
+    return <SlideWrapper>로딩 중입니다.</SlideWrapper>;
   }
 
   const settings = {
@@ -62,14 +62,7 @@ const RecentList = () => {
       <Slider {...settings}>
         {data &&
           data.map((item, index) => (
-            <Card
-              key={index}
-              mr="10px"
-              h="60%"
-              w="60%"
-              boxShadow="md"
-              _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}
-            >
+            <Card key={index} mr="10px" h="60%" w="60%">
               <Link to={`/houseList/house/${item.recently_views.id}`}>
                 <CardBody
                   display={"flex"}

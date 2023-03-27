@@ -1,55 +1,37 @@
-import { Flex, Text, Card, Box, Grid } from "@chakra-ui/react";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { landing } from "../../services/landing";
 
-const HouseImg = styled.img`
-  position: relative;
-  height: 600px;
-  width: 100%;
+const IconBtn = styled.div`
   cursor: pointer;
-  overflow: hidden;
-  transition: transform 0.5s ease-in-out;
+  display: flex;
 `;
 
-const SlideWrapper = styled.div`
-  width: 100%;
-  overflow: hidden;
-  margin-left: 3rem;
+const IconName = styled.p`
+  font-weight: 600;
+  margin-left: 5px;
 `;
 
-const IconBtns = ({ src, children }) => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    arrows: false,
-    speed: 500,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    slidesToShow: 1,
+const IconBtns = ({ icon, children }) => {
+  const navigate = useNavigate();
+
+  const onHosuseList = () => {
+    sessionStorage.setItem("roomKind", roomQuery);
+    navigate(`/houseList`);
   };
+  const [roomQuery, setRoomQuery] = useState(children);
+
+  const sessionStorage = window.sessionStorage;
+
+  useEffect(() => {
+    setRoomQuery(children);
+  }, [children]);
 
   return (
-    <SlideWrapper>
-      <Slider {...settings}>
-        {landing &&
-          landing?.map((item, idx) => (
-            <Box
-              key={idx}
-              maxW="1300px"
-              h="auto"
-              m="10px"
-              overflow={"hidden"}
-              mr="20px"
-            >
-              <HouseImg src={item.img} />
-            </Box>
-          ))}
-      </Slider>
-    </SlideWrapper>
+    <IconBtn onClick={onHosuseList}>
+      {icon}
+      <IconName>{children}</IconName>
+    </IconBtn>
   );
 };
 

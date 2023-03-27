@@ -17,6 +17,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { Link } from "react-router-dom";
 import { getSaleContents } from "../../utils/getSaleContents";
+import { PrevArrow } from "../../components/Arrows/PrevArrow";
+import { NextArrow } from "../../components/Arrows/NextArrows";
 
 const HouseImg = styled.img`
   position: relative;
@@ -33,47 +35,6 @@ const SlideWrapper = styled.div`
   overflow: hidden;
 `;
 
-const PrevArrow = (props) => {
-  const { className, onClick } = props;
-  return (
-    <div
-      className={className}
-      onClick={onClick}
-      style={{
-        ...props.style,
-        display: "block",
-        position: "absolute",
-        border: "none",
-        background: "transparent",
-        color: "transparent",
-        top: "40%",
-        zIndex: 1,
-        left: "7rem",
-      }}
-    />
-  );
-};
-
-const NextArrow = (props) => {
-  const { className, onClick } = props;
-  return (
-    <div
-      className={className}
-      onClick={onClick}
-      style={{
-        ...props.style,
-        display: "block",
-        position: "absolute",
-        border: "none",
-        background: "transparent",
-        color: "transparent",
-        top: "40%",
-        left: "54rem",
-        zIndex: 1,
-      }}
-    />
-  );
-};
 function TopViewList() {
   const { isLoading, data } = useQuery(["TopViewHouse"], getTopViewHouse);
   const settings = {
@@ -91,18 +52,11 @@ function TopViewList() {
     <SlideWrapper>
       <Slider {...settings}>
         {data?.map((item, index) => (
-          <Card
-            key={index}
-            mr="10px"
-            h="60%"
-            w="60%"
-            boxShadow="md"
-            _hover={{ backgroundColor: "rgb(140,140,140,0.1)" }}
-          >
+          <Card key={index} w="80%">
             <Link to={`/houseList/house/${item.id}`}>
               <CardBody
                 display={"flex"}
-                alignItems="center"
+                alignItems={"center"}
                 justifyContent={"center"}
                 cursor="pointer"
               >
@@ -119,19 +73,20 @@ function TopViewList() {
                       aspectRatio: "1 / 1",
                     }}
                   />
-                  <Heading
-                    fontSize={"x-large"}
+                  <Text
                     color="blackAlpha.800"
                     overflow={"hidden"}
+                    fontSize={"xl"}
+                    fontWeight={"bold"}
                   >
                     {item.title}
-                  </Heading>
+                  </Text>
                   <Flex fontSize={"md"} fontWeight="600">
                     <Text mr="1rem">{SellKindsToFront[item?.sell_kind]}</Text>
                     <Text>{RoomKindsToFront[item?.room_kind]}</Text>
                   </Flex>
                   <Flex>
-                    <Text fontSize={"md"} color={"#ff404c"} mb="1rem">
+                    <Text fontSize={"md"} color={"#ff404c"}>
                       {`${getSaleContents(
                         item.sell_kind,
                         item.deposit,
