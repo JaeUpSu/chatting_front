@@ -16,6 +16,8 @@ import {
   HStack,
   Flex,
   useToast,
+  Grid,
+  Divider,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import {
@@ -98,6 +100,7 @@ export default function SignUp() {
   });
   const onSubmit = (data) => {
     if (avatar) {
+      data.avatar = "";
       validateCheckMutation.mutate(data);
     } else {
       signUpMutation.mutate(data);
@@ -112,29 +115,19 @@ export default function SignUp() {
     reader.readAsDataURL(file);
   };
   return (
-    <Container display={"flex"} justifyContent={"center"}>
+    <Grid gridTemplateColumns={"1fr 0.01fr 1fr"} mt={"10"}>
       <VStack
-        as={"form"}
-        onSubmit={handleSubmit(onSubmit)}
-        spacing={4}
-        alignItems={"flex-start"}
-        w={{
-          sm: "60vw",
-          md: "45vw",
-          lg: "40vw",
-          xl: "35vw",
-        }}
+        alignItems={"center"}
+        spacing="5"
+        mb={"2"}
+        w="100%"
+        justifyContent="center"
       >
-        <VStack alignItems={"center"} spacing="5" mb={"2"} w="100%">
-          <Avatar size={"xl"} src={avatar} border={"1px solid gray"} />
+        <VStack w="50%" spacing={20} justifyContent="center">
+          <Avatar boxSize={"2xs"} src={avatar} />
           <FormControl w="100%">
-            <HStack>
-              <FormLabel
-                color="blackAlpha.700"
-                fontWeight="semibold"
-                w="40%"
-                m="0px"
-              >
+            <VStack alignItems={"center"}>
+              <FormLabel color="blackAlpha.700" fontWeight="semibold" m="0px">
                 사진 업로드
               </FormLabel>
               <Input
@@ -144,123 +137,140 @@ export default function SignUp() {
                 {...register("avatar")}
                 onChange={handleAvatarChange}
               />
-            </HStack>
+            </VStack>
           </FormControl>
         </VStack>
-        <FormControl isRequired>
-          <FormLabel color="blackAlpha.700" fontWeight="semibold">
-            ID
-          </FormLabel>
-          <Flex align="center">
-            <Input {...register("username", { required: true })} />
-            {/* <Button ml="3" colorScheme="red">
-              중복확인
-            </Button> */}
-          </Flex>
-          {errors.username && (
-            <Text fontSize="xs" color="red.500">
-              아이디를 입력해주세요.
-            </Text>
-          )}
-        </FormControl>
-        <FormControl isRequired>
-          <FormLabel color="blackAlpha.700" fontWeight="semibold">
-            비밀번호
-          </FormLabel>
-          <Flex align="center">
-            <Input
-              type="password"
-              {...register("password", { required: true })}
-            />
-            {/* <Button ml="3" colorScheme="red">
-              중복확인
-            </Button> */}
-          </Flex>
-          {errors.password && (
-            <Text fontSize="xs" color="red.500">
-              패스워드를 확인해주세요.
-            </Text>
-          )}
-        </FormControl>
-
-        <FormControl isRequired>
-          <FormLabel color="blackAlpha.700" fontWeight="semibold">
-            이름
-          </FormLabel>
-          <Input type="text" {...register("name", { required: true })} />
-          {errors.name && (
-            <Text fontSize="xs" color="red.500">
-              이름을 입력해주세요.
-            </Text>
-          )}
-        </FormControl>
-
-        <FormControl isRequired>
-          <FormLabel color="blackAlpha.700" fontWeight="semibold">
-            전화번호
-          </FormLabel>
-          <Input
-            type={"number"}
-            {...register("phone_number", { required: true })}
-          />
-          {errors.phone_number && (
-            <Text fontSize="xs" color="red.500">
-              숫자만 입력해주세요.
-            </Text>
-          )}
-        </FormControl>
-
-        <FormControl id="email" isRequired>
-          <FormLabel fontWeight="semibold">이메일주소</FormLabel>
-          <Input
-            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
-          />
-          {errors.email && (
-            <Text fontSize="xs" color="red.500">
-              이메일주소를 입력해주세요.
-            </Text>
-          )}
-        </FormControl>
-
-        <FormControl isRequired>
-          <HStack alignItems={"flex-start"}>
-            <FormLabel color="blackAlpha.700" fontWeight="semibold">
-              성별
-            </FormLabel>
-            <RadioGroup>
-              <Radio {...register("gender")} mr={5} value="male">
-                남
-              </Radio>
-              <Radio {...register("gender")} value="female">
-                여
-              </Radio>
-            </RadioGroup>
-          </HStack>
-          {errors.gender && (
-            <Text fontSize="xs" color="red.500">
-              Please select your gender.
-            </Text>
-          )}
-        </FormControl>
-        <Checkbox {...register("isHost")} mr={"10"}>
-          공인중개사
-        </Checkbox>
-
-        <Button
-          isLoading={
-            uploadURLMutation.isLoading ||
-            uploadImageMutation.isLoading ||
-            validateCheckMutation.isLoading ||
-            signUpMutation.isLoading
-          }
-          backgroundColor="#ff404c"
-          color="white"
-          type="submit"
-          width={"100%"}
-        >
-          가입하기
-        </Button>
       </VStack>
-    </Container>
+      <Box borderLeft={"1px solid gray"} />
+      <VStack
+        as={"form"}
+        onSubmit={handleSubmit(onSubmit)}
+        spacing={4}
+        alignItems={"center"}
+        // border="1px solid blue"
+        justifyContent="center"
+        w={"100%"}
+      >
+        <VStack w={"60%"}>
+          <FormControl isRequired>
+            <FormLabel color="blackAlpha.700" fontWeight="semibold">
+              ID
+            </FormLabel>
+            <Flex align="center">
+              <Input {...register("username", { required: true })} />
+              {/* <Button ml="3" colorScheme="red">
+              중복확인
+            </Button> */}
+            </Flex>
+            {errors.username && (
+              <Text fontSize="xs" color="red.500">
+                아이디를 입력해주세요.
+              </Text>
+            )}
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel color="blackAlpha.700" fontWeight="semibold">
+              비밀번호
+            </FormLabel>
+            <Flex align="center">
+              <Input
+                type="password"
+                {...register("password", { required: true })}
+              />
+              {/* <Button ml="3" colorScheme="red">
+              중복확인
+            </Button> */}
+            </Flex>
+            {errors.password && (
+              <Text fontSize="xs" color="red.500">
+                패스워드를 확인해주세요.
+              </Text>
+            )}
+          </FormControl>
+
+          <FormControl isRequired>
+            <FormLabel color="blackAlpha.700" fontWeight="semibold">
+              이름
+            </FormLabel>
+            <Input type="text" {...register("name", { required: true })} />
+            {errors.name && (
+              <Text fontSize="xs" color="red.500">
+                이름을 입력해주세요.
+              </Text>
+            )}
+          </FormControl>
+
+          <FormControl isRequired>
+            <FormLabel color="blackAlpha.700" fontWeight="semibold">
+              전화번호
+            </FormLabel>
+            <Input
+              type={"number"}
+              {...register("phone_number", { required: true })}
+            />
+            {errors.phone_number && (
+              <Text fontSize="xs" color="red.500">
+                숫자만 입력해주세요.
+              </Text>
+            )}
+          </FormControl>
+
+          <FormControl id="email" isRequired>
+            <FormLabel fontWeight="semibold">이메일주소</FormLabel>
+            <Input
+              {...register("email", {
+                required: true,
+                pattern: /^\S+@\S+$/i,
+              })}
+            />
+            {errors.email && (
+              <Text fontSize="xs" color="red.500">
+                이메일주소를 입력해주세요.
+              </Text>
+            )}
+          </FormControl>
+
+          <FormControl isRequired>
+            <HStack alignItems={"flex-start"}>
+              <FormLabel color="blackAlpha.700" fontWeight="semibold">
+                성별
+              </FormLabel>
+              <RadioGroup>
+                <Radio {...register("gender")} mr={5} value="male">
+                  남
+                </Radio>
+                <Radio {...register("gender")} value="female">
+                  여
+                </Radio>
+              </RadioGroup>
+            </HStack>
+            {errors.gender && (
+              <Text fontSize="xs" color="red.500">
+                Please select your gender.
+              </Text>
+            )}
+          </FormControl>
+          <Checkbox {...register("isHost")} mr={"10"}>
+            공인중개사
+          </Checkbox>
+
+          <Button
+            isLoading={
+              uploadURLMutation.isLoading ||
+              uploadImageMutation.isLoading ||
+              validateCheckMutation.isLoading ||
+              signUpMutation.isLoading
+            }
+            backgroundColor="#ff404c"
+            colorScheme="red"
+            color="white"
+            type="submit"
+            width={"100%"}
+          >
+            가입하기
+          </Button>
+        </VStack>
+      </VStack>
+    </Grid>
   );
 }

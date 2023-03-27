@@ -11,6 +11,7 @@ import {
 import ProtectedPage from "../../components/auth/ProtectedPage";
 import OnlyMePage from "../../components/auth/OnlyMePage";
 import useUser from "../../hooks/useUser";
+import { Helmet } from "react-helmet";
 
 function Profile() {
   const { pathname } = useLocation();
@@ -29,6 +30,9 @@ function Profile() {
 
   return (
     <OnlyMePage>
+      <Helmet>
+        <title>마이페이지</title>
+      </Helmet>
       <Tabs
         m={"10%"}
         isLazy

@@ -49,21 +49,6 @@ function HouseCard({
 
   const onLike = (event) => {
     event.stopPropagation();
-    if (isLike) {
-      toast({
-        title: "좋아요 -1",
-        status: "warning",
-        duration: 1500,
-        isClosable: true,
-      });
-    } else {
-      toast({
-        title: "좋아요 +1",
-        status: "success",
-        duration: 1500,
-        isClosable: true,
-      });
-    }
     setIsLike(!isLike);
     if (!userLoading && isLoggedIn && id > 0) {
       likeMutation.mutate(id);
@@ -110,7 +95,7 @@ function HouseCard({
                 float="right"
                 mt="4"
                 mr="4"
-                color={isLike ? "red" : "rgb(205,205,205,0.6)"}
+                color={isLike ? "red" : "rgb(55,74,97,0.7)"}
                 className={
                   isLike
                     ? styles.heart_animation

@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { getChatRoomList } from "../../services/api";
 import ListChat from "../../components/List/ListChat";
 import useUser from "../../hooks/useUser";
+import scrollbarStyle from "../../styles/scroll_bar";
 
 export default function ChatList() {
   const [chatRoomList, setChatRoomList] = useState([]);
@@ -72,6 +73,7 @@ export default function ChatList() {
         overflowY={{ sm: "scroll", md: "visible" }}
         h={"80vh"}
         maxW="container.xl"
+        sx={scrollbarStyle}
       >
         <Grid templateColumns={{ md: "2fr 3fr", lg: "1fr 1fr" }} mt={"14"}>
           <Container maxW="container.lg" overflowY="scroll" maxHeight="70vh">

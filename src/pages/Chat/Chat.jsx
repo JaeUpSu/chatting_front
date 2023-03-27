@@ -25,6 +25,8 @@ import ChatMessage from "../../components/Card/ChatMessage";
 import IconBtns from "../Home/IconBtns";
 import { FaArrowLeft } from "react-icons/fa";
 import ProtectedPage from "../../components/auth/ProtectedPage";
+import Loading from "../../components/Loading/Loading";
+import { Helmet } from "react-helmet";
 const ChatRoom = () => {
   const { register, handleSubmit, watch, setValue } = useForm();
   const [messages, setMessages] = useState([]);
@@ -110,7 +112,6 @@ const ChatRoom = () => {
   });
 
   useEffect(() => {
-    console.log(1);
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
@@ -129,6 +130,9 @@ const ChatRoom = () => {
   if (!isLoading) {
     return (
       <ProtectedPage>
+        <Helmet>
+          <title>BangSam 채팅</title>
+        </Helmet>
         <VStack
           as={"form"}
           w="100%"
@@ -190,21 +194,21 @@ const ChatRoom = () => {
                 onClick={handleClick}
                 {...register("text", { required: true })}
                 focusBorderColor="gray.300"
-                isDisabled={!serverConnect}
-                placeholder={
-                  serverConnect
-                    ? "채팅을 입력하세요."
-                    : "서버 상태를 확인하세요."
-                }
+                // isDisabled={!serverConnect}
+                placeholder={"채팅을 입력하세요."}
               />
 
-              <Button type="submit" isDisabled={!serverConnect}>
-                Send
-              </Button>
+              <Button type="submit">Send</Button>
             </Grid>
           </VStack>
         </VStack>
       </ProtectedPage>
+    );
+  } else {
+    return (
+      <Box>
+        <Loading />
+      </Box>
     );
   }
 };
