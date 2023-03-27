@@ -21,12 +21,7 @@ import { getOptionHouses } from "../../services/api";
 import { getInitOrderBy } from "../../services/local";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
-import {
-  throttle,
-  throttleByAnimtaionFrame,
-  throttleTwo,
-} from "../../utils/throttle";
-
+import { throttle } from "../../utils/throttle";
 import { getBackOptions } from "../../utils/getBackOptions";
 import { getBackOrderBy } from "../../utils/getBackOrderBy";
 
@@ -36,6 +31,7 @@ import HouseOptMenu from "../../components/Menu/HouseOptMenu";
 
 import LoadingHouseCard from "../../components/Loading/LoadingHouseCard";
 import scrollbarStyle from "../../styles/scroll_bar";
+import { Helmet } from "react-helmet";
 
 const TopBtn = styled.div`
   position: fixed;
@@ -131,7 +127,8 @@ function HouseList() {
       }
     };
 
-    const throttleScrollHandler = throttleTwo(handleScroll);
+    const throttleScrollHandler = throttle(handleScroll);
+
 
     scrollRef.current.addEventListener("scroll", throttleScrollHandler);
     scrollRef.current.addEventListener("beforeunload", () => {
@@ -186,6 +183,9 @@ function HouseList() {
   return (
     <>
       <VStack h={"100vh"} pb="10vh">
+        <Helmet>
+          <title>BangSam</title>
+        </Helmet>
         <HStack spacing={"5"} w="100vw" pl={"5%"} pr={"5%"} pb={5} pt={2}>
           <HStack spacing={"10"}>
             <AddressMenu onUpdate={setAddress} />

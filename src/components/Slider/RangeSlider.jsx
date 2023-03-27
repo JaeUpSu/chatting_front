@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { options } from "../../services/data";
 import { getPriceRange } from "../../utils/getPriceRange";
 
@@ -12,6 +12,8 @@ import {
   Box,
   Highlight,
   Flex,
+  HStack,
+  Button,
 } from "@chakra-ui/react";
 import { getPrices } from "../../utils/getPrices";
 
@@ -22,11 +24,17 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
       : [0, 30]
   );
   const [range, setRange] = useState("");
+  const [isFetch, setFetch] = useState(false);
 
   const labels = options[names.eng].labels;
 
   const handleChange = (newValues) => {
     setValues(newValues);
+  };
+
+  const handleFetch = () => {
+    console.log("fetch", values);
+    setFetch(!isFetch);
   };
 
   useEffect(() => {
@@ -46,37 +54,42 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
       });
       return newPrices;
     });
-  }, [range]);
+  }, [isFetch]);
 
   return (
     <Box mx="2vw" my="2vh">
-      <Text fontWeight="bold" fontSize="17px">
-        {names.kor}
-        <Highlight
-          query={range}
-          styles={
-            names.kor.length < 3
-              ? {
-                  ml: "36px",
-                  px: "3",
-                  py: "2",
-                  rounded: "full",
-                  color: "gray",
-                  fontSize: "15px",
-                }
-              : {
-                  ml: "20px",
-                  px: "3",
-                  py: "2",
-                  rounded: "full",
-                  color: "gray",
-                  fontSize: "15px",
-                }
-          }
-        >
-          {range}
-        </Highlight>
-      </Text>
+      <HStack justifyContent="space-between" w="100%">
+        <Text fontWeight="bold" fontSize="17px">
+          {names.kor}
+          <Highlight
+            query={range}
+            styles={
+              names.kor.length < 3
+                ? {
+                    ml: "36px",
+                    px: "3",
+                    py: "2",
+                    rounded: "full",
+                    color: "gray",
+                    fontSize: "15px",
+                  }
+                : {
+                    ml: "20px",
+                    px: "3",
+                    py: "2",
+                    rounded: "full",
+                    color: "gray",
+                    fontSize: "15px",
+                  }
+            }
+          >
+            {range}
+          </Highlight>
+        </Text>
+        <Button colorScheme="red" size="sm" onClick={handleFetch}>
+          Search
+        </Button>
+      </HStack>
       <RangeSlider
         mt="20px"
         mb="20px"

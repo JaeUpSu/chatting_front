@@ -22,7 +22,6 @@ const useInfiniteScroll = (fetcher, { size, onSuccess, onError }) => {
       setFetching(false);
       onSuccess?.();
     } catch (err) {
-      console.log("execute - err", err);
       onError?.(err);
     }
   }, [page]);

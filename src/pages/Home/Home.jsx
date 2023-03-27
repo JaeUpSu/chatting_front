@@ -7,6 +7,7 @@ import LikedList from "./LikedList";
 import useUser from "../../hooks/useUser";
 import TopViewList from "./TopViewList";
 import scrollbarStyle from "../../styles/scroll_bar";
+import { Helmet } from "react-helmet";
 
 const HomeContainer = styled.div`
   display: flex;

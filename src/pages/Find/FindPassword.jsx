@@ -21,8 +21,11 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { findPassword, newPassword } from "../../services/api";
 import { type } from "@testing-library/user-event/dist/type";
-import { FaEye, FaLock } from "react-icons/fa";
+import { FaEye, FaIdCard, FaLock, FaPhone, FaUserAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { GiHumanCannonball } from "react-icons/gi";
+import { BsFillPersonVcardFill } from "react-icons/bs";
+import { MdEmail } from "react-icons/md";
 
 export default function FindPassword() {
   const { register, handleSubmit, reset } = useForm();
@@ -101,59 +104,81 @@ export default function FindPassword() {
     mutation.mutate(data);
   };
   return (
-    <Container as="form" onSubmit={handleSubmit(onSubmit)}>
-      <VStack spacing={8}>
-        <Heading as="h2" size="lg" mb={4}>
+    <Container
+      as="form"
+      onSubmit={handleSubmit(onSubmit)}
+      overflowY="scroll"
+      h={"80vh"}
+    >
+      <VStack spacing={6}>
+        <Heading size="lg" mb={0}>
           비밀번호 찾기
         </Heading>
 
-        <FormControl id="id">
-          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
-            ID
-          </FormLabel>
+        <InputGroup>
+          <InputLeftAddon
+            children={
+              <Box>
+                <BsFillPersonVcardFill />
+              </Box>
+            }
+          />
           <Input
             isDisabled={password}
             type="text"
             {...register("id", { required: true })}
             placeholder="아이디을 입력하세요"
           />
-        </FormControl>
+        </InputGroup>
 
-        <FormControl id="name">
-          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
-            이름
-          </FormLabel>
+        <InputGroup>
+          <InputLeftAddon
+            children={
+              <Box>
+                <FaUserAlt />
+              </Box>
+            }
+          />
           <Input
             isDisabled={password}
             type="text"
             {...register("name", { required: true })}
             placeholder="이름을 입력하세요"
           />
-        </FormControl>
+        </InputGroup>
 
-        <FormControl id="email">
-          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
-            이메일
-          </FormLabel>
+        <InputGroup>
+          <InputLeftAddon
+            children={
+              <Box>
+                <MdEmail />
+              </Box>
+            }
+          />
+
           <Input
             isDisabled={password}
             type="email"
             {...register("email", { required: true })}
             placeholder="이메일을 입력하세요"
           />
-        </FormControl>
+        </InputGroup>
+        <InputGroup>
+          <InputLeftAddon
+            children={
+              <Box>
+                <FaPhone />
+              </Box>
+            }
+          />
 
-        <FormControl id="phone_number">
-          <FormLabel mb="4" fontWeight="semibold" color="blackAlpha.700">
-            전화번호
-          </FormLabel>
           <Input
             isDisabled={password}
             type="number"
             {...register("phone_number", { required: true })}
             placeholder="전화번호를 입력하세요"
           />
-        </FormControl>
+        </InputGroup>
         {!password ? (
           <VStack w={"100%"}>
             <Button
@@ -161,14 +186,22 @@ export default function FindPassword() {
               w={"100%"}
               backgroundColor="#ff404c"
               color="white"
+              colorScheme={"red"}
               isLoading={mutation.isLoading}
             >
               비밀번호 찾기
             </Button>
           </VStack>
         ) : (
-          <VStack spacing={"8"} w={"100%"}>
+          <VStack spacing={"6"} w={"100%"} alignItems="flex-start">
             <InputGroup>
+              <InputLeftAddon
+                children={
+                  <Box>
+                    <FaLock />
+                  </Box>
+                }
+              />
               <Input
                 {...register("password", { required: true })}
                 type={firstVisible ? "text" : "password"}
@@ -187,6 +220,13 @@ export default function FindPassword() {
               />
             </InputGroup>
             <InputGroup>
+              <InputLeftAddon
+                children={
+                  <Box>
+                    <FaLock />
+                  </Box>
+                }
+              />
               <Input
                 {...register("check_password", { required: true })}
                 type={secondVisible ? "text" : "password"}

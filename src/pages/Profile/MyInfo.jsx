@@ -142,6 +142,7 @@ export default function MyInfo() {
       justifyContent="center"
       h="70vh"
       as="form"
+      overflowY="scroll"
       onSubmit={handleSubmit(onSubmit)}
     >
       <Grid templateColumns={{ lg: "1fr 1fr", sm: "1fr" }} w={"100%"}>
