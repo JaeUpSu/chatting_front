@@ -17,63 +17,14 @@ import "slick-carousel/slick/slick-theme.css";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { Link } from "react-router-dom";
 import { getSaleContents } from "../../utils/getSaleContents";
-
-const HouseImg = styled.img`
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
-  width: 200px;
-  height: 200px;
-  transition: transform 0.5s ease-in-out;
-`;
+import { PrevArrow } from "./../../components/Arrows/PrevArrow";
+import { NextArrow } from "./../../components/Arrows/NextArrows";
 
 const SlideWrapper = styled.div`
   width: 1000px;
   margin: 0 auto;
   overflow: hidden;
 `;
-
-const PrevArrow = (props) => {
-  const { className, onClick } = props;
-  return (
-    <div
-      className={className}
-      onClick={onClick}
-      style={{
-        ...props.style,
-        display: "block",
-        position: "absolute",
-        border: "none",
-        background: "transparent",
-        color: "transparent",
-        top: "40%",
-        zIndex: 1,
-        left: "7rem",
-      }}
-    />
-  );
-};
-
-const NextArrow = (props) => {
-  const { className, onClick } = props;
-  return (
-    <div
-      className={className}
-      onClick={onClick}
-      style={{
-        ...props.style,
-        display: "block",
-        position: "absolute",
-        border: "none",
-        background: "transparent",
-        color: "transparent",
-        top: "40%",
-        left: "54rem",
-        zIndex: 1,
-      }}
-    />
-  );
-};
 
 const LikedList = () => {
   const { error, data } = useQuery(["house"], getWishLists);
