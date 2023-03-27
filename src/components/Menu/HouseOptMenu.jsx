@@ -55,17 +55,15 @@ function HouseOptMenu({ onUpdate }) {
     setActivePrices(getActivePrices(sellKind));
     onUpdate((opts) => {
       let newParams = {};
+      let newPrices = {};
       optionsMenu.forEach((item, idx) => {
         if (idx < 5) {
           newParams[item.eng] = selectedOpts[idx];
         } else {
-          newParams[item.eng] = prices[idx - 5].includes(",")
-            ? prices[idx - 5].split(",")
-            : [0, 30];
+          newPrices[item.eng] = opts[item.eng];
         }
       });
-
-      return { ...opts, ...newParams };
+      return { ...newPrices, ...newParams };
     });
   }, [selectedOpts]);
 

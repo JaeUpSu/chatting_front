@@ -21,7 +21,11 @@ import { getOptionHouses } from "../../services/api";
 import { getInitOrderBy } from "../../services/local";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
-import { throttle } from "../../utils/throttle";
+import {
+  throttle,
+  throttleByAnimtaionFrame,
+  throttleTwo,
+} from "../../utils/throttle";
 
 import { getBackOptions } from "../../utils/getBackOptions";
 import { getBackOrderBy } from "../../utils/getBackOrderBy";
@@ -75,8 +79,14 @@ function HouseList() {
   const [isSellKind, setIsSellKind] = useState(false);
   const [orderBy, setOrderBy] = useState(getInitOrderBy(isSellKind));
 
-  const { data, totalCounts, isFetching, setFetching, setBackParams } =
-    useInfiniteScroll(getOptionHouses, { size: 24 });
+  const {
+    hasNextPage,
+    data,
+    totalCounts,
+    isFetching,
+    setFetching,
+    setBackParams,
+  } = useInfiniteScroll(getOptionHouses, { size: 24 });
 
   // orderBy rearrange
   const onOrderBy = (e) => {
@@ -115,13 +125,13 @@ function HouseList() {
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
 
-      if (scrollTop + clientHeight >= scrollHeight - 1) {
+      if (scrollTop + clientHeight >= scrollHeight * 0.7) {
         setFetching(true);
         setLoading(true);
       }
     };
 
-    const throttleScrollHandler = throttle(handleScroll);
+    const throttleScrollHandler = throttleTwo(handleScroll);
 
     scrollRef.current.addEventListener("scroll", throttleScrollHandler);
     scrollRef.current.addEventListener("beforeunload", () => {
@@ -132,7 +142,9 @@ function HouseList() {
 
   // loading set
   useEffect(() => {
-    setLoading(isFetching);
+    if (hasNextPage) {
+      setLoading(isFetching);
+    }
   }, [isFetching]);
 
   // orderBy => params
