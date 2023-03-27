@@ -34,13 +34,14 @@ import {
 import RoomKindSelectForm from "../../components/Form/RoomKindSelectForm";
 import SellKindSelectForm from "../../components/Form/SellKindSelectForm";
 import scrollbarStyle from "../../styles/scroll_bar";
+import Loading from "../../components/Loading/Loading";
 
 const HouseEdit = () => {
   const { id } = useParams();
   const toast = useToast();
   const navigate = useNavigate();
 
-  const house = useQuery(["house", id], getHouse, {
+  const { data, isLoading } = useQuery(["house", id], getHouse, {
     retry: false,
     refetchOnWindowFocus: false,
     onError: (error) =>
@@ -83,7 +84,7 @@ const HouseEdit = () => {
   // putHouse 실행 버튼
   const onSubmit = () => {
     // sell_kind 와 price match
-    if (!matchSellKindPrice(updatedData, house?.data)) {
+    if (!matchSellKindPrice(updatedData, data)) {
       alert(
         "\n매매를 선택하는 경우 매매가\n전세를 선택하는 경우 보증금\n월세를 선택하는 경우 월세/보증금\n\n필수로 적어주세요"
       );
@@ -92,7 +93,7 @@ const HouseEdit = () => {
         uploadURLMutation.mutate();
       }
     } else {
-      const processData = getMatchSellKindPrice(updatedData, house?.data);
+      const processData = getMatchSellKindPrice(updatedData, data);
       mutate({ id, processData });
     }
   };
@@ -115,13 +116,13 @@ const HouseEdit = () => {
 
   // updatedImage 개수만큼 mutate => getUploadUrl
   const uploadURLMutation = useMutation(getUploadURL, {
-    onSuccess: (data) => {
+    onSuccess: (_data) => {
       setUploadUrls((imgs) => {
         const newImgBack = [];
         imgs?.map((item) => {
           newImgBack.push(item);
         });
-        newImgBack.push(data.uploadURL);
+        newImgBack.push(_data.uploadURL);
         return newImgBack;
       });
     },
@@ -131,12 +132,12 @@ const HouseEdit = () => {
 
   // 초기화
   useEffect(() => {
-    if (house.data && initHouse) {
-      setSellKind(house.data?.sell_kind);
-      setUpdatedHouse(house.data);
+    if (data && initHouse) {
+      setSellKind(data?.sell_kind);
+      setUpdatedHouse(data);
       setInitHouse(false);
     }
-  }, [house]);
+  }, [{ data, isLoading }]);
 
   // isUpdatedImage 개수만큼 uploadUrls 에 uploadImage mutate
   useEffect(() => {
@@ -164,7 +165,7 @@ const HouseEdit = () => {
         imgs[item] = imageBackUrls[idx];
       });
       const processData = {
-        ...getMatchSellKindPrice(updatedData, house?.data),
+        ...getMatchSellKindPrice(updatedData, data),
         Image: imgs,
       };
       mutate({ id, processData });
@@ -172,122 +173,152 @@ const HouseEdit = () => {
   }, [imageBackUrls, updatedImage]);
 
   return (
-    <VStack h="90vh" overflowY="scroll" pb="10vh" sx={scrollbarStyle}>
-      <Center pt="2vh">
-        <VStack>
-          <ImageForm
-            setUpdatedHouse={setUpdatedHouse}
-            setUpdatedImage={setUpdatedImage}
-            setUpdated={setIsUpdatedImage}
-            values={updatedHouse?.Image}
-            name="images"
-            label="이미지"
-          />
-          <SingleForm
-            setUpdatedHouse={setUpdatedHouse}
-            setUpdatedData={setUpdatedData}
-            value={updatedHouse?.title}
-            name="title"
-            label="제목"
-          />
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-          <AddressSelectForm
-            setUpdatedHouse={setUpdatedHouse}
-            setUpdatedData={setUpdatedData}
-            savedGu={updatedHouse?.gu}
-            savedDong={updatedHouse?.dong}
-          />
-          <SingleForm
-            setUpdatedHouse={setUpdatedHouse}
-            value={updatedHouse?.address}
-            name="address"
-            label="상세주소"
-            setUpdatedData={setUpdatedData}
-          />
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
+    <>
+      {!isLoading ? (
+        <VStack h="90vh" overflowY="scroll" pb="10vh" sx={scrollbarStyle}>
+          <Center pt="2vh">
+            <VStack>
+              <ImageForm
+                setUpdatedHouse={setUpdatedHouse}
+                setUpdatedImage={setUpdatedImage}
+                setUpdated={setIsUpdatedImage}
+                values={updatedHouse?.Image}
+                name="images"
+                label="이미지"
+              />
+              <SingleForm
+                setUpdatedHouse={setUpdatedHouse}
+                setUpdatedData={setUpdatedData}
+                value={updatedHouse?.title}
+                name="title"
+                label="제목"
+              />
+              <Divider
+                borderWidth="1.2px"
+                my="5"
+                borderColor="blackAlpha.400"
+              />
+              <AddressSelectForm
+                setUpdatedHouse={setUpdatedHouse}
+                setUpdatedData={setUpdatedData}
+                savedGu={updatedHouse?.gu}
+                savedDong={updatedHouse?.dong}
+              />
+              <SingleForm
+                setUpdatedHouse={setUpdatedHouse}
+                value={updatedHouse?.address}
+                name="address"
+                label="상세주소"
+                setUpdatedData={setUpdatedData}
+              />
+              <Divider
+                borderWidth="1.2px"
+                my="5"
+                borderColor="blackAlpha.400"
+              />
 
-          <RoomKindSelectForm
-            setUpdatedHouse={setUpdatedHouse}
-            setUpdatedData={setUpdatedData}
-            roomKind={updatedHouse?.room_kind}
-          />
-          <TripleForm
-            setUpdatedHouse={setUpdatedHouse}
-            setUpdatedData={setUpdatedData}
-            values={[
-              updatedHouse?.room,
-              updatedHouse?.toilet,
-              updatedHouse?.pyeongsu,
-            ]}
-            names={["room", "toilet", "pyeongsu"]}
-            labeles={["방 개수", "화장실 개수", "평수"]}
-          />
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-          <SellKindSelectForm
-            setUpdatedHouse={setUpdatedHouse}
-            setUpdatedData={setUpdatedData}
-            setSellKind={setSellKind}
-            sellKind={updatedHouse?.sell_kind}
-          />
-          <PriceForm
-            setUpdatedHouse={setUpdatedHouse}
-            setUpdatedData={setUpdatedData}
-            sellKind={sellKind}
-            values={[
-              updatedHouse?.sale,
-              updatedHouse?.deposit,
-              updatedHouse?.monthly_rent,
-              updatedHouse?.maintenance_cost,
-            ]}
-            names={["sale", "deposit", "monthly_rent", "maintenance_cost"]}
-            labeles={["매매가", "보증금", "월세", "관리비"]}
-          />
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
+              <RoomKindSelectForm
+                setUpdatedHouse={setUpdatedHouse}
+                setUpdatedData={setUpdatedData}
+                roomKind={updatedHouse?.room_kind}
+              />
+              <TripleForm
+                setUpdatedHouse={setUpdatedHouse}
+                setUpdatedData={setUpdatedData}
+                values={[
+                  updatedHouse?.room,
+                  updatedHouse?.toilet,
+                  updatedHouse?.pyeongsu,
+                ]}
+                names={["room", "toilet", "pyeongsu"]}
+                labeles={["방 개수", "화장실 개수", "평수"]}
+              />
+              <Divider
+                borderWidth="1.2px"
+                my="5"
+                borderColor="blackAlpha.400"
+              />
+              <SellKindSelectForm
+                setUpdatedHouse={setUpdatedHouse}
+                setUpdatedData={setUpdatedData}
+                setSellKind={setSellKind}
+                sellKind={updatedHouse?.sell_kind}
+              />
+              <PriceForm
+                setUpdatedHouse={setUpdatedHouse}
+                setUpdatedData={setUpdatedData}
+                sellKind={sellKind}
+                values={[
+                  updatedHouse?.sale,
+                  updatedHouse?.deposit,
+                  updatedHouse?.monthly_rent,
+                  updatedHouse?.maintenance_cost,
+                ]}
+                names={["sale", "deposit", "monthly_rent", "maintenance_cost"]}
+                labeles={["매매가", "보증금", "월세", "관리비"]}
+              />
+              <Divider
+                borderWidth="1.2px"
+                my="5"
+                borderColor="blackAlpha.400"
+              />
 
-          <CheckboxForm
-            setUpdatedHouse={setUpdatedHouse}
-            setUpdatedData={setUpdatedData}
-            values={updatedHouse?.option}
-            name="option"
-            label="추가 옵션"
-            api={getAdditionalOptions}
-          />
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
-          <CheckboxForm
-            setUpdatedHouse={setUpdatedHouse}
-            setUpdatedData={setUpdatedData}
-            values={updatedHouse?.Safetyoption}
-            name="Safetyoption"
-            label="안전 옵션"
-            api={getSafetyOptions}
-          />
+              <CheckboxForm
+                setUpdatedHouse={setUpdatedHouse}
+                setUpdatedData={setUpdatedData}
+                values={updatedHouse?.option}
+                name="option"
+                label="추가 옵션"
+                api={getAdditionalOptions}
+              />
+              <Divider
+                borderWidth="1.2px"
+                my="5"
+                borderColor="blackAlpha.400"
+              />
+              <CheckboxForm
+                setUpdatedHouse={setUpdatedHouse}
+                setUpdatedData={setUpdatedData}
+                values={updatedHouse?.Safetyoption}
+                name="Safetyoption"
+                label="안전 옵션"
+                api={getSafetyOptions}
+              />
 
-          <Divider borderWidth="1.2px" my="5" borderColor="blackAlpha.400" />
+              <Divider
+                borderWidth="1.2px"
+                my="5"
+                borderColor="blackAlpha.400"
+              />
 
-          <SingleTextAreaForm
-            setUpdatedHouse={setUpdatedHouse}
-            value={updatedHouse?.description}
-            name="description"
-            label="설명"
-            setUpdatedData={setUpdatedData}
-          />
-          <Flex justifyContent="flex-end">
-            <Button
-              my="5"
-              isLoading={mutate.isLoading}
-              colorScheme="green"
-              size="lg"
-              position={"fixed"}
-              bottom={5}
-              right={20}
-              onClick={onSubmit}
-            >
-              업데이트
-            </Button>
-          </Flex>
+              <SingleTextAreaForm
+                setUpdatedHouse={setUpdatedHouse}
+                value={updatedHouse?.description}
+                name="description"
+                label="설명"
+                setUpdatedData={setUpdatedData}
+              />
+              <Flex justifyContent="flex-end">
+                <Button
+                  my="5"
+                  isLoading={mutate.isLoading}
+                  colorScheme="green"
+                  size="lg"
+                  position={"fixed"}
+                  bottom={5}
+                  right={20}
+                  onClick={onSubmit}
+                >
+                  업데이트
+                </Button>
+              </Flex>
+            </VStack>
+          </Center>
         </VStack>
-      </Center>
-    </VStack>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 };
 
