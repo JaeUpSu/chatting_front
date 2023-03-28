@@ -7,8 +7,8 @@ const SocialLogin = () => {
     client_id: "69ba16ba77556c01d4a4ea9911fc06ad",
     redirect_uri:
       process.env.NODE_ENV === "development"
-        ? "http://127.0.0.1:3000/social/kakao"
-        : "https://bangsam.site/social/kakao",
+        ? "https://bangsam.site/social/kakao"
+        : "http://127.0.0.1:3000/social/kakao",
     response_type: "code",
   };
   const paramsKakao = new URLSearchParams(kakaoParams).toString();
@@ -18,8 +18,8 @@ const SocialLogin = () => {
 
     redirect_uri:
       process.env.NODE_ENV === "development"
-        ? "http://127.0.0.1:3000/social/naver"
-        : "https://bangsam.site/social/naver",
+        ? "https://bangsam.site/social/naver"
+        : "http://127.0.0.1:3000/social/naver",
     state: "OzCoding",
   };
   // https://nid.naver.com/oauth2.0/authorize
