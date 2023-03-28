@@ -23,6 +23,7 @@ export default function Home() {
       flexDir="column"
       mt="10"
       overflowY="scroll"
+      overflowX="hidden"
       h="80vh"
       w="100%"
       sx={scrollbarStyle}
@@ -39,7 +40,13 @@ export default function Home() {
       >
         BangSam
       </Heading>
-      <Flex mt="3rem" justify={"space-around"} w="70vw" maxW="850px">
+      <Flex
+        mt="3rem"
+        justify={"space-around"}
+        w="70vw"
+        maxW="850px"
+        minW="330px"
+      >
         <IconBtns icon={<MdApartment size={40} />}>아파트</IconBtns>
         <IconBtns icon={<BsFillBuildingsFill size={40} />}>빌라</IconBtns>
         <IconBtns icon={<HiOfficeBuilding size={40} />}>오피스텔</IconBtns>
