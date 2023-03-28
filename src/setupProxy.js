@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.use(
     "/api/v1",
     createProxyMiddleware({
-      target: "https://bangsam.onrender.com",
+      target: "https://bangsam.site",
       // target: "http://127.0.0.1:8000",
       changeOrigin: true,
       secure: false,

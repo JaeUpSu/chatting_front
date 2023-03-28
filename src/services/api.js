@@ -5,9 +5,9 @@ import Cookie from "js-cookie";
 const instance = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
-      ? // ? "http://127.0.0.1:8000/api/v1"
-        "/api/v1"
-      : "https://backend.bangsam.site/api/v1",
+      ? "http://127.0.0.1:8000/api/v1"
+      : // "/api/v1"
+        "https://backend.bangsam.site/api/v1",
   withCredentials: true,
 });
 
@@ -295,15 +295,9 @@ export const getGuList = () =>
 // 모든 동 가져오기
 export const getDongList = async ({ queryKey }) => {
   const [_, id] = queryKey;
-  if (id > 0) {
-    return await instance
-      .get(`houses/${id}/donglist`)
-      .then((response) => response.data);
-  } else {
-    return await instance
-      .get(`houses/1/donglist`)
-      .then((response) => response.data);
-  }
+  return await instance
+    .get(`houses/${id}/donglist`)
+    .then((response) => response.data);
 };
 
 export const getWishLists = () =>
