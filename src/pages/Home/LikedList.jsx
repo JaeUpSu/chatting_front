@@ -28,13 +28,13 @@ const SlideWrapper = styled.div`
 
 const LikedList = () => {
   const { error, data } = useQuery(["house"], getWishLists);
-  if (error) {
-    return <SlideWrapper>에러가 발생했습니다.</SlideWrapper>;
-  }
+  // if (error) {
+  //   return <SlideWrapper>에러가 발생했습니다.</SlideWrapper>;
+  // }
 
-  if (!data) {
-    return <SlideWrapper>로딩 중입니다.</SlideWrapper>;
-  }
+  // if (!data) {
+  //   return <SlideWrapper>Loading....</SlideWrapper>;
+  // }
 
   const settings = {
     dots: false,
