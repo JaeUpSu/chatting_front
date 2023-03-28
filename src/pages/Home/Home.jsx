@@ -1,5 +1,6 @@
 import { Flex, Box, Text, Center, VStack, Heading } from "@chakra-ui/react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import TopViewList from "./TopViewList";
 import scrollbarStyle from "../../styles/scroll_bar";
 import IconBtns from "./IconBtns";
@@ -11,12 +12,24 @@ import { HiOfficeBuilding } from "react-icons/hi";
 import { BsFillBuildingsFill, BsFillHousesFill } from "react-icons/bs";
 
 export default function Home() {
+  const navigate = useNavigate();
+
+  const onHouseList = () => {
+    navigate(`\houselist`);
+  };
+
   return (
     <Center flexDir="column" mt="10">
       <Helmet>
         <title>BANGSAM</title>
       </Helmet>{" "}
-      <Heading fontSize="7xl" color={"#ff404c"} mb="10">
+      <Heading
+        fontSize="7xl"
+        color={"#ff404c"}
+        mb="10"
+        onClick={onHouseList}
+        cursor="pointer"
+      >
         BangSam
       </Heading>
       <Flex mt="2rem" justify={"space-around"} w="70vw" maxW="850px">
