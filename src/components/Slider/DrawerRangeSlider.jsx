@@ -33,7 +33,6 @@ function DrawerOptionRangeSlider({ idx, names, onUpdate }) {
   };
 
   const handleFetch = () => {
-    console.log("fetch", values);
     setFetch(!isFetch);
   };
 

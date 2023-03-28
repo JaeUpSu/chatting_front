@@ -57,7 +57,6 @@ const ImageForm = ({
     setUpdatedImage(data);
 
     if (isChange) {
-      console.log("checking");
       setIsModify(false);
     }
   };

@@ -264,7 +264,6 @@ export const postHouse = (house) => {
 };
 // 해당 집 수정하기
 export const putHouse = (house) => {
-  console.log(house);
   return instance
     .put(`houses/${house.id}`, house.processData, {
       headers: {

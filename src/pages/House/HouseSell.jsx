@@ -117,7 +117,6 @@ const HouseSell = () => {
   const navigate = useNavigate();
   const { mutate } = useMutation(postHouse, {
     onMutate: (d) => {
-      console.log("post", d);
       toast({
         title: `[${d.title}]    등록중...`,
         status: "info",
@@ -127,11 +126,8 @@ const HouseSell = () => {
     },
     onSuccess: ({ id }) => {
       navigate(`../houseList/house/${id}`);
-      console.log("created house!");
     },
-    onError: () => {
-      console.log("failed to create house!");
-    },
+    onError: () => {},
   });
 
   const uploadImageMutation = useMutation(uploadImage, {

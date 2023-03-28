@@ -79,9 +79,6 @@ export const getMatchSellKindPrice = (nextData) => {
     }
   }
 
-  console.log("prev", nextData);
-  console.log("next", processedData);
-
   return processedData;
 };
 
