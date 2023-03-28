@@ -12,7 +12,11 @@ const SocialLogin = () => {
   const naverParams = {
     response_type: "code",
     client_id: "1Vm0j0Ggt3_VZer8jmHA",
-    redirect_uri: "http://127.0.0.1:3000/social/naver",
+
+    redirect_uri:
+      process.env.NODE_ENV === "development"
+        ? "http://127.0.0.1:3000/social/naver"
+        : "https://bangsam.site/social/naver",
     state: "OzCoding",
   };
   // https://nid.naver.com/oauth2.0/authorize

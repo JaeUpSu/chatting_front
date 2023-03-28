@@ -15,7 +15,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   const onHouseList = () => {
-    navigate(`\houselist`);
+    navigate(`/houselist`);
   };
 
   return (
