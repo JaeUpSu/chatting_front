@@ -94,9 +94,9 @@ function HouseCard({
                 onClick={onLike}
                 float="right"
                 mt="4"
-                mr="2"
-                w="3vw"
-                h="3vh"
+                mr="4"
+                h="28px"
+                w="28px"
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
@@ -115,7 +115,7 @@ function HouseCard({
                       display: isLike ? "none" : "block",
                       fill: "rgba(0, 0, 0, 0.5)",
                       height: "28px",
-                      width: "28psssx",
+                      width: "28px",
                       stroke: "rgb(255,255,255,0.8)",
                       strokeWidth: 2,
                       overflow: "visible",

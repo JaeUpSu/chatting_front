@@ -181,8 +181,8 @@ function House() {
                         <Box
                           top="5"
                           left="6"
-                          w="3vw"
-                          h="3vh"
+                          h="28px"
+                          w="28px"
                           display="flex"
                           alignItems="center"
                           justifyContent="center"
