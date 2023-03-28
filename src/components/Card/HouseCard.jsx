@@ -94,15 +94,37 @@ function HouseCard({
                 onClick={onLike}
                 float="right"
                 mt="4"
-                mr="4"
-                color={isLike ? "red" : "rgb(55,74,97,0.7)"}
+                mr="2"
+                w="3vw"
+                h="3vh"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                color={isLike ? "red" : "transparent"}
                 className={
                   isLike
                     ? styles.heart_animation
                     : styles.reverse_heart_animation
                 }
               >
-                <FaHeart size={"25"} />
+                <Box pos="absolute">
+                  <svg
+                    viewBox="0 0 32 32"
+                    role="like"
+                    style={{
+                      display: isLike ? "none" : "block",
+                      fill: "rgba(0, 0, 0, 0.5)",
+                      height: "28px",
+                      width: "28psssx",
+                      stroke: "rgb(255,255,255,0.8)",
+                      strokeWidth: 2,
+                      overflow: "visible",
+                    }}
+                  >
+                    <path d="m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z"></path>
+                  </svg>
+                </Box>
+                {isLike ? <FaHeart size={"25"} /> : ""}
               </Box>
             ) : (
               ""
