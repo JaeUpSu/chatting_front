@@ -13,8 +13,7 @@ import {
   MdOutlineVilla,
   MdOutlineBedroomChild,
 } from "react-icons/md";
-import { HiBuildingOffice } from "react-icons/hi";
-import { TbCampfire } from "react-icons/tb";
+import { HiBuildingOffice } from "react-icons/hi2";
 import { FaBed } from "react-icons/fa";
 import { GiFamilyHouse } from "react-icons/gi";
 import { BsFillBuildingsFill, BsFillHousesFill } from "react-icons/bs";
