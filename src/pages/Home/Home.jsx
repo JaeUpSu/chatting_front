@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <Center
       flexDir="column"
-      mt="5"
+      mt="10"
       overflowY="scroll"
       h="80vh"
       w="100%"
@@ -33,13 +33,13 @@ export default function Home() {
       <Heading
         fontSize="7xl"
         color={"#ff404c"}
-        mb="10"
+        mb="5"
         onClick={onHouseList}
         cursor="pointer"
       >
         BangSam
       </Heading>
-      <Flex mt="0rem" justify={"space-around"} w="70vw" maxW="850px">
+      <Flex mt="3rem" justify={"space-around"} w="70vw" maxW="850px">
         <IconBtns icon={<MdApartment size={40} />}>아파트</IconBtns>
         <IconBtns icon={<BsFillBuildingsFill size={40} />}>빌라</IconBtns>
         <IconBtns icon={<HiOfficeBuilding size={40} />}>오피스텔</IconBtns>
