@@ -18,19 +18,11 @@ import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { Link } from "react-router-dom";
 import { getSaleContents } from "../../utils/getSaleContents";
 
-const HouseImg = styled.img`
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
-  width: 200px;
-  height: 200px;
-  transition: transform 0.5s ease-in-out;
-`;
-
 const SlideWrapper = styled.div`
   width: 1000px;
   margin: 0 auto;
   overflow: hidden;
+  // border: 2px solid yellow;
 `;
 
 function TopViewList() {
@@ -48,21 +40,15 @@ function TopViewList() {
     <SlideWrapper>
       <Slider {...settings}>
         {data?.map((item, index) => (
-          <Card key={index} w="80%">
+          <Card key={index} w="80%" boxShadow="white">
             <Link to={`/houseList/house/${item.id}`}>
               <CardBody
                 display={"flex"}
                 alignItems={"center"}
                 justifyContent={"center"}
                 cursor="pointer"
-                borderColor="2px solid black"
               >
-                <VStack
-                  w={"100%"}
-                  alignItems="flex-start"
-                  borderColor="2px solid black"
-                  spacing={"2"}
-                >
+                <VStack w={"100%"} alignItems="flex-start" spacing={"2"}>
                   <Box
                     backgroundImage={item.thumnail}
                     backgroundSize="cover"
