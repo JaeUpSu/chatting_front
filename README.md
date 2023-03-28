@@ -213,16 +213,16 @@
 
 - [x] 판매하기
 
-  - [x] post api
-  - [x] validate
-
-- [x] 판매하기
-
+  - [x] 이미지 url 만들기
+    - [x] post url api
+      - [x] url 만들기
+      - [x] 이미지 model post
   - [x] post api
   - [x] validate
 
 - [x] 수정하기
 
+  - [x] get api
   - [x] put api
   - [x] validate
 

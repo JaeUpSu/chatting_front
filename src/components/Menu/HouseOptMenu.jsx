@@ -85,6 +85,11 @@ function HouseOptMenu({ onUpdate, onInitOptions }) {
     });
   }, [prices]);
 
+  const onDrawerOpen = (e) => {
+    e.preventDefault();
+    onOpen();
+  };
+
   return (
     <Flex
       w="80vw"
@@ -179,7 +184,7 @@ function HouseOptMenu({ onUpdate, onInitOptions }) {
           lg: "block",
         }}
         icon={<HamburgerIcon />}
-        onClick={onOpen}
+        onClick={onDrawerOpen}
       />
       <MenuDrawer
         isOpen={isOpen}
