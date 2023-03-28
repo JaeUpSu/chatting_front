@@ -79,13 +79,13 @@ function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
   const group = getRootProps();
 
   return (
-    <Flex direction="column" w="100%">
+    <Flex>
       <Flex
         {...group}
         flexWrap="wrap"
         alignItems={"center"}
         justifyContent="flex-start"
-        w="100%"
+        w={valueName === "sellKind" ? "580px" : "32vw"}
       >
         {data.map((value) => {
           const radio = getRadioProps({ value });

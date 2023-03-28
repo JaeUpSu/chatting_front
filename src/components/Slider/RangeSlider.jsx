@@ -56,7 +56,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
   }, [isFetch]);
 
   return (
-    <Box mx="2vw" my="2vh">
+    <Box mr="2vw" my="2vh">
       <HStack justifyContent="space-between" w="100%">
         <Text fontWeight="bold" fontSize="17px">
           {names.kor}

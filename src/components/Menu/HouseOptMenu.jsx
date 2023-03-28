@@ -99,7 +99,7 @@ function HouseOptMenu({ onUpdate, onInitOptions }) {
         {optionsMenu.map((item, idx) => {
           if (idx < 5) {
             return (
-              <Menu key={idx}>
+              <Menu key={idx} border="2px solid black">
                 <MenuButton
                   as={Button}
                   colorScheme="red"
@@ -114,7 +114,7 @@ function HouseOptMenu({ onUpdate, onInitOptions }) {
                     ? "방 " + selectedOpts[idx]
                     : selectedOpts[idx]}
                 </MenuButton>
-                <MenuList p="1vw">
+                <MenuList p="1vw" pos="absolute">
                   <Flex>
                     <DataRadioCard
                       name={item.kor}
@@ -146,7 +146,12 @@ function HouseOptMenu({ onUpdate, onInitOptions }) {
                 >
                   {item.kor}
                 </MenuButton>
-                <MenuList py="20px" px="50px">
+                <MenuList
+                  py="20px"
+                  px="50px"
+                  placement="bottom-end"
+                  justifyContent="flex-start"
+                >
                   <OptionRangeSlider
                     idx={0}
                     names={item}
