@@ -21,8 +21,9 @@ import OptionRangeSlider from "../Slider/RangeSlider";
 import DataRadioCard from "../Radio/RadioCard";
 import PricesMenu from "./PricesMenu";
 import MenuDrawer from "./MenuDrawer";
+import { RepeatIcon } from "@chakra-ui/icons";
 
-function HouseOptMenu({ onUpdate }) {
+function HouseOptMenu({ onUpdate, onInitOptions }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedOpts, setSelectedOpts] = useState(new Array(5).fill("전체"));
   const [activePrices, setActivePrices] = useState([true, false, false]);
@@ -156,6 +157,11 @@ function HouseOptMenu({ onUpdate }) {
             );
           }
         })}
+
+        <Button as={Button} colorScheme="red" p="1vw" onClick={onInitOptions}>
+          <RepeatIcon mr="2" />
+          초기화
+        </Button>
       </HStack>{" "}
       <IconButton
         colorScheme="red"
@@ -174,6 +180,7 @@ function HouseOptMenu({ onUpdate }) {
         setPrices={setPrices}
         setSelectedOpts={setSelectedOpts}
         selectedOpts={selectedOpts}
+        onInitOptions={onInitOptions}
       />
     </Flex>
   );

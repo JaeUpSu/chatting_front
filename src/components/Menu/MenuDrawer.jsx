@@ -17,6 +17,7 @@ import DrawerRadioCard from "../Radio/DrawerRadioCard";
 import DrawerPricesMenu from "./DrawerPricesMenu";
 import { options, optionsMenu } from "../../services/data";
 import { IoIosArrowDown, IoMdMenu } from "react-icons/io";
+import { RepeatIcon } from "@chakra-ui/icons";
 
 export default function MenuDrawer({
   isOpen,
@@ -25,6 +26,7 @@ export default function MenuDrawer({
   setPrices,
   setSelectedOpts,
   selectedOpts,
+  onInitOptions,
 }) {
   return (
     <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
@@ -102,6 +104,15 @@ export default function MenuDrawer({
                 );
               }
             })}
+            <Button
+              as={Button}
+              colorScheme="red"
+              p="1vw"
+              onClick={onInitOptions}
+            >
+              <RepeatIcon mr="2" />
+              초기화
+            </Button>
           </VStack>
         </DrawerBody>
       </DrawerContent>

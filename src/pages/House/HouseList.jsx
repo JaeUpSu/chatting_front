@@ -138,7 +138,6 @@ function HouseList() {
   // loading set
   useEffect(() => {
     if (hasNextPage) {
-      console.log("hasNexPage");
       setLoading(isFetching);
     }
   }, [isFetching]);
@@ -185,33 +184,11 @@ function HouseList() {
         <Helmet>
           <title>부동산 - BANGSAM</title>
         </Helmet>
-        <HStack w="100%" spacing={"5"} pl={"5%"} pr="7%" pb={5} pt={2}>
+        <HStack w="100%" spacing={"5"} pl={"5%"} pr="9%" pb={5} pt={2}>
           <HStack alignItems="center" spacing={"9"}>
             <AddressMenu onUpdate={setAddress} />
-            <Button
-              size="sm"
-              minW="65px"
-              onClick={onInitOptions}
-              display={{
-                xl: "none",
-                lg: "block",
-              }}
-            >
-              초기화
-            </Button>
           </HStack>
-          <HouseOptMenu onUpdate={setAPIParams} />
-          <Button
-            size="sm"
-            minW="65px"
-            onClick={onInitOptions}
-            display={{
-              base: "none",
-              xl: "block",
-            }}
-          >
-            초기화
-          </Button>
+          <HouseOptMenu onUpdate={setAPIParams} onInitOptions={onInitOptions} />
         </HStack>
         <HStack w="100%" pl="7%" pr="7%">
           <HStack justifyContent={"space-between"} w="98.5%">
