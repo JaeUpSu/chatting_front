@@ -184,10 +184,8 @@ function HouseList() {
         <Helmet>
           <title>부동산 - BANGSAM</title>
         </Helmet>
-        <HStack w="100%" spacing={"5"} pl={"5%"} pr="9%" pb={5} pt={2}>
-          <HStack alignItems="center" spacing={"9"}>
-            <AddressMenu onUpdate={setAddress} />
-          </HStack>
+        <HStack w="100%" pl={"5%"} pr="10%" pb={5} pt={2}>
+          <AddressMenu onUpdate={setAddress} />
           <HouseOptMenu onUpdate={setAPIParams} onInitOptions={onInitOptions} />
         </HStack>
         <HStack w="100%" pl="7%" pr="7%">

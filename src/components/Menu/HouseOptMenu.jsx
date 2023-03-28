@@ -93,7 +93,10 @@ function HouseOptMenu({ onUpdate, onInitOptions }) {
   return (
     <Flex
       w="80vw"
-      pl="10"
+      pl={{
+        xl: "10",
+        lg: "0",
+      }}
       justifyContent={{ base: "flex-end", xl: "flex-start" }}
     >
       <HStack
