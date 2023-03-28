@@ -15,11 +15,19 @@ export default function Home() {
   const navigate = useNavigate();
 
   const onHouseList = () => {
-    navigate(`\houselist`);
+    navigate(`/houselist`);
   };
 
   return (
-    <Center flexDir="column" mt="10">
+    <Center
+      flexDir="column"
+      mt="10"
+      overflowY="scroll"
+      overflowX="hidden"
+      h="80vh"
+      w="100%"
+      sx={scrollbarStyle}
+    >
       <Helmet>
         <title>BANGSAM</title>
       </Helmet>{" "}

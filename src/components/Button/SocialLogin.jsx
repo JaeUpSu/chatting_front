@@ -5,14 +5,20 @@ import Cookie from "js-cookie";
 const SocialLogin = () => {
   const kakaoParams = {
     client_id: "69ba16ba77556c01d4a4ea9911fc06ad",
-    redirect_uri: "http://127.0.0.1:3000/social/kakao",
+    redirect_uri:
+      process.env.NODE_ENV === "development"
+        ? "http://127.0.0.1:3000/social/kakao"
+        : "https://bangsam.site/social/kakao",
     response_type: "code",
   };
   const paramsKakao = new URLSearchParams(kakaoParams).toString();
   const naverParams = {
     response_type: "code",
     client_id: "1Vm0j0Ggt3_VZer8jmHA",
-    redirect_uri: "http://127.0.0.1:3000/social/naver",
+    redirect_uri:
+      process.env.NODE_ENV === "development"
+        ? "http://127.0.0.1:3000/social/naver"
+        : "https://bangsam.site/social/naver",
     state: "OzCoding",
   };
   // https://nid.naver.com/oauth2.0/authorize
