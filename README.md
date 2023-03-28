@@ -1,4 +1,6 @@
-# 🏘️ 부동산 채팅 WEB/APP
+# 🏘️ BANGSAM
+
+## 부동산 채팅 WEB/APP
 
 ---
 
@@ -15,13 +17,19 @@
 <br />
 
 - axios
-- react-hook-form
-- react-router-dom
-- @chakra-ui/react
-
-<br/>
+- js-cookie
+- react-hook-form,
+- @tanstack/react-query
+- @tanstack/react-query-devtools
+- react-helmet
+- react-js-pagination
 
 - styled-components
+- react-slick
+- @chakra-ui/react
+- slick-carousel
+
+- react-icons
 - @fortawesome/free-brands-svg-icons
 - @fortawesome/free-regular-svg-icons
 - @fortawesome/free-solid-svg-icons
@@ -36,66 +44,48 @@
 ## 📄 기능목록
 
 <br/>
-- ➕ : 후 순위
-- ✅ : 선택 사항
-<br/>
 
-- [ ] 로딩
+- [x] 로딩
 
-- [ ] 헤더
+- [x] 헤더
 
-  - [ ] WEB
+  - [x] WEB
 
-    - [ ] 홈
-    - [ ] (➕) 검색
-      - [ ] 주소 검색
-        - [ ] 도 / 시 + 구 + 동
-    - [ ] 채팅목록
-    - [ ] 마이 페이지
-
-    <br />
-
-  - [ ] Mobile
-
-    - [ ] 뒤로가기
-    - [ ] (➕) 주소 검색
-    - [ ] 햄버거
-      - [ ] 채팅목록
-      - [ ] 마이 페이지
+    - [x] 홈
+    - [x] 검색
+      - [x] 주소 검색
+        - [x] 도 / 시 + 구 + 동
+    - [x] 채팅목록
+    - [x] 마이 페이지
 
     <br/>
 
-- [ ] 홈 페이지
+- [x] 홈 페이지
 
-  - [ ] Top 10
-    - [ ] Review 등으로 점수 Order
-  - [ ] Like List
-    - [ ] 등록한 순으로 Order
-    - [ ] 없으면 비어있다는 hint 표시
-  - [ ] Latest Visited List
+  - [x] Brand name
+  - [x] Icon Buttons
+    - [x] 방 종류
+  - [x] TopViews (조회순)
 
-    - [ ] 최근 방문한 순으로 Order
-    - [ ] 없으면 비어있다는 hint 표시
+  <br/>
 
-    <br/>
+- [x] 회원가입 페이지
 
-- [ ] 회원가입 페이지
-
-  - [ ] isHost, isCustom, isRealtor 선택 페이지
-  - [ ] User model 기입
-    - [ ] User 유효성 hint 표시
-  - [ ] 가입하기
-    - [ ] User model 유효성 검사
-  - [ ] ( ✅ ) 구글, 카카오, 네이버 가입
+  - [x] User model 기입
+    - [x] User 유효성 hint 표시
+  - [x] 가입하기
+    - [x] User model 유효성 검사
+  - [x] 카카오, 네이버 가입
 
   <br/>
 
 - [ ] 로그인 페이지
 
-  - [ ] ID / PW 기입
-  - [ ] 로그인하기
-    - [ ] ID/PW 유효성 검사
-  - [ ] ( ✅ ) ID / 비번찾기
+  - [x] ID / PW 기입
+  - [x] 로그인하기
+    - [x] ID/PW 유효성 검사
+  - [x] ID / 비번찾기 / 회원가입
+  - [x] 카카오, 네이버 가입
 
   <br/>
 

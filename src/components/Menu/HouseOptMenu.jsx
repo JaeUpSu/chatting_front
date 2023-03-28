@@ -113,7 +113,7 @@ function HouseOptMenu({ onUpdate }) {
                     ? "방 " + selectedOpts[idx]
                     : selectedOpts[idx]}
                 </MenuButton>
-                <MenuList p="1vw" border="2px solid blue">
+                <MenuList p="1vw">
                   <Flex>
                     <DataRadioCard
                       name={item.kor}
