@@ -12,9 +12,9 @@ import {
   MenuList,
   Flex,
 } from "@chakra-ui/react";
-import OptionRangeSlider from "../Slider/RangeSlider";
-import DataRadioCard from "../Radio/RadioCard";
-import PricesMenu from "./PricesMenu";
+import DrawerOptionRangeSlider from "../Slider/DrawerRangeSlider";
+import DrawerRadioCard from "../Radio/DrawerRadioCard";
+import DrawerPricesMenu from "./DrawerPricesMenu";
 import { options, optionsMenu } from "../../services/data";
 import { IoIosArrowDown, IoMdMenu } from "react-icons/io";
 
@@ -55,11 +55,11 @@ export default function MenuDrawer({
                         : selectedOpts[idx]}
                     </MenuButton>
                     <MenuList
-                      p="20px"
-                      maxW={idx == 5 || idx == 1 ? "" : "460px"}
+                      p="10px"
+                      maxW={idx == 5 || idx == 1 ? "" : "360px"}
                     >
                       <Flex>
-                        <DataRadioCard
+                        <DrawerRadioCard
                           name={item.kor}
                           valueName={item.eng}
                           data={options[item.eng]}
@@ -68,7 +68,7 @@ export default function MenuDrawer({
                         />
                       </Flex>
                       {idx == 1 ? (
-                        <PricesMenu
+                        <DrawerPricesMenu
                           activePrices={activePrices}
                           setPrices={setPrices}
                         />
@@ -92,7 +92,7 @@ export default function MenuDrawer({
                       {item.kor}
                     </MenuButton>
                     <MenuList py="20px" px="50px">
-                      <OptionRangeSlider
+                      <DrawerOptionRangeSlider
                         idx={0}
                         names={item}
                         onUpdate={setPrices}
