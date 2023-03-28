@@ -16,7 +16,7 @@ export const PrevArrow = (props) => {
         color: "black",
         top: "37%",
         zIndex: 1,
-        left: "6rem",
+        left: "2rem",
       }}
     >
       <FaArrowLeft />
