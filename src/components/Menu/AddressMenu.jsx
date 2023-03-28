@@ -106,7 +106,7 @@ function AddressMenu({ onUpdate }) {
   return (
     <div
       style={{
-        minWidth: "330px",
+        minWidth: "290px",
         cursor: "pointer",
         transform: "translateX(20px)",
         backgroundColor: "rgb(233,239,244)",
