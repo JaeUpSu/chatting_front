@@ -152,6 +152,9 @@ export const getBackOptions = (_options) => {
 
   if (_options["dong"] && _options["dong"] != "-1") {
     backOptions["dong"] = _options["dong"];
+  } else if (sessionStorage.getItem("dong")) {
+    backOptions["dong"] = sessionStorage.getItem("dong");
   }
+
   return backOptions;
 };

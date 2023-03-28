@@ -67,6 +67,9 @@ function HouseOptMenu({ onUpdate, onInitOptions }) {
           newPrices[item.eng] = opts[item.eng];
         }
       });
+      // if (opts["dong"]) {
+      //   newParams["dong"] = opts["dong"];
+      // }
       return { ...newPrices, ...newParams };
     });
   }, [selectedOpts]);
