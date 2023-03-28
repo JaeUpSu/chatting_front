@@ -86,7 +86,7 @@ function HouseOptMenu({ onUpdate, onInitOptions }) {
   }, [prices]);
 
   const onDrawerOpen = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     onOpen();
   };
 
