@@ -19,7 +19,14 @@ export default function Home() {
   };
 
   return (
-    <Center flexDir="column" mt="10">
+    <Center
+      flexDir="column"
+      mt="10"
+      overflowY="scroll"
+      h="80vh"
+      w="100%"
+      sx={scrollbarStyle}
+    >
       <Helmet>
         <title>BANGSAM</title>
       </Helmet>{" "}
