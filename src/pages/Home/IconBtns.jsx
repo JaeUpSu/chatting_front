@@ -1,10 +1,11 @@
+import { Flex } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const IconBtn = styled.div`
-  cursor: pointer;
-  display: flex;
+  // cursor: pointer;
+  // display: flex;
 `;
 
 const IconName = styled.p`
@@ -28,10 +29,21 @@ const IconBtns = ({ icon, children }) => {
   }, [children]);
 
   return (
-    <IconBtn onClick={onHosuseList}>
-      {icon}
+    <Flex
+      flexWrap="wrap"
+      alignItems="center"
+      justifyContent="center"
+      pb="8px"
+      borderBottom="2px solid transparent"
+      cursor="pointer"
+      _hover={{
+        borderColor: "rgb(120, 120, 120, 0.2)",
+      }}
+      onClick={onHosuseList}
+    >
+      <IconBtn>{icon}</IconBtn>
       <IconName>{children}</IconName>
-    </IconBtn>
+    </Flex>
   );
 };
 

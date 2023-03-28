@@ -28,7 +28,7 @@ import PriceForm from "../../components/Form/PriceForm";
 import ImageForm from "../../components/Form/ImageForm";
 import SingleTextAreaForm from "../../components/Form/SingleTextAreaForm";
 import {
-  getMatchSellKindPrice,
+  getMatchModifyKindPrice,
   matchSellKindPrice,
 } from "../../utils/matchSellKindPrice";
 import RoomKindSelectForm from "../../components/Form/RoomKindSelectForm";
@@ -94,7 +94,7 @@ const HouseEdit = () => {
         uploadURLMutation.mutate();
       }
     } else {
-      const processData = getMatchSellKindPrice(updatedData, data);
+      const processData = getMatchModifyKindPrice(updatedData, data);
       mutate({ id, processData });
     }
   };
@@ -162,7 +162,7 @@ const HouseEdit = () => {
         imgs[item] = imageBackUrls[idx];
       });
       const processData = {
-        ...getMatchSellKindPrice(updatedData),
+        ...getMatchModifyKindPrice(updatedData, data),
         Image: imgs,
       };
       mutate({ id, processData });

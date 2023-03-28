@@ -1,4 +1,4 @@
-import { Flex, Box, Text, Divider } from "@chakra-ui/react";
+import { Flex, Box, Text, Divider, VStack } from "@chakra-ui/react";
 import React from "react";
 import styled from "styled-components";
 import RecentList from "./RecentList";
@@ -39,11 +39,11 @@ export default function Home() {
       height="80vh"
       sx={scrollbarStyle}
     >
-      <Box>
+      <VStack>
         <Helmet>
           <title>BANGSAM</title>
         </Helmet>{" "}
-        <Flex mt="2rem" mb="3rem" justify={"space-around"}>
+        <Flex mt="2rem" mb="3rem" justify={"space-around"} w="77vw">
           <IconBtns icon={<MdApartment size={40} />}>아파트</IconBtns>
           <IconBtns icon={<MdOutlineVilla size={40} />}>빌라</IconBtns>
           <IconBtns icon={<HiOutlineOfficeBuilding size={40} />}>
@@ -56,18 +56,18 @@ export default function Home() {
         <TopViewList />
         {isLoggedIn ? (
           <HomeContainer>
-            <Text as="b" fontSize={"2xl"} ml="8rem" mb="2rem">
+            <Text as="b" fontSize={"2xl"} ml="3rem" mb="2rem">
               최근 본 방
             </Text>
             <RecentList />
             <DivideLine />
-            <Text as="b" fontSize={"2xl"} ml="8rem" mb="2rem">
+            <Text as="b" fontSize={"2xl"} ml="3rem" mb="2rem">
               찜한 방
             </Text>
             <LikedList />
           </HomeContainer>
         ) : null}
-      </Box>
+      </VStack>
     </Box>
   );
 }
