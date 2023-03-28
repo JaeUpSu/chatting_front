@@ -50,7 +50,7 @@ export default function SellHistory() {
         >
           <TabList
             mt="3vh"
-            w="8vw"
+            w="9vw"
             h="20vh"
             minW="55px"
             flexDirection="column"
@@ -61,42 +61,42 @@ export default function SellHistory() {
               borderColor="white"
               borderRadius="7px"
               fontSize={{
-                sm: "sm",
-                md: "md",
-                lg: "lg",
+                sm: "xs",
+                md: "sm",
+                lg: "md",
               }}
               bg={"gray.200"}
               _selected={{ color: "white", bg: "#ff535e" }}
             >
-              All
+              전체
             </Tab>
             <Tab
               borderColor="white"
               borderRadius="7px"
               fontSize={{
-                sm: "sm",
-                md: "md",
-                lg: "lg",
+                sm: "xs",
+                md: "sm",
+                lg: "md",
               }}
               mt="2vh"
               bg={"gray.200"}
               _selected={{ color: "white", bg: "#ff535e" }}
             >
-              Selling
+              판매중
             </Tab>
             <Tab
               borderColor="white"
               borderRadius="7px"
               fontSize={{
-                sm: "sm",
-                md: "md",
-                lg: "lg",
+                sm: "xs",
+                md: "sm",
+                lg: "md",
               }}
               mt="2vh"
               bg={"gray.200"}
               _selected={{ color: "white", bg: "#ff535e" }}
             >
-              SoldOut
+              판매완료
             </Tab>
           </TabList>
         </Flex>

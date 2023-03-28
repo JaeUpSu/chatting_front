@@ -17,8 +17,6 @@ import "slick-carousel/slick/slick-theme.css";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { Link } from "react-router-dom";
 import { getSaleContents } from "../../utils/getSaleContents";
-import { PrevArrow } from "../../components/Arrows/PrevArrow";
-import { NextArrow } from "../../components/Arrows/NextArrows";
 
 const HouseImg = styled.img`
   position: relative;
@@ -45,8 +43,6 @@ function TopViewList() {
     slidesToShow: 4,
     slidesToScroll: 2,
     autoplaySpeed: 4000,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
   };
   return (
     <SlideWrapper>
@@ -59,8 +55,14 @@ function TopViewList() {
                 alignItems={"center"}
                 justifyContent={"center"}
                 cursor="pointer"
+                borderColor="2px solid black"
               >
-                <VStack w={"100%"} alignItems="flex-start" spacing={"2"}>
+                <VStack
+                  w={"100%"}
+                  alignItems="flex-start"
+                  borderColor="2px solid black"
+                  spacing={"2"}
+                >
                   <Box
                     backgroundImage={item.thumnail}
                     backgroundSize="cover"

@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -29,8 +29,7 @@ const IconBtns = ({ icon, children }) => {
   }, [children]);
 
   return (
-    <Flex
-      flexWrap="wrap"
+    <VStack
       alignItems="center"
       justifyContent="center"
       pb="8px"
@@ -43,7 +42,7 @@ const IconBtns = ({ icon, children }) => {
     >
       <IconBtn>{icon}</IconBtn>
       <IconName>{children}</IconName>
-    </Flex>
+    </VStack>
   );
 };
 
