@@ -295,9 +295,15 @@ export const getGuList = () =>
 // 모든 동 가져오기
 export const getDongList = async ({ queryKey }) => {
   const [_, id] = queryKey;
-  return await instance
-    .get(`houses/${id}/donglist`)
-    .then((response) => response.data);
+  if (id > 0) {
+    return await instance
+      .get(`houses/${id}/donglist`)
+      .then((response) => response.data);
+  } else {
+    return await instance
+      .get(`houses/1/donglist`)
+      .then((response) => response.data);
+  }
 };
 
 export const getWishLists = () =>

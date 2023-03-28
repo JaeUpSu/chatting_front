@@ -1,6 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import routes from "../../routes";
-import { Avatar, HStack, Text, useDisclosure, Flex } from "@chakra-ui/react";
+import {
+  Avatar,
+  HStack,
+  Text,
+  useDisclosure,
+  Box,
+  Image,
+} from "@chakra-ui/react";
 import IconBtns from "../../pages/Home/IconBtns";
 import LoginModal from "../Modal/LoginModal";
 import useUser from "../../hooks/useUser";
@@ -21,10 +28,16 @@ function Header() {
   } = useDisclosure();
 
   return (
-    <HStack justifyContent={"space-between"} px={"7"} py={"4"}>
-      <Text onClick={onHome} fontSize="2xl" color={"#ff404c"} cursor="pointer">
-        BangSam
-      </Text>
+    <HStack
+      justifyContent={"space-between"}
+      px={"7"}
+      py={"4"}
+      pl="5"
+      alignItems="center"
+    >
+      <Box w="40px" onClick={onHome} cursor="pointer">
+        <Image src="https://velog.velcdn.com/images/hugh0223/post/b0f1b39b-9e4f-43c2-98fb-66579a716003/image.png" />
+      </Box>
       {!isLoggedIn && !userLoading ? (
         <Avatar cursor={"pointer"} onClick={() => onLoginOpen()} />
       ) : (

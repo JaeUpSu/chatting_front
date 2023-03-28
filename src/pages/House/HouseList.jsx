@@ -76,10 +76,10 @@ function HouseList() {
   const [orderBy, setOrderBy] = useState(getInitOrderBy(isSellKind));
 
   const {
-    hasNextPage,
     data,
-    totalCounts,
     isFetching,
+    totalCounts,
+    hasNextPage,
     setFetching,
     setBackParams,
   } = useInfiniteScroll(getOptionHouses, { size: 24 });
@@ -117,13 +117,12 @@ function HouseList() {
   // scroll reload event
   useEffect(() => {
     if (isInit) setIsInit(false);
-
+    // if (isLastPage) return;
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
 
       if (scrollTop + clientHeight >= scrollHeight * 0.7) {
         setFetching(true);
-        setLoading(true);
       }
     };
 
@@ -139,6 +138,7 @@ function HouseList() {
   // loading set
   useEffect(() => {
     if (hasNextPage) {
+      console.log("hasNexPage");
       setLoading(isFetching);
     }
   }, [isFetching]);
@@ -204,7 +204,7 @@ function HouseList() {
               minW="250px"
               maxW="280px"
             >
-              {totalCounts < 0 || isLoading ? (
+              {totalCounts < 0 || (isLoading && hasNextPage) ? (
                 <>
                   Loading...
                   <Button

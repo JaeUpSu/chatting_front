@@ -56,6 +56,7 @@ function HouseOptMenu({ onUpdate }) {
     onUpdate((opts) => {
       let newParams = {};
       let newPrices = {};
+      console.log("checking", opts);
       optionsMenu.forEach((item, idx) => {
         if (idx < 5) {
           newParams[item.eng] = selectedOpts[idx];

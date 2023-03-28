@@ -17,22 +17,12 @@ import "slick-carousel/slick/slick-theme.css";
 import { SellKindsToFront, RoomKindsToFront } from "../../services/data";
 import { Link } from "react-router-dom";
 import { getSaleContents } from "../../utils/getSaleContents";
-import { PrevArrow } from "../../components/Arrows/PrevArrow";
-import { NextArrow } from "../../components/Arrows/NextArrows";
-
-const HouseImg = styled.img`
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
-  width: 200px;
-  height: 200px;
-  transition: transform 0.5s ease-in-out;
-`;
 
 const SlideWrapper = styled.div`
   width: 1000px;
   margin: 0 auto;
   overflow: hidden;
+  // border: 2px solid yellow;
 `;
 
 function TopViewList() {
@@ -45,14 +35,12 @@ function TopViewList() {
     slidesToShow: 4,
     slidesToScroll: 2,
     autoplaySpeed: 4000,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
   };
   return (
     <SlideWrapper>
       <Slider {...settings}>
         {data?.map((item, index) => (
-          <Card key={index} w="80%">
+          <Card key={index} w="80%" boxShadow="white">
             <Link to={`/houseList/house/${item.id}`}>
               <CardBody
                 display={"flex"}
