@@ -22,7 +22,7 @@ export default function Home() {
     <Center
       flexDir="column"
       mt="5"
-      // overflowY="scroll"
+      overflowY="scroll"
       h="80vh"
       w="100%"
       sx={scrollbarStyle}

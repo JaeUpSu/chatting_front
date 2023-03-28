@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { getPrices } from "../../utils/getPrices";
 
-function OptionRangeSlider({ idx, names, onUpdate }) {
+function DrawerOptionRangeSlider({ idx, names, onUpdate }) {
   const [values, setValues] = useState(
     sessionStorage.getItem(names.eng)
       ? sessionStorage.getItem(names.eng).split(",")
@@ -56,7 +56,7 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
   }, [isFetch]);
 
   return (
-    <Box mx="2vw" my="2vh">
+    <Box mx="1vw" my="2vh">
       <HStack justifyContent="space-between" w="100%">
         <Text fontWeight="bold" fontSize="17px">
           {names.kor}
@@ -91,13 +91,13 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
       </HStack>
       <RangeSlider
         mt="20px"
-        mb="20px"
-        mx="10px"
+        mb="10px"
+        mx="5px"
         defaultValue={values[0] ? values : [0, 30]}
         min={0}
         max={30}
         step={1}
-        w="450px"
+        w="250px"
         onChange={handleChange}
       >
         {labels.map((item, idx) => {
@@ -130,4 +130,4 @@ function OptionRangeSlider({ idx, names, onUpdate }) {
     </Box>
   );
 }
-export default OptionRangeSlider;
+export default DrawerOptionRangeSlider;
