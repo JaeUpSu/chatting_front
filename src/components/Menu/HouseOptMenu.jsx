@@ -92,6 +92,8 @@ function HouseOptMenu({ onUpdate }) {
           base: "none",
           xl: "block",
         }}
+        w="100%"
+        dir="row"
       >
         {optionsMenu.map((item, idx) => {
           if (idx < 5) {
@@ -111,7 +113,7 @@ function HouseOptMenu({ onUpdate }) {
                     ? "방 " + selectedOpts[idx]
                     : selectedOpts[idx]}
                 </MenuButton>
-                <MenuList p="1vw">
+                <MenuList p="1vw" border="2px solid blue">
                   <Flex>
                     <DataRadioCard
                       name={item.kor}
