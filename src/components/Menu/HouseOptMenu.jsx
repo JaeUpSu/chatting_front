@@ -1,26 +1,29 @@
 import {
   HStack,
-  Box,
   Button,
-  VStack,
   Menu,
   MenuButton,
-  MenuItem,
   MenuList,
   Flex,
+  useDisclosure,
+  Icon,
+  Box,
+  IconButton,
 } from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown, IoMdMenu } from "react-icons/io";
 
 import { options, optionsMenu } from "../../services/data";
 import { getActivePrices } from "../../utils/getActivePrices";
-import { getPriceDisplay } from "../../utils/getPriceDisplay";
 
 import OptionRangeSlider from "../Slider/RangeSlider";
 import DataRadioCard from "../Radio/RadioCard";
 import PricesMenu from "./PricesMenu";
+import MenuDrawer from "./MenuDrawer";
 
 function HouseOptMenu({ onUpdate }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedOpts, setSelectedOpts] = useState(new Array(5).fill("전체"));
   const [activePrices, setActivePrices] = useState([true, false, false]);
   const [prices, setPrices] = useState([
@@ -56,7 +59,6 @@ function HouseOptMenu({ onUpdate }) {
     onUpdate((opts) => {
       let newParams = {};
       let newPrices = {};
-      console.log("checking", opts);
       optionsMenu.forEach((item, idx) => {
         if (idx < 5) {
           newParams[item.eng] = selectedOpts[idx];
@@ -80,8 +82,17 @@ function HouseOptMenu({ onUpdate }) {
   }, [prices]);
 
   return (
-    <Flex w="100%">
-      <HStack>
+    <Flex
+      w="80vw"
+      pl="10"
+      justifyContent={{ base: "flex-end", xl: "flex-start" }}
+    >
+      <HStack
+        display={{
+          base: "none",
+          xl: "block",
+        }}
+      >
         {optionsMenu.map((item, idx) => {
           if (idx < 5) {
             return (
@@ -89,7 +100,7 @@ function HouseOptMenu({ onUpdate }) {
                 <MenuButton
                   as={Button}
                   colorScheme="red"
-                  p="15px"
+                  p="1vw"
                   rightIcon={<IoIosArrowDown />}
                 >
                   {selectedOpts[idx] == "전체"
@@ -100,7 +111,7 @@ function HouseOptMenu({ onUpdate }) {
                     ? "방 " + selectedOpts[idx]
                     : selectedOpts[idx]}
                 </MenuButton>
-                <MenuList p="20px" maxW={idx == 5 || idx == 1 ? "" : "460px"}>
+                <MenuList p="1vw">
                   <Flex>
                     <DataRadioCard
                       name={item.kor}
@@ -127,7 +138,7 @@ function HouseOptMenu({ onUpdate }) {
                 <MenuButton
                   as={Button}
                   colorScheme="red"
-                  p="15px"
+                  p="1vw"
                   rightIcon={<IoIosArrowDown />}
                 >
                   {item.kor}
@@ -143,7 +154,25 @@ function HouseOptMenu({ onUpdate }) {
             );
           }
         })}
-      </HStack>
+      </HStack>{" "}
+      <IconButton
+        colorScheme="red"
+        aria-label="Open menu"
+        display={{
+          xl: "none",
+          lg: "block",
+        }}
+        icon={<HamburgerIcon />}
+        onClick={onOpen}
+      />
+      <MenuDrawer
+        isOpen={isOpen}
+        onClose={onClose}
+        activePrices={activePrices}
+        setPrices={setPrices}
+        setSelectedOpts={setSelectedOpts}
+        selectedOpts={selectedOpts}
+      />
     </Flex>
   );
 }

@@ -181,28 +181,23 @@ function HouseList() {
 
   return (
     <>
-      <VStack h={"100vh"} pb="10vh">
+      <VStack h={"100vh"} pb="10vh" justifyContent="flex-start">
         <Helmet>
           <title>부동산 - BANGSAM</title>
         </Helmet>
-        <HStack spacing={"5"} w="100vw" pl={"5%"} pr={"5%"} pb={5} pt={2}>
-          <HStack spacing={"10"}>
-            <AddressMenu onUpdate={setAddress} />
-            <HouseOptMenu onUpdate={setAPIParams} />
-          </HStack>
-          <Button size="sm" minW="4.5vw" onClick={onInitOptions}>
-            초기화
-          </Button>
+        <HStack w="100%" spacing={"5"} pl={"5%"} pr="9%" pb={5} pt={2}>
+          <AddressMenu onUpdate={setAddress} />
+          <HouseOptMenu onUpdate={setAPIParams} />
         </HStack>
-        <HStack w="100vw" pl="7%" pr="7%">
-          <HStack justifyContent={"space-between"} w="100%">
+        <HStack w="100%" pl="7%" pr="7%">
+          <HStack justifyContent={"space-between"} w="98.5%">
             <Text
               fontWeight="600"
               color="blackAlpha.800"
               fontSize={"xl"}
-              w="20vw"
-              minW="250px"
-              maxW="280px"
+              w="100%"
+              minW="180px"
+              maxW="210px"
             >
               {totalCounts < 0 || (isLoading && hasNextPage) ? (
                 <>
@@ -223,6 +218,9 @@ function HouseList() {
               "Loading..."
             ) : totalCounts ? (
               <HStack>
+                <Button size="sm" minW="65px" onClick={onInitOptions}>
+                  초기화
+                </Button>
                 <Menu>
                   <MenuButton
                     size="sm"
