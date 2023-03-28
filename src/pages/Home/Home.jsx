@@ -23,6 +23,7 @@ export default function Home() {
       flexDir="column"
       mt="10"
       overflowY="scroll"
+      overflowX="hidden"
       h="80vh"
       w="100%"
       sx={scrollbarStyle}
