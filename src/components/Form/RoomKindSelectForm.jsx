@@ -72,13 +72,13 @@ const RoomKindSelectForm = ({ setUpdatedHouse, setUpdatedData, roomKind }) => {
 
   return (
     <>
-      <FormLabel marginBottom="0" fontWeight="600" w="40vw" minW="450px" my="2">
+      <FormLabel marginBottom="0" fontWeight="600" w="40vw" minW="380px" my="2">
         방 종류
       </FormLabel>
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
           <FormControl isInvalid={errors.room_kind} id="room_kind" my="1">
-            <HStack w="40vw" minW="450px" justifyContent="space-between">
+            <HStack w="40vw" minW="380px" justifyContent="space-between">
               <Select
                 {...register("room_kind", { required: true })}
                 placeholder="방 종류를 선택해주세요"

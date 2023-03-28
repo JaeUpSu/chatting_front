@@ -86,12 +86,12 @@ const CheckboxForm = ({
   }, [values]);
 
   return (
-    <VStack w="40vw" minW="450px">
-      <FormLabel marginBottom="0px" w="100%" fontWeight="600" minW="450px">
+    <VStack w="40vw" minW="380px">
+      <FormLabel marginBottom="0px" w="100%" fontWeight="600" minW="380px">
         {label}
       </FormLabel>
       <form>
-        <FormControl id={name} my="1" w="40vw" minW="450px">
+        <FormControl id={name} my="1" w="40vw" minW="380px">
           <FormControl id={`${name}`} mt="2" mb="7" w="45vw">
             <CheckboxGroup
               colorScheme="green"

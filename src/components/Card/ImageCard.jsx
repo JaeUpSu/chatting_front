@@ -45,8 +45,8 @@ function ImageCard({ setImages, setImageUrls, src, idx }) {
           src={src}
           w="8vw"
           h="10vh"
-          minW="84px"
-          minH="80px"
+          minW="74px"
+          minH="64px"
           cursor="pointer"
           onClick={onOpen}
         />

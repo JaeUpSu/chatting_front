@@ -68,8 +68,8 @@ const SingleForm = ({
   };
 
   return (
-    <VStack w="40vw" minW="450px">
-      <FormLabel marginBottom="0px" w="100%" fontWeight="600" minW="450px">
+    <VStack w="40vw" minW="380px">
+      <FormLabel marginBottom="0px" w="100%" fontWeight="600" minW="380px">
         {label}
       </FormLabel>
       {isModify ? (
@@ -79,7 +79,7 @@ const SingleForm = ({
             id={name}
             my="1"
             w="40vw"
-            minW="450px"
+            minW="380px"
           >
             <HStack justifyContent="flex-start">
               <Input
@@ -100,7 +100,7 @@ const SingleForm = ({
           </FormControl>
         </form>
       ) : (
-        <HStack w="40vw" minW="450px" h="5.3vh" justifyContent="space-between">
+        <HStack w="40vw" minW="380px" h="5.3vh" justifyContent="space-between">
           <VStack justifyContent="flex-start" w="100%">
             <Text w="100%">{value}</Text>
           </VStack>

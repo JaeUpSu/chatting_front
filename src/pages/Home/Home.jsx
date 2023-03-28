@@ -45,7 +45,7 @@ export default function Home() {
         justify={"space-around"}
         w="70vw"
         maxW="850px"
-        minW="330px"
+        minW="370px"
       >
         <IconBtns icon={<MdApartment size={40} />}>아파트</IconBtns>
         <IconBtns icon={<BsFillBuildingsFill size={40} />}>빌라</IconBtns>

@@ -97,7 +97,7 @@ function PriceForm({
   return (
     <>
       <form onSubmit={handleSubmit(onEnter)}>
-        <HStack w="40vw" minW="450px">
+        <HStack w="40vw" minW="380px">
           <FormControl
             isInvalid={errors[names[0]]}
             id={names[0]}

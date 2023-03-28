@@ -69,7 +69,7 @@ const SingleTextAreaForm = ({
 
   return (
     <>
-      <FormLabel marginBottom="0px" w="40vw" fontWeight="600" minW="450px">
+      <FormLabel marginBottom="0px" w="40vw" fontWeight="600" minW="380px">
         {label}
       </FormLabel>
       {isModify ? (
@@ -79,7 +79,7 @@ const SingleTextAreaForm = ({
             id={name}
             my="1"
             w="40vw"
-            minW="450px"
+            minW="380px"
           >
             <VStack>
               <Textarea
@@ -87,7 +87,7 @@ const SingleTextAreaForm = ({
                 defaultValue={value}
                 {...register(name, { required: true })}
               />
-              <ButtonGroup justifyContent="flex-end" w="40vw" minW="450px">
+              <ButtonGroup justifyContent="flex-end" w="40vw" minW="380px">
                 <Button type="submit" w="5vw">
                   입력
                 </Button>
@@ -100,7 +100,7 @@ const SingleTextAreaForm = ({
           </FormControl>
         </form>
       ) : (
-        <HStack w="40vw" minW="450px" justifyContent="space-between">
+        <HStack w="40vw" minW="380px" justifyContent="space-between">
           <VStack justifyContent="flex-start">
             <Text w="100%">{value}</Text>
           </VStack>
