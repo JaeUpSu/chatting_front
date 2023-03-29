@@ -176,9 +176,6 @@ function House() {
                       rowSpan={idx === 0 ? 2 : 1}
                       border="4px solid transparent"
                       height={idx === 0 ? "60vh" : "30vh"}
-                      css={{
-                        aspectRatio: "1/1",
-                      }}
                     >
                       {!userLoading && isLoggedIn && idx === 0 ? (
                         <Box
