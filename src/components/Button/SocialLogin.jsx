@@ -5,10 +5,7 @@ import Cookie from "js-cookie";
 const SocialLogin = () => {
   const kakaoParams = {
     client_id: "69ba16ba77556c01d4a4ea9911fc06ad",
-    redirect_uri:
-      process.env.NODE_ENV === "development"
-        ? "http://127.0.0.1:3000/social/kakao"
-        : "https://bangsam.site/social/kakao",
+    redirect_uri: "https://bangsam.site/social/kakao",
     response_type: "code",
   };
   const paramsKakao = new URLSearchParams(kakaoParams).toString();

@@ -84,17 +84,17 @@ export default function FindId() {
           w={"100%"}
           backgroundColor="#ff404c"
           color="white"
+          colorScheme={"red"}
           isLoading={mutation.isLoading}
         >
           아이디 찾기
         </Button>
         {id ? (
           <Text>
-            아이디는
+            ID :
             <Heading as="span" size={"lg"}>
-              "{id}"{" "}
+              {id}{" "}
             </Heading>
-            입니다.
           </Text>
         ) : null}
       </VStack>

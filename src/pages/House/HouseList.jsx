@@ -121,7 +121,7 @@ function HouseList() {
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
 
-      if (scrollTop + clientHeight >= scrollHeight * 0.7) {
+      if (scrollTop + clientHeight >= scrollHeight * 0.9) {
         setFetching(true);
       }
     };
@@ -138,7 +138,6 @@ function HouseList() {
   // loading set
   useEffect(() => {
     if (hasNextPage) {
-      console.log("hasNexPage");
       setLoading(isFetching);
     }
   }, [isFetching]);
@@ -185,9 +184,9 @@ function HouseList() {
         <Helmet>
           <title>부동산 - BANGSAM</title>
         </Helmet>
-        <HStack w="100%" spacing={"5"} pl={"5%"} pr="9%" pb={5} pt={2}>
+        <HStack w="100%" pl={"5%"} pr="10%" pb={5} pt={2}>
           <AddressMenu onUpdate={setAddress} />
-          <HouseOptMenu onUpdate={setAPIParams} />
+          <HouseOptMenu onUpdate={setAPIParams} onInitOptions={onInitOptions} />
         </HStack>
         <HStack w="100%" pl="7%" pr="7%">
           <HStack justifyContent={"space-between"} w="98.5%">
@@ -218,9 +217,6 @@ function HouseList() {
               "Loading..."
             ) : totalCounts ? (
               <HStack>
-                <Button size="sm" minW="65px" onClick={onInitOptions}>
-                  초기화
-                </Button>
                 <Menu>
                   <MenuButton
                     size="sm"

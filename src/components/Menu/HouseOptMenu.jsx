@@ -21,8 +21,9 @@ import OptionRangeSlider from "../Slider/RangeSlider";
 import DataRadioCard from "../Radio/RadioCard";
 import PricesMenu from "./PricesMenu";
 import MenuDrawer from "./MenuDrawer";
+import { RepeatIcon } from "@chakra-ui/icons";
 
-function HouseOptMenu({ onUpdate }) {
+function HouseOptMenu({ onUpdate, onInitOptions }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedOpts, setSelectedOpts] = useState(new Array(5).fill("전체"));
   const [activePrices, setActivePrices] = useState([true, false, false]);
@@ -66,6 +67,9 @@ function HouseOptMenu({ onUpdate }) {
           newPrices[item.eng] = opts[item.eng];
         }
       });
+      // if (opts["dong"]) {
+      //   newParams["dong"] = opts["dong"];
+      // }
       return { ...newPrices, ...newParams };
     });
   }, [selectedOpts]);
@@ -81,10 +85,18 @@ function HouseOptMenu({ onUpdate }) {
     });
   }, [prices]);
 
+  const onDrawerOpen = (e) => {
+    e.preventDefault();
+    onOpen();
+  };
+
   return (
     <Flex
       w="80vw"
-      pl="10"
+      pl={{
+        xl: "10",
+        lg: "0",
+      }}
       justifyContent={{ base: "flex-end", xl: "flex-start" }}
     >
       <HStack
@@ -92,11 +104,13 @@ function HouseOptMenu({ onUpdate }) {
           base: "none",
           xl: "block",
         }}
+        w="100%"
+        dir="row"
       >
         {optionsMenu.map((item, idx) => {
           if (idx < 5) {
             return (
-              <Menu key={idx}>
+              <Menu key={idx} border="2px solid black">
                 <MenuButton
                   as={Button}
                   colorScheme="red"
@@ -111,7 +125,7 @@ function HouseOptMenu({ onUpdate }) {
                     ? "방 " + selectedOpts[idx]
                     : selectedOpts[idx]}
                 </MenuButton>
-                <MenuList p="1vw">
+                <MenuList p="1vw" pos="absolute">
                   <Flex>
                     <DataRadioCard
                       name={item.kor}
@@ -143,7 +157,12 @@ function HouseOptMenu({ onUpdate }) {
                 >
                   {item.kor}
                 </MenuButton>
-                <MenuList py="20px" px="50px">
+                <MenuList
+                  py="20px"
+                  px="50px"
+                  placement="bottom-end"
+                  justifyContent="flex-start"
+                >
                   <OptionRangeSlider
                     idx={0}
                     names={item}
@@ -154,6 +173,11 @@ function HouseOptMenu({ onUpdate }) {
             );
           }
         })}
+
+        <Button as={Button} colorScheme="red" p="1vw" onClick={onInitOptions}>
+          <RepeatIcon mr="2" />
+          초기화
+        </Button>
       </HStack>{" "}
       <IconButton
         colorScheme="red"
@@ -163,7 +187,7 @@ function HouseOptMenu({ onUpdate }) {
           lg: "block",
         }}
         icon={<HamburgerIcon />}
-        onClick={onOpen}
+        onClick={onDrawerOpen}
       />
       <MenuDrawer
         isOpen={isOpen}
@@ -172,6 +196,7 @@ function HouseOptMenu({ onUpdate }) {
         setPrices={setPrices}
         setSelectedOpts={setSelectedOpts}
         selectedOpts={selectedOpts}
+        onInitOptions={onInitOptions}
       />
     </Flex>
   );

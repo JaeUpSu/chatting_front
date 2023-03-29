@@ -31,6 +31,16 @@ export const getMatchModifyKindPrice = (nextData, prevData) => {
       }
     }
   } else {
+    HouseRegisterValues.forEach((item) => {
+      if (
+        nextData[item.eng] &&
+        item.eng !== "sale" &&
+        item.eng !== "deposit" &&
+        item.eng !== "monthly_rent"
+      ) {
+        processedData[item.eng] = nextData[item.eng];
+      }
+    });
     // sell_kind 별 price 값 추가
     if (prevData["sell_kind"] == "SALE" && nextData["sale"]) {
       processedData["sale"] = nextData["sale"];
@@ -78,9 +88,6 @@ export const getMatchSellKindPrice = (nextData) => {
       processedData["deposit"] = nextData["deposit"];
     }
   }
-
-  console.log("prev", nextData);
-  console.log("next", processedData);
 
   return processedData;
 };

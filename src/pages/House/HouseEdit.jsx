@@ -77,9 +77,6 @@ const HouseEdit = () => {
       });
       navigate(`/houseList/house/${id}`);
     },
-    onError: () => {
-      console.log("don't update house!");
-    },
   });
 
   // putHouse 실행 버튼

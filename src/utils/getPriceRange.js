@@ -34,8 +34,6 @@ export const getPriceRange = (values, steps) => {
       : maxValue + "만원";
 
   if (min == max) {
-    console.log("same");
-
     return max;
   }
 

@@ -43,9 +43,6 @@ export default function SignUp() {
     formState: { errors },
   } = useForm();
   const signUpMutation = useMutation(signUpUser, {
-    onMutate: (data) => {
-      console.log("sign up mutation");
-    },
     onSuccess: (data) => {
       toast({
         title: "회원가입 성공",

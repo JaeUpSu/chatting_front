@@ -71,9 +71,9 @@ const TripleForm = ({
   };
 
   return (
-    <VStack w="40vw" alignItems="center" minW="450px">
+    <VStack w="40vw" alignItems="center" minW="380px">
       <form onSubmit={handleSubmit(onEnter)}>
-        <HStack alignItems="center" w="40vw" minW="450px">
+        <HStack alignItems="center" w="40vw" minW="380px">
           <FormControl isInvalid={errors[names[0]]} id={names[0]} my="1">
             <FormLabel marginBottom="0px" fontWeight="600">
               {labeles[0]}

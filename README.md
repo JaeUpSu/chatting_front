@@ -1,4 +1,6 @@
-# 🏘️ 부동산 채팅 WEB/APP
+# 🏘️ BANGSAM
+
+## 부동산 채팅 WEB/APP
 
 ---
 
@@ -15,13 +17,19 @@
 <br />
 
 - axios
-- react-hook-form
-- react-router-dom
-- @chakra-ui/react
-
-<br/>
+- js-cookie
+- react-hook-form,
+- @tanstack/react-query
+- @tanstack/react-query-devtools
+- react-helmet
+- react-js-pagination
 
 - styled-components
+- react-slick
+- @chakra-ui/react
+- slick-carousel
+
+- react-icons
 - @fortawesome/free-brands-svg-icons
 - @fortawesome/free-regular-svg-icons
 - @fortawesome/free-solid-svg-icons
@@ -33,156 +41,185 @@
 
 <br />
 
-## 📄 기능목록
+## 📄 페이지 & 컴포넌트
 
 <br/>
-- ➕ : 후 순위
-- ✅ : 선택 사항
-<br/>
 
-- [ ] 로딩
+- [x] 로딩
 
-- [ ] 헤더
+- [x] 헤더
 
-  - [ ] WEB
+  - [x] WEB
 
-    - [ ] 홈
-    - [ ] (➕) 검색
-      - [ ] 주소 검색
-        - [ ] 도 / 시 + 구 + 동
-    - [ ] 채팅목록
-    - [ ] 마이 페이지
-
-    <br />
-
-  - [ ] Mobile
-
-    - [ ] 뒤로가기
-    - [ ] (➕) 주소 검색
-    - [ ] 햄버거
-      - [ ] 채팅목록
-      - [ ] 마이 페이지
+    - [x] 홈
+    - [x] 검색
+      - [x] 주소 검색
+        - [x] 도 / 시 + 구 + 동
+    - [x] 채팅목록
+    - [x] 마이 페이지
 
     <br/>
 
-- [ ] 홈 페이지
+- [x] 홈 페이지
 
-  - [ ] Top 10
-    - [ ] Review 등으로 점수 Order
-  - [ ] Like List
-    - [ ] 등록한 순으로 Order
-    - [ ] 없으면 비어있다는 hint 표시
-  - [ ] Latest Visited List
-
-    - [ ] 최근 방문한 순으로 Order
-    - [ ] 없으면 비어있다는 hint 표시
-
-    <br/>
-
-- [ ] 회원가입 페이지
-
-  - [ ] isHost, isCustom, isRealtor 선택 페이지
-  - [ ] User model 기입
-    - [ ] User 유효성 hint 표시
-  - [ ] 가입하기
-    - [ ] User model 유효성 검사
-  - [ ] ( ✅ ) 구글, 카카오, 네이버 가입
+  - [x] Brand name
+  - [x] Icon Buttons
+    - [x] 방 종류
+  - [x] TopViews (조회순)
 
   <br/>
 
-- [ ] 로그인 페이지
+- [x] 회원가입 페이지
 
-  - [ ] ID / PW 기입
-  - [ ] 로그인하기
-    - [ ] ID/PW 유효성 검사
-  - [ ] ( ✅ ) ID / 비번찾기
-
-  <br/>
-
-- [ ] (➕) 마이 페이지
-
-  - [ ] 프로필 정보
-  - [ ] on/off 표시
-  - [ ] 거래정보
+  - [x] User model 기입
+  - [x] 가입하기
+  - [x] 카카오, 네이버 가입
 
   <br/>
 
-- [ ] 지역 목록 페이지
+- [x] 로그인 페이지
 
-  - [ ] 키워드/카테고리 (DropDown-MENU)
-    - [ ] CheckList 형식
-  - [ ] 방 목록
+  - [x] ID / PW 기입
+  - [x] 로그인하기
+    - [x] ID/PW 유효성 검사
+  - [x] ID / 비번찾기 / 회원가입
+  - [x] 카카오, 네이버 가입
 
-    - [ ] 대표 이미지
-    - [ ] House Category 표시
-    - [ ] (➕) 전세/월세/매매 표시
-    - [ ] (➕) 평수, 층수
-    - [ ] (➕) 주소
-    - [ ] (➕) 앞부분 내용
+  <br/>
+
+- [x] 마이 페이지
+
+  - [x] 프로필 정보
+
+  - [x] 최근 본 리스트
+
+  - [x] 위시 리스트
+
+  - [x] 판매 내역
+
+    - [x] 모든 판매 내역
+    - [x] 판매중 내역
+    - [x] 판매완료 내역
+
+  <br/>
+
+- [x] 하우스 리스트 페이지
+
+  - [x] 옵션 리스트
+
+    - [x] 메뉴
+      - [x] Responsive 햄버거
+
+  - [x] 방 목록
+
+    - [x] 대표 이미지
+    - [x] 좋아요
+    - [x] 주소
+    - [x] 방 종류
+    - [x] 전세/월세/매매
+    - [x] 가격
 
     <br/>
 
-- [ ] 지역 상세 페이지
+- [x] 지역 상세 페이지
 
-  - [ ] 이미지 슬라이더
-  - [ ] 요약 정보 창
+  - [x] 이미지
+  - [x] 정보 창
 
-    - [ ] (➕) 찜 버튼
-    - [ ] (➕) 등록시간
-    - [ ] (➕) 주소
-    - [ ] (➕) 월세/전세/매매 표시 (가격)
-    - [ ] (➕) 평수
-    - [ ] (➕) 집 종류
-    - [ ] (➕) 주차
-    - [ ] (➕) 층수
+    - [x] 좋아요
+    - [x] 설명
+    - [x] 찜 버튼
+    - [x] 주소
+    - [x] 월세/전세/매매 표시 (가격)
+    - [x] 평수
+    - [x] 집 종류
+    - [x] 추가 옵션
+    - [x] 안전 옵션
 
-  - [ ] 설명
-  - [ ] Footer
-
-    - [ ] position : fixed
-    - [ ] Talk
-      - [ ] 집 주인 Talk
-        - [ ] 온/오프 표시
-      - [ ] 중개인 Talk
-        - [ ] 온/오프 표시
-      - [ ] ( ✅ ) 매크로 Bot hint 표시
+    - [x] 요약 정보 모달
+      - [x] 채팅
 
     <br/>
 
-- [ ] 채팅 페이지
+- [x] 채팅 페이지
 
-  - [ ] 목록페이지에 있는 리스트 Item
-  - [ ] 채팅하기
-  - [ ] ( ✅ ) 매크로 Bot
+  - [x] 리스트
 
-    - [ ] on/off 스위치
-    - [ ] 매크로 가능한 List 채팅창 입장때 보냄
-    - [ ] 매크로 입력시 답변하기
+    - [x] 유저 프로필
+    - [x] 제목
+    - [x] 읽지 않은 채팅 개수 표시
+    - [x] 최신 날짜
+    - [x] 삭제 Button
 
-    <br />
+  - [x] 채팅창
 
-- [ ] 채팅 목록 페이지
+- [x] 집 판매 페이지
 
-  - [ ] 집주인 / 중개인 Tab 메뉴
-  - [ ] 고객센터 채팅창
-    - [ ] position : fixed
-    - [ ] 신고하기
-    - [ ] App 문의
-    - [ ] ( ✅ ) etc...
-  - [ ] 채팅 리스트
+- [x] 집 수정 페이지
 
-    - [ ] 채팅 썸네일
-      - [ ] 방 이미지
-      - [ ] 주소
-      - [ ] 매매/전세/월세 표시
-      - [ ] 가격 표시
-      - [ ] 읽지 않은 채팅 개수 표시
+- [x] 회원가입 페이지
+- [x] 아이디 찾기 페이지
+- [x] 비밀번호 찾기 페이지
 
 <br />
 
 ---
 
 <br />
+
+## 기능 목록
+
+- [x] 로그인
+
+  - [x] post api
+  - [x] validate
+
+- [x] 회원가입
+
+  - [x] post api
+  - [x] validate
+
+- [x] 아이디 찾기
+
+  - [x] post api
+  - [x] validate
+
+- [x] 비밀번호 찾기
+
+  - [x] post api
+  - [x] validate
+
+- [x] 로그아웃
+
+  - [x] post api
+  - [x] validate
+
+- [x] 판매하기
+
+  - [x] 이미지 url 만들기
+    - [x] post url api
+      - [x] url 만들기
+      - [x] 이미지 model post
+  - [x] post api
+  - [x] validate
+
+- [x] 수정하기
+
+  - [x] get api
+  - [x] put api
+  - [x] validate
+
+- [x] HouseList
+
+  - [x] useInfiniteScroll
+
+    - [x] scroll handler
+    - [x] requestAnimationFrame 이벤트 제한 함수
+    - [x] params 변할 시 가진 state 초기화 및 api call
+
+  - [x] Grid
+    - [x] HouseCard
+    - [x] Responsive
 
 ## 📋 DB Model Diagram
 

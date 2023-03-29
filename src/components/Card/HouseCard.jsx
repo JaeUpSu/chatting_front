@@ -38,14 +38,7 @@ function HouseCard({
   const { userLoading, isLoggedIn } = useUser();
   const [isLike, setIsLike] = useState(is_liked && is_liked);
 
-  const likeMutation = useMutation(setWishLists, {
-    onMutate: () => {
-      console.log("like mutation");
-    },
-    onSuccess: () => {
-      console.log(isLike ? `like house ${id}` : `like cancel house ${id}`);
-    },
-  });
+  const likeMutation = useMutation(setWishLists, {});
 
   const onLike = (event) => {
     event.stopPropagation();

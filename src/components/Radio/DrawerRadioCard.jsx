@@ -39,6 +39,7 @@ function RadioCard({ name, radio, onSelect }) {
         backgroundColor="rgb(233,239,244)"
         cursor="pointer"
         fontWeight="600"
+        fontSize="sm"
         borderRadius="md"
         _checked={{
           bg: "red.300",
@@ -46,7 +47,7 @@ function RadioCard({ name, radio, onSelect }) {
         }}
         px={3}
         py={2}
-        w="32"
+        w="25"
         onClick={onRadio}
         justifyContent="center"
         position="relative"
@@ -66,7 +67,7 @@ function RadioCard({ name, radio, onSelect }) {
     </Box>
   );
 }
-function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
+function DrawerRadioCard({ name, valueName, data, defaultData, onUpdate }) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: `${name}`,
     defaultValue: `${
@@ -79,13 +80,13 @@ function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
   const group = getRootProps();
 
   return (
-    <Flex>
+    <Flex direction="column" w="100%">
       <Flex
         {...group}
         flexWrap="wrap"
         alignItems={"center"}
         justifyContent="flex-start"
-        w={valueName === "sellKind" ? "580px" : "32vw"}
+        w="100%"
       >
         {data.map((value) => {
           const radio = getRadioProps({ value });
@@ -105,4 +106,4 @@ function DataRadioCard({ name, valueName, data, defaultData, onUpdate }) {
   );
 }
 
-export default DataRadioCard;
+export default DrawerRadioCard;

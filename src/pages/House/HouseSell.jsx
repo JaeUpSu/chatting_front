@@ -117,7 +117,6 @@ const HouseSell = () => {
   const navigate = useNavigate();
   const { mutate } = useMutation(postHouse, {
     onMutate: (d) => {
-      console.log("post", d);
       toast({
         title: `[${d.title}]    등록중...`,
         status: "info",
@@ -127,11 +126,8 @@ const HouseSell = () => {
     },
     onSuccess: ({ id }) => {
       navigate(`../houseList/house/${id}`);
-      console.log("created house!");
     },
-    onError: () => {
-      console.log("failed to create house!");
-    },
+    onError: () => {},
   });
 
   const uploadImageMutation = useMutation(uploadImage, {
@@ -268,7 +264,13 @@ const HouseSell = () => {
       </Helmet>
       <Center pt="2vh" pb="5vh">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl isInvalid={errors.title} id="title" my="5" w="40vw">
+          <FormControl
+            minW="380px"
+            isInvalid={errors.title}
+            id="title"
+            my="5"
+            w="40vw"
+          >
             <FormLabel>제목</FormLabel>
             <Input
               type="text"
@@ -280,7 +282,12 @@ const HouseSell = () => {
               <FormErrorMessage>{isError["title"]}</FormErrorMessage>
             )}
           </FormControl>
-          <FormControl isInvalid={errors.images} id="images" w="40vw">
+          <FormControl
+            minW="380px"
+            isInvalid={errors.images}
+            id="images"
+            w="40vw"
+          >
             <FormLabel>
               <HStack alignItems="center">
                 <Text> 이미지 ( {images.length} )</Text>
@@ -321,7 +328,7 @@ const HouseSell = () => {
               })}
             </HStack>
           </FormControl>
-          <HStack w="40vw" mt="3vw" justifyContent="space-between">
+          <HStack w="40vw" mt="3vw" minW="380px" justifyContent="space-between">
             <FormControl id="si" my="1" w="17vw">
               <FormLabel>시</FormLabel>
               <Input fontSize="14px" defaultValue="서울" isDisabled={true} />
@@ -367,7 +374,13 @@ const HouseSell = () => {
               <FormErrorMessage>{`동을 선택해주세요`}</FormErrorMessage>
             </FormControl>
           </HStack>
-          <FormControl isInvalid={errors.address} id="address" my="3" w="40vw">
+          <FormControl
+            minW="380px"
+            isInvalid={errors.address}
+            id="address"
+            my="3"
+            w="40vw"
+          >
             <FormLabel fontWeight="600">상세주소</FormLabel>
             <Input
               type="text"
@@ -384,8 +397,10 @@ const HouseSell = () => {
             my="5"
             borderColor="blackAlpha.400"
             w="42vw"
+            minW="380px"
           />
           <FormControl
+            minW="380px"
             isInvalid={errors.sell_kind}
             id="sell_kind"
             my="6"
@@ -410,7 +425,7 @@ const HouseSell = () => {
             <Text mb="3">(단위 : 만원)</Text>
           </Flex>
 
-          <HStack w="40vw">
+          <HStack w="40vw" minW="380px">
             <FormControl
               isInvalid={errors.sale}
               id="sale"
@@ -463,7 +478,7 @@ const HouseSell = () => {
               )}
             </FormControl>
           </HStack>
-          <HStack w="40vw">
+          <HStack w="40vw" minW="380px">
             <FormControl
               isInvalid={errors.monthly_rent}
               id="monthly_rent"
@@ -506,6 +521,7 @@ const HouseSell = () => {
             </FormControl>
           </HStack>
           <Divider
+            minW="380px"
             borderWidth="1.2px"
             my="5"
             borderColor="blackAlpha.400"
@@ -516,6 +532,7 @@ const HouseSell = () => {
             id="room_kind"
             mt="2"
             mb="7"
+            minW="380px"
             w="40vw"
           >
             <FormLabel>방 종류</FormLabel>
@@ -532,8 +549,8 @@ const HouseSell = () => {
             </Select>
             <FormErrorMessage>{`방 종류를 선택해주세요`}</FormErrorMessage>
           </FormControl>
-          <HStack w="40vw">
-            <FormControl isInvalid={errors.room} id="room" my="1">
+          <HStack w="40vw" minW="380px">
+            <FormControl minW="120px" isInvalid={errors.room} id="room" my="1">
               <FormLabel>방 개수</FormLabel>
               <Input
                 type="number"
@@ -564,7 +581,12 @@ const HouseSell = () => {
                 <FormErrorMessage>{isError["toilet"]}</FormErrorMessage>
               )}
             </FormControl>
-            <FormControl isInvalid={errors.pyeongsu} id="pyeongsu" my="1">
+            <FormControl
+              minW="120px"
+              isInvalid={errors.pyeongsu}
+              id="pyeongsu"
+              my="1"
+            >
               <FormLabel>평수</FormLabel>
               <Input
                 type="number"
@@ -579,12 +601,19 @@ const HouseSell = () => {
             </FormControl>
           </HStack>
           <Divider
+            minW="380px"
             borderWidth="1.2px"
             my="5"
             borderColor="blackAlpha.400"
             w="40vw"
           />
-          <FormControl id="additionalOptions" mt="2" mb="7" w="45vw">
+          <FormControl
+            minW="380px"
+            id="additionalOptions"
+            mt="2"
+            mb="7"
+            w="45vw"
+          >
             <FormLabel>추가옵션</FormLabel>
             <CheckboxGroup
               colorScheme="green"
@@ -611,9 +640,10 @@ const HouseSell = () => {
             borderWidth="1.2px"
             my="5"
             borderColor="blackAlpha.400"
+            minW="380px"
             w="40vw"
           />
-          <FormControl id="safetyOptions" mt="2" mb="7" w="45vw">
+          <FormControl minW="380px" id="safetyOptions" mt="2" mb="7" w="45vw">
             <FormLabel>안전옵션</FormLabel>
             <CheckboxGroup
               colorScheme="green"
@@ -637,6 +667,7 @@ const HouseSell = () => {
             </CheckboxGroup>
           </FormControl>
           <FormControl
+            minW="380px"
             isInvalid={errors.description}
             id="description"
             my="1"

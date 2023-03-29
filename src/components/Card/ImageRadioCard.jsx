@@ -7,8 +7,8 @@ const ImageCard = ({ imageUrl, idx, isSelected, onSelect, isModify }) => {
       <Button
         w="8vw"
         h="10vh"
-        minW="84px"
-        minH="80px"
+        minW="68px"
+        minH="64px"
         borderWidth="2px"
         borderRadius="lg"
         backgroundImage={imageUrl}
@@ -32,7 +32,7 @@ const RadioImageSelector = ({ images, select, isModify }) => {
   };
 
   return (
-    <RadioGroup value={selectedImage} w="40vw" minW="450px">
+    <RadioGroup value={selectedImage} w="40vw" minW="380px">
       <Stack direction="row" spacing={2}>
         {images.map((imageUrl, idx) => (
           <ImageCard

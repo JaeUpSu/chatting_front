@@ -68,7 +68,7 @@ function TopViewList() {
                   justifyContent={"center"}
                   cursor="pointer"
                 >
-                  <VStack w={"100%"} alignItems="flex-start" spacing={"2"}>
+                  <VStack w={"95%"} alignItems="flex-start" spacing={"2"}>
                     <Box
                       backgroundImage={item.thumnail}
                       backgroundSize="cover"

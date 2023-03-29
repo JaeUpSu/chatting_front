@@ -81,13 +81,13 @@ const SellKindSelectForm = ({
 
   return (
     <>
-      <FormLabel marginBottom="0" fontWeight="600" w="40vw" minW="450px" my="2">
+      <FormLabel marginBottom="0" fontWeight="600" w="40vw" minW="380px" my="2">
         거래 종류
       </FormLabel>
       {isModify ? (
         <form onSubmit={handleSubmit(onEnter)}>
           <FormControl isInvalid={errors.sell_kind} id="sell_kind" my="1">
-            <HStack w="40vw" minW="450px">
+            <HStack w="40vw" minW="380px">
               <Select
                 {...register("sell_kind", { required: true })}
                 placeholder="거래 종류를 선택해주세요"

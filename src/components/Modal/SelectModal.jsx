@@ -94,7 +94,7 @@ function SelectModal({
             },
           }}
         >
-          {list.map((item, idx) => {
+          {list?.map((item, idx) => {
             return (
               <Button
                 key={idx}
