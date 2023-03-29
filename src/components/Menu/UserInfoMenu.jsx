@@ -79,7 +79,7 @@ function UserInfoMenu({ user }) {
       <MenuList>
         <MenuItem onClick={onChatList}>채팅내역</MenuItem>
         <MenuItem onClick={onProfile}>마이페이지</MenuItem>
-        <MenuItem onClick={onSell}>판매하기</MenuItem>
+        {user?.is_host ? <MenuItem onClick={onSell}>판매하기</MenuItem> : null}
         <MenuItem onClick={onLogOut}>로그아웃</MenuItem>
       </MenuList>
     </Menu>
