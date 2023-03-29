@@ -37,6 +37,23 @@ function TopViewList() {
     slidesToShow: 4,
     slidesToScroll: 2,
     autoplaySpeed: 4000,
+    responsive: [
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          initialSlide: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   if (!isLoading) {
     return (
